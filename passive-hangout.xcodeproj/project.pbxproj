@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		164D81751F3A7D3400C8AD6E /* passive-hangout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "passive-hangout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164D81781F3A7D3400C8AD6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		164D817A1F3A7D3400C8AD6E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		164D817A1F3A7D3400C8AD6E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "passive-hangout/ViewController.swift"; sourceTree = "<group>"; };
 		164D817D1F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		164D817F1F3A7D3400C8AD6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		164D81821F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -77,6 +77,9 @@
 		164D816C1F3A7D3400C8AD6E = {
 			isa = PBXGroup;
 			children = (
+				164D81A61F3A837500C8AD6E /* Model */,
+				164D81A71F3A837D00C8AD6E /* View */,
+				164D81A81F3A838100C8AD6E /* Controller */,
 				164D81771F3A7D3400C8AD6E /* passive-hangout */,
 				164D818C1F3A7D3400C8AD6E /* passive-hangoutTests */,
 				164D81971F3A7D3400C8AD6E /* passive-hangoutUITests */,
@@ -98,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				164D81781F3A7D3400C8AD6E /* AppDelegate.swift */,
-				164D817A1F3A7D3400C8AD6E /* ViewController.swift */,
 				164D817C1F3A7D3400C8AD6E /* Main.storyboard */,
 				164D817F1F3A7D3400C8AD6E /* Assets.xcassets */,
 				164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */,
@@ -123,6 +125,28 @@
 				164D819A1F3A7D3400C8AD6E /* Info.plist */,
 			);
 			path = "passive-hangoutUITests";
+			sourceTree = "<group>";
+		};
+		164D81A61F3A837500C8AD6E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		164D81A71F3A837D00C8AD6E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				164D817A1F3A7D3400C8AD6E /* ViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		164D81A81F3A838100C8AD6E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
