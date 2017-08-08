@@ -1,0 +1,537 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81781F3A7D3400C8AD6E /* AppDelegate.swift */; };
+		164D817B1F3A7D3400C8AD6E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D817A1F3A7D3400C8AD6E /* ViewController.swift */; };
+		164D817E1F3A7D3400C8AD6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D817C1F3A7D3400C8AD6E /* Main.storyboard */; };
+		164D81801F3A7D3400C8AD6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164D817F1F3A7D3400C8AD6E /* Assets.xcassets */; };
+		164D81831F3A7D3400C8AD6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */; };
+		164D818E1F3A7D3400C8AD6E /* passive_hangoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */; };
+		164D81991F3A7D3400C8AD6E /* passive_hangoutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		164D818A1F3A7D3400C8AD6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 164D816D1F3A7D3400C8AD6E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 164D81741F3A7D3400C8AD6E;
+			remoteInfo = "passive-hangout";
+		};
+		164D81951F3A7D3400C8AD6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 164D816D1F3A7D3400C8AD6E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 164D81741F3A7D3400C8AD6E;
+			remoteInfo = "passive-hangout";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		164D81751F3A7D3400C8AD6E /* passive-hangout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "passive-hangout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		164D81781F3A7D3400C8AD6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		164D817A1F3A7D3400C8AD6E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		164D817D1F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		164D817F1F3A7D3400C8AD6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		164D81821F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		164D81841F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		164D81891F3A7D3400C8AD6E /* passive-hangoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "passive-hangoutTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passive_hangoutTests.swift; sourceTree = "<group>"; };
+		164D818F1F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		164D81941F3A7D3400C8AD6E /* passive-hangoutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "passive-hangoutUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passive_hangoutUITests.swift; sourceTree = "<group>"; };
+		164D819A1F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		164D81721F3A7D3400C8AD6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81861F3A7D3400C8AD6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81911F3A7D3400C8AD6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		164D816C1F3A7D3400C8AD6E = {
+			isa = PBXGroup;
+			children = (
+				164D81771F3A7D3400C8AD6E /* passive-hangout */,
+				164D818C1F3A7D3400C8AD6E /* passive-hangoutTests */,
+				164D81971F3A7D3400C8AD6E /* passive-hangoutUITests */,
+				164D81761F3A7D3400C8AD6E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		164D81761F3A7D3400C8AD6E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				164D81751F3A7D3400C8AD6E /* passive-hangout.app */,
+				164D81891F3A7D3400C8AD6E /* passive-hangoutTests.xctest */,
+				164D81941F3A7D3400C8AD6E /* passive-hangoutUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		164D81771F3A7D3400C8AD6E /* passive-hangout */ = {
+			isa = PBXGroup;
+			children = (
+				164D81781F3A7D3400C8AD6E /* AppDelegate.swift */,
+				164D817A1F3A7D3400C8AD6E /* ViewController.swift */,
+				164D817C1F3A7D3400C8AD6E /* Main.storyboard */,
+				164D817F1F3A7D3400C8AD6E /* Assets.xcassets */,
+				164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */,
+				164D81841F3A7D3400C8AD6E /* Info.plist */,
+			);
+			path = "passive-hangout";
+			sourceTree = "<group>";
+		};
+		164D818C1F3A7D3400C8AD6E /* passive-hangoutTests */ = {
+			isa = PBXGroup;
+			children = (
+				164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */,
+				164D818F1F3A7D3400C8AD6E /* Info.plist */,
+			);
+			path = "passive-hangoutTests";
+			sourceTree = "<group>";
+		};
+		164D81971F3A7D3400C8AD6E /* passive-hangoutUITests */ = {
+			isa = PBXGroup;
+			children = (
+				164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */,
+				164D819A1F3A7D3400C8AD6E /* Info.plist */,
+			);
+			path = "passive-hangoutUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		164D81741F3A7D3400C8AD6E /* passive-hangout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 164D819D1F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangout" */;
+			buildPhases = (
+				164D81711F3A7D3400C8AD6E /* Sources */,
+				164D81721F3A7D3400C8AD6E /* Frameworks */,
+				164D81731F3A7D3400C8AD6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "passive-hangout";
+			productName = "passive-hangout";
+			productReference = 164D81751F3A7D3400C8AD6E /* passive-hangout.app */;
+			productType = "com.apple.product-type.application";
+		};
+		164D81881F3A7D3400C8AD6E /* passive-hangoutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 164D81A01F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutTests" */;
+			buildPhases = (
+				164D81851F3A7D3400C8AD6E /* Sources */,
+				164D81861F3A7D3400C8AD6E /* Frameworks */,
+				164D81871F3A7D3400C8AD6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				164D818B1F3A7D3400C8AD6E /* PBXTargetDependency */,
+			);
+			name = "passive-hangoutTests";
+			productName = "passive-hangoutTests";
+			productReference = 164D81891F3A7D3400C8AD6E /* passive-hangoutTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		164D81931F3A7D3400C8AD6E /* passive-hangoutUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 164D81A31F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutUITests" */;
+			buildPhases = (
+				164D81901F3A7D3400C8AD6E /* Sources */,
+				164D81911F3A7D3400C8AD6E /* Frameworks */,
+				164D81921F3A7D3400C8AD6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				164D81961F3A7D3400C8AD6E /* PBXTargetDependency */,
+			);
+			name = "passive-hangoutUITests";
+			productName = "passive-hangoutUITests";
+			productReference = 164D81941F3A7D3400C8AD6E /* passive-hangoutUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		164D816D1F3A7D3400C8AD6E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Jacob Shoemaker";
+				TargetAttributes = {
+					164D81741F3A7D3400C8AD6E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = XSV447RL82;
+						ProvisioningStyle = Automatic;
+					};
+					164D81881F3A7D3400C8AD6E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = XSV447RL82;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 164D81741F3A7D3400C8AD6E;
+					};
+					164D81931F3A7D3400C8AD6E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = XSV447RL82;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 164D81741F3A7D3400C8AD6E;
+					};
+				};
+			};
+			buildConfigurationList = 164D81701F3A7D3400C8AD6E /* Build configuration list for PBXProject "passive-hangout" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 164D816C1F3A7D3400C8AD6E;
+			productRefGroup = 164D81761F3A7D3400C8AD6E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				164D81741F3A7D3400C8AD6E /* passive-hangout */,
+				164D81881F3A7D3400C8AD6E /* passive-hangoutTests */,
+				164D81931F3A7D3400C8AD6E /* passive-hangoutUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		164D81731F3A7D3400C8AD6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				164D81831F3A7D3400C8AD6E /* LaunchScreen.storyboard in Resources */,
+				164D81801F3A7D3400C8AD6E /* Assets.xcassets in Resources */,
+				164D817E1F3A7D3400C8AD6E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81871F3A7D3400C8AD6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81921F3A7D3400C8AD6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		164D81711F3A7D3400C8AD6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				164D817B1F3A7D3400C8AD6E /* ViewController.swift in Sources */,
+				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81851F3A7D3400C8AD6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				164D818E1F3A7D3400C8AD6E /* passive_hangoutTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		164D81901F3A7D3400C8AD6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				164D81991F3A7D3400C8AD6E /* passive_hangoutUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		164D818B1F3A7D3400C8AD6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 164D81741F3A7D3400C8AD6E /* passive-hangout */;
+			targetProxy = 164D818A1F3A7D3400C8AD6E /* PBXContainerItemProxy */;
+		};
+		164D81961F3A7D3400C8AD6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 164D81741F3A7D3400C8AD6E /* passive-hangout */;
+			targetProxy = 164D81951F3A7D3400C8AD6E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		164D817C1F3A7D3400C8AD6E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				164D817D1F3A7D3400C8AD6E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				164D81821F3A7D3400C8AD6E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		164D819B1F3A7D3400C8AD6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		164D819C1F3A7D3400C8AD6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		164D819E1F3A7D3400C8AD6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangout/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangout";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		164D819F1F3A7D3400C8AD6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangout/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangout";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		164D81A11F3A7D3400C8AD6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangoutTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangoutTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/passive-hangout.app/passive-hangout";
+			};
+			name = Debug;
+		};
+		164D81A21F3A7D3400C8AD6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangoutTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangoutTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/passive-hangout.app/passive-hangout";
+			};
+			name = Release;
+		};
+		164D81A41F3A7D3400C8AD6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangoutUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangoutUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "passive-hangout";
+			};
+			name = Debug;
+		};
+		164D81A51F3A7D3400C8AD6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = XSV447RL82;
+				INFOPLIST_FILE = "passive-hangoutUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobshoemaker.passive-hangoutUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "passive-hangout";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		164D81701F3A7D3400C8AD6E /* Build configuration list for PBXProject "passive-hangout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				164D819B1F3A7D3400C8AD6E /* Debug */,
+				164D819C1F3A7D3400C8AD6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		164D819D1F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				164D819E1F3A7D3400C8AD6E /* Debug */,
+				164D819F1F3A7D3400C8AD6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		164D81A01F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				164D81A11F3A7D3400C8AD6E /* Debug */,
+				164D81A21F3A7D3400C8AD6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		164D81A31F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				164D81A41F3A7D3400C8AD6E /* Debug */,
+				164D81A51F3A7D3400C8AD6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 164D816D1F3A7D3400C8AD6E /* Project object */;
+}
