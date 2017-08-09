@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="passive_hangout" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +20,48 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-photo" translatesAutoresizingMaskIntoConstraints="NO" id="fgx-Rv-Dum">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.16582573784722221" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-effects" translatesAutoresizingMaskIntoConstraints="NO" id="lku-L6-XcF">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passiveHangout-logo" translatesAutoresizingMaskIntoConstraints="NO" id="KVB-hZ-i0n">
+                                <rect key="frame" x="57" y="126" width="261" height="35"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slogan" translatesAutoresizingMaskIntoConstraints="NO" id="mzL-sn-Wa7">
+                                <rect key="frame" x="45" y="167" width="285" height="19"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mzL-sn-Wa7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="82p-Qh-BcN"/>
+                            <constraint firstAttribute="trailing" secondItem="lku-L6-XcF" secondAttribute="trailing" id="96Z-YW-1Md"/>
+                            <constraint firstItem="KVB-hZ-i0n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="106" id="9Qb-Uh-aEY"/>
+                            <constraint firstItem="lku-L6-XcF" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CKv-Z1-0GF"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lku-L6-XcF" secondAttribute="bottom" id="EzT-M3-I3D"/>
+                            <constraint firstItem="KVB-hZ-i0n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NRX-Af-d00"/>
+                            <constraint firstItem="fgx-Rv-Dum" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="eJb-Ny-hHP"/>
+                            <constraint firstItem="mzL-sn-Wa7" firstAttribute="top" secondItem="KVB-hZ-i0n" secondAttribute="bottom" constant="6" id="jev-2n-F4Z"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fgx-Rv-Dum" secondAttribute="bottom" id="lgk-QQ-TJ4"/>
+                            <constraint firstAttribute="trailing" secondItem="fgx-Rv-Dum" secondAttribute="trailing" id="m3s-kS-QQD"/>
+                            <constraint firstItem="fgx-Rv-Dum" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sgb-PL-wms"/>
+                            <constraint firstItem="lku-L6-XcF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xvs-yT-Zby"/>
+                        </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="117.59999999999999" y="122.78860569715144"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="background-effects" width="375" height="667"/>
+        <image name="background-photo" width="375" height="667"/>
+        <image name="passiveHangout-logo" width="261" height="35"/>
+        <image name="slogan" width="285" height="19"/>
+    </resources>
 </document>
