@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		163E92511F3BBC720012D37F /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163E92501F3BBC720012D37F /* RoundedView.swift */; };
 		164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81781F3A7D3400C8AD6E /* AppDelegate.swift */; };
-		164D817B1F3A7D3400C8AD6E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D817A1F3A7D3400C8AD6E /* ViewController.swift */; };
+		164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D817A1F3A7D3400C8AD6E /* LoginVC.swift */; };
 		164D817E1F3A7D3400C8AD6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D817C1F3A7D3400C8AD6E /* Main.storyboard */; };
 		164D81801F3A7D3400C8AD6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164D817F1F3A7D3400C8AD6E /* Assets.xcassets */; };
 		164D81831F3A7D3400C8AD6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */; };
 		164D818E1F3A7D3400C8AD6E /* passive_hangoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */; };
 		164D81991F3A7D3400C8AD6E /* passive_hangoutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */; };
+		168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168A326D1F3AAEB500216FF1 /* RoundedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +36,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		163E92501F3BBC720012D37F /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		164D81751F3A7D3400C8AD6E /* passive-hangout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "passive-hangout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164D81781F3A7D3400C8AD6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		164D817A1F3A7D3400C8AD6E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "passive-hangout/ViewController.swift"; sourceTree = "<group>"; };
+		164D817A1F3A7D3400C8AD6E /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginVC.swift; path = "passive-hangout/LoginVC.swift"; sourceTree = "<group>"; };
 		164D817D1F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		164D817F1F3A7D3400C8AD6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		164D81821F3A7D3400C8AD6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +50,7 @@
 		164D81941F3A7D3400C8AD6E /* passive-hangoutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "passive-hangoutUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passive_hangoutUITests.swift; sourceTree = "<group>"; };
 		164D819A1F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		168A326D1F3AAEB500216FF1 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +141,8 @@
 		164D81A71F3A837D00C8AD6E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				164D817A1F3A7D3400C8AD6E /* ViewController.swift */,
+				168A326D1F3AAEB500216FF1 /* RoundedButton.swift */,
+				163E92501F3BBC720012D37F /* RoundedView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 		164D81A81F3A838100C8AD6E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				164D817A1F3A7D3400C8AD6E /* LoginVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -286,7 +292,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				164D817B1F3A7D3400C8AD6E /* ViewController.swift in Sources */,
+				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
+				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
+				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -538,6 +546,7 @@
 				164D819F1F3A7D3400C8AD6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		164D81A01F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutTests" */ = {
 			isa = XCConfigurationList;
@@ -546,6 +555,7 @@
 				164D81A21F3A7D3400C8AD6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		164D81A31F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutUITests" */ = {
 			isa = XCConfigurationList;
@@ -554,6 +564,7 @@
 				164D81A51F3A7D3400C8AD6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

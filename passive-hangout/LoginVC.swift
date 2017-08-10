@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginVC.swift
 //  passive-hangout
 //
 //  Created by Jacob Shoemaker on 8/8/17.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,5 +21,7 @@ class ViewController: UIViewController {
     }
 
 
-}
 
+    
+
+}
