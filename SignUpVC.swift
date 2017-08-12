@@ -10,6 +10,10 @@ import UIKit
 
 class SignUpVC: UIViewController {
 
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var confirmPasswordField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,4 +29,10 @@ class SignUpVC: UIViewController {
         performSegue(withIdentifier: "backToLogin", sender: self)
     }
 
+    @IBAction func registerBtnPressed(_ sender: Any) {
+    }
+    
+    @IBAction func signUpWithFacebookBtnPressed(_ sender: Any) {
+    }
+    
 }
