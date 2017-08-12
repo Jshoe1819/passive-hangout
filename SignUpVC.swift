@@ -38,29 +38,29 @@ class SignUpVC: UIViewController {
         
         if let email = emailField.text {
             if email == "" {
-                errorAlert.text = "JAKE: Please enter email"
+                errorAlert.text = "Please enter an email address"
             } else {
                 if let password = passwordField.text {
                     if password == "" {
-                        errorAlert.text = "JAKE: Please enter a password"
+                        errorAlert.text = "Please enter a password"
                     } else {
                         if password.characters.count < 6 {
-                            errorAlert.text = "JAKE: Password must be at least six characters"
+                            errorAlert.text = "Password must be at least six characters"
                         } else {
                             if let passwordConfirm = confirmPasswordField.text {
                                 if passwordConfirm.characters.count == 0 {
-                                    errorAlert.text = "JAKE: Please confirm password"
+                                    errorAlert.text = "Please confirm password"
                                 } else if password == passwordConfirm {
                                     Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
                                         if error != nil {
                                             if let errCode = AuthErrorCode(rawValue: error!._code) {
                                                 switch errCode {
                                                 case .invalidEmail:
-                                                    self.errorAlert.text = "JAKE: Invalid email address"
+                                                    self.errorAlert.text = "Invalid email format"
                                                 case .emailAlreadyInUse:
-                                                    self.errorAlert.text = "JAKE: Account already exists with this email"
+                                                    self.errorAlert.text = "Account already exists with this email"
                                                 default:
-                                                    print("JAKE: Create user error: \(error!)")
+                                                    print("Create user error: \(error!)")
                                                 }
                                             }
                                         } else {
@@ -69,7 +69,7 @@ class SignUpVC: UIViewController {
                                             self.performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
                                         }})
                                 } else {
-                                    errorAlert.text = "JAKE: Passwords do not match"
+                                    errorAlert.text = "Passwords do not match"
                                 }
                             }
                         }

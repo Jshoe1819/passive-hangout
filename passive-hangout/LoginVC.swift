@@ -29,19 +29,36 @@ class LoginVC: UIViewController {
         //login logic - firebase
         if let email = emailField.text {
             if email == "" {
-                errorAlert.isHidden = false
-                errorAlert.text = "JAKE: Please enter email"
+                errorAlert.text = "Please enter an email address"
             } else {
                 if let password = passwordField.text {
                     if password == "" {
-                        errorAlert.isHidden = false
-                        errorAlert.text = "JAKE: Please enter a password"
+                        errorAlert.text = "Please enter a password"
                     } else {
                         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-                            self.errorAlert.isHidden = true
-                            self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
-                        })
-                }
+                            if error != nil {
+                                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                                    switch errCode {
+                                    case .userNotFound:
+                                        self.errorAlert.text = "No account found with this email"
+                                    case .tooManyRequests:
+                                        self.errorAlert.text = "Too many login attempts, please try again later"
+                                    case .invalidEmail:
+                                        self.errorAlert.text = "Invalid email format"
+                                    case .userDisabled:
+                                        self.errorAlert.text = "Account has been disabled"
+                                    case .wrongPassword:
+                                        self.errorAlert.text = "Wrong password"
+                                    default:
+                                        print("Login user error: \(error!)")
+                                    }
+                                }
+                            }else {
+                                print("Successful login")
+                                self.errorAlert.text = " "
+                                self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+                            }})
+                    }
                     
                 }
                 
@@ -51,11 +68,11 @@ class LoginVC: UIViewController {
         
     }
     
-        @IBAction func createAccountBtnPressed(_ sender: UIButton) {
-            performSegue(withIdentifier: "createAccount", sender: self)
-        }
-        
-        @IBAction func facebookLoginBtnPressed(_ sender: Any) {
-            performSegue(withIdentifier: "loginToActivityFeed", sender: self)
-        }
+    @IBAction func createAccountBtnPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "createAccount", sender: self)
+    }
+    
+    @IBAction func facebookLoginBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+    }
 }
