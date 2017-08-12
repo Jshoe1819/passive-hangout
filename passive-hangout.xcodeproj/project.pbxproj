@@ -15,6 +15,9 @@
 		164D81831F3A7D3400C8AD6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */; };
 		164D818E1F3A7D3400C8AD6E /* passive_hangoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */; };
 		164D81991F3A7D3400C8AD6E /* passive_hangoutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */; };
+		167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540161F3E7F0C00E86A32 /* SignUpVC.swift */; };
+		167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */; };
+		1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */; };
 		168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168A326D1F3AAEB500216FF1 /* RoundedButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +53,9 @@
 		164D81941F3A7D3400C8AD6E /* passive-hangoutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "passive-hangoutUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passive_hangoutUITests.swift; sourceTree = "<group>"; };
 		164D819A1F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		167540161F3E7F0C00E86A32 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeftToRight.swift; sourceTree = "<group>"; };
+		1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRightToLeft.swift; sourceTree = "<group>"; };
 		168A326D1F3AAEB500216FF1 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +149,8 @@
 			children = (
 				168A326D1F3AAEB500216FF1 /* RoundedButton.swift */,
 				163E92501F3BBC720012D37F /* RoundedView.swift */,
+				167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */,
+				1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -151,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				164D817A1F3A7D3400C8AD6E /* LoginVC.swift */,
+				167540161F3E7F0C00E86A32 /* SignUpVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -292,10 +301,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
 				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
+				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
+				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
