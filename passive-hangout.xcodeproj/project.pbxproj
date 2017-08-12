@@ -16,10 +16,16 @@
 		164D818E1F3A7D3400C8AD6E /* passive_hangoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D818D1F3A7D3400C8AD6E /* passive_hangoutTests.swift */; };
 		164D81991F3A7D3400C8AD6E /* passive_hangoutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */; };
 		167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167284351F3F760500F4D8D9 /* ActivityFeedVC.swift */; };
+		167284381F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167284371F3F792500F4D8D9 /* GoogleService-Info.plist */; };
+		167284391F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167284371F3F792500F4D8D9 /* GoogleService-Info.plist */; };
+		1672843A1F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167284371F3F792500F4D8D9 /* GoogleService-Info.plist */; };
 		167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540161F3E7F0C00E86A32 /* SignUpVC.swift */; };
 		167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */; };
 		1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */; };
 		168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168A326D1F3AAEB500216FF1 /* RoundedButton.swift */; };
+		33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */; };
+		43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */; };
+		57CF2EE49AB5E3C2F31858E9 /* Pods_passive_hangoutUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBC93D3FC5EE1B067C09A482 /* Pods_passive_hangoutUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +61,20 @@
 		164D81981F3A7D3400C8AD6E /* passive_hangoutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passive_hangoutUITests.swift; sourceTree = "<group>"; };
 		164D819A1F3A7D3400C8AD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		167284351F3F760500F4D8D9 /* ActivityFeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityFeedVC.swift; sourceTree = "<group>"; };
+		167284371F3F792500F4D8D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167540161F3E7F0C00E86A32 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeftToRight.swift; sourceTree = "<group>"; };
 		1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRightToLeft.swift; sourceTree = "<group>"; };
 		168A326D1F3AAEB500216FF1 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
+		4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E0D6D2E6B8D461AAC00C567 /* Pods-passive-hangoutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.release.xcconfig"; sourceTree = "<group>"; };
+		5871EAB2CFE9E4013A893EC3 /* Pods-passive-hangout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.release.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.release.xcconfig"; sourceTree = "<group>"; };
+		60E4722C5CB6B5D2093E3070 /* Pods-passive-hangoutUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests.release.xcconfig"; sourceTree = "<group>"; };
+		A4E19BDFAFF490245E9F3FCE /* Pods-passive-hangoutTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBC93D3FC5EE1B067C09A482 /* Pods_passive_hangoutUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF4DB1F649370E7712F72DB7 /* Pods-passive-hangoutUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57CF2EE49AB5E3C2F31858E9 /* Pods_passive_hangoutUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +115,8 @@
 				164D818C1F3A7D3400C8AD6E /* passive-hangoutTests */,
 				164D81971F3A7D3400C8AD6E /* passive-hangoutUITests */,
 				164D81761F3A7D3400C8AD6E /* Products */,
+				3EBE86830F739EE09317E24C /* Pods */,
+				DAB19BB0C8BA1EFC25C9CBF8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +138,7 @@
 				164D817F1F3A7D3400C8AD6E /* Assets.xcassets */,
 				164D81811F3A7D3400C8AD6E /* LaunchScreen.storyboard */,
 				164D81841F3A7D3400C8AD6E /* Info.plist */,
+				167284371F3F792500F4D8D9 /* GoogleService-Info.plist */,
 			);
 			path = "passive-hangout";
 			sourceTree = "<group>";
@@ -167,6 +189,29 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		3EBE86830F739EE09317E24C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */,
+				5871EAB2CFE9E4013A893EC3 /* Pods-passive-hangout.release.xcconfig */,
+				A4E19BDFAFF490245E9F3FCE /* Pods-passive-hangoutTests.debug.xcconfig */,
+				4E0D6D2E6B8D461AAC00C567 /* Pods-passive-hangoutTests.release.xcconfig */,
+				EF4DB1F649370E7712F72DB7 /* Pods-passive-hangoutUITests.debug.xcconfig */,
+				60E4722C5CB6B5D2093E3070 /* Pods-passive-hangoutUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DAB19BB0C8BA1EFC25C9CBF8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */,
+				4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */,
+				DBC93D3FC5EE1B067C09A482 /* Pods_passive_hangoutUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -174,9 +219,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 164D819D1F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangout" */;
 			buildPhases = (
+				1304323FE7E9FD7DAEB9415D /* [CP] Check Pods Manifest.lock */,
 				164D81711F3A7D3400C8AD6E /* Sources */,
 				164D81721F3A7D3400C8AD6E /* Frameworks */,
 				164D81731F3A7D3400C8AD6E /* Resources */,
+				E044EFDDC18F4F173717B1F1 /* [CP] Embed Pods Frameworks */,
+				49527B3F2F2D4382A5C8686E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,9 +239,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 164D81A01F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutTests" */;
 			buildPhases = (
+				A31D5141862D832FD861935F /* [CP] Check Pods Manifest.lock */,
 				164D81851F3A7D3400C8AD6E /* Sources */,
 				164D81861F3A7D3400C8AD6E /* Frameworks */,
 				164D81871F3A7D3400C8AD6E /* Resources */,
+				1F32C104E210C8C3F89A80DF /* [CP] Embed Pods Frameworks */,
+				422D90352C4D1F30BDAB9CBA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,9 +260,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 164D81A31F3A7D3400C8AD6E /* Build configuration list for PBXNativeTarget "passive-hangoutUITests" */;
 			buildPhases = (
+				CBA4000A8307A0C8EB46E558 /* [CP] Check Pods Manifest.lock */,
 				164D81901F3A7D3400C8AD6E /* Sources */,
 				164D81911F3A7D3400C8AD6E /* Frameworks */,
 				164D81921F3A7D3400C8AD6E /* Resources */,
+				411E3E51A204AF44C7C47F7C /* [CP] Embed Pods Frameworks */,
+				087F5F8908FED3EE23C6D1A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,6 +334,7 @@
 				164D81831F3A7D3400C8AD6E /* LaunchScreen.storyboard in Resources */,
 				164D81801F3A7D3400C8AD6E /* Assets.xcassets in Resources */,
 				164D817E1F3A7D3400C8AD6E /* Main.storyboard in Resources */,
+				167284381F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +342,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167284391F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,10 +350,149 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1672843A1F3F792500F4D8D9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		087F5F8908FED3EE23C6D1A7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1304323FE7E9FD7DAEB9415D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		1F32C104E210C8C3F89A80DF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		411E3E51A204AF44C7C47F7C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		422D90352C4D1F30BDAB9CBA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		49527B3F2F2D4382A5C8686E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A31D5141862D832FD861935F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CBA4000A8307A0C8EB46E558 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E044EFDDC18F4F173717B1F1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		164D81711F3A7D3400C8AD6E /* Sources */ = {
@@ -461,6 +656,7 @@
 		};
 		164D819E1F3A7D3400C8AD6E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XSV447RL82;
@@ -474,6 +670,7 @@
 		};
 		164D819F1F3A7D3400C8AD6E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5871EAB2CFE9E4013A893EC3 /* Pods-passive-hangout.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XSV447RL82;
@@ -487,6 +684,7 @@
 		};
 		164D81A11F3A7D3400C8AD6E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4E19BDFAFF490245E9F3FCE /* Pods-passive-hangoutTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -502,6 +700,7 @@
 		};
 		164D81A21F3A7D3400C8AD6E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E0D6D2E6B8D461AAC00C567 /* Pods-passive-hangoutTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -517,6 +716,7 @@
 		};
 		164D81A41F3A7D3400C8AD6E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF4DB1F649370E7712F72DB7 /* Pods-passive-hangoutUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = XSV447RL82;
@@ -531,6 +731,7 @@
 		};
 		164D81A51F3A7D3400C8AD6E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60E4722C5CB6B5D2093E3070 /* Pods-passive-hangoutUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = XSV447RL82;

@@ -1,0 +1,962 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A8D0094C4554DE2CD1675F9E0FC2855 /* Pods-passive-hangout-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 409DEF3431AC7FF874C68FFFC467FFE4 /* Pods-passive-hangout-dummy.m */; };
+		1BCA9C307D7418A9CC46451568C992FA /* Pods-passive-hangout-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BF67E8D1CD6DA77EB6E6277F17D35EC /* Pods-passive-hangout-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F811CC5EF7D937F77DBB66D087D1ACB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		326BCA4FEC61499A781F5782CD8EE72C /* Pods-passive-hangoutUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 256868E4C534EB51748454A516A03128 /* Pods-passive-hangoutUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		498FA4C937BC2B8A67356FFA608BB11A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		541C5362289CC44D4F067D097F231250 /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F6D7B16721E888846204CBA21B058064 /* GTMDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		81E4B6988FF26F9249B79C6C8CC667B4 /* GoogleToolboxForMac-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF6E1E29787F5CB39A8070C28D96016 /* GoogleToolboxForMac-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93D51748565CFEB9490FBA7DA993C5C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		9EFACDE8571C814FEFA67E9DCFD30FC0 /* Pods-passive-hangoutUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D80423B33B2E6E38672F3AD5FDDC021 /* Pods-passive-hangoutUITests-dummy.m */; };
+		CAFF764CB1618C68A8D77903EACB491D /* Pods-passive-hangoutTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E921DE8D668C23A103ACBFD54D040111 /* Pods-passive-hangoutTests-dummy.m */; };
+		DBFECCB0BBE3F11CC41A3C1A8C4879D3 /* GTMNSData+zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = AFCDD21E7F88A39173EDAA6772C0A4F5 /* GTMNSData+zlib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1D88FA08E01E33F8F44BADE5191F538 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		EE96C177C126E169B5BC5087D08515AB /* Pods-passive-hangoutTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E8CBC973E15EBBAFDEBB68A9935A073 /* Pods-passive-hangoutTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F7D889906DECB078EAAECB9D4A320E9C /* GTMNSData+zlib.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C2DE2C83F22D19F1BCBF830F013496 /* GTMNSData+zlib.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		FAC3F3CAABA60EF76069431C5BB5032A /* GoogleToolboxForMac-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A7291714F1AFB288EBD6B7AD923825 /* GoogleToolboxForMac-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10D155AE6517B69B1276CA4163B2F742 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00103D6C821BE85971C563025527BA5D;
+			remoteInfo = GoogleToolboxForMac;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E8CBC973E15EBBAFDEBB68A9935A073 /* Pods-passive-hangoutTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-passive-hangoutTests-umbrella.h"; sourceTree = "<group>"; };
+		16107B577CF62BED6C1122AABCD00EE7 /* Pods-passive-hangoutUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangoutUITests-resources.sh"; sourceTree = "<group>"; };
+		16D319D663A81E59AA3637D0970BB2A0 /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseNanoPB.framework; path = Frameworks/FirebaseNanoPB.framework; sourceTree = "<group>"; };
+		1BF6E1E29787F5CB39A8070C28D96016 /* GoogleToolboxForMac-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GoogleToolboxForMac-umbrella.h"; sourceTree = "<group>"; };
+		1DCC2A433DABB13E27F0B00E79A5FA44 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GoogleToolboxForMac.framework; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		20794A4041EB08051944A2114B5CE05A /* Pods-passive-hangoutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangoutTests.release.xcconfig"; sourceTree = "<group>"; };
+		20FCB9F370E6E0DF2829A71D3AC2637D /* GoogleToolboxForMac.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = GoogleToolboxForMac.modulemap; sourceTree = "<group>"; };
+		256868E4C534EB51748454A516A03128 /* Pods-passive-hangoutUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-passive-hangoutUITests-umbrella.h"; sourceTree = "<group>"; };
+		2AE8C51F940D6CE99D41F3C927F77706 /* Pods-passive-hangoutTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-passive-hangoutTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		2D940BB77016E68B3CA20A8BA37DECB9 /* Pods-passive-hangoutUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangoutUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3674577B7D7AAFC7CB410E8D70910CA6 /* Pods-passive-hangout-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangout-frameworks.sh"; sourceTree = "<group>"; };
+		3D80423B33B2E6E38672F3AD5FDDC021 /* Pods-passive-hangoutUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-passive-hangoutUITests-dummy.m"; sourceTree = "<group>"; };
+		409DEF3431AC7FF874C68FFFC467FFE4 /* Pods-passive-hangout-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-passive-hangout-dummy.m"; sourceTree = "<group>"; };
+		40A4E7E7BBE6AFAAFC6D42EEF7B30D44 /* Pods-passive-hangoutUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-passive-hangoutUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		414A5D2DD257FCA9D323A84884CABB61 /* Pods_passive_hangoutUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_passive_hangoutUITests.framework; path = "Pods-passive-hangoutUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4377C2D03D1E053BCA20753590AD4766 /* Pods-passive-hangoutTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangoutTests-frameworks.sh"; sourceTree = "<group>"; };
+		43C8AC58FF4C46C04B03A1DCECF49472 /* Pods-passive-hangoutUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-passive-hangoutUITests.modulemap"; sourceTree = "<group>"; };
+		4875EE9E76DCAC9B1386ABBA4A2A1146 /* Pods-passive-hangout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangout.release.xcconfig"; sourceTree = "<group>"; };
+		4BF67E8D1CD6DA77EB6E6277F17D35EC /* Pods-passive-hangout-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-passive-hangout-umbrella.h"; sourceTree = "<group>"; };
+		651EBDCDCCF5F61D37C68ADFAACB0242 /* Pods-passive-hangoutTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-passive-hangoutTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6F833E9B7FE62B1CC9DF12906555FA89 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		701DA57BF69229A40B1AD7E33106C94B /* Pods-passive-hangoutTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangoutTests-resources.sh"; sourceTree = "<group>"; };
+		732A9C5B294B8D919E5CF8215940C408 /* Pods-passive-hangoutUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangoutUITests-frameworks.sh"; sourceTree = "<group>"; };
+		73DD4E9248210C9C3E384754B12A3415 /* Pods-passive-hangout-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-passive-hangout-resources.sh"; sourceTree = "<group>"; };
+		7DCFB3793E89E4DD1BEF67819522A36E /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
+		853A5991E54B791819119FE50740AB52 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89776470BE73F249FD8EEF3C350A54FC /* GoogleToolboxForMac.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleToolboxForMac.xcconfig; sourceTree = "<group>"; };
+		92C2DE2C83F22D19F1BCBF830F013496 /* GTMNSData+zlib.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSData+zlib.m"; path = "Foundation/GTMNSData+zlib.m"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		982C47675E0924A48DF4F9D326BE3114 /* Firebase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Core/Sources/Firebase.h; sourceTree = "<group>"; };
+		A21B846AC67CF7696C36BE2F0F0D83AB /* GoogleToolboxForMac-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GoogleToolboxForMac-prefix.pch"; sourceTree = "<group>"; };
+		A626B0540918532782FFDA7389B2676F /* Pods-passive-hangoutUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangoutUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AFCDD21E7F88A39173EDAA6772C0A4F5 /* GTMNSData+zlib.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GTMNSData+zlib.h"; path = "Foundation/GTMNSData+zlib.h"; sourceTree = "<group>"; };
+		B2A7291714F1AFB288EBD6B7AD923825 /* GoogleToolboxForMac-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GoogleToolboxForMac-dummy.m"; sourceTree = "<group>"; };
+		B4D4970E364A27F60CEEF19E5869D8F2 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Frameworks/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
+		B94A32939CBE77289CD10D598EAAE6FA /* Pods-passive-hangout-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-passive-hangout-acknowledgements.plist"; sourceTree = "<group>"; };
+		BAA6D041601AF92BA0B8D50597745A21 /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_passive_hangoutTests.framework; path = "Pods-passive-hangoutTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD01969C93F104A72F4B6BFD0F9ECD3E /* Pods-passive-hangout.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-passive-hangout.modulemap"; sourceTree = "<group>"; };
+		C7141B9842B6353055EFAB5E4B503153 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7A6EE2D15CE92AF0AA0F168ADB4D6C9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7AFE40C8A4D6024819644BED382FE5E /* Pods-passive-hangoutTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangoutTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CFD43B2F769114E08BCF35EB21AE6436 /* Pods-passive-hangoutUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-passive-hangoutUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D3D3D5E981C29CC6873312ED727DC62D /* Pods-passive-hangout-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-passive-hangout-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D4D64C49FB65597D70D973CBC938BE8A /* Pods_passive_hangout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_passive_hangout.framework; path = "Pods-passive-hangout.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB970382F8889D98D165BDC71FD5F657 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		DFF795D1241FCA8FC389BD4B95B83D64 /* Pods-passive-hangoutTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-passive-hangoutTests.modulemap"; sourceTree = "<group>"; };
+		E1AFD0DFA3094C10F9F3F60E4C8F935E /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		E921DE8D668C23A103ACBFD54D040111 /* Pods-passive-hangoutTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-passive-hangoutTests-dummy.m"; sourceTree = "<group>"; };
+		EF71B45CB764A2ECAB3B31051444E90F /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
+		F6D7B16721E888846204CBA21B058064 /* GTMDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AFB6D5EFCA008175A0EB8DCE558BD24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				498FA4C937BC2B8A67356FFA608BB11A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CD99E9D161B7776DE14940785D7B311 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F811CC5EF7D937F77DBB66D087D1ACB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A920ED99A8FEE701CCA0889C1C6E9D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1D88FA08E01E33F8F44BADE5191F538 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9BC43EEAF05BCB201B3D28C244AA7E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93D51748565CFEB9490FBA7DA993C5C0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00B9DD195B2EB39875CE4F9DB0CA2B46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1AFD0DFA3094C10F9F3F60E4C8F935E /* FirebaseAnalytics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0F661C3C91B498281B0DD65BA7511AF1 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+				F6D7B16721E888846204CBA21B058064 /* GTMDefines.h */,
+			);
+			name = Defines;
+			sourceTree = "<group>";
+		};
+		1902584E8A324636B983CA3D69528EAC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				982C47675E0924A48DF4F9D326BE3114 /* Firebase.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		1A93A5F7A1FD7A287427B0C8A4C85BEC /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4CD3975E293DE90D64A01B0BF0B05485 /* Pods-passive-hangout */,
+				6EEADAEBA3D79729D0445A9B6F5E4645 /* Pods-passive-hangoutTests */,
+				82077C71CA24FF332068D0230AD62163 /* Pods-passive-hangoutUITests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		1BB83A55EE4F26A09FDEB7D8C4EFE9D4 /* FirebaseAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				00B9DD195B2EB39875CE4F9DB0CA2B46 /* Frameworks */,
+			);
+			name = FirebaseAnalytics;
+			path = FirebaseAnalytics;
+			sourceTree = "<group>";
+		};
+		1EE6C40DEAB56583720DC8110049EBAE /* GoogleToolboxForMac */ = {
+			isa = PBXGroup;
+			children = (
+				0F661C3C91B498281B0DD65BA7511AF1 /* Defines */,
+				993CE1B8349B2BD154287EDDE86393AF /* NSData+zlib */,
+				DD3A40A5414B21FDD8FC8F3258B79CED /* Support Files */,
+			);
+			name = GoogleToolboxForMac;
+			path = GoogleToolboxForMac;
+			sourceTree = "<group>";
+		};
+		2284E6854AEBDD17F420B24354609F96 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				43C8441995161C3CDF44AADF5762D23F /* Firebase */,
+				1BB83A55EE4F26A09FDEB7D8C4EFE9D4 /* FirebaseAnalytics */,
+				575F821D6CB8FC8C293759C130C977D8 /* FirebaseCore */,
+				E87A63BCF37F31D242208A3C2B333B8B /* FirebaseInstanceID */,
+				1EE6C40DEAB56583720DC8110049EBAE /* GoogleToolboxForMac */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		43C8441995161C3CDF44AADF5762D23F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				1902584E8A324636B983CA3D69528EAC /* Core */,
+			);
+			name = Firebase;
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		4CD3975E293DE90D64A01B0BF0B05485 /* Pods-passive-hangout */ = {
+			isa = PBXGroup;
+			children = (
+				6F833E9B7FE62B1CC9DF12906555FA89 /* Info.plist */,
+				BD01969C93F104A72F4B6BFD0F9ECD3E /* Pods-passive-hangout.modulemap */,
+				D3D3D5E981C29CC6873312ED727DC62D /* Pods-passive-hangout-acknowledgements.markdown */,
+				B94A32939CBE77289CD10D598EAAE6FA /* Pods-passive-hangout-acknowledgements.plist */,
+				409DEF3431AC7FF874C68FFFC467FFE4 /* Pods-passive-hangout-dummy.m */,
+				3674577B7D7AAFC7CB410E8D70910CA6 /* Pods-passive-hangout-frameworks.sh */,
+				73DD4E9248210C9C3E384754B12A3415 /* Pods-passive-hangout-resources.sh */,
+				4BF67E8D1CD6DA77EB6E6277F17D35EC /* Pods-passive-hangout-umbrella.h */,
+				EF71B45CB764A2ECAB3B31051444E90F /* Pods-passive-hangout.debug.xcconfig */,
+				4875EE9E76DCAC9B1386ABBA4A2A1146 /* Pods-passive-hangout.release.xcconfig */,
+			);
+			name = "Pods-passive-hangout";
+			path = "Target Support Files/Pods-passive-hangout";
+			sourceTree = "<group>";
+		};
+		575F821D6CB8FC8C293759C130C977D8 /* FirebaseCore */ = {
+			isa = PBXGroup;
+			children = (
+				E6C72B891F2790C95D9584F2F81A8F90 /* Frameworks */,
+			);
+			name = FirebaseCore;
+			path = FirebaseCore;
+			sourceTree = "<group>";
+		};
+		6EEADAEBA3D79729D0445A9B6F5E4645 /* Pods-passive-hangoutTests */ = {
+			isa = PBXGroup;
+			children = (
+				853A5991E54B791819119FE50740AB52 /* Info.plist */,
+				DFF795D1241FCA8FC389BD4B95B83D64 /* Pods-passive-hangoutTests.modulemap */,
+				651EBDCDCCF5F61D37C68ADFAACB0242 /* Pods-passive-hangoutTests-acknowledgements.markdown */,
+				2AE8C51F940D6CE99D41F3C927F77706 /* Pods-passive-hangoutTests-acknowledgements.plist */,
+				E921DE8D668C23A103ACBFD54D040111 /* Pods-passive-hangoutTests-dummy.m */,
+				4377C2D03D1E053BCA20753590AD4766 /* Pods-passive-hangoutTests-frameworks.sh */,
+				701DA57BF69229A40B1AD7E33106C94B /* Pods-passive-hangoutTests-resources.sh */,
+				0E8CBC973E15EBBAFDEBB68A9935A073 /* Pods-passive-hangoutTests-umbrella.h */,
+				C7AFE40C8A4D6024819644BED382FE5E /* Pods-passive-hangoutTests.debug.xcconfig */,
+				20794A4041EB08051944A2114B5CE05A /* Pods-passive-hangoutTests.release.xcconfig */,
+			);
+			name = "Pods-passive-hangoutTests";
+			path = "Target Support Files/Pods-passive-hangoutTests";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				2284E6854AEBDD17F420B24354609F96 /* Pods */,
+				837DD181494288E62FEE9AB6C353ADCA /* Products */,
+				1A93A5F7A1FD7A287427B0C8A4C85BEC /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		82077C71CA24FF332068D0230AD62163 /* Pods-passive-hangoutUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C7A6EE2D15CE92AF0AA0F168ADB4D6C9 /* Info.plist */,
+				43C8AC58FF4C46C04B03A1DCECF49472 /* Pods-passive-hangoutUITests.modulemap */,
+				CFD43B2F769114E08BCF35EB21AE6436 /* Pods-passive-hangoutUITests-acknowledgements.markdown */,
+				40A4E7E7BBE6AFAAFC6D42EEF7B30D44 /* Pods-passive-hangoutUITests-acknowledgements.plist */,
+				3D80423B33B2E6E38672F3AD5FDDC021 /* Pods-passive-hangoutUITests-dummy.m */,
+				732A9C5B294B8D919E5CF8215940C408 /* Pods-passive-hangoutUITests-frameworks.sh */,
+				16107B577CF62BED6C1122AABCD00EE7 /* Pods-passive-hangoutUITests-resources.sh */,
+				256868E4C534EB51748454A516A03128 /* Pods-passive-hangoutUITests-umbrella.h */,
+				A626B0540918532782FFDA7389B2676F /* Pods-passive-hangoutUITests.debug.xcconfig */,
+				2D940BB77016E68B3CA20A8BA37DECB9 /* Pods-passive-hangoutUITests.release.xcconfig */,
+			);
+			name = "Pods-passive-hangoutUITests";
+			path = "Target Support Files/Pods-passive-hangoutUITests";
+			sourceTree = "<group>";
+		};
+		837DD181494288E62FEE9AB6C353ADCA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DCC2A433DABB13E27F0B00E79A5FA44 /* GoogleToolboxForMac.framework */,
+				D4D64C49FB65597D70D973CBC938BE8A /* Pods_passive_hangout.framework */,
+				BAA6D041601AF92BA0B8D50597745A21 /* Pods_passive_hangoutTests.framework */,
+				414A5D2DD257FCA9D323A84884CABB61 /* Pods_passive_hangoutUITests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		993CE1B8349B2BD154287EDDE86393AF /* NSData+zlib */ = {
+			isa = PBXGroup;
+			children = (
+				AFCDD21E7F88A39173EDAA6772C0A4F5 /* GTMNSData+zlib.h */,
+				92C2DE2C83F22D19F1BCBF830F013496 /* GTMNSData+zlib.m */,
+			);
+			name = "NSData+zlib";
+			sourceTree = "<group>";
+		};
+		A74D88AB047B2B5C4DE5A5AA644ADCAB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB970382F8889D98D165BDC71FD5F657 /* FirebaseInstanceID.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D35AF013A5F0BAD4F32504907A52519E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		DD3A40A5414B21FDD8FC8F3258B79CED /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				20FCB9F370E6E0DF2829A71D3AC2637D /* GoogleToolboxForMac.modulemap */,
+				89776470BE73F249FD8EEF3C350A54FC /* GoogleToolboxForMac.xcconfig */,
+				B2A7291714F1AFB288EBD6B7AD923825 /* GoogleToolboxForMac-dummy.m */,
+				A21B846AC67CF7696C36BE2F0F0D83AB /* GoogleToolboxForMac-prefix.pch */,
+				1BF6E1E29787F5CB39A8070C28D96016 /* GoogleToolboxForMac-umbrella.h */,
+				C7141B9842B6353055EFAB5E4B503153 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/GoogleToolboxForMac";
+			sourceTree = "<group>";
+		};
+		E6C72B891F2790C95D9584F2F81A8F90 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7DCFB3793E89E4DD1BEF67819522A36E /* FirebaseCore.framework */,
+				B4D4970E364A27F60CEEF19E5869D8F2 /* FirebaseCoreDiagnostics.framework */,
+				16D319D663A81E59AA3637D0970BB2A0 /* FirebaseNanoPB.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E87A63BCF37F31D242208A3C2B333B8B /* FirebaseInstanceID */ = {
+			isa = PBXGroup;
+			children = (
+				A74D88AB047B2B5C4DE5A5AA644ADCAB /* Frameworks */,
+			);
+			name = FirebaseInstanceID;
+			path = FirebaseInstanceID;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5F5F01A9E24ABAF275E351DD085FF6BB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BCA9C307D7418A9CC46451568C992FA /* Pods-passive-hangout-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A11A6EED590FE858C8A79E9490EDC0D9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE96C177C126E169B5BC5087D08515AB /* Pods-passive-hangoutTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DCC7E1874FEB62CC80E17CDDD3F436C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				326BCA4FEC61499A781F5782CD8EE72C /* Pods-passive-hangoutUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDA600FDC48ED17BA03DA2D85D4EDA97 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81E4B6988FF26F9249B79C6C8CC667B4 /* GoogleToolboxForMac-umbrella.h in Headers */,
+				541C5362289CC44D4F067D097F231250 /* GTMDefines.h in Headers */,
+				DBFECCB0BBE3F11CC41A3C1A8C4879D3 /* GTMNSData+zlib.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		00103D6C821BE85971C563025527BA5D /* GoogleToolboxForMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C43D9CA5106C6CCEF973B7EDF833947B /* Build configuration list for PBXNativeTarget "GoogleToolboxForMac" */;
+			buildPhases = (
+				63D7DA997053F6B5D01DE8CB5817CB51 /* Sources */,
+				F9BC43EEAF05BCB201B3D28C244AA7E1 /* Frameworks */,
+				FDA600FDC48ED17BA03DA2D85D4EDA97 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GoogleToolboxForMac;
+			productName = GoogleToolboxForMac;
+			productReference = 1DCC2A433DABB13E27F0B00E79A5FA44 /* GoogleToolboxForMac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		566A598E7E3BE4229FCD7978538FAD5B /* Pods-passive-hangout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2BFE2E34FC3C8AD487F43A37594EB7C /* Build configuration list for PBXNativeTarget "Pods-passive-hangout" */;
+			buildPhases = (
+				ADB313A63528CCA323E027E6BF8E1084 /* Sources */,
+				A920ED99A8FEE701CCA0889C1C6E9D09 /* Frameworks */,
+				5F5F01A9E24ABAF275E351DD085FF6BB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC3001F06D04DF761762F621CEFA7D22 /* PBXTargetDependency */,
+			);
+			name = "Pods-passive-hangout";
+			productName = "Pods-passive-hangout";
+			productReference = D4D64C49FB65597D70D973CBC938BE8A /* Pods_passive_hangout.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C29995A606EE6AF8A0A241B4DA8FA582 /* Pods-passive-hangoutUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF64AC4725AD4432500667CE607D2853 /* Build configuration list for PBXNativeTarget "Pods-passive-hangoutUITests" */;
+			buildPhases = (
+				554BD3E066A4178F1FF5B257D722C0A3 /* Sources */,
+				1AFB6D5EFCA008175A0EB8DCE558BD24 /* Frameworks */,
+				DCC7E1874FEB62CC80E17CDDD3F436C5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-passive-hangoutUITests";
+			productName = "Pods-passive-hangoutUITests";
+			productReference = 414A5D2DD257FCA9D323A84884CABB61 /* Pods_passive_hangoutUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FEC9C29A6484DF60DF2CD154B4181BCA /* Pods-passive-hangoutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91C82799A8AEC875567E19CF39768C38 /* Build configuration list for PBXNativeTarget "Pods-passive-hangoutTests" */;
+			buildPhases = (
+				4C60BC3E57B62F507B85267AA82D82AB /* Sources */,
+				7CD99E9D161B7776DE14940785D7B311 /* Frameworks */,
+				A11A6EED590FE858C8A79E9490EDC0D9 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-passive-hangoutTests";
+			productName = "Pods-passive-hangoutTests";
+			productReference = BAA6D041601AF92BA0B8D50597745A21 /* Pods_passive_hangoutTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 837DD181494288E62FEE9AB6C353ADCA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00103D6C821BE85971C563025527BA5D /* GoogleToolboxForMac */,
+				566A598E7E3BE4229FCD7978538FAD5B /* Pods-passive-hangout */,
+				FEC9C29A6484DF60DF2CD154B4181BCA /* Pods-passive-hangoutTests */,
+				C29995A606EE6AF8A0A241B4DA8FA582 /* Pods-passive-hangoutUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C60BC3E57B62F507B85267AA82D82AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAFF764CB1618C68A8D77903EACB491D /* Pods-passive-hangoutTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		554BD3E066A4178F1FF5B257D722C0A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9EFACDE8571C814FEFA67E9DCFD30FC0 /* Pods-passive-hangoutUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63D7DA997053F6B5D01DE8CB5817CB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F3CAABA60EF76069431C5BB5032A /* GoogleToolboxForMac-dummy.m in Sources */,
+				F7D889906DECB078EAAECB9D4A320E9C /* GTMNSData+zlib.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADB313A63528CCA323E027E6BF8E1084 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A8D0094C4554DE2CD1675F9E0FC2855 /* Pods-passive-hangout-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC3001F06D04DF761762F621CEFA7D22 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GoogleToolboxForMac;
+			target = 00103D6C821BE85971C563025527BA5D /* GoogleToolboxForMac */;
+			targetProxy = 10D155AE6517B69B1276CA4163B2F742 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		163D87BE96A63549B0EACF1CC31A2E90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		1858E024A293F8931A97248480F94EDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D940BB77016E68B3CA20A8BA37DECB9 /* Pods-passive-hangoutUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangoutUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangoutUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		241DBB56433679B766C069B3E889C357 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4875EE9E76DCAC9B1386ABBA4A2A1146 /* Pods-passive-hangout.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangout/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangout/Pods-passive-hangout.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangout;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		486FD890C84D17074A0564EF4FBA2ED8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20794A4041EB08051944A2114B5CE05A /* Pods-passive-hangoutTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangoutTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangoutTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4E3BB37312E5D4518EDFAD78B7C89440 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89776470BE73F249FD8EEF3C350A54FC /* GoogleToolboxForMac.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GoogleToolboxForMac/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = GoogleToolboxForMac;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5AAC0BC34CE9F9F9F9FB61ADA5ED70B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7AFE40C8A4D6024819644BED382FE5E /* Pods-passive-hangoutTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangoutTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangoutTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		707B86CFB21B645E37109F39754D4051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ACBC0A903B5F940F3BE1A889B30A73A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A626B0540918532782FFDA7389B2676F /* Pods-passive-hangoutUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangoutUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangoutUITests/Pods-passive-hangoutUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangoutUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		BE9B55DCDA299EAE202F6DB76CAA485A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89776470BE73F249FD8EEF3C350A54FC /* GoogleToolboxForMac.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GoogleToolboxForMac/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = GoogleToolboxForMac;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EFE6ACE6054EF11830FA1742E873CB38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF71B45CB764A2ECAB3B31051444E90F /* Pods-passive-hangout.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-passive-hangout/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-passive-hangout/Pods-passive-hangout.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_passive_hangout;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				163D87BE96A63549B0EACF1CC31A2E90 /* Debug */,
+				707B86CFB21B645E37109F39754D4051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91C82799A8AEC875567E19CF39768C38 /* Build configuration list for PBXNativeTarget "Pods-passive-hangoutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AAC0BC34CE9F9F9F9FB61ADA5ED70B9 /* Debug */,
+				486FD890C84D17074A0564EF4FBA2ED8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2BFE2E34FC3C8AD487F43A37594EB7C /* Build configuration list for PBXNativeTarget "Pods-passive-hangout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE6ACE6054EF11830FA1742E873CB38 /* Debug */,
+				241DBB56433679B766C069B3E889C357 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C43D9CA5106C6CCEF973B7EDF833947B /* Build configuration list for PBXNativeTarget "GoogleToolboxForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE9B55DCDA299EAE202F6DB76CAA485A /* Debug */,
+				4E3BB37312E5D4518EDFAD78B7C89440 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF64AC4725AD4432500667CE607D2853 /* Build configuration list for PBXNativeTarget "Pods-passive-hangoutUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACBC0A903B5F940F3BE1A889B30A73A7 /* Debug */,
+				1858E024A293F8931A97248480F94EDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

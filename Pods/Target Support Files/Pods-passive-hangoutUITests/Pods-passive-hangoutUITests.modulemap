@@ -1,0 +1,6 @@
+framework module Pods_passive_hangoutUITests {
+  umbrella header "Pods-passive-hangoutUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
