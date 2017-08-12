@@ -7,6 +7,7 @@ target 'passive-hangout' do
 
   # Pods for passive-hangout
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 
   target 'passive-hangoutTests' do
     inherit! :search_paths

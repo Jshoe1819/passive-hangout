@@ -257,6 +257,7 @@
                         <outlet property="emailField" destination="2mh-6g-TSq" id="lWW-fw-dqc"/>
                         <outlet property="passwordField" destination="Zce-aV-0CU" id="V17-QN-xgt"/>
                         <segue destination="Mb2-IP-nzO" kind="custom" identifier="createAccount" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="gWQ-hr-EX4"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="loginToActivityFeed" id="qPi-bu-ONI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -573,9 +574,11 @@
                     <connections>
                         <outlet property="confirmPasswordField" destination="0LZ-E4-xsY" id="yuc-5V-RsN"/>
                         <outlet property="emailField" destination="N1p-0N-z4M" id="9e4-aE-1uu"/>
+                        <outlet property="errorAlert" destination="3LP-eE-ZJ9" id="61V-0e-4zD"/>
                         <outlet property="passwordField" destination="knJ-0V-HGu" id="2TL-9x-qEp"/>
                         <outlet property="usernameField" destination="ZD5-Tg-bRa" id="knl-hz-iwL"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="backToLogin" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="FNv-bu-mWP"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="signUpToActivityFeed" id="bSo-0X-Uch"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2E-Y8-z56" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -596,7 +599,19 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w9I-KA-TsH">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder for username created" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qof-jt-r9e">
+                                        <rect key="frame" x="58" y="323" width="259" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Qof-jt-r9e" firstAttribute="centerY" secondItem="w9I-KA-TsH" secondAttribute="centerY" id="KKj-KT-qGG"/>
+                                    <constraint firstItem="Qof-jt-r9e" firstAttribute="centerX" secondItem="w9I-KA-TsH" secondAttribute="centerX" id="ZuH-Pz-8qz"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -610,7 +625,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSY-df-ufC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1669.5999999999999" y="121.88905547226388"/>
+            <point key="canvasLocation" x="1655" y="122"/>
         </scene>
     </scenes>
     <resources>
@@ -625,4 +640,7 @@
         <image name="slogan" width="285" height="19"/>
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="bSo-0X-Uch"/>
+    </inferredMetricsTieBreakers>
 </document>

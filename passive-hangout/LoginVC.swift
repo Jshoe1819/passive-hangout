@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginVC: UIViewController {
     
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
-    
-    @IBOutlet weak var passwordField: UITextField!
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -24,6 +25,8 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+        
     }
     
     @IBAction func createAccountBtnPressed(_ sender: UIButton) {
@@ -31,5 +34,6 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func facebookLoginBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "loginToActivityFeed", sender: self)
     }
 }
