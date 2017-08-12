@@ -34,54 +34,60 @@ class SignUpVC: UIViewController {
     
     @IBAction func registerBtnPressed(_ sender: Any) {
         
-        //username logic, check current users
+        //username logic needed, will tackle after sign in and sign up functional (database concern)
         
         if let email = emailField.text {
             if email == "" {
-                errorAlert.isHidden = false
                 errorAlert.text = "JAKE: Please enter email"
             } else {
-                if validateEmail(emailStr: email) {
-                    if let password = passwordField.text {
-                        if password == "" {
-                            errorAlert.isHidden = false
-                            errorAlert.text = "JAKE: Please enter a password"
+                if let password = passwordField.text {
+                    if password == "" {
+                        errorAlert.text = "JAKE: Please enter a password"
+                    } else {
+                        if password.characters.count < 6 {
+                            errorAlert.text = "JAKE: Password must be at least six characters"
                         } else {
-                            if password.characters.count < 6 {
-                                errorAlert.isHidden = false
-                                errorAlert.text = "JAKE: Password must be at least six characters"
-                            } else {
-                                if let passwordConfirm = confirmPasswordField.text {
-                                    if password == passwordConfirm {
-                                        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
+                            if let passwordConfirm = confirmPasswordField.text {
+                                if passwordConfirm.characters.count == 0 {
+                                    errorAlert.text = "JAKE: Please confirm password"
+                                } else if password == passwordConfirm {
+                                    Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
+                                        if error != nil {
+                                            if let errCode = AuthErrorCode(rawValue: error!._code) {
+                                                switch errCode {
+                                                case .invalidEmail:
+                                                    self.errorAlert.text = "JAKE: Invalid email address"
+                                                case .emailAlreadyInUse:
+                                                    self.errorAlert.text = "JAKE: Account already exists with this email"
+                                                default:
+                                                    print("JAKE: Create user error: \(error!)")
+                                                }
+                                            }
+                                        } else {
+                                            print("JAKE: New User Created")
+                                            self.errorAlert.text = " "
                                             self.performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
-                                        })
-                                    } else {
-                                        errorAlert.isHidden = false
-                                        errorAlert.text = "JAKE Passwords do not match"
-                                    }
+                                        }})
+                                } else {
+                                    errorAlert.text = "JAKE: Passwords do not match"
                                 }
-                                
                             }
                         }
                     }
-                } else {
-                    errorAlert.isHidden = false
-                    errorAlert.text = "JAKE: Invalid email"
                 }
             }
         }
-        
     }
+    
     
     @IBAction func signUpWithFacebookBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
     }
     
-    func validateEmail(emailStr: String) -> Bool {
-        let REGEX: String
-        REGEX = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
-        return NSPredicate(format: "SELF MATCHES %@", REGEX).evaluate(with: emailStr)
-    }
+    //    func validateEmail(emailStr: String) -> Bool {
+    //        let REGEX: String
+    //        REGEX = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
+    //        return NSPredicate(format: "SELF MATCHES %@", REGEX).evaluate(with: emailStr)
+    //    }
     
 }
