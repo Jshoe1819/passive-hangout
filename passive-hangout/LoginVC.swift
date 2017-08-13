@@ -28,6 +28,10 @@ class LoginVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     @IBAction func loginBtnPressed(_ sender: Any) {
         //login logic - firebase
         if let email = emailField.text {
@@ -91,7 +95,6 @@ class LoginVC: UIViewController {
                 self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
             }
         }
-        
     }
     
     func firebaseCredentialAuth(_ credential: AuthCredential) {
@@ -103,5 +106,4 @@ class LoginVC: UIViewController {
             }
         }
     }
-    
 }
