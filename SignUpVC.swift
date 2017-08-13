@@ -8,6 +8,9 @@
 
 import UIKit
 import FirebaseAuth
+import FBSDKLoginKit
+import FBSDKCoreKit
+
 
 class SignUpVC: UIViewController {
     
@@ -81,7 +84,32 @@ class SignUpVC: UIViewController {
     
     
     @IBAction func signUpWithFacebookBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
+        
+        let facebookLogin = FBSDKLoginManager()
+        
+        facebookLogin.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
+            if error != nil {
+                print("JAKE: Can't auth with facebook - \(error!)")
+            } else if result?.isCancelled == true {
+                self.errorAlert.text = "Facebook sign up cancelled"
+            } else {
+                self.errorAlert.text = " "
+                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                self.firebaseCredentialAuth(credential)
+                self.performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
+            }
+        }
+        
+    }
+    
+    func firebaseCredentialAuth(_ credential: AuthCredential) {
+        Auth.auth().signIn(with: credential) { (user, error) in
+            if error != nil {
+                print("JAKE: Can't auth with credential passed to firebase - \(error!)")
+            } else {
+                print("JAKE: Successfull passed credential for firebase auth")
+            }
+        }
     }
     
     //    func validateEmail(emailStr: String) -> Bool {
