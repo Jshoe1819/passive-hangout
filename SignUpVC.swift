@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import FBSDKCoreKit
+import SwiftKeychainWrapper
 
 
 class SignUpVC: UIViewController {
@@ -73,7 +74,9 @@ class SignUpVC: UIViewController {
                                         } else {
                                             print("JAKE: New User Created")
                                             self.errorAlert.text = " "
-                                            self.performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
+                                            if let user = user {
+                                                self.completeSignIn(uid: user.uid)
+                                            }
                                         }})
                                 } else {
                                     errorAlert.text = "Passwords do not match"
@@ -100,7 +103,6 @@ class SignUpVC: UIViewController {
                 self.errorAlert.text = " "
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
                 self.firebaseCredentialAuth(credential)
-                self.performSegue(withIdentifier: "signUpToActivityFeed", sender: self)
             }
         }
         
@@ -112,8 +114,17 @@ class SignUpVC: UIViewController {
                 print("JAKE: Can't auth with credential passed to firebase - \(error!)")
             } else {
                 print("JAKE: Successfull passed credential for firebase auth")
+                if let user = user {
+                    self.completeSignIn(uid: user.uid)
+                }
             }
         }
+    }
+    
+    func completeSignIn(uid: String) {
+        KeychainWrapper.standard.set(uid, forKey: KEY_UID)
+        self.performSegue(withIdentifier: "signUpToActivityFeed", sender: nil)
+
     }
     
     //    func validateEmail(emailStr: String) -> Bool {

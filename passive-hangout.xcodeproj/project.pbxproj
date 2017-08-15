@@ -10,6 +10,7 @@
 		160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */; };
 		160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */; };
 		160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC511F40E9E0001799D0 /* FeedCell.swift */; };
+		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		163E92511F3BBC720012D37F /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163E92501F3BBC720012D37F /* RoundedView.swift */; };
 		164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81781F3A7D3400C8AD6E /* AppDelegate.swift */; };
 		164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D817A1F3A7D3400C8AD6E /* LoginVC.swift */; };
@@ -54,6 +55,7 @@
 		160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHeader.swift; sourceTree = "<group>"; };
 		160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedProfilePic.swift; sourceTree = "<group>"; };
 		160FEC511F40E9E0001799D0 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		163E92501F3BBC720012D37F /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		164D81751F3A7D3400C8AD6E /* passive-hangout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "passive-hangout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164D81781F3A7D3400C8AD6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,9 +118,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16276E6C1F43AA0200718CE9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				16276E6D1F43AA1C00718CE9 /* Constants.swift */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		164D816C1F3A7D3400C8AD6E = {
 			isa = PBXGroup;
 			children = (
+				16276E6C1F43AA0200718CE9 /* Util */,
 				16EC5C631F413D2A0011BDF5 /* Services */,
 				164D81A61F3A837500C8AD6E /* Model */,
 				164D81A71F3A837D00C8AD6E /* View */,
@@ -532,6 +543,7 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -545,6 +557,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,6 +583,7 @@
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				167686331F4261D70029595A /* Status.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
+				16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 				160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */,
 			);

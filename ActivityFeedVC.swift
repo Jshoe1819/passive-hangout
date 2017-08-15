@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
+import FirebaseAuth
+
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -49,6 +52,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBAction func profileBtnPressed(_ sender: Any) {
     }
-    
+
+    @IBAction func signOutBtnPressed(_ sender: Any) {
+        KeychainWrapper.standard.removeObject(forKey: KEY_UID)
+        try! Auth.auth().signOut()
+        performSegue(withIdentifier: "feedToLogin", sender: nil)
+        
+    }
 
 }

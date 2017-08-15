@@ -13,6 +13,7 @@ target 'passive-hangout' do
   pod 'FacebookShare'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'SwiftKeychainWrapper'
 
   target 'passive-hangoutTests' do
     inherit! :search_paths

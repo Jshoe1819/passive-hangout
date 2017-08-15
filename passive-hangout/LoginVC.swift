@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import FBSDKCoreKit
+import SwiftKeychainWrapper
 
 class LoginVC: UIViewController {
     
@@ -20,7 +21,12 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let _ = KeychainWrapper.standard.string(forKey: KEY_UID) {
+            self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,7 +69,9 @@ class LoginVC: UIViewController {
                             }else {
                                 print("Successful login")
                                 self.errorAlert.text = " "
-                                self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+                                if let user = user {
+                                self.completeSignIn(uid: user.uid)
+                                }
                             }})
                     }
                     
@@ -92,7 +100,6 @@ class LoginVC: UIViewController {
                 self.errorAlert.text = " "
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
                 self.firebaseCredentialAuth(credential)
-                self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
             }
         }
     }
@@ -103,7 +110,16 @@ class LoginVC: UIViewController {
                 print("JAKE: Can't auth with credential passed to firebase - \(error!)")
             } else {
                 print("JAKE: Successfull passed credential for firebase auth")
+                if let user = user {
+                self.completeSignIn(uid: user.uid)
+                }
             }
         }
+    }
+    
+    func completeSignIn(uid: String) {
+        KeychainWrapper.standard.set(uid, forKey: KEY_UID)
+        self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
+        print("JAKE: keychain saved")
     }
 }

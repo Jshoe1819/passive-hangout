@@ -15,10 +15,9 @@ class FeedCell: UITableViewCell {
     var availableRef: DatabaseReference!
 
     @IBOutlet weak var displayNameLbl: UILabel!
-    @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var statusLbl: UILabel!
-    @IBOutlet weak var timeElapsedLbl: UILabel!
-    @IBOutlet weak var joinBtn: UIButton!
+    @IBOutlet weak var profilePicImg: FeedProfilePic!
+    @IBOutlet weak var joinBtnOutlet: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
