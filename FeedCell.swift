@@ -27,7 +27,7 @@ class FeedCell: UITableViewCell {
     
     func configureCell(status: Status, profilePic: UIImage? = nil) {
         self.status = status
-        availableRef - DataService.ds.
+        //availableRef - DataService.ds.
 
     }
     
