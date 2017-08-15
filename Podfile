@@ -11,6 +11,8 @@ target 'passive-hangout' do
   pod 'FacebookCore'
   pod 'FacebookLogin'
   pod 'FacebookShare'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 
   target 'passive-hangoutTests' do
     inherit! :search_paths

@@ -25,7 +25,9 @@
 		167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540161F3E7F0C00E86A32 /* SignUpVC.swift */; };
 		167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */; };
 		1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */; };
+		167686331F4261D70029595A /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167686321F4261D70029595A /* Status.swift */; };
 		168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168A326D1F3AAEB500216FF1 /* RoundedButton.swift */; };
+		16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC5C641F413D4C0011BDF5 /* DataService.swift */; };
 		33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */; };
 		43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */; };
 		57CF2EE49AB5E3C2F31858E9 /* Pods_passive_hangoutUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBC93D3FC5EE1B067C09A482 /* Pods_passive_hangoutUITests.framework */; };
@@ -72,7 +74,9 @@
 		167540161F3E7F0C00E86A32 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		167540181F3E88F900E86A32 /* SegueFromLeftToRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeftToRight.swift; sourceTree = "<group>"; };
 		1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRightToLeft.swift; sourceTree = "<group>"; };
+		167686321F4261D70029595A /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		168A326D1F3AAEB500216FF1 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		16EC5C641F413D4C0011BDF5 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
 		4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E0D6D2E6B8D461AAC00C567 /* Pods-passive-hangoutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		164D816C1F3A7D3400C8AD6E = {
 			isa = PBXGroup;
 			children = (
+				16EC5C631F413D2A0011BDF5 /* Services */,
 				164D81A61F3A837500C8AD6E /* Model */,
 				164D81A71F3A837D00C8AD6E /* View */,
 				164D81A81F3A838100C8AD6E /* Controller */,
@@ -172,6 +177,7 @@
 		164D81A61F3A837500C8AD6E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				167686321F4261D70029595A /* Status.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -198,6 +204,14 @@
 				167284351F3F760500F4D8D9 /* ActivityFeedVC.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		16EC5C631F413D2A0011BDF5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				16EC5C641F413D4C0011BDF5 /* DataService.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		3EBE86830F739EE09317E24C /* Pods */ = {
@@ -548,11 +562,13 @@
 				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */,
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
+				16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */,
 				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
 				160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */,
 				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
+				167686331F4261D70029595A /* Status.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 				160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */,
