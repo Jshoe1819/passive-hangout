@@ -106,7 +106,6 @@ class LoginVC: UIViewController {
                         print("error: \(error!)")
                     } else {
                         let data: [String: Any] = result as! [String: Any]
-                        print(data)
                         self.firebaseCredentialAuth(credential, userData: data)
                     }
                 })}
