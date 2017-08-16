@@ -9,10 +9,13 @@
 import UIKit
 import SwiftKeychainWrapper
 import FirebaseAuth
+import FirebaseDatabase
 import Firebase
 
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var statusArr = [Status]()
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,9 +26,18 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
         DataService.ds.REF_STATUS.observe(.value, with: { (snapshot) in
-            print(snapshot.value as Any)
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    print("SNAP: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                    }
+                }
+            }
+            self.tableView.reloadData()
         })
-
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -33,10 +45,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return statusArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let status = statusArr[indexPath.row]
+        print(status.userId)
         return tableView.dequeueReusableCell(withIdentifier: "FeedCell") as! FeedCell
     }
     

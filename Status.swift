@@ -13,8 +13,11 @@ class Status {
     
     private var _available: Bool!
     private var _content: String!
-    private var _profilePicUrl: String!
-    private var _username: String!
+    //private var _profilePicUrl: String!
+    //private var _username: String!
+    private var _joinedList: Dictionary<String, Any>!
+    private var _joinedNumber: Int!
+    private var _userId: String!
     private var _statusKey: String!
     private var _statusRef: DatabaseReference!
     
@@ -26,23 +29,28 @@ class Status {
         return _content
     }
     
-    var profilePicUrl: String {
-        return _profilePicUrl
+    var joinedList: Dictionary<String, Any> {
+        return _joinedList
     }
     
-    var username: String {
-        return _username
+    var joinedNumber: Int {
+        return _joinedNumber
+    }
+    
+    var userId: String {
+        return _userId
     }
     
     var statusKey: String {
         return _statusKey
     }
     
-    init(available: Bool, content: String, profilePicUrl: String, username: String) {
+    init(available: Bool, content: String, joinedList: Dictionary<String,Any>, joinedNumber: Int, userId: String) {
         self._available = available
         self._content = content
-        self._profilePicUrl = profilePicUrl
-        self._username = username
+        self._joinedList = joinedList
+        self._joinedNumber = joinedNumber
+        self._userId = userId
     }
     
     init(statusKey: String, statusData: Dictionary<String, Any>) {
@@ -56,12 +64,16 @@ class Status {
             self._content = content
         }
         
-        if let profilePicUrl = statusData["profilePicUrl"] as? String {
-            self._profilePicUrl = profilePicUrl
+        if let joinedList = statusData["joinedList"] as? Dictionary<String,Any> {
+            self._joinedList = joinedList
         }
         
-        if let username = statusData["userId"] as? String {
-            self._username = username
+        if let joinedNumber = statusData["joinedNumber"] as? Int {
+            self._joinedNumber = joinedNumber
+        }
+        
+        if let userId = statusData["userId"] as? String {
+            self._userId = userId
         }
         
         _statusRef = DataService.ds.REF_STATUS.child(_statusKey)
