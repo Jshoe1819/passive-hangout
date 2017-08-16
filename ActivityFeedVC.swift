@@ -9,6 +9,7 @@
 import UIKit
 import SwiftKeychainWrapper
 import FirebaseAuth
+import Firebase
 
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -20,6 +21,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        DataService.ds.REF_STATUS.observe(.value, with: { (snapshot) in
+            print(snapshot.value as Any)
+        })
 
     }
     
