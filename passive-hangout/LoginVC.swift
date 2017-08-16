@@ -99,12 +99,22 @@ class LoginVC: UIViewController {
             } else {
                 self.errorAlert.text = " "
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                self.firebaseCredentialAuth(credential)
+                let userData = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name,cover"], tokenString: FBSDKAccessToken.current().tokenString, version: nil, httpMethod: "GET")
+                if let userData = userData {
+                userData.start(completionHandler: { (connection, result, error) -> Void in
+                    if error != nil {
+                        print("error: \(error!)")
+                    } else {
+                        let data: [String: Any] = result as! [String: Any]
+                        print(data)
+                        self.firebaseCredentialAuth(credential, userData: data)
+                    }
+                })}
             }
         }
     }
     
-    func firebaseCredentialAuth(_ credential: AuthCredential) {
+    func firebaseCredentialAuth(_ credential: AuthCredential, userData: Dictionary<String, Any>) {
         Auth.auth().signIn(with: credential) { (user, error) in
             if error != nil {
                 print("JAKE: Can't auth with credential passed to firebase - \(error!)")
@@ -112,6 +122,7 @@ class LoginVC: UIViewController {
                 print("JAKE: Successfull passed credential for firebase auth")
                 if let user = user {
                 self.completeSignIn(uid: user.uid)
+                DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                 }
             }
         }
