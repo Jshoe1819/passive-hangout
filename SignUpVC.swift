@@ -15,7 +15,7 @@ import SwiftKeychainWrapper
 
 class SignUpVC: UIViewController {
     
-    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var confirmPasswordField: UITextField!
@@ -75,7 +75,7 @@ class SignUpVC: UIViewController {
                                             print("JAKE: New User Created")
                                             self.errorAlert.text = " "
                                             if let user = user {
-                                            let userData = ["username":"\(self.usernameField.text!)","email":"\(self.emailField.text!)"]
+                                            let userData = ["name":"\(self.nameField.text!)","email":"\(self.emailField.text!)"]
                                             self.completeSignIn(uid: user.uid)
                                             DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                                                 

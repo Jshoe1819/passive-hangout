@@ -16,7 +16,8 @@ import Firebase
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var statusArr = [Status]()
-
+    var usersArr = [Users]()
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -31,7 +32,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    print("SNAP: \(snap)")
+                    //print("SNAP: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -42,8 +43,22 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
         })
         
-        
-        
+        DataService.ds.REF_USERS.observe(.value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("SNAP: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        self.usersArr.append(users)
+                    }
+                }
+            }
+            
+        })
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -63,7 +78,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return cell
         } else {
             return FeedCell()
-        }        
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -79,15 +94,15 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func searchBtnPressed(_ sender: Any) {
     }
-
+    
     @IBAction func profileBtnPressed(_ sender: Any) {
     }
-
+    
     @IBAction func signOutBtnPressed(_ sender: Any) {
         KeychainWrapper.standard.removeObject(forKey: KEY_UID)
         try! Auth.auth().signOut()
         performSegue(withIdentifier: "feedToLogin", sender: nil)
         
     }
-
+    
 }

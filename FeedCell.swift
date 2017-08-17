@@ -12,6 +12,7 @@ import FirebaseDatabase
 class FeedCell: UITableViewCell {
     
     var status: Status!
+    var users: Users!
     var availableRef: DatabaseReference!
 
     @IBOutlet weak var displayNameLbl: UILabel!
@@ -26,6 +27,7 @@ class FeedCell: UITableViewCell {
     
     func configureCell(status: Status) {
         self.status = status
+        
         self.statusLbl.text = status.content
         
         if status.available == false {
