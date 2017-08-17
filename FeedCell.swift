@@ -24,9 +24,16 @@ class FeedCell: UITableViewCell {
         // Initialization code
     }
     
-    func configureCell(status: Status, profilePic: UIImage? = nil) {
+    func configureCell(status: Status) {
         self.status = status
-        //availableRef - DataService.ds.
+        self.statusLbl.text = status.content
+        
+        if status.available == false {
+            joinBtnOutlet.isEnabled = false
+        } else {
+            joinBtnOutlet.isEnabled = true
+        }
+        
 
     }
     

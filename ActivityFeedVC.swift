@@ -26,6 +26,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
         DataService.ds.REF_STATUS.observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     print("SNAP: \(snap)")
@@ -49,12 +52,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let status = statusArr[indexPath.row]
-        print(status.userId)
-        return tableView.dequeueReusableCell(withIdentifier: "FeedCell") as! FeedCell
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell") as? FeedCell {
+            cell.configureCell(status: status)
+            return cell
+        } else {
+            return FeedCell()
+        }        
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
