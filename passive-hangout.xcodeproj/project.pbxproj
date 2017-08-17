@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160267FF1F451A1B00C586D4 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160267FE1F451A1B00C586D4 /* Users.swift */; };
 		160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */; };
 		160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */; };
 		160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC511F40E9E0001799D0 /* FeedCell.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		160267FE1F451A1B00C586D4 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHeader.swift; sourceTree = "<group>"; };
 		160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedProfilePic.swift; sourceTree = "<group>"; };
 		160FEC511F40E9E0001799D0 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				167686321F4261D70029595A /* Status.swift */,
+				160267FE1F451A1B00C586D4 /* Users.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
 				160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */,
 				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
+				160267FF1F451A1B00C586D4 /* Users.swift in Sources */,
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				167686331F4261D70029595A /* Status.swift in Sources */,

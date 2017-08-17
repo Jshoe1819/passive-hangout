@@ -41,6 +41,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.tableView.reloadData()
         })
+        
+        
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
