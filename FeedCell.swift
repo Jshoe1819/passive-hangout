@@ -25,8 +25,15 @@ class FeedCell: UITableViewCell {
         // Initialization code
     }
     
-    func configureCell(status: Status) {
+    func configureCell(status: Status, users: [Users]) {
         self.status = status
+        
+        for index in 0..<users.count {
+            if users[index].statusId == status.statusKey {
+                self.displayNameLbl.text = users[index].name
+                return
+            }
+        }
         
         self.statusLbl.text = status.content
         

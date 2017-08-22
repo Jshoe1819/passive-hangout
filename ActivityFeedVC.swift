@@ -32,7 +32,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("SNAP: \(snap)")
+                    print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -49,7 +49,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("SNAP: \(snap)")
+                    print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -57,7 +57,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
-            
+            self.tableView.reloadData()
         })
     }
     
@@ -72,9 +72,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let status = statusArr[indexPath.row]
+        let users = usersArr
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell") as? FeedCell {
-            cell.configureCell(status: status)
+            cell.configureCell(status: status, users: users)
             return cell
         } else {
             return FeedCell()

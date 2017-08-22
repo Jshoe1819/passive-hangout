@@ -15,6 +15,7 @@ class Users {
     private var _email: String!
     private var _id: String!
     private var _name: String!
+    private var _statusId: String!
     private var _usersKey: String!
     private var _usersRef: DatabaseReference!
     
@@ -34,11 +35,16 @@ class Users {
         return _name
     }
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String) {
+    var statusId: String {
+        return _statusId
+    }
+    
+    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: String) {
         self._cover = cover
         self._email = email
         self._id = id
         self._name = name
+        self._statusId = statusId
         
     }
     
@@ -55,6 +61,10 @@ class Users {
         
         if let name = usersData["name"] as? String {
             self._name = name
+        }
+        
+        if let statusId = usersData["statusId"] as? String {
+            self._statusId = statusId
         }
         
         _usersRef = DataService.ds.REF_USERS.child(_usersKey)
