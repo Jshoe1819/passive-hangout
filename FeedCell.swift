@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseStorage
 
 class FeedCell: UITableViewCell {
     
@@ -30,7 +31,25 @@ class FeedCell: UITableViewCell {
         
         for index in 0..<users.count {
             if users[index].statusId == status.statusKey {
+                
                 self.displayNameLbl.text = users[index].name
+                
+                let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
+                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        //print("JAKE: unable to download image from storage")
+                    } else {
+                        //print("JAKE: image downloaded from storage")
+                        if let imageData = data {
+                            if let image = UIImage(data: imageData) {
+                                self.profilePicImg.image = image
+                                //self.postImg.image = image
+                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                            }
+                        }
+                    }
+                })
+                
                 return
             }
         }
