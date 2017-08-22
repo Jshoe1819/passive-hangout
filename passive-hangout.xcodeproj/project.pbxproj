@@ -29,6 +29,7 @@
 		1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */; };
 		167686331F4261D70029595A /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167686321F4261D70029595A /* Status.swift */; };
 		168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168A326D1F3AAEB500216FF1 /* RoundedButton.swift */; };
+		168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6BE91F4CEA8200D29DCA /* CircleButton.swift */; };
 		16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC5C641F413D4C0011BDF5 /* DataService.swift */; };
 		33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */; };
 		43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */; };
@@ -80,6 +81,7 @@
 		1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRightToLeft.swift; sourceTree = "<group>"; };
 		167686321F4261D70029595A /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		168A326D1F3AAEB500216FF1 /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		168D6BE91F4CEA8200D29DCA /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		16EC5C641F413D4C0011BDF5 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
 		4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +208,7 @@
 				160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */,
 				160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */,
 				160FEC511F40E9E0001799D0 /* FeedCell.swift */,
+				168D6BE91F4CEA8200D29DCA /* CircleButton.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				167686331F4261D70029595A /* Status.swift in Sources */,
+				168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
 				16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,

@@ -32,7 +32,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    print("STATUS: \(snap)")
+                    //print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -49,7 +49,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    print("USERS: \(snap)")
+                    //print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)

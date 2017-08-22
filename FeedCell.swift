@@ -20,6 +20,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var joinBtnOutlet: UIButton!
+    @IBOutlet weak var statusAgeLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
