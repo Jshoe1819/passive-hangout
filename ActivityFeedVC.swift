@@ -13,7 +13,7 @@ import FirebaseDatabase
 import Firebase
 
 
-class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     var statusArr = [Status]()
     var usersArr = [Users]()
@@ -23,12 +23,25 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
+    var placeholderLabel : UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        textView.delegate = self
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = EMPTY_STATUS_STRING
+        placeholderLabel.lineBreakMode = .byWordWrapping
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
+        placeholderLabel.sizeToFit()
+        textView.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.white
+        placeholderLabel.isHidden = !textView.text.isEmpty
         
         DataService.ds.REF_STATUS.observe(.value, with: { (snapshot) in
             
@@ -86,6 +99,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -97,10 +112,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         opaqueStatusBackground.isHidden = false
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
+            self.textViewDidChange(self.textView)
             self.textView.becomeFirstResponder()
+            //self.textView.textViewDidBeginEditing(self.textView)
         })
-        
     }
+    
     @IBAction func cancelNewStatus(_ sender: Any) {
         statusPopupBottomConstraint.constant = -325
         statusPopupTopConstraint.constant = 680
@@ -108,7 +125,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
             self.textView.resignFirstResponder()
+            self.textView.text = ""
         })
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
     @IBAction func homeBTnPressed(_ sender: Any) {

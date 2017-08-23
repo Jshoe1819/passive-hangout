@@ -8,52 +8,15 @@
 
 import UIKit
 
-class NewStatusTextView: UITextView, UITextViewDelegate {
-    
-    
+class NewStatusTextView: UITextView {
     
     override func awakeFromNib() {
         
-        
-        self.text = "Let's go hiking, camping, to a concert, play some hicket, grab a beer, etc."
+        self.text = ""
         self.textColor = UIColor.white
-        self.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
-        self.contentSize = self.bounds.size
+        self.font = UIFont(name: "AvenirNext-Regular", size: 16)
+        self.selectedTextRange = self.textRange(from: self.beginningOfDocument, to: self.beginningOfDocument)
         
-        
     }
-    
-    
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.font == UIFont(name: "AvenirNext-UltralightItalic", size: 16) {
-            textView.text = nil
-            textView.font = UIFont(name: "AvenirNext-Regular", size: 16)
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Let's go hiking, camping, to a concert, play some hicket, grab a beer, etc."
-            textView.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
-        }
-    }
-    
-    
-    //    func textViewDidBeginEditing(textView: UITextView) {
-    //        if textView.font == UIFont(name: "AvenirNext-UltralightItalic", size: 16) {
-    //            textView.text = nil
-    //            textView.font = UIFont(name: "AvenirNext-Regular", size: 16)
-    //        }
-    //    }
-    //
-    //    func textViewDidEndEditing(textView: UITextView) {
-    //        if textView.text.isEmpty {
-    //            textView.text = "Let's go hiking, camping, to a concert, play some hicket, grab a beer, etc."
-    //            textView.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
-    //        }
-    //    }
-    
-    
     
 }
