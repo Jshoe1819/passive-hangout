@@ -19,6 +19,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var usersArr = [Users]()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +87,11 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func newStatusBtn(_ sender: Any) {
+        statusPopupBottomConstraint.constant = 272
+        statusPopupTopConstraint.constant = 5
     }
     
     @IBAction func homeBTnPressed(_ sender: Any) {
