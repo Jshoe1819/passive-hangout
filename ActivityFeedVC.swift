@@ -19,8 +19,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var usersArr = [Users]()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var textView: NewStatusTextView!
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var opaqueStatusBackground: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +94,21 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func newStatusBtn(_ sender: Any) {
         statusPopupBottomConstraint.constant = 272
         statusPopupTopConstraint.constant = 5
+        opaqueStatusBackground.isHidden = false
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+            self.textView.becomeFirstResponder()
+        })
+        
+    }
+    @IBAction func cancelNewStatus(_ sender: Any) {
+        statusPopupBottomConstraint.constant = -325
+        statusPopupTopConstraint.constant = 680
+        opaqueStatusBackground.isHidden = true
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+            self.textView.resignFirstResponder()
+        })
     }
     
     @IBAction func homeBTnPressed(_ sender: Any) {
