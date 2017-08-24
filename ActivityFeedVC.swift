@@ -24,9 +24,11 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
     var placeholderLabel : UILabel!
+    @IBOutlet weak var availableSelected: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -70,7 +72,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
+                        if Auth.auth().currentUser?.uid == key  {
+                            let currentStatus = usersDict["statusId"]
+                            print(currentStatus!)
+                        }
                         self.usersArr.append(users)
+                        
                     }
                 }
             }
@@ -132,6 +139,43 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
+    
+    @IBAction func saveStatusBtnPressed(_ sender: Any) {
+        guard let statusContent = textView.text, statusContent != "" else {
+            print("JAKE: status content empty")
+            return
+        }
+        
+        if let statusContent = textView.text {
+            if let user = Auth.auth().currentUser {
+                print("JAKE: GOT A USER")
+                let userId = user.uid
+                let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
+                let status = ["available": setAvailable(segmentControl: availableSelected),
+                              "content": statusContent,
+                              "joinedList": [" ", true],
+                              "joinedNumber": 0,
+                              "userId": userId] as [String : Any]
+                let childUpdates = ["/status/\(key)": status,
+                                    "/users/\(userId)/statusId": key] as [String : Any]
+                print("JAKE: status - \(status)")
+                //DataService.ds.REF_STATUS.child("\(currentStatus)")
+                DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                //DataService.ds.REF_STATUS
+                
+            }
+        }
+    }
+    
+    func setAvailable(segmentControl: UISegmentedControl) -> Bool {
+        if segmentControl.selectedSegmentIndex == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
     
     @IBAction func homeBTnPressed(_ sender: Any) {
     }

@@ -69,6 +69,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>leveldb-library.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>nanopb.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -82,7 +87,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2992EA3B5B9AAB9728FA82248750BCB8</key>
+		<key>266AE1506DAD13D34C0725E909C0C476</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>30CBDC71E16D7328E32428C0921B759F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,17 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5B1E0F20E98B49471B2265621CF7D766</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>5B5AC3C06B783F8674FDB4C0F900B56A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>7335E9C9689F3B8A16F063A884748533</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A18131F0FAB7FED9C518AB7347A68010</key>
 		<dict>
 			<key>primary</key>
 			<true/>

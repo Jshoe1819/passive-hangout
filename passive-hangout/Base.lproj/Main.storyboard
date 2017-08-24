@@ -813,6 +813,9 @@
                                                 <integer key="value" value="8"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="5Tv-b6-uok"/>
+                                        </connections>
                                     </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="n8P-QR-I1X">
                                         <rect key="frame" x="50" y="129" width="235" height="29"/>
@@ -888,6 +891,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="availableSelected" destination="n8P-QR-I1X" id="IeV-a8-OFa"/>
                         <outlet property="opaqueStatusBackground" destination="4R2-Va-DNM" id="ObW-wo-6il"/>
                         <outlet property="statusPopupBottomConstraint" destination="OhL-sz-0aG" id="RPu-1R-hST"/>
                         <outlet property="statusPopupTopConstraint" destination="SGR-be-zC8" id="W20-b5-z8J"/>
