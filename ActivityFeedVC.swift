@@ -25,6 +25,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var opaqueStatusBackground: UIButton!
     var placeholderLabel : UILabel!
     @IBOutlet weak var availableSelected: UISegmentedControl!
+    @IBOutlet weak var sortPopUpBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var availableIndicatorImg: UIImageView!
+    @IBOutlet weak var nameIndicatorImg: UIImageView!
+    @IBOutlet weak var lastUpdatedIndicatorImg: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,10 +76,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
-//                        if Auth.auth().currentUser?.uid == key  {
-//                            let currentStatus = usersDict["statusId"]
-//                            print(currentStatus!)
-//                        }
+                        //                        if Auth.auth().currentUser?.uid == key  {
+                        //                            let currentStatus = usersDict["statusId"]
+                        //                            print(currentStatus!)
+                        //                        }
                         self.usersArr.append(users)
                         
                     }
@@ -128,6 +132,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func cancelNewStatus(_ sender: Any) {
         statusPopupBottomConstraint.constant = -325
         statusPopupTopConstraint.constant = 680
+        sortPopUpBottomConstraint.constant = -240
         opaqueStatusBackground.isHidden = true
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -186,6 +191,53 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func sortBtnPressed(_ sender: Any) {
+        opaqueStatusBackground.isHidden = false
+        sortPopUpBottomConstraint.constant = 55
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @IBAction func availableSortBtnPressed(_ sender: Any) {
+        availableIndicatorImg.isHidden = false
+        nameIndicatorImg.isHidden = true
+        lastUpdatedIndicatorImg.isHidden = true
+        opaqueStatusBackground.isHidden = true
+        sortPopUpBottomConstraint.constant = -240
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @IBAction func nameSortBtnPressed(_ sender: Any) {
+        nameIndicatorImg.isHidden = false
+        lastUpdatedIndicatorImg.isHidden = true
+        availableIndicatorImg.isHidden = true
+        opaqueStatusBackground.isHidden = true
+        sortPopUpBottomConstraint.constant = -240
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
+        lastUpdatedIndicatorImg.isHidden = false
+        availableIndicatorImg.isHidden = true
+        nameIndicatorImg.isHidden = true
+        opaqueStatusBackground.isHidden = true
+        
+        sortPopUpBottomConstraint.constant = -240
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    @IBAction func cancelSortBtnPressed(_ sender: Any) {
+        opaqueStatusBackground.isHidden = true
+        sortPopUpBottomConstraint.constant = -240
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
