@@ -15,7 +15,7 @@ class Users {
     private var _email: String!
     private var _id: String!
     private var _name: String!
-    private var _statusId: String!
+    private var _statusId: Dictionary<String, Any>!
     private var _profilePicUrl: String!
     private var _usersKey: String!
     private var _usersRef: DatabaseReference!
@@ -36,7 +36,7 @@ class Users {
         return _name
     }
     
-    var statusId: String {
+    var statusId: Dictionary<String, Any> {
         return _statusId
     }
     
@@ -44,7 +44,7 @@ class Users {
         return _profilePicUrl
     }
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: String) {
+    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>) {
         self._cover = cover
         self._email = email
         self._id = id
@@ -69,7 +69,7 @@ class Users {
             self._name = name
         }
         
-        if let statusId = usersData["statusId"] as? String {
+        if let statusId = usersData["statusId"] as? Dictionary<String, Any> {
             self._statusId = statusId
         }
         

@@ -68,7 +68,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+                    print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -148,7 +148,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if let statusContent = textView.text {
             if let user = Auth.auth().currentUser {
-                print("JAKE: GOT A USER")
                 let userId = user.uid
                 let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
                 let status = ["available": setAvailable(segmentControl: availableSelected),
@@ -157,11 +156,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "joinedNumber": 0,
                               "userId": userId] as [String : Any]
                 let childUpdates = ["/status/\(key)": status,
-                                    "/users/\(userId)/statusId": key] as [String : Any]
-                print("JAKE: status - \(status)")
-                //DataService.ds.REF_STATUS.child("\(currentStatus)")
+                                    "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 DataService.ds.REF_BASE.updateChildValues(childUpdates)
-                //DataService.ds.REF_STATUS
+                
+                statusPopupBottomConstraint.constant = -325
+                statusPopupTopConstraint.constant = 680
+                opaqueStatusBackground.isHidden = true
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.layoutIfNeeded()
+                    self.textView.resignFirstResponder()
+                    self.textView.text = ""
+                })
                 
             }
         }
