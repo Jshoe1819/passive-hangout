@@ -68,14 +68,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    print("USERS: \(snap)")
+                    //print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
-                        if Auth.auth().currentUser?.uid == key  {
-                            let currentStatus = usersDict["statusId"]
-                            print(currentStatus!)
-                        }
+//                        if Auth.auth().currentUser?.uid == key  {
+//                            let currentStatus = usersDict["statusId"]
+//                            print(currentStatus!)
+//                        }
                         self.usersArr.append(users)
                         
                     }
