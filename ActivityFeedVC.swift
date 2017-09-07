@@ -208,6 +208,22 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "available").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
     }
     
     @IBAction func nameSortBtnPressed(_ sender: Any) {
@@ -219,8 +235,22 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId")
-        tableView.reloadData()
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
     }
     
     @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
@@ -231,6 +261,22 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         sortPopUpBottomConstraint.constant = -240
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
+        })
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.tableView.reloadData()
         })
     }
     
