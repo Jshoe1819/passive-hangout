@@ -34,7 +34,7 @@ class FeedCell: UITableViewCell {
             for key in users[index].statusId.keys {
                 if key == status.statusKey {
                     self.displayNameLbl.text = users[index].name
-                    
+                    self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                     let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
@@ -60,11 +60,26 @@ class FeedCell: UITableViewCell {
         
         if status.available == false {
             joinBtnOutlet.isEnabled = false
+            
         } else {
             joinBtnOutlet.isEnabled = true
         }
+    }
+    
+    func configureTimeAgo(unixTimestamp: Double) -> String {
+        let date = Date(timeIntervalSince1970: unixTimestamp)
+        let userCalender = Calendar.current
+        let requestedComponents: Set<Calendar.Component> = [
+            .year,
+            .month,
+            .day,
+            .hour,
+            .minute,
+            .second]
         
+        let dateComponents = userCalender.dateComponents(requestedComponents, from: date)
         
+        return ("\(dateComponents.second!) seconds ago")
     }
     
 }

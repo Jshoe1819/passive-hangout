@@ -17,13 +17,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var statusArr = [Status]()
     var usersArr = [Users]()
+    var placeholderLabel : UILabel!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textView: NewStatusTextView!
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
-    var placeholderLabel : UILabel!
     @IBOutlet weak var availableSelected: UISegmentedControl!
     @IBOutlet weak var sortPopUpBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var availableIndicatorImg: UIImageView!
@@ -49,7 +49,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.textColor = UIColor.white
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        DataService.ds.REF_STATUS.observe(.value, with: { (snapshot) in
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
             self.statusArr = []
             
@@ -59,7 +59,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.append(status)
+                        self.statusArr.insert(status, at: 0)
                     }
                 }
             }
@@ -159,6 +159,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "content": statusContent,
                               "joinedList": [" ", true],
                               "joinedNumber": 0,
+                              "postedDate": ServerValue.timestamp(),
                               "userId": userId] as [String : Any]
                 let childUpdates = ["/status/\(key)": status,
                                     "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
@@ -218,6 +219,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId")
+        tableView.reloadData()
     }
     
     @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
@@ -225,7 +228,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         availableIndicatorImg.isHidden = true
         nameIndicatorImg.isHidden = true
         opaqueStatusBackground.isHidden = true
-        
         sortPopUpBottomConstraint.constant = -240
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
