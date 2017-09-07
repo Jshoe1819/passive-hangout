@@ -67,19 +67,25 @@ class FeedCell: UITableViewCell {
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
-        let date = Date(timeIntervalSince1970: unixTimestamp)
-        let userCalender = Calendar.current
-        let requestedComponents: Set<Calendar.Component> = [
-            .year,
-            .month,
-            .day,
-            .hour,
-            .minute,
-            .second]
+        let date = Date().timeIntervalSince1970
+        let secondsInterval = Int((date - unixTimestamp/1000).rounded().nextDown)
+        let minutesInterval = secondsInterval / 60
+        let hoursInterval = minutesInterval / 60
+        let daysInterval = hoursInterval / 24
+        let weeksInterval = daysInterval / 7
         
-        let dateComponents = userCalender.dateComponents(requestedComponents, from: date)
-        
-        return ("\(dateComponents.second!) seconds ago")
+        if (secondsInterval >= 15 && secondsInterval < 60) {
+            return("\(secondsInterval) seconds ago")
+        } else if (minutesInterval >= 1 && minutesInterval < 60) {
+            return("\(minutesInterval) minutes ago")
+        } else if (hoursInterval >= 1 && hoursInterval < 24) {
+            return("\(hoursInterval) hours ago")
+        } else if (daysInterval >= 1 && daysInterval < 7) {
+            return("\(daysInterval) days ago")
+        } else if (weeksInterval >= 1) {
+            return("\(weeksInterval) weeks ago")
+        } else {
+            return ("a few seconds ago")
+        }
     }
-    
 }
