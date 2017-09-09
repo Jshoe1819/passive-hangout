@@ -45,6 +45,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
         placeholderLabel.sizeToFit()
         textView.addSubview(placeholderLabel)
+        //placeholderLabel.preferredMaxLayoutWidth = CGFloat(tableView.frame.width)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.white
         placeholderLabel.isHidden = !textView.text.isEmpty
@@ -125,6 +126,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.view.layoutIfNeeded()
             self.textViewDidChange(self.textView)
             self.textView.becomeFirstResponder()
+            self.availableSelected.selectedSegmentIndex = 0
             //self.textView.textViewDidBeginEditing(self.textView)
         })
     }
@@ -189,6 +191,23 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func homeBTnPressed(_ sender: Any) {
+        tableView.setContentOffset(CGPoint.zero, animated: true)
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
     }
     
     @IBAction func sortBtnPressed(_ sender: Any) {
