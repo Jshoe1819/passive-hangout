@@ -13,7 +13,7 @@ import FBSDKCoreKit
 import SwiftKeychainWrapper
 
 
-class SignUpVC: UIViewController {
+class SignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -23,13 +23,28 @@ class SignUpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+        self.nameField.delegate = self
+        self.emailField.delegate = self
+        self.passwordField.delegate = self
+        self.confirmPasswordField.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == nameField {
+            emailField.becomeFirstResponder()
+        } else if textField == emailField {
+            passwordField.becomeFirstResponder()
+        } else if textField == passwordField {
+            confirmPasswordField.becomeFirstResponder()
+        } else if textField == confirmPasswordField {
+            confirmPasswordField.resignFirstResponder()
+        }
+        return true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -39,6 +54,7 @@ class SignUpVC: UIViewController {
     @IBAction func signUpBackBtnPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "backToLogin", sender: self)
     }
+    
     
     @IBAction func registerBtnPressed(_ sender: Any) {
         

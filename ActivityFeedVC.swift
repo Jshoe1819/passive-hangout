@@ -11,7 +11,7 @@ import SwiftKeychainWrapper
 import FirebaseAuth
 import FirebaseDatabase
 import Firebase
-
+import FacebookCore
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
@@ -40,14 +40,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         placeholderLabel = UILabel()
         placeholderLabel.text = EMPTY_STATUS_STRING
-        placeholderLabel.lineBreakMode = .byWordWrapping
-        placeholderLabel.numberOfLines = 0
         placeholderLabel.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
-        placeholderLabel.sizeToFit()
         textView.addSubview(placeholderLabel)
         //placeholderLabel.preferredMaxLayoutWidth = CGFloat(tableView.frame.width)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.white
+        placeholderLabel.lineBreakMode = .byWordWrapping
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
@@ -127,7 +127,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.textViewDidChange(self.textView)
             self.textView.becomeFirstResponder()
             self.availableSelected.selectedSegmentIndex = 0
-            //self.textView.textViewDidBeginEditing(self.textView)
         })
     }
     
