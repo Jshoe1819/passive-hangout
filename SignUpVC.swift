@@ -91,7 +91,11 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                             print("JAKE: New User Created")
                                             self.errorAlert.text = " "
                                             if let user = user {
-                                            let userData = ["name":"\(self.nameField.text!)","email":"\(self.emailField.text!)"]
+                                            let userData = ["name":"\(self.nameField.text!)",
+                                                            "email":"\(self.emailField.text!)",
+                                                            "statusId": ["a":true],
+                                                            "id": "a",
+                                                            "profilePicUrl": "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png"] as [String : Any]
                                             self.completeSignIn(uid: user.uid)
                                             DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                                                 

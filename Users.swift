@@ -77,6 +77,10 @@ class Users {
             self._profilePicUrl = profilePicUrl
         }
         
+        if let id = usersData["id"] as? String {
+            self._id = id
+        }
+        
         _usersRef = DataService.ds.REF_USERS.child(_usersKey)
         
     }

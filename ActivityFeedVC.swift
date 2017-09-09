@@ -11,7 +11,8 @@ import SwiftKeychainWrapper
 import FirebaseAuth
 import FirebaseDatabase
 import Firebase
-import FacebookCore
+import FBSDKLoginKit
+import FBSDKCoreKit
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
@@ -32,6 +33,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //send url to user node, url will always be the same, only needs to happen once, move out of vc
+        if FBSDKAccessToken.current() != nil {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                let facebookId = FBSDKAccessToken.current().userID
+                let profilePicUrl = "https://graph.facebook.com/\(facebookId!)/picture?type=large"
+                let picUpdate = ["\(currentUser)/profilePicUrl": profilePicUrl] as Dictionary<String, Any>
+                DataService.ds.REF_USERS.updateChildValues(picUpdate)
+                print("JAKE: \(profilePicUrl)")
+            }
+        }
         
         
         tableView.delegate = self
@@ -315,6 +327,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func signOutBtnPressed(_ sender: Any) {
         KeychainWrapper.standard.removeObject(forKey: KEY_UID)
         try! Auth.auth().signOut()
+        FBSDKAccessToken.setCurrent(nil)
         performSegue(withIdentifier: "feedToLogin", sender: nil)
         
     }
