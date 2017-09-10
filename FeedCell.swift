@@ -41,7 +41,11 @@ class FeedCell: UITableViewCell {
                     if users[index].id != "a" {
                         let profileUrl = URL(string: users[index].profilePicUrl)
                         let data = try? Data(contentsOf: profileUrl!)
-                        self.profilePicImg.image = UIImage(data: data!)
+                        if let profileImage = UIImage(data: data!) {
+                            self.profilePicImg.image = profileImage
+                            ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        }
+                        
                     } else {
                         let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
                         profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
