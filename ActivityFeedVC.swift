@@ -43,7 +43,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let profilePicUrl = "https://graph.facebook.com/\(facebookId!)/picture?type=large"
                 let picUpdate = ["\(currentUser)/profilePicUrl": profilePicUrl] as Dictionary<String, Any>
                 DataService.ds.REF_USERS.updateChildValues(picUpdate)
-                print("JAKE: \(profilePicUrl)")
+                //print("JAKE: \(profilePicUrl)")
             }
         }
         
@@ -332,6 +332,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func profileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "activityFeedToProfile", sender: nil)
     }
     
     @IBAction func signOutBtnPressed(_ sender: Any) {

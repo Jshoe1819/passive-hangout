@@ -11,6 +11,7 @@
 		160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */; };
 		160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */; };
 		160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC511F40E9E0001799D0 /* FeedCell.swift */; };
+		1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1615C1661F658BAB00D3DC01 /* ProfileVC.swift */; };
 		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		163E92511F3BBC720012D37F /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163E92501F3BBC720012D37F /* RoundedView.swift */; };
 		164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D81781F3A7D3400C8AD6E /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHeader.swift; sourceTree = "<group>"; };
 		160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedProfilePic.swift; sourceTree = "<group>"; };
 		160FEC511F40E9E0001799D0 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		1615C1661F658BAB00D3DC01 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		163E92501F3BBC720012D37F /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		164D81751F3A7D3400C8AD6E /* passive-hangout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "passive-hangout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +227,7 @@
 				164D817A1F3A7D3400C8AD6E /* LoginVC.swift */,
 				167540161F3E7F0C00E86A32 /* SignUpVC.swift */,
 				167284351F3F760500F4D8D9 /* ActivityFeedVC.swift */,
+				1615C1661F658BAB00D3DC01 /* ProfileVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */,
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
+				1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */,
 				16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */,
 				168D6BEE1F4CF7C200D29DCA /* NewStatusTextView.swift in Sources */,
 				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
