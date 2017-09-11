@@ -78,14 +78,13 @@ class FeedCell: UITableViewCell {
             joinBtnOutlet.isEnabled = true
         }
     }
-    //remove s on single label
+    
     func configureTimeAgo(unixTimestamp: Double) -> String {
         let date = Date().timeIntervalSince1970
         let secondsInterval = Int((date - unixTimestamp/1000).rounded().nextDown)
         let minutesInterval = secondsInterval / 60
         let hoursInterval = minutesInterval / 60
         let daysInterval = hoursInterval / 24
-        let weeksInterval = daysInterval / 7
         
         if (secondsInterval >= 15 && secondsInterval < 60) {
             return("\(secondsInterval) seconds ago")
@@ -106,12 +105,6 @@ class FeedCell: UITableViewCell {
                 return ("\(daysInterval) day ago")
             } else {
                 return("\(daysInterval) days ago")
-            }
-        } else if (weeksInterval >= 1) {
-            if weeksInterval == 1 {
-                return ("\(weeksInterval) week ago")
-            } else {
-                return("\(weeksInterval) weeks ago")
             }
         } else {
             return ("a few seconds ago")

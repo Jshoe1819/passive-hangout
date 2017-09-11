@@ -95,7 +95,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                             "email":"\(self.emailField.text!)",
                                                             "statusId": ["a":true],
                                                             "id": "a",
-                                                            "profilePicUrl": "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png"] as [String : Any]
+                                                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
+                                                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png"] as [String : Any]
                                             self.completeSignIn(uid: user.uid)
                                             DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                                                 
