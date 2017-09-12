@@ -16,11 +16,14 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var imagePicker: UIImagePickerController!
     var imageSelected = false
+    var imagePicked = 0
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    @IBOutlet weak var coverImgPicker: UIButton!
+    @IBOutlet weak var profileImgPicker: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +77,103 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         // Dispose of any resources that can be recreated.
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            
+            if imagePicked == 1 {
+                profileImg.image = image
+                profileImg.contentMode = .scaleAspectFill
+                imageSelected = true
+                
+                guard let image = profileImg.image, imageSelected == true else {
+                    print("JAKE: image must be selected")
+                    return
+                }
+                
+                if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                    let imageUid = NSUUID().uuidString
+                    let metaData = StorageMetadata()
+                    metaData.contentType = "image/jpeg"
+                    
+                    DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
+                        if error != nil {
+                            print("JAKE: unable to upload image to storage")
+                        } else {
+                            print("JAKE: successful upload image to storage")
+                            
+                            let downloadUrl = metaData?.downloadURL()?.absoluteString
+                            if let url = downloadUrl {
+                                if let currentUser = Auth.auth().currentUser?.uid {
+                                    //need to delete storage item previously used
+//                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
+//                                        //print("USERS: \(snapshot)")
+//                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
+//                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
+//                                            let currentProfilePic = Storage.reference(user.profilePicUrl)
+//                                            currentProfilePic.delete { error, in
+//                                                
+//                                            }
+//                                        }
+//                                    })
+                                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+
+            } else if imagePicked == 2 {
+                coverImg.image = image
+                coverImg.contentMode = .scaleAspectFill
+                imageSelected = true
+                
+                guard let image = coverImg.image, imageSelected == true else {
+                    print("JAKE: image must be selected")
+                    return
+                }
+                
+                if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                    let imageUid = NSUUID().uuidString
+                    let metaData = StorageMetadata()
+                    metaData.contentType = "image/jpeg"
+                    
+                    DataService.ds.REF_BACKGROUND_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
+                        if error != nil {
+                            print("JAKE: unable to upload image to storage")
+                        } else {
+                            print("JAKE: successful upload image to storage")
+                            
+                            let downloadUrl = metaData?.downloadURL()?.absoluteString
+                            if let url = downloadUrl {
+                                if let currentUser = Auth.auth().currentUser?.uid {
+                                    //need to delete storage item previously used
+                                    //                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
+                                    //                                        //print("USERS: \(snapshot)")
+                                    //                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
+                                    //                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
+                                    //                                            let currentProfilePic = Storage.reference(user.profilePicUrl)
+                                    //                                            currentProfilePic.delete { error, in
+                                    //
+                                    //                                            }
+                                    //                                        }
+                                    //                                    })
+                                    DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+        } else {
+            print("JAKE: Valid image not selected")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
     func configureTimeAgo(unixTimestamp: Double) -> String {
         let date = Date().timeIntervalSince1970
         let secondsInterval = Int((date - unixTimestamp/1000).rounded().nextDown)
@@ -117,6 +217,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             
         } else {
+            profileImgPicker.isHidden = false
             let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
             profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
@@ -148,6 +249,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             
         } else {
+            coverImgPicker.isHidden = false
             let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
             coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                 if error != nil {
@@ -167,10 +269,51 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    @IBAction func profileImgPickPressed(_ sender: UIButton) {
+        imagePicked = sender.tag
+        present(imagePicker, animated: true, completion: nil)
+        
+//        guard let image = profileImg.image, imageSelected == true else {
+//            print("JAKE: image must be selected")
+//            return
+//        }
+//        
+//        if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+//            let imageUid = NSUUID().uuidString
+//            let metaData = StorageMetadata()
+//            metaData.contentType = "image/jpeg"
+//            print(imageUid)
+//            print(metaData)
+//            
+//            DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData)
+//            
+//            DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
+//                if error != nil {
+//                    print("JAKE: unable to upload image to storage")
+//                } else {
+//                    print("JAKE: successful upload image to storage")
+//                    let downloadUrl = metaData?.downloadURL()?.absoluteString
+//                    if let url = downloadUrl {
+//                        if let currentUser = Auth.auth().currentUser?.uid {
+//                            DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
+//                        }
+//                        
+//                    }
+//                }
+//            }
+//        }
+    }
     
+    @IBAction func coverImgPickPressed(_ sender: UIButton) {
+        imagePicked = sender.tag
+        present(imagePicker, animated: true, completion: nil)
+    }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "profileToActivityFeed", sender: nil)
+    }
+    
+    @IBAction func searchBtnPressed(_ sender: Any) {
     }
     @IBAction func editProfileBtnPressed(_ sender: Any) {
     }
