@@ -10,10 +10,12 @@ import UIKit
 import FirebaseDatabase
 import Firebase
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var statusArr = [Status]()
-    var user = [Users]()
+    static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    var imagePicker: UIImagePickerController!
+    var imageSelected = false
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
@@ -22,6 +24,10 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
@@ -61,28 +67,6 @@ class ProfileVC: UIViewController {
                 }
             }
         })
-        
-        //        DataService.ds.REF_USERS.observe(.value, with: { (snapshot) in
-        //
-        //            self.usersArr = []
-        //
-        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                for snap in snapshot {
-        //                    //print("USERS: \(snap)")
-        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
-        //                        let key = snap.key
-        //                        let users = Users(usersKey: key, usersData: usersDict)
-        //                        //                                                if Auth.auth().currentUser?.uid == key  {
-        //                        //                                                    let currentStatus = usersDict["statusId"]
-        //                        //                                                    print("JAKE: \(currentStatus!)")
-        //                        //                                                    self.lastStatusLbl.text = currentStatus.la
-        //                        //
-        //                        //                                                }
-        //                        self.usersArr.append(users)
-        //                    }
-        //                }
-        //            }
-        //        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,6 +113,7 @@ class ProfileVC: UIViewController {
             let data = try? Data(contentsOf: profileUrl!)
             if let profileImage = UIImage(data: data!) {
                 self.profileImg.image = profileImage
+                ProfileVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
             }
             
         } else {
@@ -141,6 +126,7 @@ class ProfileVC: UIViewController {
                     if let imageData = data {
                         if let image = UIImage(data: imageData) {
                             self.profileImg.image = image
+                            ProfileVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
                             //self.postImg.image = image
                             //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
                         }
@@ -158,7 +144,6 @@ class ProfileVC: UIViewController {
             let coverUrl = URL(string: user.cover["source"] as! String)
             let data = try? Data(contentsOf: coverUrl!)
             if let coverImage = UIImage(data: data!) {
-                print("JAKE: HI")
                 self.coverImg.image = coverImage
             }
             
@@ -181,6 +166,8 @@ class ProfileVC: UIViewController {
             
         }
     }
+    
+    
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "profileToActivityFeed", sender: nil)

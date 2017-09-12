@@ -19,7 +19,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
-    let characterLimit = 110
+    let characterLimit = 150
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -163,6 +163,11 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = textView.text as NSString
         let updatedText = currentText.replacingCharacters(in: range, with: text)
+        
+        if updatedText.contains("\n") {
+            return false
+        }
+        
         //label.text = ("/(50 - updatedText.characters.count) / 50 Characters Remaining")
         //change to number of lines restriction, label display something when out of room? or allow scrolling and keep 50?
         //resolve in performance clean up
