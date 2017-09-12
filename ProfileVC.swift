@@ -176,6 +176,8 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     @IBAction func friendsListBtnPressed(_ sender: Any) {
     }
+    @IBAction func pastStatusesBtnPressed(_ sender: Any) {
+    }
     @IBAction func notificationsBtnPressed(_ sender: Any) {
     }
     @IBAction func leaveFeedbackBtnPressed(_ sender: Any) {
