@@ -38,31 +38,34 @@ class FeedCell: UITableViewCell {
                     self.displayNameLbl.text = users[index].name
                     self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                     
-                    if users[index].id != "a" {
-                        let profileUrl = URL(string: users[index].profilePicUrl)
-                        let data = try? Data(contentsOf: profileUrl!)
-                        if let profileImage = UIImage(data: data!) {
-                            self.profilePicImg.image = profileImage
-                            ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-                        }
-                        
+                    if let image = ActivityFeedVC.imageCache.object(forKey: users[index].profilePicUrl as NSString) {
+                        profilePicImg.image = image
+                        //print("JAKE: caching working")
                     } else {
-                        let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
-                        profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                            if error != nil {
-                                //print("JAKE: unable to download image from storage")
-                            } else {
-                                //print("JAKE: image downloaded from storage")
-                                if let imageData = data {
-                                    if let image = UIImage(data: imageData) {
-                                        self.profilePicImg.image = image
-                                        //self.postImg.image = image
-                                        //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                        if users[index].id != "a" {
+                            let profileUrl = URL(string: users[index].profilePicUrl)
+                            let data = try? Data(contentsOf: profileUrl!)
+                            if let profileImage = UIImage(data: data!) {
+                                self.profilePicImg.image = profileImage
+                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                            }
+                            
+                        } else {
+                            let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
+                            profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                                if error != nil {
+                                    //print("JAKE: unable to download image from storage")
+                                } else {
+                                    //print("JAKE: image downloaded from storage")
+                                    if let imageData = data {
+                                        if let profileImage = UIImage(data: imageData) {
+                                            self.profilePicImg.image = profileImage
+                                            ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                        }
                                     }
                                 }
-                            }
-                        })
-                        
+                            })
+                        }
                     }
                 }
             }
@@ -100,7 +103,7 @@ class FeedCell: UITableViewCell {
             } else {
                 return("\(hoursInterval) hours ago")
             }
-        } else if (daysInterval >= 1 && daysInterval < 7) {
+        } else if (daysInterval >= 1) {
             if daysInterval == 1 {
                 return ("\(daysInterval) day ago")
             } else {

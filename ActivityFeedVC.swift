@@ -217,23 +217,29 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func homeBTnPressed(_ sender: Any) {
-        tableView.setContentOffset(CGPoint.zero, animated: true)
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+        
+        if tableView.contentOffset == CGPoint.zero {
             
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
+            DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+                
+                self.statusArr = []
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("STATUS: \(snap)")
+                        if let statusDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let status = Status(statusKey: key, statusData: statusDict)
+                            self.statusArr.insert(status, at: 0)
+                        }
                     }
                 }
-            }
-            self.tableView.reloadData()
-        })
+                self.tableView.reloadData()
+            })
+            
+        } else {
+            tableView.setContentOffset(CGPoint.zero, animated: true)
+        }
     }
     
     @IBAction func sortBtnPressed(_ sender: Any) {

@@ -24,6 +24,7 @@ class DataService {
     private var _REF_STATUS_UID = DB_BASE.child("status").child("userId")
     
     //Storage references
+    private var _REF_STORAGE_BASE = STORAGE_BASE
     private var _REF_BACKGROUND_PICTURES = STORAGE_BASE.child("background-pictures")
     private var _REF_PROFILE_PICTURES = STORAGE_BASE.child("profile-pictures")
     //add one for profile pictures
@@ -42,6 +43,10 @@ class DataService {
     
     var REF_STATUS_UID: DatabaseReference {
         return _REF_STATUS_UID
+    }
+    
+    var REF_STORAGE_BASE: StorageReference {
+        return _REF_STORAGE_BASE
     }
     
     var REF_BACKGROUND_PICTURES: StorageReference {

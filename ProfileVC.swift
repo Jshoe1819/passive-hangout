@@ -8,12 +8,12 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseStorage
 import Firebase
 
 class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var statusArr = [Status]()
-    static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var imagePicker: UIImagePickerController!
     var imageSelected = false
     var imagePicked = 0
@@ -100,29 +100,41 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                             print("JAKE: unable to upload image to storage")
                         } else {
                             print("JAKE: successful upload image to storage")
-                            
                             let downloadUrl = metaData?.downloadURL()?.absoluteString
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
                                     //need to delete storage item previously used
-//                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-//                                        //print("USERS: \(snapshot)")
-//                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
-//                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
-//                                            let currentProfilePic = Storage.reference(user.profilePicUrl)
-//                                            currentProfilePic.delete { error, in
-//                                                
-//                                            }
-//                                        }
-//                                    })
+                                    //                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
+                                    //                                        //print("USERS: \(snapshot)")
+                                    //                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
+                                    //                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
+                                    //                                            if user.profilePicUrl == "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png" {
+                                    //                                                print("JAKE: working")
+                                    //
+                                    //                                            } else {
+                                    //                                                let currentProfilePic = Storage.storage().reference(forURL: user.profilePicUrl)
+                                    //                                                currentProfilePic.delete(completion: { (error) in
+                                    //                                                    if let error = error {
+                                    //                                                        print("JAKE: file not deleted \(error)")
+                                    //                                                    } else {
+                                    //                                                        print("JAKE: file deleted successfully")
+                                    //                                                        print(user.profilePicUrl)
+                                    //                                                    }
+                                    //                                                })
+                                    //
+                                    //                                            }
+                                    //                                        }
+                                    //                                    })
                                     DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
+                                    //ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+                                    
                                 }
                                 
                             }
                         }
                     }
                 }
-
+                
             } else if imagePicked == 2 {
                 coverImg.image = image
                 coverImg.contentMode = .scaleAspectFill
@@ -159,6 +171,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                                     //                                        }
                                     //                                    })
                                     DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
+                                    
                                 }
                                 
                             }
@@ -195,7 +208,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             } else {
                 return("\(hoursInterval) hours ago")
             }
-        } else if (daysInterval >= 1 && daysInterval < 7) {
+        } else if (daysInterval >= 1) {
             if daysInterval == 1 {
                 return ("\(daysInterval) day ago")
             } else {
@@ -208,36 +221,47 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func populateProfilePicture(user: Users) {
         
+        //print("JAKE: going in to else")
         if user.id != "a" {
-            let profileUrl = URL(string: user.profilePicUrl)
-            let data = try? Data(contentsOf: profileUrl!)
-            if let profileImage = UIImage(data: data!) {
-                self.profileImg.image = profileImage
-                ProfileVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+                profileImg.image = image
+                print("JAKE: Cache working")
+            } else {
+                let profileUrl = URL(string: user.profilePicUrl)
+                let data = try? Data(contentsOf: profileUrl!)
+                if let profileImage = UIImage(data: data!) {
+                    self.profileImg.image = profileImage
+                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+                }
             }
-            
         } else {
             profileImgPicker.isHidden = false
-            let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-            profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                if error != nil {
-                    //print("JAKE: unable to download image from storage")
-                } else {
-                    //print("JAKE: image downloaded from storage")
-                    if let imageData = data {
-                        if let image = UIImage(data: imageData) {
-                            self.profileImg.image = image
-                            ProfileVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-                            //self.postImg.image = image
-                            //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+                profileImg.image = image
+                print("JAKE: Cache working")
+            } else {
+                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        //print("JAKE: unable to download image from storage")
+                    } else {
+                        //print("JAKE: image downloaded from storage")
+                        if let imageData = data {
+                            if let image = UIImage(data: imageData) {
+                                self.profileImg.image = image
+                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+                                //self.postImg.image = image
+                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                            }
                         }
                     }
-                }
-            })
+                })
+            }
             
         }
-        
     }
+    
+    
     
     func populateCoverPicture(user: Users) {
         
@@ -272,36 +296,6 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func profileImgPickPressed(_ sender: UIButton) {
         imagePicked = sender.tag
         present(imagePicker, animated: true, completion: nil)
-        
-//        guard let image = profileImg.image, imageSelected == true else {
-//            print("JAKE: image must be selected")
-//            return
-//        }
-//        
-//        if let imageData = UIImageJPEGRepresentation(image, 0.2) {
-//            let imageUid = NSUUID().uuidString
-//            let metaData = StorageMetadata()
-//            metaData.contentType = "image/jpeg"
-//            print(imageUid)
-//            print(metaData)
-//            
-//            DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData)
-//            
-//            DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
-//                if error != nil {
-//                    print("JAKE: unable to upload image to storage")
-//                } else {
-//                    print("JAKE: successful upload image to storage")
-//                    let downloadUrl = metaData?.downloadURL()?.absoluteString
-//                    if let url = downloadUrl {
-//                        if let currentUser = Auth.auth().currentUser?.uid {
-//                            DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
-//                        }
-//                        
-//                    }
-//                }
-//            }
-//        }
     }
     
     @IBAction func coverImgPickPressed(_ sender: UIButton) {
@@ -320,6 +314,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func friendsListBtnPressed(_ sender: Any) {
     }
     @IBAction func pastStatusesBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToPastStatuses", sender: nil)
     }
     @IBAction func notificationsBtnPressed(_ sender: Any) {
     }
