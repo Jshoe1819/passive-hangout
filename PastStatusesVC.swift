@@ -70,9 +70,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func didPressButton(_ tag: Int) {
-        print("I have pressed a button with a tag: \(tag)")
-        let x = statusArr[tag].statusKey
-        
+        print("I have pressed a button with a tag: \(tag)")        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

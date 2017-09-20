@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     
@@ -21,6 +22,7 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var editBtn: UIButton!
     
     weak var cellDelegate: PastStatusCellDelegate?
+    var statusArr = [Status]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -82,7 +84,34 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     
     @IBAction func deleteStatusBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressButton(self.tag)
+        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if status.userId == currentUser {
+                                //                                print("JAKE: entering1")
+                                //                                self.statusArr.insert(status, at: 0)
+                                if status.content == self.contentLbl.text {
+                                    DataService.ds.REF_STATUS.child(status.statusKey).removeValue()
+                                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(status.statusKey).removeValue()
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        })
     }
+    
     @IBAction func cancelBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressButton(self.tag)
         contentLbl.isHidden = false
@@ -93,6 +122,7 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
         deleteBtn.isHidden = false
         textView.resignFirstResponder()
     }
+    
     @IBAction func saveBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressButton(self.tag)
         contentLbl.isHidden = false
@@ -101,10 +131,37 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
         cancelBtn.isHidden = true
         editBtn.isHidden = false
         deleteBtn.isHidden = false
-        contentLbl.text = textView.text
+        //contentLbl.text = textView.text
         textView.resignFirstResponder()
         
-        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if status.userId == currentUser {
+                                //                                print("JAKE: entering1")
+                                //                                self.statusArr.insert(status, at: 0)
+                                if status.content == self.contentLbl.text {
+                                    //print("JAKE: entering2")
+                                    if let update = self.textView.text {
+                                        //print("JAKE: \(update)")
+                                        DataService.ds.REF_STATUS.updateChildValues(["/\(status.statusKey)/content": update])
+                                        self.contentLbl.text = self.textView.text
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        })
     }
-    
 }
