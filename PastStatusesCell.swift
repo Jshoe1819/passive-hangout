@@ -9,20 +9,29 @@
 import UIKit
 import FirebaseAuth
 
-class PastStatusesCell: UITableViewCell {
+class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
+    @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
+    
+    weak var cellDelegate: PastStatusCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        textView.delegate = self
+        
     }
     
     func configureCell(status: Status) {
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
-        textView.text = status.content
+        contentLbl.text = status.content
         numberJoinedLbl.text = "\(status.joinedNumber) Joined"
     }
     
@@ -56,6 +65,46 @@ class PastStatusesCell: UITableViewCell {
         } else {
             return ("a few seconds ago")
         }
+    }
+    
+    @IBAction func editStatusBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressButton(self.tag)
+        contentLbl.isHidden = true
+        textView.isHidden = false
+        saveBtn.isHidden = false
+        cancelBtn.isHidden = false
+        editBtn.isHidden = true
+        deleteBtn.isHidden = true
+        textView.text = contentLbl.text
+        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+        textView.becomeFirstResponder()
+    }
+    
+    @IBAction func deleteStatusBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressButton(self.tag)
+    }
+    @IBAction func cancelBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressButton(self.tag)
+        contentLbl.isHidden = false
+        textView.isHidden = true
+        saveBtn.isHidden = true
+        cancelBtn.isHidden = true
+        editBtn.isHidden = false
+        deleteBtn.isHidden = false
+        textView.resignFirstResponder()
+    }
+    @IBAction func saveBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressButton(self.tag)
+        contentLbl.isHidden = false
+        textView.isHidden = true
+        saveBtn.isHidden = true
+        cancelBtn.isHidden = true
+        editBtn.isHidden = false
+        deleteBtn.isHidden = false
+        contentLbl.text = textView.text
+        textView.resignFirstResponder()
+        
+        
     }
     
 }

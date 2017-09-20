@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class PastStatusesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,6 +21,9 @@ class PastStatusesVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 90
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -57,11 +60,19 @@ class PastStatusesVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let status = statusArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
+            cell.cellDelegate = self
+            cell.tag = indexPath.row
             cell.configureCell(status: status)
             return cell
         } else {
             return PastStatusesCell()
         }
+    }
+    
+    func didPressButton(_ tag: Int) {
+        print("I have pressed a button with a tag: \(tag)")
+        let x = statusArr[tag].statusKey
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -74,9 +85,6 @@ class PastStatusesVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func backBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
-    }
-    @IBAction func editBtnPressed(_ sender: Any) {
-        
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToActivityFeed", sender: nil)
