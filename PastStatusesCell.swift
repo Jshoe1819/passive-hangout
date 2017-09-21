@@ -71,6 +71,7 @@ class PastStatusesCell: UITableViewCell {
     
     @IBAction func editStatusBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressEditBtn(self.tag)
+        
         contentLbl.isHidden = true
         saveBtn.isHidden = false
         cancelBtn.isHidden = false
@@ -80,63 +81,28 @@ class PastStatusesCell: UITableViewCell {
         textView.text = contentLbl.text
         textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
         textView.becomeFirstResponder()
-        
     }
     
     @IBAction func deleteStatusBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressDeleteBtn(self.tag)
-        
-        /* DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                //print("JAKE: entering1")
-                                self.statusArr.insert(status, at: 0)
-                                //                                if status.content == self.contentLbl.text {
-                                //                                    DataService.ds.REF_STATUS.child(status.statusKey).removeValue()
-                                //                                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(status.statusKey).removeValue()
-                                //                                    break
-                                //                                }
-                            }
-                        }
-                    }
-                    
-                }
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    if self.statusArr[self.tag].content == self.contentLbl.text {
-                        DataService.ds.REF_STATUS.child(self.statusArr[self.tag].statusKey).removeValue()
-                        DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[self.tag].statusKey).removeValue()
-                    }
-                }
-            }
-        }) */
     }
     
     @IBAction func cancelBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressCancelBtn(self.tag)
-        contentLbl.isHidden = false
         
+        contentLbl.isHidden = false
         saveBtn.isHidden = true
         cancelBtn.isHidden = true
         editBtn.isHidden = false
         deleteBtn.isHidden = false
         textView.isHidden = true
         textView.resignFirstResponder()
-        
     }
     
     @IBAction func saveBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressSaveBtn(self.tag)
-        contentLbl.isHidden = false
+        cellDelegate?.didPressSaveBtn(self.tag, text: textView.text)
         
+        contentLbl.isHidden = false
         saveBtn.isHidden = true
         cancelBtn.isHidden = true
         editBtn.isHidden = false
@@ -144,47 +110,5 @@ class PastStatusesCell: UITableViewCell {
         //contentLbl.text = textView.text
         textView.isHidden = true
         textView.resignFirstResponder()
-        
-        
-        /* DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
-            
-            self.statusArr = []
-            print(self.tag)
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                //print("JAKE: entering1")
-                                self.statusArr.insert(status, at: 0)
-                                /*if status.content == self.contentLbl.text {
-                                    //print("JAKE: entering2")
-                                    if let update = self.textView.text {
-                                        //print("JAKE: \(update)")
-                                        DataService.ds.REF_STATUS.updateChildValues(["/\(status.statusKey)/content": update])
-                                        self.contentLbl.text = self.textView.text
-                                        return
-                                    }
-                                }*/
-                            }
-                        }
-                        
-                    }
-                }
-                
-                //if self.statusArr[self.tag].content == self.contentLbl.text {
-                    if let update = self.textView.text {
-                        //print("JAKE: \(update)")
-                        DataService.ds.REF_STATUS.updateChildValues(["/\(self.statusArr[self.tag].statusKey)/content": update])
-                        self.contentLbl.text = self.textView.text
-                        
-                    }
-                //}
-                
-            }
-        }) */
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
+class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -55,12 +55,19 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return statusArr.count
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let status = statusArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
-            cell.textView.delegate = self
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.configureCell(status: status)
@@ -77,31 +84,38 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func didPressDeleteBtn(_ tag: Int) {
         //print("I have pressed a delete button with a tag: \(tag)")
-        if let currentUser = Auth.auth().currentUser?.uid {
-            DataService.ds.REF_STATUS.child(statusArr[tag].statusKey).removeValue()
-            DataService.ds.REF_USERS.child(currentUser).child("statusId").child(statusArr[tag].statusKey).removeValue()
-        }
+        
+        // create the alert
+        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { action in
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
+                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+        //        if let currentUser = Auth.auth().currentUser?.uid {
+        //            DataService.ds.REF_STATUS.child(statusArr[tag].statusKey).removeValue()
+        //            DataService.ds.REF_USERS.child(currentUser).child("statusId").child(statusArr[tag].statusKey).removeValue()
+        //        }
     }
     
-    func didPressSaveBtn(_ tag: Int) {
+    func didPressSaveBtn(_ tag: Int, text: String) {
         //print("I have pressed a save button with a tag: \(tag)")
-        /* if let update = textView.text {
-            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": update])
-        } */
+        DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
         
     }
     
     func didPressCancelBtn(_ tag: Int) {
         //print("I have pressed a cancel button with a tag: \(tag)")
         
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return statusArr.count
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {

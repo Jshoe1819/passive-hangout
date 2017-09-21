@@ -180,7 +180,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if let statusContent = textView.text {
-            print("JAKE: \(statusContent)")
+            //print("JAKE: \(statusContent)")
             if let user = Auth.auth().currentUser {
                 let userId = user.uid
                 let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
@@ -192,7 +192,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "userId": userId] as [String : Any]
                 let childUpdates = ["/status/\(key)": status,
                                     "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
-                print("JAKE: \(childUpdates)")
+                //print("JAKE: \(childUpdates)")
                 DataService.ds.REF_BASE.updateChildValues(childUpdates)
                 
                 statusPopupBottomConstraint.constant = -325

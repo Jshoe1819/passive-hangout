@@ -11,6 +11,6 @@ import Foundation
 protocol PastStatusCellDelegate : class {
     func didPressEditBtn(_ tag: Int)
     func didPressDeleteBtn(_ tag: Int)
-    func didPressSaveBtn(_ tag: Int)
+    func didPressSaveBtn(_ tag: Int, text: String)
     func didPressCancelBtn(_ tag: Int)
 }
