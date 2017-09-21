@@ -89,7 +89,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
             if let currentUser = Auth.auth().currentUser?.uid {
                 DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
                 DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
@@ -101,10 +101,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         // show the alert
         self.present(alert, animated: true, completion: nil)
         
-        //        if let currentUser = Auth.auth().currentUser?.uid {
-        //            DataService.ds.REF_STATUS.child(statusArr[tag].statusKey).removeValue()
-        //            DataService.ds.REF_USERS.child(currentUser).child("statusId").child(statusArr[tag].statusKey).removeValue()
-        //        }
     }
     
     func didPressSaveBtn(_ tag: Int, text: String) {

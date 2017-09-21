@@ -22,7 +22,6 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var editBtn: UIButton!
     
     weak var cellDelegate: PastStatusCellDelegate?
-    var statusArr = [Status]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
