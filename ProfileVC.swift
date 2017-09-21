@@ -225,7 +225,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if user.id != "a" {
             if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
                 profileImg.image = image
-                print("JAKE: Cache working")
+                //print("JAKE: Cache working")
             } else {
                 let profileUrl = URL(string: user.profilePicUrl)
                 let data = try? Data(contentsOf: profileUrl!)
@@ -238,7 +238,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             profileImgPicker.isHidden = false
             if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
                 profileImg.image = image
-                print("JAKE: Cache working")
+                //print("JAKE: Cache working")
             } else {
                 let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
                 profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in

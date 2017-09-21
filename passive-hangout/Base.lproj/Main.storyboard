@@ -1713,7 +1713,7 @@
                                             <outlet property="numberJoinedLbl" destination="Urn-qO-UnX" id="eSc-wA-zz9"/>
                                             <outlet property="saveBtn" destination="HAu-o2-ppc" id="fnt-Qk-h5h"/>
                                             <outlet property="statusAgeLbl" destination="TgV-2c-8W1" id="mNV-29-kfg"/>
-                                            <outlet property="textView" destination="znT-bN-6Ba" id="z4A-Md-MdS"/>
+                                            <outlet property="textView" destination="znT-bN-6Ba" id="sHT-5R-vIM"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1765,7 +1765,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="FDh-cr-2VA"/>
-        <segue reference="y9G-P1-8je"/>
+        <segue reference="MTP-dR-lnk"/>
         <segue reference="pO3-lh-m1g"/>
     </inferredMetricsTieBreakers>
 </document>

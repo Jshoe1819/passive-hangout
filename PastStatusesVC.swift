@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource {
+class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -60,6 +60,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         let status = statusArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
+            cell.textView.delegate = self
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.configureCell(status: status)
@@ -69,8 +70,30 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
     }
     
-    func didPressButton(_ tag: Int) {
-        print("I have pressed a button with a tag: \(tag)")        
+    func didPressEditBtn(_ tag: Int) {
+        //print("I have pressed a edit button with a tag: \(tag)")
+        
+    }
+    
+    func didPressDeleteBtn(_ tag: Int) {
+        //print("I have pressed a delete button with a tag: \(tag)")
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_STATUS.child(statusArr[tag].statusKey).removeValue()
+            DataService.ds.REF_USERS.child(currentUser).child("statusId").child(statusArr[tag].statusKey).removeValue()
+        }
+    }
+    
+    func didPressSaveBtn(_ tag: Int) {
+        //print("I have pressed a save button with a tag: \(tag)")
+        /* if let update = textView.text {
+            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": update])
+        } */
+        
+    }
+    
+    func didPressCancelBtn(_ tag: Int) {
+        //print("I have pressed a cancel button with a tag: \(tag)")
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
