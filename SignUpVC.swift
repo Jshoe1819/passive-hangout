@@ -96,7 +96,12 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                             "statusId": ["a":true],
                                                             "id": "a",
                                                             "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
-                                                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png"] as [String : Any]
+                                                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
+                                                            "isPrivate":false,
+                                                            "occupation":"",
+                                                            "employer":"",
+                                                            "currentCity":"",
+                                                            "school":""] as [String : Any]
                                             self.completeSignIn(uid: user.uid)
                                             DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                                                 

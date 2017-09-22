@@ -17,6 +17,11 @@ class Users {
     private var _name: String!
     private var _statusId: Dictionary<String, Any>!
     private var _profilePicUrl: String!
+    private var _isPrivate: Bool!
+    private var _occupation: String!
+    private var _employer: String!
+    private var _currentCity: String!
+    private var _school: String!
     private var _usersKey: String!
     private var _usersRef: DatabaseReference!
     
@@ -44,13 +49,39 @@ class Users {
         return _profilePicUrl
     }
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>) {
+    var isPrivate: Bool {
+        return _isPrivate
+    }
+    
+    var occupation: String {
+        return _occupation
+    }
+    
+    var employer: String {
+        return _employer
+    }
+    
+    var currentCity: String {
+        return _currentCity
+    }
+    
+    var school: String {
+        return _school
+    }
+    
+    
+    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String) {
         self._cover = cover
         self._email = email
         self._id = id
         self._name = name
         self._statusId = statusId
         self._profilePicUrl = profilePicUrl
+        self._isPrivate = isPrivate
+        self._occupation = occupation
+        self._employer = employer
+        self._currentCity = currentCity
+        self._school = school
         
     }
     
@@ -65,6 +96,10 @@ class Users {
             self._email = email
         }
         
+        if let id = usersData["id"] as? String {
+            self._id = id
+        }
+        
         if let name = usersData["name"] as? String {
             self._name = name
         }
@@ -77,8 +112,24 @@ class Users {
             self._profilePicUrl = profilePicUrl
         }
         
-        if let id = usersData["id"] as? String {
-            self._id = id
+        if let isPrivate = usersData["isPrivate"] as? Bool {
+            self._isPrivate = isPrivate
+        }
+        
+        if let occupation = usersData["occupation"] as? String {
+            self._occupation = occupation
+        }
+        
+        if let employer = usersData["employer"] as? String {
+            self._employer = employer
+        }
+        
+        if let currentCity = usersData["currentCity"] as? String {
+            self._currentCity = currentCity
+        }
+        
+        if let school = usersData["school"] as? String {
+            self._school = school
         }
         
         _usersRef = DataService.ds.REF_USERS.child(_usersKey)

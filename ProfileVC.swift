@@ -310,6 +310,7 @@ class ProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func searchBtnPressed(_ sender: Any) {
     }
     @IBAction func editProfileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToEditProfile", sender: nil)
     }
     @IBAction func friendsListBtnPressed(_ sender: Any) {
     }
