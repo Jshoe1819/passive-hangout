@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
+import FBSDKLoginKit
+import FBSDKCoreKit
 import FirebaseDatabase
 import FirebaseStorage
 import Firebase
@@ -189,6 +192,28 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func notificationsBtnPressed(_ sender: Any) {
+    }
+    
+    @IBAction func signOutBtnPressed(_ sender: Any) {
+        
+        // create the alert
+        let alert = UIAlertController(title: "Sign Out", message: "Are you sure you would like to sign out?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.destructive, handler: { action in
+            
+            KeychainWrapper.standard.removeObject(forKey: KEY_UID)
+            try! Auth.auth().signOut()
+            FBSDKAccessToken.setCurrent(nil)
+            self.performSegue(withIdentifier: "myProfileToLogin", sender: nil)
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func leaveFeedbackBtnPressed(_ sender: Any) {

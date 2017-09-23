@@ -20,6 +20,7 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var menuBtn: UIButton!
     
     weak var cellDelegate: PastStatusCellDelegate?
     
@@ -68,6 +69,16 @@ class PastStatusesCell: UITableViewCell {
         }
     }
     
+    @IBAction func menuBtnPressed(_ sender: Any) {
+        cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
+        
+//        contentLbl.isHidden = true
+//        textView.text = contentLbl.text
+//        textView.isHidden = false
+//        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+//        textView.becomeFirstResponder()
+    }
+    
     @IBAction func editStatusBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressEditBtn(self.tag)
         
@@ -92,10 +103,13 @@ class PastStatusesCell: UITableViewCell {
         contentLbl.isHidden = false
         saveBtn.isHidden = true
         cancelBtn.isHidden = true
-        editBtn.isHidden = false
-        deleteBtn.isHidden = false
+//        editBtn.isHidden = false
+//        deleteBtn.isHidden = false
+        menuBtn.isHidden = false
         textView.isHidden = true
         textView.resignFirstResponder()
+        saveBtn.isHidden = false
+        cancelBtn.isHidden = false
     }
     
     @IBAction func saveBtnPressed(_ sender: UIButton) {

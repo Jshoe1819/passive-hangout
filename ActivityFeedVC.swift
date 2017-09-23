@@ -36,6 +36,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        tableView.rowHeight = UITableViewAutomaticDimension
+//        tableView.estimatedRowHeight = 90
+        
         //send url to user node, url will always be the same, only needs to happen once, move out of vc
         if FBSDKAccessToken.current() != nil {
             if let currentUser = Auth.auth().currentUser?.uid {
@@ -346,14 +349,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "activityFeedToProfile", sender: nil)
-    }
-    
-    @IBAction func signOutBtnPressed(_ sender: Any) {
-        KeychainWrapper.standard.removeObject(forKey: KEY_UID)
-        try! Auth.auth().signOut()
-        FBSDKAccessToken.setCurrent(nil)
-        performSegue(withIdentifier: "feedToLogin", sender: nil)
-        
     }
     
 }

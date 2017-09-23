@@ -13,6 +13,9 @@ import FirebaseDatabase
 class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var cancelEditBtn: UIButton!
+    @IBOutlet weak var saveEditBtn: UIButton!
+    @IBOutlet weak var backBtn: UIButton!
     
     var statusArr = [Status]()
     
@@ -24,6 +27,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
+        
+        
+        
+        //cancelEditBtn.addTarget(self, action: "saveClicked:", for: .touchUpInside)
+        //saveEditBtn.addTarget(self, action: "editClicked:", for: .touchUpInside)
+        
+        //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -77,23 +88,53 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
     }
     
-    func didPressEditBtn(_ tag: Int) {
-        //print("I have pressed a edit button with a tag: \(tag)")
-        
-    }
-    
-    func didPressDeleteBtn(_ tag: Int) {
-        //print("I have pressed a delete button with a tag: \(tag)")
+    func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton) {
+        //print("I have pressed menu button with tag: \(tag)")
         
         // create the alert
-        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Edit", style: UIAlertActionStyle.default, handler: { action in
+            
+            
+            button.isHidden = true
+            label.isHidden = true
+            textView.isHidden = false
+            textView.text = label.text
+            textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+            textView.becomeFirstResponder()
+            
+            self.backBtn.isHidden = true
+            self.saveEditBtn.isHidden = false
+            
+            self.saveEditBtn.isHidden = false
+            self.cancelEditBtn.isHidden = false
+            self.saveEditBtn.tag = tag
+            self.cancelEditBtn.tag = tag
+            
+            self.saveEditBtn.addTarget(self, action: #selector(PastStatusesVC.saveEditBtnPressed), for: .touchUpInside)
+            self.saveEditBtn.layer.setValue(tag, forKey: "tag")
+            self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
+            
+        }))
+        
         alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-            if let currentUser = Auth.auth().currentUser?.uid {
-                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
-                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
-            }
+            // create the alert
+            let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+                }
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
@@ -103,15 +144,80 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
     }
     
+    func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
+    //    func keyboardWillShow(notification: NSNotification) {
+    //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+    //            if self.view.frame.origin.y == 0{
+    //                self.view.frame.origin.y -= keyboardSize.height - 50
+    //            }
+    //        }
+    //    }
+    //    func keyboardWillHide(notification: NSNotification) {
+    //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+    //            if self.view.frame.origin.y != 0{
+    //                self.view.frame.origin.y += keyboardSize.height - 50
+    //            }
+    //        }
+    //    }
+    
+    func didPressEditBtn(_ tag: Int) {
+        //print("I have pressed a edit button with a tag: \(tag)")
+    }
+    
+    func didPressDeleteBtn(_ tag: Int) {
+        //print("I have pressed a delete button with a tag: \(tag)")
+        
+        //        // create the alert
+        //        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+        //
+        //        // add the actions (buttons)
+        //        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+        //            if let currentUser = Auth.auth().currentUser?.uid {
+        //                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
+        //                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+        //            }
+        //        }))
+        //
+        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        //
+        //        // show the alert
+        //        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     func didPressSaveBtn(_ tag: Int, text: String) {
-        //print("I have pressed a save button with a tag: \(tag)")
-        DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
+        print("I have pressed a save button with a tag: \(tag)")
+        //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
         
     }
     
     func didPressCancelBtn(_ tag: Int) {
         //print("I have pressed a cancel button with a tag: \(tag)")
+    }
+    
+    @IBAction func saveEditBtnPressed(_ sender: UIButton) {
         
+        if let text = sender.layer.value(forKey: "text") {
+            if let tag = sender.layer.value(forKey: "tag") {
+                //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
+                print("TAG: \(tag), TEXT: \(text)")
+                hideKeyboard()
+                backBtn.isHidden = false
+                cancelEditBtn.isHidden = true
+                saveEditBtn.isHidden = true
+            }
+        }
+        
+    }
+    
+    @IBAction func cancelEditBtnPressed(_ sender: UIButton) {
+        hideKeyboard()
+        backBtn.isHidden = false
+        cancelEditBtn.isHidden = true
+        saveEditBtn.isHidden = true
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
