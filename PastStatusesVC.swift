@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 
-class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource {
+class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cancelEditBtn: UIButton!
@@ -18,6 +18,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var backBtn: UIButton!
     
     var statusArr = [Status]()
+    var tappedBtnTags = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,8 +81,24 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
             cell.cellDelegate = self
+            cell.menuBtn.tag = indexPath.row
+            cell.textView.isHidden = true
+            cell.contentLbl.isHidden = false
             cell.tag = indexPath.row
             cell.configureCell(status: status)
+            
+            if tappedBtnTags.count > 0 {
+                cell.menuBtn.isEnabled = false
+                //print("\(tappedBtnTags)")
+            } else {
+                //cell.menuBtn.addTarget(self, action: #selector(self.didPressMenuBtn(_:textView:label:button:)), for: .touchUpInside)
+                cell.menuBtn.isEnabled = true
+                //print("\(tappedBtnTags)")
+            }
+            
+            //disable cell clicking
+            //cell.selectionStyle = UITableViewCellSelectionStyle.none
+            
             return cell
         } else {
             return PastStatusesCell()
@@ -91,14 +108,17 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton) {
         //print("I have pressed menu button with tag: \(tag)")
         
+        tappedBtnTags.append(tag)
+        //print("JAKE: \(tappedBtnTags)")
+        tableView.reloadData()
+        
         // create the alert
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Edit", style: UIAlertActionStyle.default, handler: { action in
             
-            
-            button.isHidden = true
+            //button.isHidden = true
             label.isHidden = true
             textView.isHidden = false
             textView.text = label.text
@@ -116,6 +136,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.saveEditBtn.addTarget(self, action: #selector(PastStatusesVC.saveEditBtnPressed), for: .touchUpInside)
             self.saveEditBtn.layer.setValue(tag, forKey: "tag")
             self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
+            self.saveEditBtn.layer.setValue(textView, forKey: "textview")
+            
             
         }))
         
@@ -129,15 +151,28 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
                     DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
                 }
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
             }))
             
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+            
+                //textView.isHidden = true
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
             
             // show the alert
             self.present(alert, animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+        
+            //textView.isHidden = true
+            self.tappedBtnTags.removeAll()
+            self.tableView.reloadData()
+        
+        }))
         
         // show the alert
         self.present(alert, animated: true, completion: nil)
@@ -146,6 +181,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func hideKeyboard() {
         view.endEditing(true)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
     }
     
     //    func keyboardWillShow(notification: NSNotification) {
@@ -200,14 +239,18 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func saveEditBtnPressed(_ sender: UIButton) {
         
+        textViewDidChange(sender.layer.value(forKey: "textview") as! UITextView)
+        
         if let text = sender.layer.value(forKey: "text") {
-            if let tag = sender.layer.value(forKey: "tag") {
-                //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
+            if let tag = sender.layer.value(forKey: "tag") as? Int {
+                DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
                 print("TAG: \(tag), TEXT: \(text)")
                 hideKeyboard()
                 backBtn.isHidden = false
                 cancelEditBtn.isHidden = true
                 saveEditBtn.isHidden = true
+                tappedBtnTags.removeAll()
+                tableView.reloadData()
             }
         }
         
@@ -218,6 +261,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         backBtn.isHidden = false
         cancelEditBtn.isHidden = true
         saveEditBtn.isHidden = true
+        tappedBtnTags.removeAll()
+        tableView.reloadData()
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {

@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class PastStatusesCell: UITableViewCell {
+class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
@@ -21,6 +21,8 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
+    
+    var pressedBtnTags = [Int]()
     
     weak var cellDelegate: PastStatusCellDelegate?
     
@@ -34,7 +36,7 @@ class PastStatusesCell: UITableViewCell {
     func configureCell(status: Status) {
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
-        numberJoinedLbl.text = "\(status.joinedNumber) Joined"
+        numberJoinedLbl.text = "\(status.joinedNumber) Joined"        
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
@@ -69,14 +71,19 @@ class PastStatusesCell: UITableViewCell {
         }
     }
     
-    @IBAction func menuBtnPressed(_ sender: Any) {
+    @IBAction func menuBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
+        
+        pressedBtnTags.append(tag)
+
         
 //        contentLbl.isHidden = true
 //        textView.text = contentLbl.text
 //        textView.isHidden = false
 //        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
 //        textView.becomeFirstResponder()
+        
+
     }
     
     @IBAction func editStatusBtnPressed(_ sender: UIButton) {
@@ -124,4 +131,5 @@ class PastStatusesCell: UITableViewCell {
         textView.isHidden = true
         textView.resignFirstResponder()
     }
+    
 }
