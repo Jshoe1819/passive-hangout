@@ -10,7 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class PastStatusesCell: UITableViewCell, UITextViewDelegate {
+class PastStatusesCell: UITableViewCell {
     
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
@@ -22,21 +22,19 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
     
-    var pressedBtnTags = [Int]()
+    //var pressedBtnTags = [Int]()
     
     weak var cellDelegate: PastStatusCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
         
     }
     
     func configureCell(status: Status) {
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
-        numberJoinedLbl.text = "\(status.joinedNumber) Joined"        
+        numberJoinedLbl.text = "\(status.joinedNumber) Joined"
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
@@ -74,62 +72,62 @@ class PastStatusesCell: UITableViewCell, UITextViewDelegate {
     @IBAction func menuBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
         
-        pressedBtnTags.append(tag)
-
+        //pressedBtnTags.append(tag)
         
-//        contentLbl.isHidden = true
-//        textView.text = contentLbl.text
-//        textView.isHidden = false
-//        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
-//        textView.becomeFirstResponder()
         
-
+        //        contentLbl.isHidden = true
+        //        textView.text = contentLbl.text
+        //        textView.isHidden = false
+        //        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+        //        textView.becomeFirstResponder()
+        
+        
     }
     
-    @IBAction func editStatusBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressEditBtn(self.tag)
-        
-        contentLbl.isHidden = true
-        saveBtn.isHidden = false
-        cancelBtn.isHidden = false
-        editBtn.isHidden = true
-        deleteBtn.isHidden = true
-        textView.isHidden = false
-        textView.text = contentLbl.text
-        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
-        textView.becomeFirstResponder()
-    }
-    
-    @IBAction func deleteStatusBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressDeleteBtn(self.tag)
-    }
-    
-    @IBAction func cancelBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressCancelBtn(self.tag)
-        
-        contentLbl.isHidden = false
-        saveBtn.isHidden = true
-        cancelBtn.isHidden = true
-//        editBtn.isHidden = false
-//        deleteBtn.isHidden = false
-        menuBtn.isHidden = false
-        textView.isHidden = true
-        textView.resignFirstResponder()
-        saveBtn.isHidden = false
-        cancelBtn.isHidden = false
-    }
-    
-    @IBAction func saveBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressSaveBtn(self.tag, text: textView.text)
-        
-        contentLbl.isHidden = false
-        saveBtn.isHidden = true
-        cancelBtn.isHidden = true
-        editBtn.isHidden = false
-        deleteBtn.isHidden = false
-        //contentLbl.text = textView.text
-        textView.isHidden = true
-        textView.resignFirstResponder()
-    }
+    //    @IBAction func editStatusBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressEditBtn(self.tag)
+    //
+    //        contentLbl.isHidden = true
+    //        saveBtn.isHidden = false
+    //        cancelBtn.isHidden = false
+    //        editBtn.isHidden = true
+    //        deleteBtn.isHidden = true
+    //        textView.isHidden = false
+    //        textView.text = contentLbl.text
+    //        textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+    //        textView.becomeFirstResponder()
+    //    }
+    //
+    //    @IBAction func deleteStatusBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressDeleteBtn(self.tag)
+    //    }
+    //
+    //    @IBAction func cancelBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressCancelBtn(self.tag)
+    //
+    //        contentLbl.isHidden = false
+    //        saveBtn.isHidden = true
+    //        cancelBtn.isHidden = true
+    ////        editBtn.isHidden = false
+    ////        deleteBtn.isHidden = false
+    //        menuBtn.isHidden = false
+    //        textView.isHidden = true
+    //        textView.resignFirstResponder()
+    //        saveBtn.isHidden = false
+    //        cancelBtn.isHidden = false
+    //    }
+    //
+    //    @IBAction func saveBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressSaveBtn(self.tag, text: textView.text)
+    //
+    //        contentLbl.isHidden = false
+    //        saveBtn.isHidden = true
+    //        cancelBtn.isHidden = true
+    //        editBtn.isHidden = false
+    //        deleteBtn.isHidden = false
+    //        //contentLbl.text = textView.text
+    //        textView.isHidden = true
+    //        textView.resignFirstResponder()
+    //    }
     
 }

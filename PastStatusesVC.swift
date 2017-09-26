@@ -80,11 +80,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         let status = statusArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
+            
             cell.cellDelegate = self
-            cell.menuBtn.tag = indexPath.row
+            cell.tag = indexPath.row
+            //cell.menuBtn.tag = indexPath.row
             cell.textView.isHidden = true
             cell.contentLbl.isHidden = false
-            cell.tag = indexPath.row
             cell.configureCell(status: status)
             
             if tappedBtnTags.count > 0 {
@@ -126,7 +127,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             textView.becomeFirstResponder()
             
             self.backBtn.isHidden = true
-            self.saveEditBtn.isHidden = false
+            //self.saveEditBtn.isHidden = false
             
             self.saveEditBtn.isHidden = false
             self.cancelEditBtn.isHidden = false
@@ -187,6 +188,29 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        print("ni")
+        let currentText = textView.text as NSString
+        let updatedText = currentText.replacingCharacters(in: range, with: text)
+        
+        if updatedText.contains("\n") {
+            return false
+        }
+        
+        //label.text = ("/(50 - updatedText.characters.count) / 50 Characters Remaining")
+        //change to number of lines restriction, label display something when out of room? or allow scrolling and keep 50?
+        //resolve in performance clean up
+        return updatedText.characters.count <= CHARACTER_LIMIT
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        if textView.text.contains("\n") {
+            return true
+        }
+        return false
+    }
+    
+    
     //    func keyboardWillShow(notification: NSNotification) {
     //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
     //            if self.view.frame.origin.y == 0{
@@ -202,49 +226,49 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     //        }
     //    }
     
-    func didPressEditBtn(_ tag: Int) {
-        //print("I have pressed a edit button with a tag: \(tag)")
-    }
+//    func didPressEditBtn(_ tag: Int) {
+//        //print("I have pressed a edit button with a tag: \(tag)")
+//    }
     
-    func didPressDeleteBtn(_ tag: Int) {
-        //print("I have pressed a delete button with a tag: \(tag)")
-        
-        //        // create the alert
-        //        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
-        //
-        //        // add the actions (buttons)
-        //        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-        //            if let currentUser = Auth.auth().currentUser?.uid {
-        //                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
-        //                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
-        //            }
-        //        }))
-        //
-        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        //
-        //        // show the alert
-        //        self.present(alert, animated: true, completion: nil)
-        
-    }
+//    func didPressDeleteBtn(_ tag: Int) {
+//        //print("I have pressed a delete button with a tag: \(tag)")
+//        
+//        //        // create the alert
+//        //        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+//        //
+//        //        // add the actions (buttons)
+//        //        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+//        //            if let currentUser = Auth.auth().currentUser?.uid {
+//        //                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
+//        //                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+//        //            }
+//        //        }))
+//        //
+//        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//        //
+//        //        // show the alert
+//        //        self.present(alert, animated: true, completion: nil)
+//        
+//    }
     
-    func didPressSaveBtn(_ tag: Int, text: String) {
-        print("I have pressed a save button with a tag: \(tag)")
-        //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
-        
-    }
+//    func didPressSaveBtn(_ tag: Int, text: String) {
+//        print("I have pressed a save button with a tag: \(tag)")
+//        //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
+//        
+//    }
     
-    func didPressCancelBtn(_ tag: Int) {
-        //print("I have pressed a cancel button with a tag: \(tag)")
-    }
+//    func didPressCancelBtn(_ tag: Int) {
+//        //print("I have pressed a cancel button with a tag: \(tag)")
+//    }
     
     @IBAction func saveEditBtnPressed(_ sender: UIButton) {
-        
+
         textViewDidChange(sender.layer.value(forKey: "textview") as! UITextView)
         
         if let text = sender.layer.value(forKey: "text") {
             if let tag = sender.layer.value(forKey: "tag") as? Int {
                 DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
-                print("TAG: \(tag), TEXT: \(text)")
+                //print("TAG: \(tag), TEXT: \(text)")
                 hideKeyboard()
                 backBtn.isHidden = false
                 cancelEditBtn.isHidden = true

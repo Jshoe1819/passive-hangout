@@ -19,7 +19,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
-    let characterLimit = 85
+    let characterLimit = CHARACTER_LIMIT
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
