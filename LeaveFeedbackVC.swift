@@ -16,6 +16,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var errorLbl: UILabel!
     @IBOutlet weak var characterCountLbl: UILabel!
+    @IBOutlet weak var homeBtn: UIButton!
     
     @IBOutlet weak var characterCountLimitLblBottomConstraint: NSLayoutConstraint!
     var placeholderLabel : UILabel!
@@ -42,18 +43,11 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        //showKeyboard()
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func showKeyboard() {
-        textView.becomeFirstResponder()
-        textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -100,22 +94,32 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         
         if selectedItem == "Positive" {
             placeholderLabel.text = "Glad you enjoy the app!"
+            textView.becomeFirstResponder()
+            homeBtn.isEnabled = false
             errorLbl.isHidden = true
             tableView.isHidden = true
         } else if selectedItem == "Negative" {
             placeholderLabel.text = "What is wrong?"
+            textView.becomeFirstResponder()
+            homeBtn.isEnabled = false
             errorLbl.isHidden = true
             tableView.isHidden = true
         } else if selectedItem == "Suggestion" {
             placeholderLabel.text = "How can we improve?"
+            textView.becomeFirstResponder()
+            homeBtn.isEnabled = false
             errorLbl.isHidden = true
             tableView.isHidden = true
         } else if selectedItem == "Inquiry" {
             placeholderLabel.text = "Any questions?"
+            textView.becomeFirstResponder()
+            homeBtn.isEnabled = false
             errorLbl.isHidden = true
             tableView.isHidden = true
         } else if selectedItem == "Other" {
             placeholderLabel.text = "What can we do for you?"
+            textView.becomeFirstResponder()
+            homeBtn.isEnabled = false
             errorLbl.isHidden = true
             tableView.isHidden = true
         }
@@ -130,7 +134,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             tableView.isHidden = true
         }
         
-        
     }
     
     @IBAction func sendBtnPressed(_ sender: Any) {
@@ -143,7 +146,9 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             let childUpdates = ["content": textView.text,
                                 "postedDate": ServerValue.timestamp()] as [String : Any]
             if let category = selectCategoryBtn.titleLabel?.text {
-                DataService.ds.REF_BASE.child("feedback").child(category).updateChildValues(childUpdates)
+                
+                let key = DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).childByAutoId().key
+                DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).child(key).updateChildValues(childUpdates)
                 textView.resignFirstResponder()
                 performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
             }
