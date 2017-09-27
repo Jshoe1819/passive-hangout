@@ -16,6 +16,7 @@ class Users {
     private var _id: String!
     private var _name: String!
     private var _statusId: Dictionary<String, Any>!
+    private var _friendsList: Dictionary<String, Any>!
     private var _profilePicUrl: String!
     private var _isPrivate: Bool!
     private var _occupation: String!
@@ -45,6 +46,10 @@ class Users {
         return _statusId
     }
     
+    var friendsList: Dictionary<String, Any> {
+        return _friendsList
+    }
+    
     var profilePicUrl: String {
         return _profilePicUrl
     }
@@ -69,19 +74,25 @@ class Users {
         return _school
     }
     
+    var usersKey: String {
+        return _usersKey
+    }
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String) {
+    
+    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>,profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
         self._cover = cover
         self._email = email
         self._id = id
         self._name = name
         self._statusId = statusId
+        self._friendsList = friendsList
         self._profilePicUrl = profilePicUrl
         self._isPrivate = isPrivate
         self._occupation = occupation
         self._employer = employer
         self._currentCity = currentCity
         self._school = school
+        self._usersKey = usersKey
         
     }
     
@@ -106,6 +117,10 @@ class Users {
         
         if let statusId = usersData["statusId"] as? Dictionary<String, Any> {
             self._statusId = statusId
+        }
+        
+        if let friendsList = usersData["friendsList"] as? Dictionary<String, Any> {
+            self._friendsList = friendsList
         }
         
         if let profilePicUrl = usersData["profilePicUrl"] as? String {
