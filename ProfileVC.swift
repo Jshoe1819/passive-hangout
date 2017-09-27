@@ -217,6 +217,7 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func leaveFeedbackBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToLeaveFeedback", sender: nil)
     }
     
 }

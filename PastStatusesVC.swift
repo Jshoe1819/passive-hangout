@@ -29,11 +29,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        
-        
-        //cancelEditBtn.addTarget(self, action: "saveClicked:", for: .touchUpInside)
-        //saveEditBtn.addTarget(self, action: "editClicked:", for: .touchUpInside)
-        
         //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
@@ -124,6 +119,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             textView.isHidden = false
             textView.text = label.text
             textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
+            
             textView.becomeFirstResponder()
             
             self.backBtn.isHidden = true
@@ -138,7 +134,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.saveEditBtn.layer.setValue(tag, forKey: "tag")
             self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
             self.saveEditBtn.layer.setValue(textView, forKey: "textview")
-            
             
         }))
         
@@ -202,14 +197,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         //resolve in performance clean up
         return updatedText.characters.count <= CHARACTER_LIMIT
     }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        if textView.text.contains("\n") {
-            return true
-        }
-        return false
-    }
-    
     
     //    func keyboardWillShow(notification: NSNotification) {
     //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
