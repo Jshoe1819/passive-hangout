@@ -125,7 +125,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         }
     }
     
-    
     @IBAction func selectCategoryBtnPressed(_ sender: Any) {
         
         if tableView.isHidden == true {
