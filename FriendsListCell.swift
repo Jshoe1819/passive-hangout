@@ -98,6 +98,12 @@ class FriendsListCell: UITableViewCell {
                 secondaryLbl.text = users.employer
                 nameLbl.text = users.name
                 
+            } else {
+                
+                menuBtn.isHidden = true
+                secondaryLbl.isHidden = true
+                separatorDotView.isHidden = true
+                
             }
         }
         
