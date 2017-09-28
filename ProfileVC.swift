@@ -185,6 +185,7 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func friendsListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToFriendsList", sender: nil)
     }
     
     @IBAction func pastStatusesBtnPressed(_ sender: Any) {
