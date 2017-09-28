@@ -103,6 +103,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "friendsListToViewProfile", sender: nil)
+    }
+    
     //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     //        if tableView.cellForRow(at: indexPath)?.isHidden == true {
     //            return 0
