@@ -104,7 +104,25 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "friendsListToViewProfile", sender: nil)
+        
+        
+        
+        let selectedProfile = usersArr[indexPath.row]
+        
+        performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+//        if let currentUser = Auth.auth().currentUser?.uid {
+//            let currentProfile = usersArr
+//        }
+        
+        if segue.identifier == "friendsListToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+            }
+        }
     }
     
     //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
