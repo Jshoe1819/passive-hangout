@@ -179,6 +179,9 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         alert.addAction(UIAlertAction(title: "View Profile", style: UIAlertActionStyle.default, handler: { action in
             
             //perform segue
+            let selectedProfile = self.usersArr[tag]
+            
+            self.performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
             self.tappedBtnTags.removeAll()
             self.tableView.reloadData()
             
@@ -232,7 +235,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "friendsListToMyProfie", sender: nil)
+        performSegue(withIdentifier: "friendsListToMyProfile", sender: nil)
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "friendsListToHome", sender: nil)

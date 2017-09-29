@@ -35,10 +35,10 @@ class ViewProfileVC: UIViewController {
     
     var selectedProfile: Users!
     var statusArr = [Status]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
             self.statusArr = []
@@ -65,12 +65,9 @@ class ViewProfileVC: UIViewController {
             }
         })
         
-        
-        
         nameLbl.text = selectedProfile.name
         populateCoverPicture(user: selectedProfile)
         populateProfilePicture(user: selectedProfile)
-        
         
         //for now friend status is from perspective of selected profile NOT current user
         //call function for readability
@@ -80,79 +77,91 @@ class ViewProfileVC: UIViewController {
                 if friendStatus == "received" {
                     
                     if selectedProfile.isPrivate {
-                        scrollView.isScrollEnabled = false
-                        privateImg.isHidden = false
-                        lastStatusLbl.isHidden = true
-                        statusAgeLbl.isHidden = true
-                        staticStackView.isHidden = true
-                        userInfoStackView.isHidden = true
-                        seePastStatusesBtn.isHidden = true
-                        sendMessageBtn.isHidden = true
-                        removeFriendBtn.isHidden = true
-                        privateAddFriendBtn.isHidden = false
-                        publicAddFriendBtn.isHidden = true
+                        
+                        privateConfigure()
                         privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
                         
                     } else if !selectedProfile.isPrivate {
                         
-                        occupationLbl.text = selectedProfile.occupation
-                        employerLbl.text = selectedProfile.employer
-                        currentCityLbl.text = selectedProfile.currentCity
-                        schoolLbl.text = selectedProfile.school
+                        publicConfigure()
                         publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
-            
+                        
                     }
                     
                 } else if friendStatus == "sent" {
                     
                     if selectedProfile.isPrivate {
-                        scrollView.isScrollEnabled = false
-                        privateImg.isHidden = false
-                        lastStatusLbl.isHidden = true
-                        statusAgeLbl.isHidden = true
-                        staticStackView.isHidden = true
-                        userInfoStackView.isHidden = true
-                        seePastStatusesBtn.isHidden = true
-                        sendMessageBtn.isHidden = true
-                        removeFriendBtn.isHidden = true
-                        privateAddFriendBtn.isHidden = false
-                        publicAddFriendBtn.isHidden = true
+                        
+                        privateConfigure()
                         privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
                         
                     } else if !selectedProfile.isPrivate {
                         
-                        //lastStatusLbl.text = selectedProfile.s
-                        //age
-                        occupationLbl.text = selectedProfile.occupation
-                        employerLbl.text = selectedProfile.employer
-                        currentCityLbl.text = selectedProfile.currentCity
-                        schoolLbl.text = selectedProfile.school
+                        publicConfigure()
                         publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
                         
                     }
                     
                 } else if friendStatus == "friends" {
                     
+                    publicConfigure()
                     removeFriendBtn.isHidden = false
                     publicAddFriendBtn.isHidden = true
                     
-                    //lastStatusLbl.text = selectedProfile.s
-                    //age
-                    occupationLbl.text = selectedProfile.occupation
-                    employerLbl.text = selectedProfile.employer
-                    currentCityLbl.text = selectedProfile.currentCity
-                    schoolLbl.text = selectedProfile.school
+                } else {
                     
+                    if selectedProfile.isPrivate {
+                        privateConfigure()
+                        publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                    } else if !selectedProfile.isPrivate {
+                        publicConfigure()
+                        removeFriendBtn.isHidden = true
+                        publicAddFriendBtn.isHidden = false
+                        publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                    }
                 }
+                
             }
-            
         }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func privateConfigure() {
+        
+        scrollView.isScrollEnabled = false
+        privateImg.isHidden = false
+        lastStatusLbl.isHidden = true
+        statusAgeLbl.isHidden = true
+        staticStackView.isHidden = true
+        userInfoStackView.isHidden = true
+        seePastStatusesBtn.isHidden = true
+        sendMessageBtn.isHidden = true
+        removeFriendBtn.isHidden = true
+        publicAddFriendBtn.isHidden = true
+        privateAddFriendBtn.isHidden = false
+        
+    }
+    
+    func publicConfigure() {
+        
+        occupationLbl.text = emptyCheck(inputString: selectedProfile.occupation)
+        employerLbl.text = emptyCheck(inputString: selectedProfile.employer)
+        currentCityLbl.text = emptyCheck(inputString: selectedProfile.currentCity)
+        schoolLbl.text = emptyCheck(inputString: selectedProfile.school)
+        
+    }
+    
+    func emptyCheck(inputString: String) -> String {
+        if inputString == "" {
+            return "N/A"
+        } else {
+            return inputString
+        }
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
@@ -264,9 +273,52 @@ class ViewProfileVC: UIViewController {
     @IBAction func sendMessageBtnPressed(_ sender: Any) {
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
+            let friendKey = self.selectedProfile.usersKey
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+            }
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        // show the alert
+        present(alert, animated: true, completion: nil)
+        
     }
+    
     @IBAction func publicAddFriendBtnPressed(_ sender: Any) {
+        
+        if publicAddFriendBtn.title(for: .normal) == "Respond to Friend Request" {
+            performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+            
+        } else if publicAddFriendBtn.title(for: .normal) == "Friend Request Sent" {
+            
+            let friendKey = selectedProfile.usersKey
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+            }
+            publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+            
+        } else {
+            
+            let friendKey = selectedProfile.usersKey
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "sent"])
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "received"])
+            }
+            publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+        }
     }
+    
     @IBAction func privateAddFriendBtnPressed(_ sender: Any) {
     }
     @IBAction func backBtnPressed(_ sender: Any) {
@@ -278,5 +330,5 @@ class ViewProfileVC: UIViewController {
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToMyProfile", sender: nil)
     }
-
+    
 }
