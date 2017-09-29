@@ -35,6 +35,7 @@ class ViewProfileVC: UIViewController {
     
     var selectedProfile: Users!
     var statusArr = [Status]()
+    var selectedStatusArr = [Status]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class ViewProfileVC: UIViewController {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.insert(status, at: 0)
+                        
                         for _ in self.statusArr {
                             for index in 0..<self.statusArr.count {
                                 if self.statusArr[index].userId == self.selectedProfile.usersKey {
@@ -63,7 +65,11 @@ class ViewProfileVC: UIViewController {
                     }
                 }
             }
+            self.currentUserStatsArr(array: self.statusArr)
         })
+        
+        print(statusArr)
+        currentUserStatsArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
         populateCoverPicture(user: selectedProfile)
@@ -267,8 +273,31 @@ class ViewProfileVC: UIViewController {
         }
     }
     
+    func currentUserStatsArr(array: [Status]) {
+        for status in array {
+            if status.userId == selectedProfile.usersKey {
+                selectedStatusArr.append(status)
+            }
+        }
+    }
+        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //        if let currentUser = Auth.auth().currentUser?.uid {
+        //            let currentProfile = usersArr
+        //        }
+        
+        if segue.identifier == "viewProfileToPastStatuses" {
+            if let nextVC = segue.destination as? PastStatusesVC {
+                nextVC.selectedUserStatuses = sender as! [Status]
+                nextVC.originController = "viewProfileToPastStatuses"
+                nextVC.viewedProfile = selectedProfile
+            }
+        }
+    }
     
     @IBAction func seePastStatusesBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "viewProfileToPastStatuses", sender: selectedStatusArr)
     }
     @IBAction func sendMessageBtnPressed(_ sender: Any) {
     }

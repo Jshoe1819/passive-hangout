@@ -19,6 +19,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     var statusArr = [Status]()
     var tappedBtnTags = [Int]()
+    var originController = ""
+    var selectedUserStatuses = [Status]()
+    var viewedProfile: Users!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +70,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if originController == "viewProfileToPastStatuses" {
+            return selectedUserStatuses.count
+        } else {
         return statusArr.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +89,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.textView.isHidden = true
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status)
+            
+            if originController == "viewProfileToPastStatuses" {
+                cell.configureCell(status: selectedUserStatuses[indexPath.row])
+                cell.menuBtn.isHidden = true
+                cell.joinBtn.isHidden = false
+            }
             
             if tappedBtnTags.count > 0 {
                 cell.menuBtn.isEnabled = false
@@ -248,6 +261,23 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
 //        //print("I have pressed a cancel button with a tag: \(tag)")
 //    }
     
+    func didPressJoinBtn(_ tag: Int) {
+        print("I have pressed a join button with a tag: \(tag)")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //        if let currentUser = Auth.auth().currentUser?.uid {
+        //            let currentProfile = usersArr
+        //        }
+        
+        if segue.identifier == "pastStatusesToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+            }
+        }
+    }
+    
     @IBAction func saveEditBtnPressed(_ sender: UIButton) {
 
         textViewDidChange(sender.layer.value(forKey: "textview") as! UITextView)
@@ -277,7 +307,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
+        
+        if originController == "viewProfileToPastStatuses" {
+        performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
+        } else {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
+        }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToActivityFeed", sender: nil)

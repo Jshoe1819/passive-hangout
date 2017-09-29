@@ -21,6 +21,7 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var joinBtn: UIButton!
     
     //var pressedBtnTags = [Int]()
     
@@ -68,6 +69,11 @@ class PastStatusesCell: UITableViewCell {
             return ("a few seconds ago")
         }
     }
+    
+    @IBAction func joinBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressJoinBtn(self.tag)
+    }
+    
     
     @IBAction func menuBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
