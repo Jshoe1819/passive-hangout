@@ -22,6 +22,8 @@ class ProfileVC: UIViewController{
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var profileNewFriendIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,14 @@ class ProfileVC: UIViewController{
                     self.populateProfilePicture(user: user)
                     //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
+                    let answer = user.friendsList.values.contains { (value) -> Bool in
+                        value as? String == "received"
+                    }
+                    if answer {
+                        self.footerNewFriendIndicator.isHidden = false
+                        self.profileNewFriendIndicator.isHidden = false
+                    }
+                    
                 }
             })
         }
@@ -105,7 +115,11 @@ class ProfileVC: UIViewController{
             dateFormatter.timeZone = TimeZone.current //Set timezone that you want
             dateFormatter.locale = NSLocale.current
             dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
-            let strDate = dateFormatter.string(from: date)
+            var strDate = dateFormatter.string(from: date)
+            if strDate.characters.first == "0" {
+                strDate.characters.removeFirst()
+                return strDate
+            }
             return strDate
             
         } else {

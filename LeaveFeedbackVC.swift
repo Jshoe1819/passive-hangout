@@ -18,6 +18,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var characterCountLbl: UILabel!
     @IBOutlet weak var homeBtn: UIButton!
     @IBOutlet weak var characterCountLimitLblBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var hideTableBtn: UIButton!
     var placeholderLabel : UILabel!
     
     let choiceArray = ["Positive", "Negative", "Suggestion", "Inquiry", "Other"]
@@ -57,6 +58,9 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        if tableView.isHidden == false {
+            tableView.isHidden = true
+        }
         characterCountLbl.text = "\(textView.text.characters.count) / \(characterLimit) max characters remaining"
     }
     
@@ -124,10 +128,18 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         }
     }
     
+    @IBAction func hideTableBtnPressed(_ sender: Any) {
+        if tableView.isHidden == false {
+            tableView.isHidden = true
+        }
+        hideTableBtn.isHidden = true
+    }
+    
     @IBAction func selectCategoryBtnPressed(_ sender: Any) {
         
         if tableView.isHidden == true {
             tableView.isHidden = false
+            hideTableBtn.isHidden = false
         } else {
             tableView.isHidden = true
         }
@@ -174,7 +186,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         }
         
     }
-
+    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "leaveFeedbackToHome", sender: nil)
     }

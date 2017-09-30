@@ -67,7 +67,7 @@ class ViewProfileVC: UIViewController {
             }
             self.currentUserStatsArr(array: self.statusArr)
         })
-        
+                
         currentUserStatsArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
@@ -149,6 +149,7 @@ class ViewProfileVC: UIViewController {
         removeFriendBtn.isHidden = true
         publicAddFriendBtn.isHidden = true
         privateAddFriendBtn.isHidden = false
+        isPrivateStackView.isHidden = false
         
     }
     
@@ -158,6 +159,7 @@ class ViewProfileVC: UIViewController {
         employerLbl.text = emptyCheck(inputString: selectedProfile.employer)
         currentCityLbl.text = emptyCheck(inputString: selectedProfile.currentCity)
         schoolLbl.text = emptyCheck(inputString: selectedProfile.school)
+        isPrivateStackView.isHidden = true
         
     }
     
@@ -204,7 +206,11 @@ class ViewProfileVC: UIViewController {
             dateFormatter.timeZone = TimeZone.current //Set timezone that you want
             dateFormatter.locale = NSLocale.current
             dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
-            let strDate = dateFormatter.string(from: date)
+            var strDate = dateFormatter.string(from: date)
+            if strDate.characters.first == "0" {
+                strDate.characters.removeFirst()
+                return strDate
+            }
             return strDate
             
         } else {
