@@ -19,7 +19,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
-    let characterLimit = CHARACTER_LIMIT
+    //let characterLimit = CHARACTER_LIMIT
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -128,8 +128,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -174,7 +172,15 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //label.text = ("/(50 - updatedText.characters.count) / 50 Characters Remaining")
         //change to number of lines restriction, label display something when out of room? or allow scrolling and keep 50?
         //resolve in performance clean up
-        return updatedText.characters.count <= characterLimit
+        return updatedText.characters.count <= CHARACTER_LIMIT
+    }
+    
+    func setAvailable(segmentControl: UISegmentedControl) -> Bool {
+        if segmentControl.selectedSegmentIndex == 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     @IBAction func saveStatusBtnPressed(_ sender: Any) {
@@ -211,16 +217,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func setAvailable(segmentControl: UISegmentedControl) -> Bool {
-        if segmentControl.selectedSegmentIndex == 0 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    
-    
     @IBAction func homeBTnPressed(_ sender: Any) {
         
         if tableView.contentOffset == CGPoint.zero {
@@ -247,102 +243,102 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    @IBAction func sortBtnPressed(_ sender: Any) {
-        opaqueStatusBackground.isHidden = false
-        sortPopUpBottomConstraint.constant = 55
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    @IBAction func availableSortBtnPressed(_ sender: Any) {
-        availableIndicatorImg.isHidden = false
-        nameIndicatorImg.isHidden = true
-        lastUpdatedIndicatorImg.isHidden = true
-        opaqueStatusBackground.isHidden = true
-        sortPopUpBottomConstraint.constant = -240
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "available").observe(.value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
-    }
-    
-    @IBAction func nameSortBtnPressed(_ sender: Any) {
-        nameIndicatorImg.isHidden = false
-        lastUpdatedIndicatorImg.isHidden = true
-        availableIndicatorImg.isHidden = true
-        opaqueStatusBackground.isHidden = true
-        sortPopUpBottomConstraint.constant = -240
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId").observe(.value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
-    }
-    
-    @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
-        lastUpdatedIndicatorImg.isHidden = false
-        availableIndicatorImg.isHidden = true
-        nameIndicatorImg.isHidden = true
-        opaqueStatusBackground.isHidden = true
-        sortPopUpBottomConstraint.constant = -240
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
-    }
-    
-    @IBAction func cancelSortBtnPressed(_ sender: Any) {
-        opaqueStatusBackground.isHidden = true
-        sortPopUpBottomConstraint.constant = -240
-        UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-    }
+//    @IBAction func sortBtnPressed(_ sender: Any) {
+//        opaqueStatusBackground.isHidden = false
+//        sortPopUpBottomConstraint.constant = 55
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.view.layoutIfNeeded()
+//        })
+//    }
+//    
+//    @IBAction func availableSortBtnPressed(_ sender: Any) {
+//        availableIndicatorImg.isHidden = false
+//        nameIndicatorImg.isHidden = true
+//        lastUpdatedIndicatorImg.isHidden = true
+//        opaqueStatusBackground.isHidden = true
+//        sortPopUpBottomConstraint.constant = -240
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.view.layoutIfNeeded()
+//        })
+//        DataService.ds.REF_STATUS.queryOrdered(byChild: "available").observe(.value, with: { (snapshot) in
+//            
+//            self.statusArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("STATUS: \(snap)")
+//                    if let statusDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let status = Status(statusKey: key, statusData: statusDict)
+//                        self.statusArr.insert(status, at: 0)
+//                    }
+//                }
+//            }
+//            self.tableView.reloadData()
+//        })
+//    }
+//    
+//    @IBAction func nameSortBtnPressed(_ sender: Any) {
+//        nameIndicatorImg.isHidden = false
+//        lastUpdatedIndicatorImg.isHidden = true
+//        availableIndicatorImg.isHidden = true
+//        opaqueStatusBackground.isHidden = true
+//        sortPopUpBottomConstraint.constant = -240
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.view.layoutIfNeeded()
+//        })
+//        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId").observe(.value, with: { (snapshot) in
+//            
+//            self.statusArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("STATUS: \(snap)")
+//                    if let statusDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let status = Status(statusKey: key, statusData: statusDict)
+//                        self.statusArr.insert(status, at: 0)
+//                    }
+//                }
+//            }
+//            self.tableView.reloadData()
+//        })
+//    }
+//    
+//    @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
+//        lastUpdatedIndicatorImg.isHidden = false
+//        availableIndicatorImg.isHidden = true
+//        nameIndicatorImg.isHidden = true
+//        opaqueStatusBackground.isHidden = true
+//        sortPopUpBottomConstraint.constant = -240
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.view.layoutIfNeeded()
+//        })
+//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+//            
+//            self.statusArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("STATUS: \(snap)")
+//                    if let statusDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let status = Status(statusKey: key, statusData: statusDict)
+//                        self.statusArr.insert(status, at: 0)
+//                    }
+//                }
+//            }
+//            self.tableView.reloadData()
+//        })
+//    }
+//    
+//    @IBAction func cancelSortBtnPressed(_ sender: Any) {
+//        opaqueStatusBackground.isHidden = true
+//        sortPopUpBottomConstraint.constant = -240
+//        UIView.animate(withDuration: 0.3, animations: {
+//            self.view.layoutIfNeeded()
+//        })
+//    }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
     }

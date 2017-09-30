@@ -17,7 +17,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var errorLbl: UILabel!
     @IBOutlet weak var characterCountLbl: UILabel!
     @IBOutlet weak var homeBtn: UIButton!
-    
     @IBOutlet weak var characterCountLimitLblBottomConstraint: NSLayoutConstraint!
     var placeholderLabel : UILabel!
     
@@ -175,7 +174,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         }
         
     }
-    
+
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "leaveFeedbackToHome", sender: nil)
     }

@@ -73,7 +73,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if originController == "viewProfileToPastStatuses" {
             return selectedUserStatuses.count
         } else {
-        return statusArr.count
+            return statusArr.count
         }
     }
     
@@ -116,7 +116,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton) {
         //print("I have pressed menu button with tag: \(tag)")
-        
+        textView.delegate = self
         tappedBtnTags.append(tag)
         //print("JAKE: \(tappedBtnTags)")
         tableView.reloadData()
@@ -165,7 +165,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-            
+                
                 //textView.isHidden = true
                 self.tappedBtnTags.removeAll()
                 self.tableView.reloadData()
@@ -176,11 +176,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-        
+            
             //textView.isHidden = true
             self.tappedBtnTags.removeAll()
             self.tableView.reloadData()
-        
+            
         }))
         
         // show the alert
@@ -197,7 +197,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        print("ni")
         let currentText = textView.text as NSString
         let updatedText = currentText.replacingCharacters(in: range, with: text)
         
@@ -210,56 +209,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         //resolve in performance clean up
         return updatedText.characters.count <= CHARACTER_LIMIT
     }
-    
-    //    func keyboardWillShow(notification: NSNotification) {
-    //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-    //            if self.view.frame.origin.y == 0{
-    //                self.view.frame.origin.y -= keyboardSize.height - 50
-    //            }
-    //        }
-    //    }
-    //    func keyboardWillHide(notification: NSNotification) {
-    //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-    //            if self.view.frame.origin.y != 0{
-    //                self.view.frame.origin.y += keyboardSize.height - 50
-    //            }
-    //        }
-    //    }
-    
-//    func didPressEditBtn(_ tag: Int) {
-//        //print("I have pressed a edit button with a tag: \(tag)")
-//    }
-    
-//    func didPressDeleteBtn(_ tag: Int) {
-//        //print("I have pressed a delete button with a tag: \(tag)")
-//        
-//        //        // create the alert
-//        //        let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
-//        //
-//        //        // add the actions (buttons)
-//        //        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-//        //            if let currentUser = Auth.auth().currentUser?.uid {
-//        //                DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
-//        //                DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
-//        //            }
-//        //        }))
-//        //
-//        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-//        //
-//        //        // show the alert
-//        //        self.present(alert, animated: true, completion: nil)
-//        
-//    }
-    
-//    func didPressSaveBtn(_ tag: Int, text: String) {
-//        print("I have pressed a save button with a tag: \(tag)")
-//        //DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
-//        
-//    }
-    
-//    func didPressCancelBtn(_ tag: Int) {
-//        //print("I have pressed a cancel button with a tag: \(tag)")
-//    }
     
     func didPressJoinBtn(_ tag: Int) {
         print("I have pressed a join button with a tag: \(tag)")
@@ -279,8 +228,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     @IBAction func saveEditBtnPressed(_ sender: UIButton) {
-
-        textViewDidChange(sender.layer.value(forKey: "textview") as! UITextView)
         
         if let text = sender.layer.value(forKey: "text") {
             if let tag = sender.layer.value(forKey: "tag") as? Int {
@@ -309,9 +256,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBAction func backBtnPressed(_ sender: Any) {
         
         if originController == "viewProfileToPastStatuses" {
-        performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
+            performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
-        performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
+            performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
         }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
@@ -320,7 +267,5 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
     }
-    
-    
-    
+
 }

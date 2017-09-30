@@ -68,7 +68,6 @@ class ViewProfileVC: UIViewController {
             self.currentUserStatsArr(array: self.statusArr)
         })
         
-        print(statusArr)
         currentUserStatsArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
@@ -191,12 +190,23 @@ class ViewProfileVC: UIViewController {
             } else {
                 return("\(hoursInterval) hours ago")
             }
-        } else if (daysInterval >= 1) {
+        } else if (daysInterval >= 1 && daysInterval < 15) {
             if daysInterval == 1 {
                 return ("\(daysInterval) day ago")
             } else {
                 return("\(daysInterval) days ago")
             }
+        } else if daysInterval >= 15 {
+            
+            let shortenedUnix = unixTimestamp / 1000
+            let date = Date(timeIntervalSince1970: shortenedUnix)
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeZone = TimeZone.current //Set timezone that you want
+            dateFormatter.locale = NSLocale.current
+            dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
+            let strDate = dateFormatter.string(from: date)
+            return strDate
+            
         } else {
             return ("a few seconds ago")
         }

@@ -125,14 +125,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         }
     }
     
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        if tableView.cellForRow(at: indexPath)?.isHidden == true {
-    //            return 0
-    //        } else {
-    //            return 12
-    //        }
-    //    }
-    
     func didPressMenuBtn(_ tag: Int) {
         
         tappedBtnTags.append(tag)

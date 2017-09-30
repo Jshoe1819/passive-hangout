@@ -14,11 +14,9 @@ class FriendsListCell: UITableViewCell {
     @IBOutlet weak var profilePic: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var primaryLbl: UILabel!
-    @IBOutlet weak var secondaryLbl: UILabel!
     @IBOutlet weak var ignoreBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
-    @IBOutlet weak var separatorDotView: UIView!
     
     weak var cellDelegate: FriendsListCellDelegate?
     
@@ -63,46 +61,40 @@ class FriendsListCell: UITableViewCell {
         if let friendKey = friendsList[users.usersKey] as? String {
             if friendKey == "friends" {
                 
-                if users.employer == "" {
-                    separatorDotView.isHidden = true
-                }
                 menuBtn.isHidden = false
                 approveBtn.isHidden = true
                 ignoreBtn.isHidden = true
                 
-                primaryLbl.text = users.occupation
-                secondaryLbl.text = users.employer
+                primaryLbl.text = users.currentCity
+                //secondaryLbl.text = users.employer
                 nameLbl.text = users.name
                 
             } else if friendKey == "sent" {
                 
                 menuBtn.isHidden = true
-                secondaryLbl.isHidden = true
-                separatorDotView.isHidden = true
+                //secondaryLbl.isHidden = true
+                //separatorDotView.isHidden = true
                 
                 primaryLbl.text = "Friend Request Sent"
                 primaryLbl.font = UIFont(name: "AvenirNext-UltralightItalic", size: 14)
                 nameLbl.text = users.name
-                nameLbl.font = UIFont(name: "AvenirNext-Regular", size: 16)
                 
             } else if friendKey == "received" {
                 
-                if users.employer == "" {
-                    separatorDotView.isHidden = true
-                }
                 menuBtn.isHidden = true
                 ignoreBtn.isHidden = false
                 approveBtn.isHidden = false
                 
-                primaryLbl.text = users.occupation
-                secondaryLbl.text = users.employer
+                primaryLbl.text = "Awaiting Approval"
+                primaryLbl.font = UIFont(name: "AvenirNext-UltralightItalic", size: 14)
+                //secondaryLbl.text = users.employer
                 nameLbl.text = users.name
                 
             } else {
                 
                 menuBtn.isHidden = true
-                secondaryLbl.isHidden = true
-                separatorDotView.isHidden = true
+                //secondaryLbl.isHidden = true
+                //separatorDotView.isHidden = true
                 
             }
         }
