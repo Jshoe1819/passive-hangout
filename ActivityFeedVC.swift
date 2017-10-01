@@ -14,7 +14,7 @@ import Firebase
 import FBSDKLoginKit
 import FBSDKCoreKit
 
-class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
+class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, FeedCellDelegate {
     
     var statusArr = [Status]()
     var usersArr = [Users]()
@@ -121,6 +121,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let users = usersArr
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell") as? FeedCell {
+            cell.cellDelegate = self
+            cell.cellDelegate = self
+            cell.tag = indexPath.row
             cell.configureCell(status: status, users: users)
             return cell
         } else {
@@ -195,7 +198,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
                 let status = ["available": setAvailable(segmentControl: availableSelected),
                               "content": statusContent,
-                              "joinedList": [" ", true],
+                              "joinedList": ["a": true],
                               "joinedNumber": 0,
                               "postedDate": ServerValue.timestamp(),
                               "userId": userId] as [String : Any]
@@ -362,6 +365,37 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     //            self.view.layoutIfNeeded()
     //        })
     //    }
+    
+    func didPressJoinBtn(_ tag: Int) {
+        let statusKey = statusArr[tag].statusKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+            tableView.reloadData()
+        }
+    }
+    
+    func didPressAlreadyJoinedBtn(_ tag: Int) {
+        let statusKey = statusArr[tag].statusKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+            tableView.reloadData()
+        }
+        
+    }
+    
+//    func didPressJoinBtn(_ tag: Int) {
+//        let statusKey = joinedList[tag].statusKey
+//        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").updateChildValues([statusKey: "true" ])
+//        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser.usersKey: "true"])
+//    }
+//    
+//    func didPressAlreadyJoinedBtn(_ tag: Int) {
+//        let statusKey = joinedList[tag].statusKey
+//        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").child(statusKey).removeValue()
+//        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser.usersKey).removeValue()
+//    }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
     }

@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseStorage
+import FirebaseAuth
 import FBSDKLoginKit
 import FBSDKCoreKit
 
@@ -21,8 +22,11 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var displayNameLbl: UILabel!
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
-    @IBOutlet weak var joinBtnOutlet: UIButton!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    @IBOutlet weak var joinBtnOutlet: UIButton!
+    @IBOutlet weak var alreadyJoinedBtn: UIButton!
+    
+    weak var cellDelegate: FeedCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,7 +41,15 @@ class FeedCell: UITableViewCell {
                 if key == status.statusKey {
                     self.displayNameLbl.text = users[index].name
                     self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
-                    
+                    if let currentUser = Auth.auth().currentUser?.uid {
+                        let join = status.joinedList.keys.contains { (key) -> Bool in
+                            key == currentUser
+                        }
+                        if join {
+                            self.joinBtnOutlet.isHidden = true
+                            self.alreadyJoinedBtn.isHidden = false
+                        }
+                    }
                     if let image = ActivityFeedVC.imageCache.object(forKey: users[index].profilePicUrl as NSString) {
                         profilePicImg.image = image
                         //print("JAKE: caching working")
@@ -127,5 +139,16 @@ class FeedCell: UITableViewCell {
         } else {
             return ("a few seconds ago")
         }
+    }
+    @IBAction func joinBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressJoinBtn(self.tag)
+        joinBtnOutlet.isHidden = true
+        alreadyJoinedBtn.isHidden = false
+        
+    }
+    @IBAction func alreadyJoinedBtnPressed(_ sender: Any) {
+        cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
+        joinBtnOutlet.isHidden = false
+        alreadyJoinedBtn.isHidden = true
     }
 }

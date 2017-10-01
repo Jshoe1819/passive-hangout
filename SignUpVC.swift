@@ -94,6 +94,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                             let userData = ["name":"\(self.nameField.text!)",
                                                             "email":"\(self.emailField.text!)",
                                                             "statusId": ["a":true],
+                                                            "friendsList": ["a": true],
+                                                            "joinedList": ["a": true],
                                                             "id": "a",
                                                             "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
                                                             "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",

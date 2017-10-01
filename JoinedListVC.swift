@@ -49,6 +49,11 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let status = joinedList[indexPath.row]
         let users = usersArr
         
+//        if joinedList.count ==  1 {
+//            //create a promt for empty, do same for all other tableviews
+//            return JoinedListCell()
+//        }
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
             cell.cellDelegate = self
             cell.tag = indexPath.row
