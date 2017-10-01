@@ -79,7 +79,13 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let status = statusArr[indexPath.row]
+        var status: Status
+        
+        if originController == "viewProfileToPastStatuses" {
+            status = selectedUserStatuses[indexPath.row]
+        } else {
+            status = statusArr[indexPath.row]
+        }
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
             
@@ -91,9 +97,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.configureCell(status: status)
             
             if originController == "viewProfileToPastStatuses" {
-                cell.configureCell(status: selectedUserStatuses[indexPath.row])
+                //cell.configureCell(status: selectedUserStatuses[indexPath.row])
                 cell.menuBtn.isHidden = true
                 cell.joinBtn.isHidden = false
+                cell.numberJoinedLbl.isHidden = true
             }
             
             if tappedBtnTags.count > 0 {
@@ -267,5 +274,5 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
     }
-
+    
 }

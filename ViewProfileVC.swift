@@ -65,10 +65,10 @@ class ViewProfileVC: UIViewController {
                     }
                 }
             }
-            self.currentUserStatsArr(array: self.statusArr)
+            self.currentUserStatusArr(array: self.statusArr)
         })
                 
-        currentUserStatsArr(array: statusArr)
+        currentUserStatusArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
         populateCoverPicture(user: selectedProfile)
@@ -289,7 +289,7 @@ class ViewProfileVC: UIViewController {
         }
     }
     
-    func currentUserStatsArr(array: [Status]) {
+    func currentUserStatusArr(array: [Status]) {
         for status in array {
             if status.userId == selectedProfile.usersKey {
                 selectedStatusArr.append(status)

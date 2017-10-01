@@ -36,8 +36,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.rowHeight = UITableViewAutomaticDimension
-//        tableView.estimatedRowHeight = 90
+        //        tableView.rowHeight = UITableViewAutomaticDimension
+        //        tableView.estimatedRowHeight = 90
         
         //send url to user node, url will always be the same, only needs to happen once, move out of vc
         if FBSDKAccessToken.current() != nil {
@@ -243,102 +243,125 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-//    @IBAction func sortBtnPressed(_ sender: Any) {
-//        opaqueStatusBackground.isHidden = false
-//        sortPopUpBottomConstraint.constant = 55
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-//    
-//    @IBAction func availableSortBtnPressed(_ sender: Any) {
-//        availableIndicatorImg.isHidden = false
-//        nameIndicatorImg.isHidden = true
-//        lastUpdatedIndicatorImg.isHidden = true
-//        opaqueStatusBackground.isHidden = true
-//        sortPopUpBottomConstraint.constant = -240
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//        })
-//        DataService.ds.REF_STATUS.queryOrdered(byChild: "available").observe(.value, with: { (snapshot) in
-//            
-//            self.statusArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("STATUS: \(snap)")
-//                    if let statusDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let status = Status(statusKey: key, statusData: statusDict)
-//                        self.statusArr.insert(status, at: 0)
-//                    }
-//                }
-//            }
-//            self.tableView.reloadData()
-//        })
-//    }
-//    
-//    @IBAction func nameSortBtnPressed(_ sender: Any) {
-//        nameIndicatorImg.isHidden = false
-//        lastUpdatedIndicatorImg.isHidden = true
-//        availableIndicatorImg.isHidden = true
-//        opaqueStatusBackground.isHidden = true
-//        sortPopUpBottomConstraint.constant = -240
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//        })
-//        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId").observe(.value, with: { (snapshot) in
-//            
-//            self.statusArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("STATUS: \(snap)")
-//                    if let statusDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let status = Status(statusKey: key, statusData: statusDict)
-//                        self.statusArr.insert(status, at: 0)
-//                    }
-//                }
-//            }
-//            self.tableView.reloadData()
-//        })
-//    }
-//    
-//    @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
-//        lastUpdatedIndicatorImg.isHidden = false
-//        availableIndicatorImg.isHidden = true
-//        nameIndicatorImg.isHidden = true
-//        opaqueStatusBackground.isHidden = true
-//        sortPopUpBottomConstraint.constant = -240
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//        })
-//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
-//            
-//            self.statusArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("STATUS: \(snap)")
-//                    if let statusDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let status = Status(statusKey: key, statusData: statusDict)
-//                        self.statusArr.insert(status, at: 0)
-//                    }
-//                }
-//            }
-//            self.tableView.reloadData()
-//        })
-//    }
-//    
-//    @IBAction func cancelSortBtnPressed(_ sender: Any) {
-//        opaqueStatusBackground.isHidden = true
-//        sortPopUpBottomConstraint.constant = -240
-//        UIView.animate(withDuration: 0.3, animations: {
-//            self.view.layoutIfNeeded()
-//        })
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //        if let currentUser = Auth.auth().currentUser?.uid {
+        //            let currentProfile = usersArr
+        //        }
+        
+        if segue.identifier == "activityFeedToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    for index in 0..<usersArr.count {
+                        if usersArr[index].usersKey == currentUser {
+                            nextVC.statusArr = statusArr
+                            nextVC.currentUser = usersArr[index]
+                            nextVC.usersArr = usersArr
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    @IBAction func sortBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "activityFeedToJoinedList", sender: self)
+        //        opaqueStatusBackground.isHidden = false
+        //        sortPopUpBottomConstraint.constant = 55
+        //        UIView.animate(withDuration: 0.3, animations: {
+        //            self.view.layoutIfNeeded()
+        //        })
+    }
+    //
+    //    @IBAction func availableSortBtnPressed(_ sender: Any) {
+    //        availableIndicatorImg.isHidden = false
+    //        nameIndicatorImg.isHidden = true
+    //        lastUpdatedIndicatorImg.isHidden = true
+    //        opaqueStatusBackground.isHidden = true
+    //        sortPopUpBottomConstraint.constant = -240
+    //        UIView.animate(withDuration: 0.3, animations: {
+    //            self.view.layoutIfNeeded()
+    //        })
+    //        DataService.ds.REF_STATUS.queryOrdered(byChild: "available").observe(.value, with: { (snapshot) in
+    //
+    //            self.statusArr = []
+    //
+    //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+    //                for snap in snapshot {
+    //                    //print("STATUS: \(snap)")
+    //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+    //                        let key = snap.key
+    //                        let status = Status(statusKey: key, statusData: statusDict)
+    //                        self.statusArr.insert(status, at: 0)
+    //                    }
+    //                }
+    //            }
+    //            self.tableView.reloadData()
+    //        })
+    //    }
+    //
+    //    @IBAction func nameSortBtnPressed(_ sender: Any) {
+    //        nameIndicatorImg.isHidden = false
+    //        lastUpdatedIndicatorImg.isHidden = true
+    //        availableIndicatorImg.isHidden = true
+    //        opaqueStatusBackground.isHidden = true
+    //        sortPopUpBottomConstraint.constant = -240
+    //        UIView.animate(withDuration: 0.3, animations: {
+    //            self.view.layoutIfNeeded()
+    //        })
+    //        DataService.ds.REF_STATUS.queryOrdered(byChild: "userId").observe(.value, with: { (snapshot) in
+    //
+    //            self.statusArr = []
+    //
+    //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+    //                for snap in snapshot {
+    //                    //print("STATUS: \(snap)")
+    //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+    //                        let key = snap.key
+    //                        let status = Status(statusKey: key, statusData: statusDict)
+    //                        self.statusArr.insert(status, at: 0)
+    //                    }
+    //                }
+    //            }
+    //            self.tableView.reloadData()
+    //        })
+    //    }
+    //
+    //    @IBAction func lastUpdatedSortBtnPressed(_ sender: Any) {
+    //        lastUpdatedIndicatorImg.isHidden = false
+    //        availableIndicatorImg.isHidden = true
+    //        nameIndicatorImg.isHidden = true
+    //        opaqueStatusBackground.isHidden = true
+    //        sortPopUpBottomConstraint.constant = -240
+    //        UIView.animate(withDuration: 0.3, animations: {
+    //            self.view.layoutIfNeeded()
+    //        })
+    //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+    //
+    //            self.statusArr = []
+    //
+    //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+    //                for snap in snapshot {
+    //                    //print("STATUS: \(snap)")
+    //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+    //                        let key = snap.key
+    //                        let status = Status(statusKey: key, statusData: statusDict)
+    //                        self.statusArr.insert(status, at: 0)
+    //                    }
+    //                }
+    //            }
+    //            self.tableView.reloadData()
+    //        })
+    //    }
+    //
+    //    @IBAction func cancelSortBtnPressed(_ sender: Any) {
+    //        opaqueStatusBackground.isHidden = true
+    //        sortPopUpBottomConstraint.constant = -240
+    //        UIView.animate(withDuration: 0.3, animations: {
+    //            self.view.layoutIfNeeded()
+    //        })
+    //    }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
     }

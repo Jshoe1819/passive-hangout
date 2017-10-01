@@ -17,6 +17,7 @@ class Users {
     private var _name: String!
     private var _statusId: Dictionary<String, Any>!
     private var _friendsList: Dictionary<String, Any>!
+    private var _joinedList: Dictionary<String, Any>!
     private var _profilePicUrl: String!
     private var _isPrivate: Bool!
     private var _occupation: String!
@@ -50,6 +51,10 @@ class Users {
         return _friendsList
     }
     
+    var joinedList: Dictionary<String, Any> {
+        return _joinedList
+    }
+    
     var profilePicUrl: String {
         return _profilePicUrl
     }
@@ -79,13 +84,14 @@ class Users {
     }
     
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>,profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
+    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>, joinedList: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
         self._cover = cover
         self._email = email
         self._id = id
         self._name = name
         self._statusId = statusId
         self._friendsList = friendsList
+        self._joinedList = joinedList
         self._profilePicUrl = profilePicUrl
         self._isPrivate = isPrivate
         self._occupation = occupation
@@ -121,6 +127,10 @@ class Users {
         
         if let friendsList = usersData["friendsList"] as? Dictionary<String, Any> {
             self._friendsList = friendsList
+        }
+        
+        if let joinedList = usersData["joinedList"] as? Dictionary<String, Any> {
+            self._joinedList = joinedList
         }
         
         if let profilePicUrl = usersData["profilePicUrl"] as? String {
