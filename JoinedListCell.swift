@@ -18,6 +18,9 @@ class JoinedListCell: UITableViewCell {
     @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var joinBtn: UIButton!
+    @IBOutlet weak var alreadyJoinedBtn: UIButton!
+    
+    weak var cellDelegate: JoinedListCellDelegate?
 
 
     override func awakeFromNib() {
@@ -119,6 +122,17 @@ class JoinedListCell: UITableViewCell {
         }
     }
 
+    @IBAction func joinBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressJoinBtn(self.tag)
+            joinBtn.isHidden = true
+            alreadyJoinedBtn.isHidden = false
+    }
+    
+    @IBAction func alreadyJoinedBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
+        joinBtn.isHidden = false
+        alreadyJoinedBtn.isHidden = true
+    }
     
     
 }

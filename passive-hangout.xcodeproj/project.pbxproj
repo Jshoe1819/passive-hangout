@@ -41,6 +41,7 @@
 		16D815201F69F80F00934516 /* PastStatusesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8151F1F69F80F00934516 /* PastStatusesCell.swift */; };
 		16E578931F8081F8003B41FB /* JoinedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E578921F8081F8003B41FB /* JoinedListVC.swift */; };
 		16E578951F8084C3003B41FB /* JoinedListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E578941F8084C3003B41FB /* JoinedListCell.swift */; };
+		16E578971F809673003B41FB /* JoinedListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E578961F809673003B41FB /* JoinedListCellDelegate.swift */; };
 		16E6231F1F7B08D5001BEDBA /* LeaveFeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6231E1F7B08D5001BEDBA /* LeaveFeedbackVC.swift */; };
 		16E8A5C41F7DB32E00E717F0 /* ViewProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E8A5C31F7DB32E00E717F0 /* ViewProfileVC.swift */; };
 		16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC5C641F413D4C0011BDF5 /* DataService.swift */; };
@@ -107,6 +108,7 @@
 		16D8151F1F69F80F00934516 /* PastStatusesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastStatusesCell.swift; sourceTree = "<group>"; };
 		16E578921F8081F8003B41FB /* JoinedListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedListVC.swift; sourceTree = "<group>"; };
 		16E578941F8084C3003B41FB /* JoinedListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedListCell.swift; sourceTree = "<group>"; };
+		16E578961F809673003B41FB /* JoinedListCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedListCellDelegate.swift; sourceTree = "<group>"; };
 		16E6231E1F7B08D5001BEDBA /* LeaveFeedbackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaveFeedbackVC.swift; sourceTree = "<group>"; };
 		16E8A5C31F7DB32E00E717F0 /* ViewProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewProfileVC.swift; sourceTree = "<group>"; };
 		16EC5C641F413D4C0011BDF5 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				16D7AFC11F7C2312009F317B /* FriendsListCell.swift */,
 				16D7AFC31F7C5D4E009F317B /* FriendsListCellDelegate.swift */,
 				16E578941F8084C3003B41FB /* JoinedListCell.swift */,
+				16E578961F809673003B41FB /* JoinedListCellDelegate.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */,
 				16D815201F69F80F00934516 /* PastStatusesCell.swift in Sources */,
 				16E578931F8081F8003B41FB /* JoinedListVC.swift in Sources */,
+				16E578971F809673003B41FB /* JoinedListCellDelegate.swift in Sources */,
 				164D81791F3A7D3400C8AD6E /* AppDelegate.swift in Sources */,
 				16E6231F1F7B08D5001BEDBA /* LeaveFeedbackVC.swift in Sources */,
 				16D8151E1F69F68500934516 /* PastStatusesVC.swift in Sources */,

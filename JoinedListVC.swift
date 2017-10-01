@@ -8,7 +8,7 @@
 
 import UIKit
 
-class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, JoinedListCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var statusArr = [Status]()
@@ -30,7 +30,6 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 key == statusArr[keys].statusKey
             }
             if join {
-                print("JAKE hi")
                 joinedList.append(statusArr[keys])
             }
         }
@@ -51,6 +50,8 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let users = usersArr
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
+            cell.cellDelegate = self
+            cell.tag = indexPath.row
             cell.configureCell(status: status, users: users)
             return cell
         } else {
@@ -63,14 +64,27 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // Dispose of any resources that can be recreated.
     }
     
+    func didPressJoinBtn(_ tag: Int) {
+        let statusKey = joinedList[tag].statusKey
+        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").updateChildValues([statusKey: "true" ])
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser.usersKey: "true"])
+    }
+    
+    func didPressAlreadyJoinedBtn(_ tag: Int) {
+        let statusKey = joinedList[tag].statusKey
+        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").child(statusKey).removeValue()
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser.usersKey).removeValue()
+    }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedListToHome", sender: nil)
     }
     @IBAction func joinedBtnPressed(_ sender: Any) {
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedListToMyProfile", sender: nil)
     }
     
     
