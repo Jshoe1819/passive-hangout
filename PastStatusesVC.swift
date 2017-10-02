@@ -54,7 +54,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     }
                 }
             }
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
         })
         
     }
@@ -98,13 +98,26 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
             if originController == "viewProfileToPastStatuses" {
                 //cell.configureCell(status: selectedUserStatuses[indexPath.row])
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    let join = status.joinedList.keys.contains { (key) -> Bool in
+                        key == currentUser
+                    }
+                    if join {
+                        cell.joinBtn.isHidden = true
+                        cell.alreadyJoinedBtn.isHidden = false
+                        print(status.statusKey)
+                    } else{
+                        cell.joinBtn.isHidden = false
+                        cell.alreadyJoinedBtn.isHidden = true
+                    }
                 cell.menuBtn.isHidden = true
-                cell.joinBtn.isHidden = false
                 cell.numberJoinedLbl.isHidden = true
+                }
             }
             
             if tappedBtnTags.count > 0 {
                 cell.menuBtn.isEnabled = false
+                
                 //print("\(tappedBtnTags)")
             } else {
                 //cell.menuBtn.addTarget(self, action: #selector(self.didPressMenuBtn(_:textView:label:button:)), for: .touchUpInside)
@@ -219,6 +232,22 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func didPressJoinBtn(_ tag: Int) {
         print("I have pressed a join button with a tag: \(tag)")
+        let statusKey = selectedUserStatuses[tag].statusKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+            //tableView.reloadData()
+        }
+    }
+    
+    func didPressAlreadyJoinedBtn(_ tag: Int) {
+        print("I have pressed already join button with a tag: \(tag)")
+        let statusKey = selectedUserStatuses[tag].statusKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+            //tableView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

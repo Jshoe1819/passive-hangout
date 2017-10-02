@@ -1936,6 +1936,16 @@
                                                         <action selector="joinBtnPressed:" destination="1QC-Ga-oC4" eventType="touchUpInside" id="M2E-zt-19L"/>
                                                     </connections>
                                                 </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hG8-8d-mJV">
+                                                    <rect key="frame" x="313" y="16" width="47" height="41"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="41" id="wpp-7v-XEB"/>
+                                                    </constraints>
+                                                    <state key="normal" image="cudi-prof"/>
+                                                    <connections>
+                                                        <action selector="alreadyJoinedBtnPressed:" destination="1QC-Ga-oC4" eventType="touchUpInside" id="pV2-i2-xih"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="osv-K2-FMV" firstAttribute="leading" secondItem="kpO-yv-Y2l" secondAttribute="leading" id="0G4-Df-UPE"/>
@@ -1943,10 +1953,13 @@
                                                 <constraint firstItem="Urn-qO-UnX" firstAttribute="top" secondItem="kpO-yv-Y2l" secondAttribute="top" constant="5" id="4kf-Hj-geZ"/>
                                                 <constraint firstItem="rk3-lO-tF6" firstAttribute="leading" secondItem="f9d-gc-8g1" secondAttribute="trailing" constant="8" id="5xK-2n-yI6"/>
                                                 <constraint firstItem="znT-bN-6Ba" firstAttribute="leading" secondItem="f9d-gc-8g1" secondAttribute="leading" constant="-5" id="7uh-LP-zYN"/>
+                                                <constraint firstItem="hG8-8d-mJV" firstAttribute="top" secondItem="kpO-yv-Y2l" secondAttribute="topMargin" constant="8" id="GoP-86-FSC"/>
                                                 <constraint firstItem="znT-bN-6Ba" firstAttribute="top" secondItem="f9d-gc-8g1" secondAttribute="top" constant="-7" id="HnI-ay-gE7"/>
                                                 <constraint firstItem="Vbp-r0-SO8" firstAttribute="leading" secondItem="f9d-gc-8g1" secondAttribute="trailing" id="IXD-oZ-TaC"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Vbp-r0-SO8" secondAttribute="trailing" id="JTH-CP-QCl"/>
+                                                <constraint firstAttribute="trailing" secondItem="hG8-8d-mJV" secondAttribute="trailing" constant="15" id="JgQ-LT-6Pb"/>
                                                 <constraint firstItem="osv-K2-FMV" firstAttribute="top" secondItem="Vbp-r0-SO8" secondAttribute="bottom" id="OYL-dS-OXY"/>
+                                                <constraint firstItem="hG8-8d-mJV" firstAttribute="leading" secondItem="f9d-gc-8g1" secondAttribute="trailing" constant="8" id="X8Y-w3-YUx"/>
                                                 <constraint firstAttribute="trailing" secondItem="rk3-lO-tF6" secondAttribute="trailing" constant="15" id="Zk9-Yy-mKp"/>
                                                 <constraint firstItem="Vbp-r0-SO8" firstAttribute="top" secondItem="kpO-yv-Y2l" secondAttribute="topMargin" constant="-1" id="b3y-5K-5yC"/>
                                                 <constraint firstAttribute="bottom" secondItem="osv-K2-FMV" secondAttribute="bottom" id="bFk-rc-Gxv"/>
@@ -1963,6 +1976,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="alreadyJoinedBtn" destination="hG8-8d-mJV" id="Os6-Wk-UYo"/>
                                             <outlet property="contentLbl" destination="f9d-gc-8g1" id="WDa-qy-SY3"/>
                                             <outlet property="joinBtn" destination="rk3-lO-tF6" id="3Rz-Zt-cU6"/>
                                             <outlet property="menuBtn" destination="Vbp-r0-SO8" id="etT-sQ-DWx"/>
@@ -3194,11 +3208,11 @@
         <image name="sort-button" width="19" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FDh-cr-2VA"/>
-        <segue reference="1oa-5w-smP"/>
-        <segue reference="PqB-AM-vXR"/>
+        <segue reference="pO3-lh-m1g"/>
         <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="BJa-L8-pjS"/>
+        <segue reference="PTq-OX-4io"/>
         <segue reference="yYZ-zz-Uql"/>
+        <segue reference="MTP-dR-lnk"/>
+        <segue reference="FDh-cr-2VA"/>
     </inferredMetricsTieBreakers>
 </document>

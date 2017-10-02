@@ -16,12 +16,9 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var numberJoinedLbl: UILabel!
     @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
-    @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
+    @IBOutlet weak var alreadyJoinedBtn: UIButton!
     
     //var pressedBtnTags = [Int]()
     
@@ -87,6 +84,9 @@ class PastStatusesCell: UITableViewCell {
     
     @IBAction func joinBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressJoinBtn(self.tag)
+        joinBtn.isHidden = true
+        alreadyJoinedBtn.isHidden = false
+        
     }
     
     
@@ -104,6 +104,14 @@ class PastStatusesCell: UITableViewCell {
         
         
     }
+    
+    @IBAction func alreadyJoinedBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
+        joinBtn.isHidden = false
+        alreadyJoinedBtn.isHidden = true
+        
+    }
+    
     
     //    @IBAction func editStatusBtnPressed(_ sender: UIButton) {
     //        cellDelegate?.didPressEditBtn(self.tag)
