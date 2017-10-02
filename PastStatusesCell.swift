@@ -32,7 +32,8 @@ class PastStatusesCell: UITableViewCell {
     func configureCell(status: Status) {
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
-        numberJoinedLbl.text = "\(status.joinedNumber) Joined"
+        numberJoinedLbl.text = "\(status.joinedList.count - 1) Joined"
+        
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {

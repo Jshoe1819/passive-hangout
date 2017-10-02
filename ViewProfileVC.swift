@@ -36,6 +36,7 @@ class ViewProfileVC: UIViewController {
     var selectedProfile: Users!
     var statusArr = [Status]()
     var selectedStatusArr = [Status]()
+    var originController = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -367,7 +368,12 @@ class ViewProfileVC: UIViewController {
     @IBAction func privateAddFriendBtnPressed(_ sender: Any) {
     }
     @IBAction func backBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+        //performSegue(withIdentifier: "feedToViewProfile", sender: nil)
+        if originController == "feedToViewProfile" {
+            performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
+        } else {
+            performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+        }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToHome", sender: nil)

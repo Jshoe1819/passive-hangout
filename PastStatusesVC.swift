@@ -105,7 +105,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     if join {
                         cell.joinBtn.isHidden = true
                         cell.alreadyJoinedBtn.isHidden = false
-                        print(status.statusKey)
                     } else{
                         cell.joinBtn.isHidden = false
                         cell.alreadyJoinedBtn.isHidden = true
@@ -231,7 +230,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func didPressJoinBtn(_ tag: Int) {
-        print("I have pressed a join button with a tag: \(tag)")
+        //print("I have pressed a join button with a tag: \(tag)")
         let statusKey = selectedUserStatuses[tag].statusKey
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
@@ -241,7 +240,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func didPressAlreadyJoinedBtn(_ tag: Int) {
-        print("I have pressed already join button with a tag: \(tag)")
+        //print("I have pressed already join button with a tag: \(tag)")
         let statusKey = selectedUserStatuses[tag].statusKey
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()

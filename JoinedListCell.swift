@@ -92,10 +92,10 @@ class JoinedListCell: UITableViewCell {
     func populateProfPic(user: Users) {
         if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
             profilePicImg.image = image
-            print("JAKE: caching working")
+            //print("JAKE: caching working")
         } else {
             if user.id != "a" {
-                print("JAKE: image downloaded from storage")
+                //print("JAKE: image downloaded from storage")
                 let profileUrl = URL(string: user.profilePicUrl)
                 let data = try? Data(contentsOf: profileUrl!)
                 if let profileImage = UIImage(data: data!) {
@@ -109,7 +109,7 @@ class JoinedListCell: UITableViewCell {
                     if error != nil {
                         //print("JAKE: unable to download image from storage")
                     } else {
-                        print("JAKE: image downloaded from storage")
+                        //print("JAKE: image downloaded from storage")
                         if let imageData = data {
                             if let profileImage = UIImage(data: imageData) {
                                 self.profilePicImg.image = profileImage

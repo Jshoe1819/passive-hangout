@@ -104,20 +104,11 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        
         let selectedProfile = usersArr[indexPath.row]
-        
         performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-//        if let currentUser = Auth.auth().currentUser?.uid {
-//            let currentProfile = usersArr
-//        }
-        
         if segue.identifier == "friendsListToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
@@ -221,9 +212,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
             deleted.append(tag)
             tableView.reloadData()
-            
         }
-        
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {

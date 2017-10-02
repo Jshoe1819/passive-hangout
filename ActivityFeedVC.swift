@@ -133,6 +133,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     cell.alreadyJoinedBtn.isHidden = true
                 }
             }
+            
             cell.cellDelegate = self
             cell.cellDelegate = self
             cell.tag = indexPath.row
@@ -277,6 +278,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
+        if segue.identifier == "feedToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+                nextVC.originController = "feedToViewProfile"
+            }
+        }
     }
     
     
@@ -395,6 +402,24 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //tableView.reloadData()
         }
         
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "feedToViewProfile" {
+//            if let nextVC = segue.destination as? ViewProfileVC {
+//                nextVC.selectedProfile = sender as? Users
+//            }
+//        }
+//    }
+    
+    func didPressProfilePic(_ tag: Int) {
+        let userKey = statusArr[tag].userId
+        for index in 0..<usersArr.count {
+            if userKey == usersArr[index].usersKey {
+                let selectedProfile = usersArr[index]
+                performSegue(withIdentifier: "feedToViewProfile", sender: selectedProfile)
+            }
+        }
     }
     
     //    func didPressJoinBtn(_ tag: Int) {
