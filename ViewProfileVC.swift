@@ -79,54 +79,45 @@ class ViewProfileVC: UIViewController {
         //call function for readability
         if let currentUser = Auth.auth().currentUser?.uid {
             if let friendStatus = selectedProfile.friendsList[currentUser] as? String {
-                
                 if friendStatus == "received" {
-                    
                     if selectedProfile.isPrivate {
-                        
                         privateConfigure()
                         privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
                         
                     } else if !selectedProfile.isPrivate {
-                        
                         publicConfigure()
                         publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
                         
                     }
                     
                 } else if friendStatus == "sent" {
-                    
                     if selectedProfile.isPrivate {
-                        
                         privateConfigure()
                         privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
                         
                     } else if !selectedProfile.isPrivate {
-                        
                         publicConfigure()
                         publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
                         
                     }
                     
                 } else if friendStatus == "friends" {
-                    
                     publicConfigure()
                     removeFriendBtn.isHidden = false
                     publicAddFriendBtn.isHidden = true
                     
-                } else {
-                    
-                    if selectedProfile.isPrivate {
-                        privateConfigure()
-                        publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-                    } else if !selectedProfile.isPrivate {
-                        publicConfigure()
-                        removeFriendBtn.isHidden = true
-                        publicAddFriendBtn.isHidden = false
-                        publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-                    }
                 }
                 
+            } else {
+                if selectedProfile.isPrivate {
+                    privateConfigure()
+                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                } else if !selectedProfile.isPrivate {
+                    publicConfigure()
+                    removeFriendBtn.isHidden = true
+                    publicAddFriendBtn.isHidden = false
+                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                }
             }
         }
         
@@ -366,12 +357,39 @@ class ViewProfileVC: UIViewController {
     }
     
     @IBAction func privateAddFriendBtnPressed(_ sender: Any) {
+        
+        if privateAddFriendBtn.title(for: .normal) == "Respond to Friend Request" {
+            performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+            
+        } else if privateAddFriendBtn.title(for: .normal) == "Friend Request Sent" {
+            
+            let friendKey = selectedProfile.usersKey
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+            }
+            privateAddFriendBtn.setTitle("Add Friend", for: .normal)
+            
+        } else {
+            
+            let friendKey = selectedProfile.usersKey
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "sent"])
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "received"])
+            }
+            privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+        }
+        
     }
     @IBAction func backBtnPressed(_ sender: Any) {
         //performSegue(withIdentifier: "feedToViewProfile", sender: nil)
         if originController == "feedToViewProfile" {
             performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
-        } else {
+        }
+//        else if originController == "joinedListToViewProfile" {
+//            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
+//        }
+        else {
             performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
         }
     }

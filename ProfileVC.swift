@@ -17,7 +17,7 @@ import Firebase
 class ProfileVC: UIViewController{
     
     var statusArr = [Status]()
-
+    
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
@@ -188,8 +188,13 @@ class ProfileVC: UIViewController{
                     if let imageData = data {
                         if let image = UIImage(data: imageData) {
                             self.coverImg.image = image
-                            //self.postImg.image = image
-                            //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+//                            if let coverUrl = user.cover["source"] {
+//                                self.profileImg.image = image
+//                                //ActivityFeedVC.imageCache.setObject(image, forKey: coverUrl as! NSString)
+//                                //ActivityFeedVC.imageCache.setObject(image, forKey: user.cover as NSString)
+//                                //self.postImg.image = image
+//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+//                            }
                         }
                     }
                 }

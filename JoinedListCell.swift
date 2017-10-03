@@ -30,6 +30,9 @@ class JoinedListCell: UITableViewCell {
 
     func configureCell(status: Status, users: [Users]) {
         
+        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        contentLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
+        
         contentLbl.text = status.content
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         
@@ -120,6 +123,14 @@ class JoinedListCell: UITableViewCell {
                 })
             }
         }
+    }
+    
+    func imageTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressProfilePic(self.tag)
+    }
+    
+    func contentTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressStatusContentLbl(self.tag)
     }
 
     @IBAction func joinBtnPressed(_ sender: UIButton) {

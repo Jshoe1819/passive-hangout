@@ -69,6 +69,21 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "joinedListToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+                //nextVC.originController = "joinedListToViewProfile"
+                //only use back button on non main buttons
+                //have data loaders on main buttons
+                //instant loads on main btns
+                //hide notification on first press, add seen property?
+                //can initialize user with seen: true for friends list and joined list(?)
+                //   can manipulate fonts
+            }
+        }
+    }
+    
     func didPressJoinBtn(_ tag: Int) {
         let statusKey = joinedList[tag].statusKey
         DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").updateChildValues([statusKey: "true" ])
@@ -80,6 +95,28 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").child(statusKey).removeValue()
         DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser.usersKey).removeValue()
     }
+    
+    func didPressProfilePic(_ tag: Int) {
+        let userKey = joinedList[tag].userId
+        for index in 0..<usersArr.count {
+            if userKey == usersArr[index].usersKey {
+                let selectedProfile = usersArr[index]
+                performSegue(withIdentifier: "joinedListToViewProfile", sender: selectedProfile)
+            }
+        }
+    }
+    
+    func didPressStatusContentLbl(_ tag: Int) {
+        print(tag)
+        //        let usersKey = statusArr[tag].userId
+        //        for index in 0..<usersArr.count {
+        //           if usersArr[index].usersKey == usersKey {
+        //                print(usersArr[index].cover["source"])
+        //                //send to conversation
+        //            }
+        //        }
+    }
+
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToHome", sender: nil)

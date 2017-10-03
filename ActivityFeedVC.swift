@@ -55,6 +55,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         textView.delegate = self
         
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 90
+        
         placeholderLabel = UILabel()
         placeholderLabel.text = EMPTY_STATUS_STRING
         placeholderLabel.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
@@ -422,17 +425,16 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    //    func didPressJoinBtn(_ tag: Int) {
-    //        let statusKey = joinedList[tag].statusKey
-    //        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").updateChildValues([statusKey: "true" ])
-    //        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser.usersKey: "true"])
-    //    }
-    //
-    //    func didPressAlreadyJoinedBtn(_ tag: Int) {
-    //        let statusKey = joinedList[tag].statusKey
-    //        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").child(statusKey).removeValue()
-    //        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser.usersKey).removeValue()
-    //    }
+    func didPressStatusContentLbl(_ tag: Int) {
+        print(tag)
+//        let usersKey = statusArr[tag].userId
+//        for index in 0..<usersArr.count {
+//           if usersArr[index].usersKey == usersKey {
+//                print(usersArr[index].cover["source"])
+//                //send to conversation
+//            }
+//        }
+    }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
     }

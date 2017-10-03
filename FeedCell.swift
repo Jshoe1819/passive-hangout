@@ -36,6 +36,7 @@ class FeedCell: UITableViewCell {
     func configureCell(status: Status, users: [Users]) {
         self.status = status
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
             for key in users[index].statusId.keys {
@@ -144,7 +145,10 @@ class FeedCell: UITableViewCell {
     
     func imageTapped(_ sender: UITapGestureRecognizer) {
         cellDelegate?.didPressProfilePic(self.tag)
-        
+    }
+    
+    func contentTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressStatusContentLbl(self.tag)
     }
     
     @IBAction func joinBtnPressed(_ sender: UIButton) {
