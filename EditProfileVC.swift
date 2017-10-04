@@ -18,10 +18,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
-    @IBOutlet weak var occupationTextField: UITextField!
-    @IBOutlet weak var employerTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var currentCityTextField: UITextField!
     @IBOutlet weak var schoolTextField: UITextField!
+    @IBOutlet weak var employerTextField: UITextField!
+    @IBOutlet weak var occupationTextField: UITextField!
     @IBOutlet weak var privateProfileSwitch: UISwitch!
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
@@ -34,10 +35,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
         
-        occupationTextField.delegate = self
-        employerTextField.delegate = self
+        nameTextField.delegate = self
         currentCityTextField.delegate = self
         schoolTextField.delegate = self
+        employerTextField.delegate = self
+        occupationTextField.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -47,13 +49,13 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                 //print("USERS: \(snapshot)")
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
-                            let answer = user.friendsList.values.contains { (value) -> Bool in
-                                value as? String == "received"
-                            }
-                            if answer && user.friendsList["seen"] as? String == "false" {
-                                self.footerNewFriendIndicator.isHidden = false
-                            }
-
+                    let answer = user.friendsList.values.contains { (value) -> Bool in
+                        value as? String == "received"
+                    }
+                    if answer && user.friendsList["seen"] as? String == "false" {
+                        self.footerNewFriendIndicator.isHidden = false
+                    }
+                    
                     self.populateProfilePicture(user: user)
                     //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
@@ -259,10 +261,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             privateProfileSwitch.isOn = false
         }
         
-        occupationTextField.text = user.occupation
-        employerTextField.text = user.employer
+        nameTextField.text = user.name
         currentCityTextField.text = user.currentCity
         schoolTextField.text = user.school
+        employerTextField.text = user.employer
+        occupationTextField.text = user.occupation
         
     }
     
@@ -295,6 +298,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             currentCityTextField.resignFirstResponder()
         } else if textField == schoolTextField {
             schoolTextField.resignFirstResponder()
+        } else if textField == nameTextField {
+            textField.resignFirstResponder()
         }
         return true
     }
@@ -327,14 +332,17 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             if let employer = employerTextField.text {
                 if let currentCity = currentCityTextField.text {
                     if let school = schoolTextField.text {
-                        let childUpdates = ["isPrivate":setPrivate(privateSwitch: privateProfileSwitch),
-                                            "occupation":occupation,
-                                            "employer":employer,
-                                            "currentCity":currentCity,
-                                            "school":school] as [String: Any]
-                        
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            DataService.ds.REF_USERS.child(currentUser).updateChildValues(childUpdates)
+                        if let name = nameTextField.text {
+                            let childUpdates = ["isPrivate":setPrivate(privateSwitch: privateProfileSwitch),
+                                                "name":name,
+                                                "occupation":occupation,
+                                                "employer":employer,
+                                                "currentCity":currentCity,
+                                                "school":school] as [String: Any]
+                            
+                            if let currentUser = Auth.auth().currentUser?.uid {
+                                DataService.ds.REF_USERS.child(currentUser).updateChildValues(childUpdates)
+                            }
                         }
                     }
                 }

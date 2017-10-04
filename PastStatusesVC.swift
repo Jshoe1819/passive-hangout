@@ -33,12 +33,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        if originController == "joinedListToViewProfile" {
-            self.backBtn.isHidden = true
-        }
-        
-                NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -75,7 +71,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if originController == "viewProfileToPastStatuses" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
             return selectedUserStatuses.count
         } else {
             return statusArr.count
@@ -86,7 +82,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         var status: Status
         
-        if originController == "viewProfileToPastStatuses" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
         } else {
             status = statusArr[indexPath.row]
@@ -101,7 +97,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status)
             
-            if originController == "viewProfileToPastStatuses" {
+            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
                 //cell.configureCell(status: selectedUserStatuses[indexPath.row])
                 if let currentUser = Auth.auth().currentUser?.uid {
                     let join = status.joinedList.keys.contains { (key) -> Bool in
@@ -114,8 +110,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                         cell.joinBtn.isHidden = false
                         cell.alreadyJoinedBtn.isHidden = true
                     }
-                cell.menuBtn.isHidden = true
-                cell.numberJoinedLbl.isHidden = true
+                    cell.menuBtn.isHidden = true
+                    cell.numberJoinedLbl.isHidden = true
                 }
             }
             
@@ -173,6 +169,16 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
             self.saveEditBtn.layer.setValue(textView, forKey: "textview")
             
+            let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
+            let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+            
+            print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+            print("Height of Cell is: \(rectOfCellInSuperview.height)")
+            
+            //if maxy is greater than keyboard miny - shift up by difference
+            //else do not shift
+
+            
         }))
         
         alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
@@ -215,18 +221,21 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            tableView.setContentOffset(CGPoint.zero, animated: true)
-//            if self.view.frame.origin.y == 0{
-//                self.view.frame.origin.y -= keyboardSize.height - 50
-//            }
+            print(self.tableView.frame.origin.y)
+            print(keyboardSize)
+            //self.tableView.frame.origin.y -= keyboardSize.height - 50
+            if self.tableView.frame.origin.y == 0{
+                
+            }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.view.frame.origin.y != 0{
-//                self.view.frame.origin.y += keyboardSize.height - 50
-//            }
+            //self.tableView.frame.origin.y += keyboardSize.height - 50
+            
+            if self.tableView.frame.origin.y != 0{
+            }
         }
     }
     
@@ -316,7 +325,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func backBtnPressed(_ sender: Any) {
         
-        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" {
             performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
