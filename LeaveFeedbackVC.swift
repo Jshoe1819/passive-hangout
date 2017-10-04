@@ -18,6 +18,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var characterCountLbl: UILabel!
     @IBOutlet weak var homeBtn: UIButton!
     @IBOutlet weak var characterCountLimitLblBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var hideTableBtn: UIButton!
     var placeholderLabel : UILabel!
     
@@ -189,6 +190,10 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "leaveFeedbackToHome", sender: nil)
+    }
+    
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "leaveFeedbackToJoinedList", sender: nil)
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {

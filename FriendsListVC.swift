@@ -221,8 +221,14 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "friendsListToHome", sender: nil)
     }
+    
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "friendsListToJoinedList", sender: nil)
+    }
+    
     @IBAction func searchBtnPressed(_ sender: Any) {
     }
+    
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "friendsListToMyProfile", sender: nil)
     }

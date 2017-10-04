@@ -32,12 +32,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var availableIndicatorImg: UIImageView!
     @IBOutlet weak var nameIndicatorImg: UIImageView!
     @IBOutlet weak var lastUpdatedIndicatorImg: UIImageView!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        tableView.rowHeight = UITableViewAutomaticDimension
-        //        tableView.estimatedRowHeight = 90
         
         //send url to user node, url will always be the same, only needs to happen once, move out of vc
         if FBSDKAccessToken.current() != nil {
@@ -97,12 +95,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
-                        //                        if Auth.auth().currentUser?.uid == key  {
-                        //                            let currentStatus = usersDict["statusId"]
-                        //                            print(currentStatus!)
-                        //                        }
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if answer && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                            }
+                        }
                         self.usersArr.append(users)
-                        
                     }
                 }
             }
@@ -407,13 +410,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "feedToViewProfile" {
-//            if let nextVC = segue.destination as? ViewProfileVC {
-//                nextVC.selectedProfile = sender as? Users
-//            }
-//        }
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if segue.identifier == "feedToViewProfile" {
+    //            if let nextVC = segue.destination as? ViewProfileVC {
+    //                nextVC.selectedProfile = sender as? Users
+    //            }
+    //        }
+    //    }
     
     func didPressProfilePic(_ tag: Int) {
         let userKey = statusArr[tag].userId
@@ -427,13 +430,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func didPressStatusContentLbl(_ tag: Int) {
         print(tag)
-//        let usersKey = statusArr[tag].userId
-//        for index in 0..<usersArr.count {
-//           if usersArr[index].usersKey == usersKey {
-//                print(usersArr[index].cover["source"])
-//                //send to conversation
-//            }
-//        }
+        //        let usersKey = statusArr[tag].userId
+        //        for index in 0..<usersArr.count {
+        //           if usersArr[index].usersKey == usersKey {
+        //                print(usersArr[index].cover["source"])
+        //                //send to conversation
+        //            }
+        //        }
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {

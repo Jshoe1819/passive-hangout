@@ -25,6 +25,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBOutlet weak var privateProfileSwitch: UISwitch!
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,13 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                 //print("USERS: \(snapshot)")
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
+                            let answer = user.friendsList.values.contains { (value) -> Bool in
+                                value as? String == "received"
+                            }
+                            if answer && user.friendsList["seen"] as? String == "false" {
+                                self.footerNewFriendIndicator.isHidden = false
+                            }
+
                     self.populateProfilePicture(user: user)
                     //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
@@ -333,6 +341,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             }
         }
         performSegue(withIdentifier: "editProfileToMyProfile", sender: nil)
+    }
+    
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "editProfileToJoinedList", sender: nil)
     }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {

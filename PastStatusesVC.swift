@@ -16,6 +16,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var cancelEditBtn: UIButton!
     @IBOutlet weak var saveEditBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     var statusArr = [Status]()
     var tappedBtnTags = [Int]()
@@ -32,8 +33,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        if originController == "joinedListToViewProfile" {
+            self.backBtn.isHidden = true
+        }
+        
+                NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -153,6 +158,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
             
             textView.becomeFirstResponder()
+            //tableView.setContentOffset(CGPoint(tag), animated: true)
             
             self.backBtn.isHidden = true
             //self.saveEditBtn.isHidden = false
@@ -207,6 +213,23 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            tableView.setContentOffset(CGPoint.zero, animated: true)
+//            if self.view.frame.origin.y == 0{
+//                self.view.frame.origin.y -= keyboardSize.height - 50
+//            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            if self.view.frame.origin.y != 0{
+//                self.view.frame.origin.y += keyboardSize.height - 50
+//            }
+        }
+    }
+    
     func hideKeyboard() {
         view.endEditing(true)
     }
@@ -258,6 +281,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if segue.identifier == "pastStatusesToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
+                if originController == "feedToViewProfile" {
+                    nextVC.originController = "feedToViewProfile"
+                }
             }
         }
     }
@@ -290,7 +316,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func backBtnPressed(_ sender: Any) {
         
-        if originController == "viewProfileToPastStatuses" {
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" {
             performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
@@ -298,6 +324,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToActivityFeed", sender: nil)
+    }
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "pastStatusesToJoinedList", sender: nil)
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)

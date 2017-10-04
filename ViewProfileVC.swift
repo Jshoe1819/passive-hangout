@@ -32,6 +32,8 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var privateAddFriendBtn: RoundedButton!
     @IBOutlet weak var isPrivateStackView: UIStackView!
+    @IBOutlet weak var footerNewFriendNotification: UIView!
+    @IBOutlet weak var backBtn: UIButton!
     
     var selectedProfile: Users!
     var statusArr = [Status]()
@@ -40,6 +42,11 @@ class ViewProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if originController == "feedToViewProfile" {
+            self.backBtn.isHidden = true
+        }
+        
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -68,7 +75,7 @@ class ViewProfileVC: UIViewController {
             }
             self.currentUserStatusArr(array: self.statusArr)
         })
-                
+        
         currentUserStatusArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
@@ -288,7 +295,7 @@ class ViewProfileVC: UIViewController {
             }
         }
     }
-        
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //        if let currentUser = Auth.auth().currentUser?.uid {
@@ -298,7 +305,11 @@ class ViewProfileVC: UIViewController {
         if segue.identifier == "viewProfileToPastStatuses" {
             if let nextVC = segue.destination as? PastStatusesVC {
                 nextVC.selectedUserStatuses = sender as! [Status]
-                nextVC.originController = "viewProfileToPastStatuses"
+                if originController == "feedToViewProfile" {
+                    nextVC.originController = "feedToViewProfile"
+                } else {
+                    nextVC.originController = "viewProfileToPastStatuses"
+                }
                 nextVC.viewedProfile = selectedProfile
             }
         }
@@ -351,6 +362,7 @@ class ViewProfileVC: UIViewController {
             if let currentUser = Auth.auth().currentUser?.uid {
                 DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "sent"])
                 DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "received"])
+                DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues(["seen": "false"])
             }
             publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
         }
@@ -386,9 +398,9 @@ class ViewProfileVC: UIViewController {
         if originController == "feedToViewProfile" {
             performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
         }
-//        else if originController == "joinedListToViewProfile" {
-//            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
-//        }
+            //        else if originController == "joinedListToViewProfile" {
+            //            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
+            //        }
         else {
             performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
         }

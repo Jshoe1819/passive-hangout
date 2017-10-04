@@ -11,6 +11,7 @@ import UIKit
 class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, JoinedListCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     var statusArr = [Status]()
     var usersArr = [Users]()
     var currentUser: Users!
@@ -73,7 +74,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if segue.identifier == "joinedListToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
-                //nextVC.originController = "joinedListToViewProfile"
+                nextVC.originController = "joinedListToViewProfile"
                 //only use back button on non main buttons
                 //have data loaders on main buttons
                 //instant loads on main btns

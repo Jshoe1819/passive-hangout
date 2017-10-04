@@ -39,11 +39,10 @@ class ProfileVC: UIViewController{
                     let answer = user.friendsList.values.contains { (value) -> Bool in
                         value as? String == "received"
                     }
-                    if answer {
+                    if answer && user.friendsList["seen"] as? String == "false" {
                         self.footerNewFriendIndicator.isHidden = false
                         self.profileNewFriendIndicator.isHidden = false
                     }
-                    
                 }
             })
         }
@@ -188,13 +187,13 @@ class ProfileVC: UIViewController{
                     if let imageData = data {
                         if let image = UIImage(data: imageData) {
                             self.coverImg.image = image
-//                            if let coverUrl = user.cover["source"] {
-//                                self.profileImg.image = image
-//                                //ActivityFeedVC.imageCache.setObject(image, forKey: coverUrl as! NSString)
-//                                //ActivityFeedVC.imageCache.setObject(image, forKey: user.cover as NSString)
-//                                //self.postImg.image = image
-//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-//                            }
+                            //                            if let coverUrl = user.cover["source"] {
+                            //                                self.profileImg.image = image
+                            //                                //ActivityFeedVC.imageCache.setObject(image, forKey: coverUrl as! NSString)
+                            //                                //ActivityFeedVC.imageCache.setObject(image, forKey: user.cover as NSString)
+                            //                                //self.postImg.image = image
+                            //                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                            //                            }
                         }
                     }
                 }
@@ -203,8 +202,20 @@ class ProfileVC: UIViewController{
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "myProfileToPastStatuses" {
+            if let nextVC = segue.destination as? PastStatusesVC {
+                nextVC.originController = ""
+            }
+        }
+    }
+    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "profileToActivityFeed", sender: nil)
+    }
+    
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToJoinedList", sender: nil)
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
@@ -215,7 +226,10 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func friendsListBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "myProfileToFriendsList", sender: nil)
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues(["seen": "true"])
+            performSegue(withIdentifier: "myProfileToFriendsList", sender: nil)
+        }
     }
     
     @IBAction func pastStatusesBtnPressed(_ sender: Any) {
