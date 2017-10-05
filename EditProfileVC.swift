@@ -9,12 +9,15 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import FirebaseStorage
 
 class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var imagePicker: UIImagePickerController!
     var imageSelected = false
     var imagePicked = 0
+    var toBeDeletedProfRef = ""
+    var toBeDeletedCoverRef = ""
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
@@ -55,11 +58,16 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     if answer && user.friendsList["seen"] as? String == "false" {
                         self.footerNewFriendIndicator.isHidden = false
                     }
-                    
+                    self.toBeDeletedProfRef = user.profilePicUrl
+                    //print("1: \(self.toBeDeletedProfRef)")
+                    self.toBeDeletedCoverRef = user.cover["source"] as! String
+                    //print(self.toBeDeletedCoverRef)
                     self.populateProfilePicture(user: user)
                     //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
                     self.populateInformation(user: user)
+                    self.toBeDeletedProfRef = user.profilePicUrl
+                    self.toBeDeletedCoverRef = user.cover["source"] as! String
                 }
             })
         }
@@ -97,30 +105,18 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                             let downloadUrl = metaData?.downloadURL()?.absoluteString
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
-                                    //need to delete storage item previously used
-                                    //                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-                                    //                                        //print("USERS: \(snapshot)")
-                                    //                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
-                                    //                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
-                                    //                                            if user.profilePicUrl == "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png" {
-                                    //                                                print("JAKE: working")
-                                    //
-                                    //                                            } else {
-                                    //                                                let currentProfilePic = Storage.storage().reference(forURL: user.profilePicUrl)
-                                    //                                                currentProfilePic.delete(completion: { (error) in
-                                    //                                                    if let error = error {
-                                    //                                                        print("JAKE: file not deleted \(error)")
-                                    //                                                    } else {
-                                    //                                                        print("JAKE: file deleted successfully")
-                                    //                                                        print(user.profilePicUrl)
-                                    //                                                    }
-                                    //                                                })
-                                    //
-                                    //                                            }
-                                    //                                        }
-                                    //                                    })
                                     DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
-                                    //ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+                                    //print("2: \(self.toBeDeletedProfRef)")
+                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedProfRef)
+                                    deletedImgRef.delete(completion: { (error) in
+                                        if error != nil {
+                                            print("error")
+                                            //handle error
+                                        } else {
+                                            print("deleted")
+                                        }
+                                    })
+                                    //ActivityFeedVC.imageCache.setObject(image, forKey: currentUser.profilePicUrl as NSString)
                                     
                                 }
                                 
@@ -153,19 +149,16 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                             let downloadUrl = metaData?.downloadURL()?.absoluteString
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
-                                    //need to delete storage item previously used
-                                    //                                    DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-                                    //                                        //print("USERS: \(snapshot)")
-                                    //                                        if let currentUserData = snapshot.value as? Dictionary<String, Any> {
-                                    //                                            let user = Users(usersKey: currentUser, usersData: currentUserData)
-                                    //                                            let currentProfilePic = Storage.reference(user.profilePicUrl)
-                                    //                                            currentProfilePic.delete { error, in
-                                    //
-                                    //                                            }
-                                    //                                        }
-                                    //                                    })
                                     DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
-                                    
+                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedCoverRef)
+                                    deletedImgRef.delete(completion: { (error) in
+                                        if error != nil {
+                                            print("error")
+                                            //handle error
+                                        } else {
+                                            print("deleted")
+                                        }
+                                    })
                                 }
                                 
                             }
@@ -226,30 +219,50 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     func populateCoverPicture(user: Users) {
         
         if user.id != "a" {
-            let coverUrl = URL(string: user.cover["source"] as! String)
-            let data = try? Data(contentsOf: coverUrl!)
-            if let coverImage = UIImage(data: data!) {
-                self.coverImg.image = coverImage
+            
+            if let coverStorageUrl = user.cover["source"] as? String {
+                
+                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+                    //print("using cache")
+                    coverImg.image = image
+                }
+                else {
+                    //print("downloading")
+                    let coverUrl = URL(string: user.cover["source"] as! String)
+                    let data = try? Data(contentsOf: coverUrl!)
+                    if let coverImage = UIImage(data: data!) {
+                        self.coverImg.image = coverImage
+                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
+                    }
+                }
             }
             
         } else {
             coverImgPicker.isHidden = false
-            let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-            coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                if error != nil {
-                    //print("JAKE: unable to download image from storage")
+            if let coverStorageUrl = user.cover["source"] as? String {
+                
+                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+                    //print("using cache")
+                    coverImg.image = image
                 } else {
-                    //print("JAKE: image downloaded from storage")
-                    if let imageData = data {
-                        if let image = UIImage(data: imageData) {
-                            self.coverImg.image = image
-                            //self.postImg.image = image
-                            //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                    //print("downloading")
+                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
+                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let image = UIImage(data: imageData) {
+                                    self.coverImg.image = image
+                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
+                                    
+                                }
+                            }
                         }
-                    }
+                    })
                 }
-            })
-            
+            }
         }
     }
     

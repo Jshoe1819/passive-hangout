@@ -17,9 +17,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var saveEditBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var profilePicImg: FeedProfilePic!
     
     var statusArr = [Status]()
     var tappedBtnTags = [Int]()
+    var deleted = [Int]()
     var originController = ""
     var selectedUserStatuses = [Status]()
     var viewedProfile: Users!
@@ -33,8 +35,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             
@@ -58,8 +60,54 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             //self.tableView.reloadData()
         })
         
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
+            profilePicImg.isHidden = false
+            populateProfilePicture(user: viewedProfile)
+        }
+        
     }
     
+    func populateProfilePicture(user: Users) {
+        
+        //print("JAKE: going in to else")
+        if user.id != "a" {
+            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+                profilePicImg.image = image
+                //print("JAKE: Cache working")
+            } else {
+                let profileUrl = URL(string: user.profilePicUrl)
+                let data = try? Data(contentsOf: profileUrl!)
+                if let profileImage = UIImage(data: data!) {
+                    self.profilePicImg.image = profileImage
+                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+                }
+            }
+            
+        } else {
+            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+                profilePicImg.image = image
+                //print("JAKE: Cache working")
+            } else {
+                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        //print("JAKE: unable to download image from storage")
+                    } else {
+                        //print("JAKE: image downloaded from storage")
+                        if let imageData = data {
+                            if let image = UIImage(data: imageData) {
+                                self.profilePicImg.image = image
+                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+                                //self.postImg.image = image
+                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                            }
+                        }
+                    }
+                })
+            }
+            
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -113,6 +161,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     cell.menuBtn.isHidden = true
                     cell.numberJoinedLbl.isHidden = true
                 }
+            }
+            
+            if deleted.contains(indexPath.row) {
+                cell.isHidden = true
+            } else {
+                cell.isHidden = false
             }
             
             if tappedBtnTags.count > 0 {
@@ -171,13 +225,20 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
             let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
             let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+            let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
+            print(maxY)
             
             print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
             print("Height of Cell is: \(rectOfCellInSuperview.height)")
             
+            
+//            if let keyboardSize = (userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//                print(keyboardSize.minY)
+//            
+//            }
+            
             //if maxy is greater than keyboard miny - shift up by difference
             //else do not shift
-
             
         }))
         
@@ -190,6 +251,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 if let currentUser = Auth.auth().currentUser?.uid {
                     DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
                     DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+                    self.deleted.append(tag)
                 }
                 self.tappedBtnTags.removeAll()
                 self.tableView.reloadData()
@@ -219,28 +281,16 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            print(self.tableView.frame.origin.y)
-            print(keyboardSize)
-            //self.tableView.frame.origin.y -= keyboardSize.height - 50
-            if self.tableView.frame.origin.y == 0{
-                
-            }
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            //self.tableView.frame.origin.y += keyboardSize.height - 50
-            
-            if self.tableView.frame.origin.y != 0{
-            }
-        }
-    }
-    
     func hideKeyboard() {
         view.endEditing(true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if deleted.contains(indexPath.row) {
+            return 0
+        } else {
+            return 84
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -259,6 +309,22 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         //change to number of lines restriction, label display something when out of room? or allow scrolling and keep 50?
         //resolve in performance clean up
         return updatedText.characters.count <= CHARACTER_LIMIT
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height - 50
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height - 50
+            }
+        }
     }
     
     func didPressJoinBtn(_ tag: Int) {

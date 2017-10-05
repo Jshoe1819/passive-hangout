@@ -15,9 +15,9 @@ import FBSDKCoreKit
 
 class FeedCell: UITableViewCell {
     
-    var status: Status!
-    var users: Users!
-    var availableRef: DatabaseReference!
+    //var status: Status!
+    //var users: Users!
+    //var availableRef: DatabaseReference!
     
     @IBOutlet weak var displayNameLbl: UILabel!
     @IBOutlet weak var statusLbl: UILabel!
@@ -34,57 +34,46 @@ class FeedCell: UITableViewCell {
     }
     
     func configureCell(status: Status, users: [Users]) {
-        self.status = status
+
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
-            for key in users[index].statusId.keys {
-                if key == status.statusKey {
-                    self.displayNameLbl.text = users[index].name
-                    self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
-//                    if let currentUser = Auth.auth().currentUser?.uid {
-//                        let join = status.joinedList.keys.contains { (key) -> Bool in
-//                            key == currentUser
-//                        }
-//                        if join {
-//                            self.joinBtnOutlet.isHidden = true
-//                            self.alreadyJoinedBtn.isHidden = false
-//                        }
-//                    }
-                    if let image = ActivityFeedVC.imageCache.object(forKey: users[index].profilePicUrl as NSString) {
-                        profilePicImg.image = image
-                        //print("JAKE: caching working")
+            if status.userId == users[index].usersKey {
+                self.displayNameLbl.text = users[index].name
+                self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
+                
+                if let image = ActivityFeedVC.imageCache.object(forKey: users[index].profilePicUrl as NSString) {
+                    profilePicImg.image = image
+                    //print("JAKE: caching working")
+                } else {
+                    if users[index].id != "a" {
+                        let profileUrl = URL(string: users[index].profilePicUrl)
+                        let data = try? Data(contentsOf: profileUrl!)
+                        if let profileImage = UIImage(data: data!) {
+                            self.profilePicImg.image = profileImage
+                            ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        }
+                        
                     } else {
-                        if users[index].id != "a" {
-                            let profileUrl = URL(string: users[index].profilePicUrl)
-                            let data = try? Data(contentsOf: profileUrl!)
-                            if let profileImage = UIImage(data: data!) {
-                                self.profilePicImg.image = profileImage
-                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-                            }
-                            
-                        } else {
-                            let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
-                            profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                                if error != nil {
-                                    //print("JAKE: unable to download image from storage")
-                                } else {
-                                    //print("JAKE: image downloaded from storage")
-                                    if let imageData = data {
-                                        if let profileImage = UIImage(data: imageData) {
-                                            self.profilePicImg.image = profileImage
-                                            ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-                                        }
+                        let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
+                        profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                            if error != nil {
+                                //print("JAKE: unable to download image from storage")
+                            } else {
+                                //print("JAKE: image downloaded from storage")
+                                if let imageData = data {
+                                    if let profileImage = UIImage(data: imageData) {
+                                        self.profilePicImg.image = profileImage
+                                        ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     }
                                 }
-                            })
-                        }
+                            }
+                        })
                     }
                 }
             }
         }
-        
         
         self.statusLbl.text = status.content
         

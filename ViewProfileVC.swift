@@ -262,29 +262,49 @@ class ViewProfileVC: UIViewController {
     func populateCoverPicture(user: Users) {
         
         if user.id != "a" {
-            let coverUrl = URL(string: user.cover["source"] as! String)
-            let data = try? Data(contentsOf: coverUrl!)
-            if let coverImage = UIImage(data: data!) {
-                self.coverImg.image = coverImage
+            
+            if let coverStorageUrl = user.cover["source"] as? String {
+                
+                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+                    //print("using cache")
+                    coverImg.image = image
+                }
+                else {
+                    //print("downloading")
+                    let coverUrl = URL(string: user.cover["source"] as! String)
+                    let data = try? Data(contentsOf: coverUrl!)
+                    if let coverImage = UIImage(data: data!) {
+                        self.coverImg.image = coverImage
+                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
+                    }
+                }
             }
             
         } else {
-            let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-            coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                if error != nil {
-                    //print("JAKE: unable to download image from storage")
+            if let coverStorageUrl = user.cover["source"] as? String {
+                
+                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+                    //print("using cache")
+                    coverImg.image = image
                 } else {
-                    //print("JAKE: image downloaded from storage")
-                    if let imageData = data {
-                        if let image = UIImage(data: imageData) {
-                            self.coverImg.image = image
-                            //self.postImg.image = image
-                            //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                    //print("downloading")
+                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
+                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let image = UIImage(data: imageData) {
+                                    self.coverImg.image = image
+                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
+                                    
+                                }
+                            }
                         }
-                    }
+                    })
                 }
-            })
-            
+            }
         }
     }
     
