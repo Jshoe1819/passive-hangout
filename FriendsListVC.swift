@@ -18,7 +18,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     var currentFriendsList = Dictionary<String, Any>()
     var tappedBtnTags = [Int]()
     var deleted = [Int]()
-    static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()

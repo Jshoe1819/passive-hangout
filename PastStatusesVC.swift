@@ -160,6 +160,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     }
                     cell.menuBtn.isHidden = true
                     cell.numberJoinedLbl.isHidden = true
+                    cell.newJoinIndicator.isHidden = true
                 }
             }
             
@@ -351,7 +352,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func didPressJoinedList(_ tag: Int) {
-        print(tag)
+        print(statusArr[tag].joinedList)
+        let statusKey = statusArr[tag].statusKey
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

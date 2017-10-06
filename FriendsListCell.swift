@@ -28,7 +28,7 @@ class FriendsListCell: UITableViewCell {
     func configureCell(friendsList: Dictionary<String, Any>, users: Users) {
         //profilePic.image = ...
         
-        if let image = FriendsListVC.imageCache.object(forKey: users.profilePicUrl as NSString) {
+        if let image = ActivityFeedVC.imageCache.object(forKey: users.profilePicUrl as NSString) {
             profilePic.image = image
             //print("JAKE: caching working")
         } else {
@@ -37,7 +37,7 @@ class FriendsListCell: UITableViewCell {
                 let data = try? Data(contentsOf: profileUrl!)
                 if let profileImage = UIImage(data: data!) {
                     self.profilePic.image = profileImage
-                    FriendsListVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
+                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
                 }
                 
             } else {
@@ -50,7 +50,7 @@ class FriendsListCell: UITableViewCell {
                         if let imageData = data {
                             if let profileImage = UIImage(data: imageData) {
                                 self.profilePic.image = profileImage
-                                FriendsListVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
+                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
                             }
                         }
                     }

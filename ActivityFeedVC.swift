@@ -19,6 +19,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
+    var refreshControl: UIRefreshControl!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -52,6 +53,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         textView.delegate = self
         
+        refreshControl = UIRefreshControl()
+//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
@@ -67,7 +74,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
             
@@ -84,7 +91,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
         })
         
-        DataService.ds.REF_USERS.observe(.value, with: { (snapshot) in
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.usersArr = []
             
@@ -96,12 +103,19 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let users = Users(usersKey: key, usersData: usersDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
                             if currentUser == users.usersKey {
-                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
                                     value as? String == "received"
                                 }
-                                if answer && users.friendsList["seen"] as? String == "false" {
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                
                             }
                         }
                         self.usersArr.append(users)
@@ -327,6 +341,60 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "activityFeedToProfile", sender: nil)
+    }
+    
+    func refresh(sender: Any) {
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                            }
+                        }
+                        self.usersArr.append(users)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        refreshControl.endRefreshing()
     }
     
 }
