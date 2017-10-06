@@ -54,7 +54,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         textView.delegate = self
         
         refreshControl = UIRefreshControl()
-//        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.tintColor = UIColor.purple
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
@@ -256,27 +256,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func homeBTnPressed(_ sender: Any) {
-        
-        if tableView.contentOffset == CGPoint.zero {
-            
-            DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
-                
-                self.statusArr = []
-                
-                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        //print("STATUS: \(snap)")
-                        if let statusDict = snap.value as? Dictionary<String, Any> {
-                            let key = snap.key
-                            let status = Status(statusKey: key, statusData: statusDict)
-                            self.statusArr.insert(status, at: 0)
-                        }
-                    }
-                }
-                self.tableView.reloadData()
-            })
-            
-        } else {
+        if tableView.contentOffset != CGPoint.zero {
             tableView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
@@ -392,9 +372,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.tableView.reloadData()
+            
         })
-        
         refreshControl.endRefreshing()
+        
     }
     
 }

@@ -2596,8 +2596,8 @@
                                     <constraint firstAttribute="trailing" secondItem="aA2-O2-PKx" secondAttribute="trailing" id="rcO-uq-D0f"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iAs-sU-Y1I">
-                                <rect key="frame" x="0.0" y="65" width="375" height="552"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iAs-sU-Y1I">
+                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -2750,22 +2750,30 @@
                                     <constraint firstItem="7vc-HF-iK9" firstAttribute="centerY" secondItem="EVf-h9-kp5" secondAttribute="centerY" id="ooj-qw-Aj3"/>
                                 </constraints>
                             </view>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="KYE-Xk-XIM">
+                                <rect key="frame" x="0.0" y="67" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iAs-sU-Y1I" firstAttribute="leading" secondItem="LdW-Cv-0Wi" secondAttribute="leading" id="9rT-ho-irr"/>
                             <constraint firstItem="Dtk-Wa-8EY" firstAttribute="top" secondItem="LdW-Cv-0Wi" secondAttribute="top" id="AMT-PG-EkS"/>
                             <constraint firstAttribute="trailing" secondItem="iAs-sU-Y1I" secondAttribute="trailing" id="CL6-jn-GLq"/>
-                            <constraint firstItem="iAs-sU-Y1I" firstAttribute="top" secondItem="Dtk-Wa-8EY" secondAttribute="bottom" id="HYr-0Y-Wfa"/>
+                            <constraint firstItem="KYE-Xk-XIM" firstAttribute="top" secondItem="Dtk-Wa-8EY" secondAttribute="bottom" constant="2" id="Jwb-gC-zEz"/>
                             <constraint firstAttribute="trailing" secondItem="Dtk-Wa-8EY" secondAttribute="trailing" id="OAg-9h-3A4"/>
                             <constraint firstItem="BIJ-II-H8t" firstAttribute="leading" secondItem="LdW-Cv-0Wi" secondAttribute="leading" id="cFD-eQ-OTr"/>
                             <constraint firstAttribute="trailing" secondItem="BIJ-II-H8t" secondAttribute="trailing" id="jhX-2u-1Ls"/>
+                            <constraint firstItem="iAs-sU-Y1I" firstAttribute="top" secondItem="KYE-Xk-XIM" secondAttribute="bottom" id="mfX-ow-9kG"/>
+                            <constraint firstAttribute="trailing" secondItem="KYE-Xk-XIM" secondAttribute="trailing" id="t1O-NL-P0K"/>
                             <constraint firstItem="Dtk-Wa-8EY" firstAttribute="leading" secondItem="LdW-Cv-0Wi" secondAttribute="leading" id="wjP-js-DlJ"/>
                             <constraint firstItem="gDg-1C-Ljw" firstAttribute="top" secondItem="BIJ-II-H8t" secondAttribute="bottom" id="xHe-da-wsY"/>
                             <constraint firstItem="BIJ-II-H8t" firstAttribute="top" secondItem="iAs-sU-Y1I" secondAttribute="bottom" id="y7j-9m-0Nq"/>
+                            <constraint firstItem="KYE-Xk-XIM" firstAttribute="leading" secondItem="LdW-Cv-0Wi" secondAttribute="leading" id="znO-TR-q8h"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="KYE-Xk-XIM" id="tRL-ar-ihS"/>
                         <outlet property="tableView" destination="iAs-sU-Y1I" id="RaT-dC-14u"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="friendsListToHome" animates="NO" id="mIA-N4-PrF"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="friendsListToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="O4J-wM-hDT"/>
@@ -3427,12 +3435,12 @@
         <image name="sort-button" width="19" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pO3-lh-m1g"/>
         <segue reference="Q2u-Op-EZN"/>
-        <segue reference="PTq-OX-4io"/>
-        <segue reference="3dF-EC-wDu"/>
-        <segue reference="MTP-dR-lnk"/>
-        <segue reference="agh-4t-wA8"/>
+        <segue reference="O4J-wM-hDT"/>
         <segue reference="5Tl-Jg-UAb"/>
+        <segue reference="BJa-L8-pjS"/>
+        <segue reference="vOi-0M-dkj"/>
+        <segue reference="mIA-N4-PrF"/>
+        <segue reference="agh-4t-wA8"/>
     </inferredMetricsTieBreakers>
 </document>

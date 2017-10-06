@@ -10,27 +10,35 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 
-class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDelegate, UITableViewDataSource {
+class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var usersArr = [Users]()
     var currentFriendsList = Dictionary<String, Any>()
     var tappedBtnTags = [Int]()
     var deleted = [Int]()
+    var filtered = [Users]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
+        
+        searchBar.keyboardAppearance = .dark
+        tableView.keyboardDismissMode = .onDrag
+        
         
         if let currentUser = Auth.auth().currentUser?.uid {
-            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observe(.value, with: { (snapshot) in
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByValue().observe(.value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let value = snap.value {
                             self.currentFriendsList.updateValue(value, forKey: snap.key)
+                            
                         }
                     }
                 }
@@ -48,11 +56,12 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
                         if self.currentFriendsList.keys.contains(users.usersKey) {
-                            self.usersArr.append(users)
+                            self.usersArr.insert(users, at: 0)
                         }
                         
                     }
                 }
+                self.filtered = self.usersArr
             }
             self.tableView.reloadData()
         })
@@ -64,17 +73,41 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filtered = usersArr.filter({ (user) -> Bool in
+            if searchText == "" {
+                return true
+            } else {
+                
+                let nameCheck = user.name as NSString
+                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                let cityCheck = user.currentCity as NSString
+                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                return nameRange.location != NSNotFound || cityRange.location != NSNotFound
+            }
+            
+        })
+        
+        //        if(filtered.count == 0){
+        //            searchActive = false
+        //        } else {
+        //            searchActive = true;
+        //        }
+        
+        self.tableView.reloadData()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersArr.count
+        
+        return filtered.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let users = usersArr[indexPath.row]
+        let users = filtered[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "friendsListCell", for: indexPath) as? FriendsListCell {
             cell.cellDelegate = self
@@ -105,6 +138,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProfile = usersArr[indexPath.row]
         performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

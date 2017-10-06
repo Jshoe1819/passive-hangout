@@ -25,6 +25,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var originController = ""
     var selectedUserStatuses = [Status]()
     var viewedProfile: Users!
+    var maximumY:CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,10 +228,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
             let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
             let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
-            print(maxY)
+            self.maximumY = maxY
             
-            print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
-            print("Height of Cell is: \(rectOfCellInSuperview.height)")
+            //print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+            //print("Height of Cell is: \(rectOfCellInSuperview.height)")
             
             
 //            if let keyboardSize = (userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -314,16 +315,17 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height - 50
+            if self.tableView.frame.origin.y == 67{
+                self.tableView.frame.origin.y -= keyboardSize.height - 50
             }
         }
+        print("JAKE: \(maximumY)")
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height - 50
+            if self.tableView.frame.origin.y != 67{
+                self.tableView.frame.origin.y += keyboardSize.height - 50
             }
         }
     }
