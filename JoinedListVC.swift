@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, JoinedListCellDelegate {
     
@@ -14,8 +16,8 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     var statusArr = [Status]()
     var usersArr = [Users]()
-    var currentUser: Users!
-    var joinedList = [Status]()
+    //var currentUser: Users!
+    //var joinedList = [Status]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +28,59 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        for keys in 0..<statusArr.count {
-            let join = currentUser.joinedList.keys.contains { (key) -> Bool in
-                key == statusArr[keys].statusKey
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            let join = status.joinedList.keys.contains { (key) -> Bool in
+                                key == currentUser
+                            }
+                            if join {
+                                self.statusArr.insert(status, at: 0)
+                            }
+                            
+                        }
+                    }
+                }
             }
-            if join {
-                joinedList.append(statusArr[keys])
+            self.tableView.reloadData()
+            
+        })
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if answer && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                            }
+                        }
+                        self.usersArr.append(users)
+                    }
+                }
             }
-        }
+            self.tableView.reloadData()
+        })
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -41,19 +88,18 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return joinedList.count
+        return statusArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let status = joinedList[indexPath.row]
+        let status = statusArr[indexPath.row]
         let users = usersArr
         
-//        if joinedList.count ==  1 {
-//            //create a promt for empty, do same for all other tableviews
-//            return JoinedListCell()
-//        }
+        //        if joinedList.count ==  1 {
+        //            //create a promt for empty, do same for all other tableviews
+        //            return JoinedListCell()
+        //        }
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
             cell.cellDelegate = self
@@ -86,19 +132,27 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func didPressJoinBtn(_ tag: Int) {
-        let statusKey = joinedList[tag].statusKey
-        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").updateChildValues([statusKey: "true" ])
-        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser.usersKey: "true"])
+        let statusKey = statusArr[tag].statusKey
+        let userKey = statusArr[tag].userId
+        if let currentUser = Auth.auth().currentUser?.uid {
+        DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+        DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+        }
+        
     }
     
     func didPressAlreadyJoinedBtn(_ tag: Int) {
-        let statusKey = joinedList[tag].statusKey
-        DataService.ds.REF_USERS.child(currentUser.usersKey).child("joinedList").child(statusKey).removeValue()
-        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser.usersKey).removeValue()
+        let statusKey = statusArr[tag].statusKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+        DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+        }
     }
     
     func didPressProfilePic(_ tag: Int) {
-        let userKey = joinedList[tag].userId
+        let userKey = statusArr[tag].userId
         for index in 0..<usersArr.count {
             if userKey == usersArr[index].usersKey {
                 let selectedProfile = usersArr[index]
@@ -117,7 +171,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         //            }
         //        }
     }
-
+    
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToHome", sender: nil)

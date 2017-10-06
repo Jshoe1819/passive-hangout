@@ -19,6 +19,7 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var alreadyJoinedBtn: UIButton!
+    @IBOutlet weak var newJoinIndicator: UIView!
     
     //var pressedBtnTags = [Int]()
     
@@ -30,9 +31,15 @@ class PastStatusesCell: UITableViewCell {
     }
     
     func configureCell(status: Status) {
+        
+        numberJoinedLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(numberJoinedTapped(_:))))
+        
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
         numberJoinedLbl.text = "\(status.joinedList.count - 1) Joined"
+        if status.joinedList["seen"] as? String == "false" {
+            newJoinIndicator.isHidden = false
+        }
         
     }
     
@@ -81,6 +88,10 @@ class PastStatusesCell: UITableViewCell {
         } else {
             return ("a few seconds ago")
         }
+    }
+    
+    func numberJoinedTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressJoinedList(self.tag)
     }
     
     @IBAction func joinBtnPressed(_ sender: UIButton) {

@@ -19,7 +19,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
-    //let characterLimit = CHARACTER_LIMIT
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -48,7 +47,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //print("JAKE: \(profilePicUrl)")
             }
         }
-        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -112,6 +110,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.tableView.reloadData()
         })
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -126,6 +125,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let status = statusArr[indexPath.row]
         let users = usersArr
+        
+        if statusArr.count == 0 {
+            print("empty, show label or img")
+        }
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell") as? FeedCell {
             if let currentUser = Auth.auth().currentUser?.uid {
@@ -266,19 +269,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "activityFeedToJoinedList" {
-            if let nextVC = segue.destination as? JoinedListVC {
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    for index in 0..<usersArr.count {
-                        if usersArr[index].usersKey == currentUser {
-                            nextVC.statusArr = statusArr
-                            nextVC.currentUser = usersArr[index]
-                            nextVC.usersArr = usersArr
-                        }
-                    }
-                }
-            }
-        }
         if segue.identifier == "feedToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
@@ -297,9 +287,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func didPressJoinBtn(_ tag: Int) {
         let statusKey = statusArr[tag].statusKey
+        let userKey = statusArr[tag].userId
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
-            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues(["seen": "false"])
+            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             //tableView.reloadData()

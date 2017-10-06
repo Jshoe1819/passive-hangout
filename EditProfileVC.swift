@@ -156,7 +156,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                                             print("error")
                                             //handle error
                                         } else {
-                                            print("deleted")
+                                            //print("deleted")
                                         }
                                     })
                                 }
@@ -339,29 +339,33 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     
     @IBAction func saveBtnPressed(_ sender: Any) {
-        //print(setPrivate(privateSwitch: privateProfileSwitch))
-        
-        if let occupation = occupationTextField.text {
-            if let employer = employerTextField.text {
-                if let currentCity = currentCityTextField.text {
-                    if let school = schoolTextField.text {
-                        if let name = nameTextField.text {
-                            let childUpdates = ["isPrivate":setPrivate(privateSwitch: privateProfileSwitch),
-                                                "name":name,
-                                                "occupation":occupation,
-                                                "employer":employer,
-                                                "currentCity":currentCity,
-                                                "school":school] as [String: Any]
-                            
-                            if let currentUser = Auth.auth().currentUser?.uid {
-                                DataService.ds.REF_USERS.child(currentUser).updateChildValues(childUpdates)
+        if nameTextField.text == "" {
+            nameTextField.attributedPlaceholder = NSAttributedString(string: "field cannot be empty",
+                                                                     attributes: [NSForegroundColorAttributeName: UIColor.red])
+        } else {
+            
+            if let occupation = occupationTextField.text {
+                if let employer = employerTextField.text {
+                    if let currentCity = currentCityTextField.text {
+                        if let school = schoolTextField.text {
+                            if let name = nameTextField.text {
+                                let childUpdates = ["isPrivate":setPrivate(privateSwitch: privateProfileSwitch),
+                                                    "name":name,
+                                                    "occupation":occupation,
+                                                    "employer":employer,
+                                                    "currentCity":currentCity,
+                                                    "school":school] as [String: Any]
+                                
+                                if let currentUser = Auth.auth().currentUser?.uid {
+                                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(childUpdates)
+                                }
                             }
                         }
                     }
                 }
             }
+            performSegue(withIdentifier: "editProfileToMyProfile", sender: nil)
         }
-        performSegue(withIdentifier: "editProfileToMyProfile", sender: nil)
     }
     
     @IBAction func joinedListBtnPressed(_ sender: Any) {

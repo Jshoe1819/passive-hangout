@@ -329,10 +329,13 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func didPressJoinBtn(_ tag: Int) {
         //print("I have pressed a join button with a tag: \(tag)")
-        let statusKey = selectedUserStatuses[tag].statusKey
+        let statusKey = statusArr[tag].statusKey
+        let userKey = statusArr[tag].userId
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
+            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             //tableView.reloadData()
         }
     }
@@ -345,6 +348,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
             //tableView.reloadData()
         }
+    }
+    
+    func didPressJoinedList(_ tag: Int) {
+        print(tag)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -24,6 +24,7 @@ class ProfileVC: UIViewController{
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var profileNewFriendIndicator: UIView!
+    @IBOutlet weak var pastStatusesIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,9 @@ class ProfileVC: UIViewController{
                     if answer && user.friendsList["seen"] as? String == "false" {
                         self.footerNewFriendIndicator.isHidden = false
                         self.profileNewFriendIndicator.isHidden = false
+                    }
+                    if user.joinedList["seen"] as? String == "false" {
+                        self.pastStatusesIndicator.isHidden = false
                     }
                 }
             })
@@ -248,7 +252,10 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func pastStatusesBtnPressed(_ sender: Any) {
+        if let currentUser = Auth.auth().currentUser?.uid {
+        DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues(["seen": "true"])
         performSegue(withIdentifier: "myProfileToPastStatuses", sender: nil)
+        }
     }
     
     @IBAction func notificationsBtnPressed(_ sender: Any) {
