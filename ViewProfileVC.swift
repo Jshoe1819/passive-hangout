@@ -428,6 +428,9 @@ class ViewProfileVC: UIViewController {
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToHome", sender: nil)
     }
+    @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
+    }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToMyProfile", sender: nil)
     }

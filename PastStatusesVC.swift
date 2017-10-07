@@ -26,6 +26,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var selectedUserStatuses = [Status]()
     var viewedProfile: Users!
     var maximumY:CGFloat!
+    var status: Status!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
             
@@ -58,7 +59,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     }
                 }
             }
-            //self.tableView.reloadData()
+            self.tableView.reloadData()
         })
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
@@ -122,14 +123,13 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
             return selectedUserStatuses.count
-        } else {
-            return statusArr.count
         }
+        return statusArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var status: Status
+        
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
@@ -141,7 +141,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
             cell.cellDelegate = self
             cell.tag = indexPath.row
-            //cell.menuBtn.tag = indexPath.row
+            cell.menuBtn.tag = indexPath.row
             cell.textView.isHidden = true
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status)
@@ -202,8 +202,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
         self.maximumY = maxY
         
-        print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
-        print("Height of Cell is: \(rectOfCellInSuperview.height)")
+        //print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+        //print("Height of Cell is: \(rectOfCellInSuperview.height)")
         
         // create the alert
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -215,9 +215,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             label.isHidden = true
             textView.isHidden = false
             textView.text = label.text
+            textView.becomeFirstResponder()
             textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
             
-            textView.becomeFirstResponder()
+            
             //tableView.setContentOffset(CGPoint(tag), animated: true)
             
             self.backBtn.isHidden = true
@@ -312,11 +313,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.tableView.frame.origin.y == 67{
-                print("h: \(maximumY - keyboardSize.minY)")
+                //print("h: \(maximumY - keyboardSize.minY)")
                 if maximumY > (keyboardSize.minY) {
-                    print("entering")
+                    //print("entering")
                     self.tableView.isScrollEnabled = false
-                    print(keyboardSize.minY)
+                    //print(keyboardSize.minY)
                     self.tableView.frame.origin.y -= (maximumY - keyboardSize.minY)
                     
                 }
@@ -325,27 +326,31 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.tableView.frame.origin.y != 67{
-                self.tableView.isScrollEnabled = true
-                print(keyboardSize.minY)
-                self.tableView.frame.origin.y = 67
-                
-            }
+        //if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if self.tableView.frame.origin.y != 67{
+            self.tableView.isScrollEnabled = true
+            //print(keyboardSize.minY)
+            self.tableView.frame.origin.y = 67
+            
         }
+        //}
     }
     
     func didPressJoinBtn(_ tag: Int) {
         //print("I have pressed a join button with a tag: \(tag)")
-        let statusKey = statusArr[tag].statusKey
-        let userKey = statusArr[tag].userId
+        let statusKey = selectedUserStatuses[tag].statusKey
+        let userKey = selectedUserStatuses[tag].userId
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
             DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             //tableView.reloadData()
+            print(statusKey)
+            print(tag)
+            print(userKey)
         }
+        
     }
     
     func didPressAlreadyJoinedBtn(_ tag: Int) {
@@ -362,6 +367,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         print(statusArr[tag].joinedList)
         let statusKey = statusArr[tag].statusKey
         DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
+        performSegue(withIdentifier: "pastStatusesToJoinedFriends", sender: statusArr[tag])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -376,6 +382,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
                 }
+            }
+        }
+        if segue.identifier == "pastStatusesToJoinedFriends" {
+            if let nextVC = segue.destination as? JoinedFriendsVC {
+                nextVC.selectedStatus = sender as? Status
             }
         }
     }

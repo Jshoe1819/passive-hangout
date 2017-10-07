@@ -150,6 +150,5 @@ class FeedCell: UITableViewCell {
         cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
         joinBtnOutlet.isHidden = false
         alreadyJoinedBtn.isHidden = true
-        alreadyJoinedBtn.isHidden = true
     }
 }

@@ -241,6 +241,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                     "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
                 DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                refresh(sender: "")
                 
                 statusPopupBottomConstraint.constant = -325
                 statusPopupTopConstraint.constant = 680
