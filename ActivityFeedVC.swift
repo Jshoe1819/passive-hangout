@@ -270,7 +270,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-    
+        
     @IBAction func msgBtnPressed(_ sender: Any) {
         print("message btn pressed")
     }
@@ -321,6 +321,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "activityFeedToProfile", sender: nil)
+        footerNewFriendIndicator.isHidden = true
     }
     
     func refresh(sender: Any) {
@@ -374,7 +375,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
             
         })
-        refreshControl.endRefreshing()
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
+        
         
     }
     

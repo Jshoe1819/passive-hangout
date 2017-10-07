@@ -201,6 +201,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
+        footerNewFriendIndicator.isHidden = true
     }
     
 }

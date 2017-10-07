@@ -43,7 +43,7 @@ class ViewProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if originController == "feedToViewProfile" {
+        if originController == "feedToViewProfile" || originController == "joinedListToViewProfile" {
             self.backBtn.isHidden = true
         }
         

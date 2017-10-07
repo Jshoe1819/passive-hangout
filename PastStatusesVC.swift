@@ -197,6 +197,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         //print("JAKE: \(tappedBtnTags)")
         tableView.reloadData()
         
+        let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
+        let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+        let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
+        self.maximumY = maxY
+        
+        print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+        print("Height of Cell is: \(rectOfCellInSuperview.height)")
+        
         // create the alert
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -229,18 +237,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
             let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
             self.maximumY = maxY
-            
-            //print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
-            //print("Height of Cell is: \(rectOfCellInSuperview.height)")
-            
-            
-//            if let keyboardSize = (userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//                print(keyboardSize.minY)
-//            
-//            }
-            
-            //if maxy is greater than keyboard miny - shift up by difference
-            //else do not shift
             
         }))
         
@@ -291,7 +287,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if deleted.contains(indexPath.row) {
             return 0
         } else {
-            return 84
+            return UITableViewAutomaticDimension
         }
     }
     
@@ -314,18 +310,27 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.tableView.frame.origin.y == 67{
-                self.tableView.frame.origin.y -= keyboardSize.height - 50
+                print("h: \(maximumY - keyboardSize.minY)")
+                if maximumY > (keyboardSize.minY) {
+                    print("entering")
+                    self.tableView.isScrollEnabled = false
+                    print(keyboardSize.minY)
+                    self.tableView.frame.origin.y -= (maximumY - keyboardSize.minY)
+                    
+                }
             }
         }
-        print("JAKE: \(maximumY)")
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.tableView.frame.origin.y != 67{
-                self.tableView.frame.origin.y += keyboardSize.height - 50
+                self.tableView.isScrollEnabled = true
+                print(keyboardSize.minY)
+                self.tableView.frame.origin.y = 67
+                
             }
         }
     }
@@ -417,6 +422,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
+        footerNewFriendIndicator.isHidden = true
     }
     
 }

@@ -381,6 +381,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "editProfileToMyProfile", sender: nil)
+        footerNewFriendIndicator.isHidden = true
     }
     
 }
