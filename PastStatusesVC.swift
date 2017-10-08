@@ -27,6 +27,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var viewedProfile: Users!
     var maximumY:CGFloat!
     var status: Status!
+    var selectedStatus: Status!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +63,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.tableView.reloadData()
         })
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
         }
@@ -121,7 +122,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             return selectedUserStatuses.count
         }
         return statusArr.count
@@ -131,7 +132,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
         } else {
             status = statusArr[indexPath.row]
@@ -146,7 +147,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status)
             
-            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" {
+            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
                 //cell.configureCell(status: selectedUserStatuses[indexPath.row])
                 if let currentUser = Auth.auth().currentUser?.uid {
                     let join = status.joinedList.keys.contains { (key) -> Bool in
@@ -371,16 +372,16 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        //        if let currentUser = Auth.auth().currentUser?.uid {
-        //            let currentProfile = usersArr
-        //        }
-        
+                
         if segue.identifier == "pastStatusesToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
+                } else if originController == "joinedFriendsToViewProfile" {
+                    nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.selectedStatus = selectedStatus
+                    nextVC.selectedProfile = viewedProfile
                 }
             }
         }
@@ -419,7 +420,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func backBtnPressed(_ sender: Any) {
         
-        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)

@@ -112,6 +112,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         if let cell = tableView.dequeueReusableCell(withIdentifier: "friendsListCell", for: indexPath) as? FriendsListCell {
             cell.cellDelegate = self
             cell.tag = indexPath.row
+            cell.selectionStyle = .none
             
             if deleted.contains(indexPath.row) {
                 cell.isHidden = true

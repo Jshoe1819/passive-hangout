@@ -17,17 +17,21 @@ import Firebase
 class ProfileVC: UIViewController{
     
     var statusArr = [Status]()
+    var selectedStatus: Status!
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    @IBOutlet weak var numberJoinedLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var profileNewFriendIndicator: UIView!
     @IBOutlet weak var pastStatusesIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        numberJoinedLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProfileVC.numberJoinedTapped(_:))))
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
@@ -67,6 +71,8 @@ class ProfileVC: UIViewController{
                                 if self.statusArr[index].userId == Auth.auth().currentUser?.uid {
                                     self.lastStatusLbl.text = self.statusArr[index].content
                                     self.statusAgeLbl.text = self.configureTimeAgo(unixTimestamp: self.statusArr[index].postedDate)
+                                    self.numberJoinedLbl.text = ("\(self.statusArr[index].joinedList.count - 1) Joined")
+                                    self.selectedStatus = self.statusArr[index]
                                     break
                                 }
                             }
@@ -172,6 +178,11 @@ class ProfileVC: UIViewController{
         }
     }
     
+    func numberJoinedTapped(_ sender: UITapGestureRecognizer) {
+        //perform segue, pass required info
+        performSegue(withIdentifier: "myProfileToJoinedFriends", sender: selectedStatus)
+    }
+    
     func populateCoverPicture(user: Users) {
         
         if user.id != "a" {
@@ -225,6 +236,11 @@ class ProfileVC: UIViewController{
         if segue.identifier == "myProfileToPastStatuses" {
             if let nextVC = segue.destination as? PastStatusesVC {
                 nextVC.originController = ""
+            }
+        } else if segue.identifier == "myProfileToJoinedFriends" {
+            if let nextVC = segue.destination as? JoinedFriendsVC {
+                nextVC.selectedStatus = sender as? Status
+                nextVC.originController = "myProfileToJoinedFriends"
             }
         }
     }

@@ -22,6 +22,8 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var filtered = [Users]()
     var selectedStatus: Status!
     var currentUserInfo: Users!
+    var selectedUser: Users!
+    var originController = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +115,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         if let cell = tableView.dequeueReusableCell(withIdentifier: "joinedProfilesListCell", for: indexPath) as? JoinedProfilesListCell {
             cell.cellDelegate = self
             cell.tag = indexPath.row
+            cell.selectionStyle = .none
             cell.configureCell(users: users, currentUser: currentUserInfo)
             return cell
             
@@ -122,36 +125,59 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //go to view profile
+        //origin controller and selected profile
+        let selectedProfile = filtered[indexPath.row]
+        performSegue(withIdentifier: "joinedFriendsToViewProfile", sender: selectedProfile)
+    }
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "friendsListToViewProfile" {
-//            if let nextVC = segue.destination as? ViewProfileVC {
-//                nextVC.selectedProfile = sender as? Users
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "joinedFriendsToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+                nextVC.originController = "joinedFriendsToViewProfile"
+                nextVC.selectedStatus = selectedStatus
+            }
+        }
+    }
     
     func didPressAddFriendBtn(_ tag: Int) {
         print("a \(tag)")
+        let friendKey = filtered[tag].usersKey
+            DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
+            DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
+        
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
         print("r \(tag)")
+        let friendKey = filtered[tag].usersKey
+            DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
+            DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
+        
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
+        if originController == "myProfileToJoinedFriends" {
+            performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)
+        }
         performSegue(withIdentifier: "joinedFriendsToPastStatuses", sender: nil)
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedFriendsToHome", sender: nil)
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedFriendsToJoinedList", sender: nil)
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)
     }
     
     

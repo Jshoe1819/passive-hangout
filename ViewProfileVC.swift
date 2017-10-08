@@ -38,6 +38,7 @@ class ViewProfileVC: UIViewController {
     var selectedProfile: Users!
     var statusArr = [Status]()
     var selectedStatusArr = [Status]()
+    var selectedStatus: Status!
     var originController = ""
     
     override func viewDidLoad() {
@@ -327,10 +328,19 @@ class ViewProfileVC: UIViewController {
                 nextVC.selectedUserStatuses = sender as! [Status]
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
+                } else if originController == "joinedFriendsToViewProfile" {
+                    nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.selectedStatus = selectedStatus
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
                 nextVC.viewedProfile = selectedProfile
+            }
+        }
+        if segue.identifier == "viewProfileToJoinedFriends" {
+            if let nextVC = segue.destination as? JoinedFriendsVC {
+                nextVC.selectedUser = selectedProfile
+                nextVC.selectedStatus = selectedStatus
             }
         }
     }
@@ -417,7 +427,11 @@ class ViewProfileVC: UIViewController {
         //performSegue(withIdentifier: "feedToViewProfile", sender: nil)
         if originController == "feedToViewProfile" {
             performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
-        }
+        } else if
+            originController == "joinedFriendsToViewProfile" {
+                performSegue(withIdentifier: "viewProfileToJoinedFriends", sender: nil)
+            }
+        
             //        else if originController == "joinedListToViewProfile" {
             //            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
             //        }
