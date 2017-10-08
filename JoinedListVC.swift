@@ -14,6 +14,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    
     var statusArr = [Status]()
     var usersArr = [Users]()
     //var currentUser: Users!

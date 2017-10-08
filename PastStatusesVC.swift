@@ -173,7 +173,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
         }
-        status = statusArr[indexPath.row]
+        status = statusArr[indexPath.row] // causing index out of range error
         //print(statusArr[indexPath.row].content)
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
@@ -353,7 +353,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.tableView.frame.origin.y == 67{
                 //print("h: \(maximumY - keyboardSize.minY)")
-                if maximumY > (keyboardSize.minY) {
+                if maximumY > (keyboardSize.minY) { //causing unwrapped nil fail
                     //print("entering")
                     self.tableView.isScrollEnabled = false
                     //print(keyboardSize.minY)
@@ -385,9 +385,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             //tableView.reloadData()
-            print(statusKey)
-            print(tag)
-            print(userKey)
         }
         
     }

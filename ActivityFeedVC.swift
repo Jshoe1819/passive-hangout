@@ -18,6 +18,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var statusArr = [Status]()
     var usersArr = [Users]()
+    var userFriendsList = Dictionary<String, Any>()
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -74,6 +75,19 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if let value = snap.value {
+                            self.userFriendsList.updateValue(value, forKey: snap.key)
+                            //print(self.userFriendsList)
+                        }
+                    }
+                }
+            })
+        }
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
@@ -84,7 +98,16 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
+                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
+                            status.userId == key
+                        }
+                        if friends {
+                            if self.userFriendsList[status.userId] as? String == "friends" {
+                                //print("friends - \(status.userId)")
+                                self.statusArr.insert(status, at: 0)
+                            }
+                        }
+                        //self.statusArr.insert(status, at: 0)
                     }
                 }
             }
