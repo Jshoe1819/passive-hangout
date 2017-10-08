@@ -134,9 +134,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
-        } else {
-            status = statusArr[indexPath.row]
         }
+        status = statusArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
             
@@ -235,10 +234,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
             self.saveEditBtn.layer.setValue(textView, forKey: "textview")
             
-            let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
-            let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
-            let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
-            self.maximumY = maxY
+//            let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
+//            let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+//            let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
+//            self.maximumY = maxY
             
         }))
         
@@ -365,14 +364,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func didPressJoinedList(_ tag: Int) {
-        print(statusArr[tag].joinedList)
+        //print(statusArr[tag].joinedList)
         let statusKey = statusArr[tag].statusKey
         DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
         performSegue(withIdentifier: "pastStatusesToJoinedFriends", sender: statusArr[tag])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                
+        
         if segue.identifier == "pastStatusesToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
@@ -434,7 +433,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
-        footerNewFriendIndicator.isHidden = true
+        //footerNewFriendIndicator.isHidden = true
     }
     
 }

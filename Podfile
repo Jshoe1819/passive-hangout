@@ -14,6 +14,7 @@ target 'passive-hangout' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'SwiftKeychainWrapper'
+  pod 'Kingfisher', '~> 3.13.1'
 
   target 'passive-hangoutTests' do
     inherit! :search_paths

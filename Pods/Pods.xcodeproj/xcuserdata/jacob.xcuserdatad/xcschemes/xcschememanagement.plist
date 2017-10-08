@@ -49,6 +49,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Kingfisher.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-passive-hangout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -82,17 +87,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>03917116EB1233FFD673D15C8500E7D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>266AE1506DAD13D34C0725E909C0C476</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>30CBDC71E16D7328E32428C0921B759F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,12 +122,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7335E9C9689F3B8A16F063A884748533</key>
+		<key>6F712943B3C5592E82604940D11CE08A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A18131F0FAB7FED9C518AB7347A68010</key>
+		<key>7335E9C9689F3B8A16F063A884748533</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -143,6 +148,11 @@
 			<true/>
 		</dict>
 		<key>DDBCFDE490CDFDABF6F16A26F346932D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4AD3BA51B2BA4A024CA291343508B44</key>
 		<dict>
 			<key>primary</key>
 			<true/>
