@@ -20,7 +20,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var usersArr = [Users]()
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
-    static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textView: NewStatusTextView!

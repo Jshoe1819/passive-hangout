@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
+import Kingfisher
 
 class ViewProfileVC: UIViewController {
     
@@ -220,86 +221,33 @@ class ViewProfileVC: UIViewController {
     
     func populateProfilePicture(user: Users) {
         
-        //print("JAKE: going in to else")
-        if user.id != "a" {
-            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-                profileImg.image = image
-                //print("JAKE: Cache working")
+        ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.profileImg.image = image
             } else {
-                let profileUrl = URL(string: user.profilePicUrl)
-                let data = try? Data(contentsOf: profileUrl!)
-                if let profileImage = UIImage(data: data!) {
-                    self.profileImg.image = profileImage
-                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-                }
-            }
-            
-        } else {
-            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-                profileImg.image = image
-                //print("JAKE: Cache working")
-            } else {
-                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                    if error != nil {
-                        //print("JAKE: unable to download image from storage")
-                    } else {
-                        //print("JAKE: image downloaded from storage")
-                        if let imageData = data {
-                            if let image = UIImage(data: imageData) {
-                                self.profileImg.image = image
-                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-                                //self.postImg.image = image
-                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-                            }
-                        }
+                print("not in cache")
+                if user.id != "a" {
+                    let profileUrl = URL(string: user.profilePicUrl)
+                    let data = try? Data(contentsOf: profileUrl!)
+                    if let profileImage = UIImage(data: data!) {
+                        self.profileImg.image = profileImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                     }
-                })
-            }
-            
-        }
-    }
-    
-    func populateCoverPicture(user: Users) {
-        
-        if user.id != "a" {
-            
-            if let coverStorageUrl = user.cover["source"] as? String {
-                
-                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-                    //print("using cache")
-                    coverImg.image = image
-                }
-                else {
-                    //print("downloading")
-                    let coverUrl = URL(string: user.cover["source"] as! String)
-                    let data = try? Data(contentsOf: coverUrl!)
-                    if let coverImage = UIImage(data: data!) {
-                        self.coverImg.image = coverImage
-                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
-                    }
-                }
-            }
-            
-        } else {
-            if let coverStorageUrl = user.cover["source"] as? String {
-                
-                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-                    //print("using cache")
-                    coverImg.image = image
+                    
                 } else {
-                    //print("downloading")
-                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                    profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
                             //print("JAKE: unable to download image from storage")
                         } else {
                             //print("JAKE: image downloaded from storage")
                             if let imageData = data {
-                                if let image = UIImage(data: imageData) {
-                                    self.coverImg.image = image
-                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
-                                    
+                                if let profileImage = UIImage(data: imageData) {
+                                    self.profileImg.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                                 }
                             }
                         }
@@ -307,6 +255,133 @@ class ViewProfileVC: UIViewController {
                 }
             }
         }
+    
+
+
+        //print("JAKE: going in to else")
+//        if user.id != "a" {
+//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+//                profileImg.image = image
+//                //print("JAKE: Cache working")
+//            } else {
+//                let profileUrl = URL(string: user.profilePicUrl)
+//                let data = try? Data(contentsOf: profileUrl!)
+//                if let profileImage = UIImage(data: data!) {
+//                    self.profileImg.image = profileImage
+//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+//                }
+//            }
+//            
+//        } else {
+//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+//                profileImg.image = image
+//                //print("JAKE: Cache working")
+//            } else {
+//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+//                    if error != nil {
+//                        //print("JAKE: unable to download image from storage")
+//                    } else {
+//                        //print("JAKE: image downloaded from storage")
+//                        if let imageData = data {
+//                            if let image = UIImage(data: imageData) {
+//                                self.profileImg.image = image
+//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+//                                //self.postImg.image = image
+//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+//            
+//        }
+    }
+    
+    func populateCoverPicture(user: Users) {
+        
+        ImageCache.default.retrieveImage(forKey: user.cover["source"] as! String, options: nil) { (coverImage, cacheType) in
+            if let image = coverImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.coverImg.image = image
+            } else {
+                //print("not in cache")
+                if user.id != "a" {
+                    let coverUrl = URL(string: user.cover["source"] as! String)
+                    let data = try? Data(contentsOf: coverUrl!)
+                    if let coverImage = UIImage(data: data!) {
+                        self.coverImg.image = coverImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
+                    }
+                    
+                } else {
+                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
+                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let coverImage = UIImage(data: imageData) {
+                                    self.coverImg.image = coverImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    
+
+
+//        if user.id != "a" {
+//
+//            if let coverStorageUrl = user.cover["source"] as? String {
+//
+//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+//                    //print("using cache")
+//                    coverImg.image = image
+//                }
+//                else {
+//                    //print("downloading")
+//                    let coverUrl = URL(string: user.cover["source"] as! String)
+//                    let data = try? Data(contentsOf: coverUrl!)
+//                    if let coverImage = UIImage(data: data!) {
+//                        self.coverImg.image = coverImage
+//                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
+//                    }
+//                }
+//            }
+//            
+//        } else {
+//            if let coverStorageUrl = user.cover["source"] as? String {
+//                
+//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+//                    //print("using cache")
+//                    coverImg.image = image
+//                } else {
+//                    //print("downloading")
+//                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
+//                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+//                        if error != nil {
+//                            //print("JAKE: unable to download image from storage")
+//                        } else {
+//                            //print("JAKE: image downloaded from storage")
+//                            if let imageData = data {
+//                                if let image = UIImage(data: imageData) {
+//                                    self.coverImg.image = image
+//                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
+//                                    
+//                                }
+//                            }
+//                        }
+//                    })
+//                }
+//            }
+//        }
     }
     
     func currentUserStatusArr(array: [Status]) {

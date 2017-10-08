@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import Kingfisher
 
 class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
@@ -72,44 +73,81 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func populateProfilePicture(user: Users) {
         
-        //print("JAKE: going in to else")
-        if user.id != "a" {
-            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-                profilePicImg.image = image
-                //print("JAKE: Cache working")
+        ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.profilePicImg.image = image
             } else {
-                let profileUrl = URL(string: user.profilePicUrl)
-                let data = try? Data(contentsOf: profileUrl!)
-                if let profileImage = UIImage(data: data!) {
-                    self.profilePicImg.image = profileImage
-                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-                }
-            }
-            
-        } else {
-            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-                profilePicImg.image = image
-                //print("JAKE: Cache working")
-            } else {
-                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                    if error != nil {
-                        //print("JAKE: unable to download image from storage")
-                    } else {
-                        //print("JAKE: image downloaded from storage")
-                        if let imageData = data {
-                            if let image = UIImage(data: imageData) {
-                                self.profilePicImg.image = image
-                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-                                //self.postImg.image = image
-                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                //print("not in cache")
+                if user.id != "a" {
+                    let profileUrl = URL(string: user.profilePicUrl)
+                    let data = try? Data(contentsOf: profileUrl!)
+                    if let profileImage = UIImage(data: data!) {
+                        self.profilePicImg.image = profileImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                    }
+                    
+                } else {
+                    let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                    profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let profileImage = UIImage(data: imageData) {
+                                    self.profilePicImg.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
-            
         }
+    
+
+
+        //print("JAKE: going in to else")
+//        if user.id != "a" {
+//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+//                profilePicImg.image = image
+//                //print("JAKE: Cache working")
+//            } else {
+//                let profileUrl = URL(string: user.profilePicUrl)
+//                let data = try? Data(contentsOf: profileUrl!)
+//                if let profileImage = UIImage(data: data!) {
+//                    self.profilePicImg.image = profileImage
+//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+//                }
+//            }
+//            
+//        } else {
+//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+//                profilePicImg.image = image
+//                //print("JAKE: Cache working")
+//            } else {
+//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+//                    if error != nil {
+//                        //print("JAKE: unable to download image from storage")
+//                    } else {
+//                        //print("JAKE: image downloaded from storage")
+//                        if let imageData = data {
+//                            if let image = UIImage(data: imageData) {
+//                                self.profilePicImg.image = image
+//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+//                                //self.postImg.image = image
+//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+//                            }
+//                        }
+//                    }
+//                })
+//            }
+//            
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -136,6 +174,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             status = selectedUserStatuses[indexPath.row]
         }
         status = statusArr[indexPath.row]
+        //print(statusArr[indexPath.row].content)
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
             

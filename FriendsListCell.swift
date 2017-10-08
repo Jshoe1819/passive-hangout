@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import Kingfisher
 
 class FriendsListCell: UITableViewCell {
     
@@ -28,35 +29,72 @@ class FriendsListCell: UITableViewCell {
     func configureCell(friendsList: Dictionary<String, Any>, users: Users) {
         //profilePic.image = ...
         
-        if let image = ActivityFeedVC.imageCache.object(forKey: users.profilePicUrl as NSString) {
-            profilePic.image = image
-            //print("JAKE: caching working")
-        } else {
-            if users.id != "a" {
-                let profileUrl = URL(string: users.profilePicUrl)
-                let data = try? Data(contentsOf: profileUrl!)
-                if let profileImage = UIImage(data: data!) {
-                    self.profilePic.image = profileImage
-                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
-                }
-                
+        ImageCache.default.retrieveImage(forKey: users.profilePicUrl, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.profilePic.image = image
             } else {
-                let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
-                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                    if error != nil {
-                        //print("JAKE: unable to download image from storage")
-                    } else {
-                        //print("JAKE: image downloaded from storage")
-                        if let imageData = data {
-                            if let profileImage = UIImage(data: imageData) {
-                                self.profilePic.image = profileImage
-                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
+                print("not in cache")
+                if users.id != "a" {
+                    let profileUrl = URL(string: users.profilePicUrl)
+                    let data = try? Data(contentsOf: profileUrl!)
+                    if let profileImage = UIImage(data: data!) {
+                        self.profilePic.image = profileImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
+                    }
+                    
+                } else {
+                    let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
+                    profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let profileImage = UIImage(data: imageData) {
+                                    self.profilePic.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
+        
+        
+        
+        //        if let image = ActivityFeedVC.imageCache.object(forKey: users.profilePicUrl as NSString) {
+        //            profilePic.image = image
+        //            //print("JAKE: caching working")
+        //        } else {
+        //            if users.id != "a" {
+        //                let profileUrl = URL(string: users.profilePicUrl)
+        //                let data = try? Data(contentsOf: profileUrl!)
+        //                if let profileImage = UIImage(data: data!) {
+        //                    self.profilePic.image = profileImage
+        //                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
+        //                }
+        //
+        //            } else {
+        //                let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
+        //                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+        //                    if error != nil {
+        //                        //print("JAKE: unable to download image from storage")
+        //                    } else {
+        //                        //print("JAKE: image downloaded from storage")
+        //                        if let imageData = data {
+        //                            if let profileImage = UIImage(data: imageData) {
+        //                                self.profilePic.image = profileImage
+        //                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
+        //                            }
+        //                        }
+        //                    }
+        //                })
+        //            }
+        //        }
         
         if let friendKey = friendsList[users.usersKey] as? String {
             if friendKey == "friends" {
@@ -111,6 +149,6 @@ class FriendsListCell: UITableViewCell {
     }
     
     
-
-
+    
+    
 }
