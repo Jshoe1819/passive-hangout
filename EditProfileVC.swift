@@ -177,6 +177,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     
     func populateProfilePicture(user: Users) {
         
+        if user.id == "a" {
+            profileImgPicker.isHidden = false
+        }
+        
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
                 //print("Get image \(image), cacheType: \(cacheType).")
@@ -255,6 +259,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     
     func populateCoverPicture(user: Users) {
+        
+        if user.id == "a" {
+            self.coverImgPicker.isHidden = false
+        }
         
         ImageCache.default.retrieveImage(forKey: user.cover["source"] as! String, options: nil) { (coverImage, cacheType) in
             if let image = coverImage {

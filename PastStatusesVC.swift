@@ -30,6 +30,13 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var status: Status!
     var selectedStatus: Status!
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillShow, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,9 +45,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -107,47 +111,47 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 }
             }
         }
-    
-
-
+        
+        
+        
         //print("JAKE: going in to else")
-//        if user.id != "a" {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profilePicImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profileUrl = URL(string: user.profilePicUrl)
-//                let data = try? Data(contentsOf: profileUrl!)
-//                if let profileImage = UIImage(data: data!) {
-//                    self.profilePicImg.image = profileImage
-//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-//                }
-//            }
-//            
-//        } else {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profilePicImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                    if error != nil {
-//                        //print("JAKE: unable to download image from storage")
-//                    } else {
-//                        //print("JAKE: image downloaded from storage")
-//                        if let imageData = data {
-//                            if let image = UIImage(data: imageData) {
-//                                self.profilePicImg.image = image
-//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-//                                //self.postImg.image = image
-//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-//            
-//        }
+        //        if user.id != "a" {
+        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+        //                profilePicImg.image = image
+        //                //print("JAKE: Cache working")
+        //            } else {
+        //                let profileUrl = URL(string: user.profilePicUrl)
+        //                let data = try? Data(contentsOf: profileUrl!)
+        //                if let profileImage = UIImage(data: data!) {
+        //                    self.profilePicImg.image = profileImage
+        //                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+        //                }
+        //            }
+        //
+        //        } else {
+        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+        //                profilePicImg.image = image
+        //                //print("JAKE: Cache working")
+        //            } else {
+        //                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+        //                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+        //                    if error != nil {
+        //                        //print("JAKE: unable to download image from storage")
+        //                    } else {
+        //                        //print("JAKE: image downloaded from storage")
+        //                        if let imageData = data {
+        //                            if let image = UIImage(data: imageData) {
+        //                                self.profilePicImg.image = image
+        //                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+        //                                //self.postImg.image = image
+        //                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+        //                            }
+        //                        }
+        //                    }
+        //                })
+        //            }
+        //
+        //        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -161,8 +165,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+            print("hi")
             return selectedUserStatuses.count
         }
+        print("bye")
         return statusArr.count
     }
     
@@ -172,8 +178,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
+            print("hil")
+        } else {
+            status = statusArr[indexPath.row] // causing index out of range error
+            print("byel")
         }
-        status = statusArr[indexPath.row] // causing index out of range error
+        
+        //status = statusArr[indexPath.row] // causing index out of range error
+        //        print("byel")
         //print(statusArr[indexPath.row].content)
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
@@ -254,7 +266,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             label.isHidden = true
             textView.isHidden = false
             textView.text = label.text
-            textView.becomeFirstResponder()
+            //textView.becomeFirstResponder() //error probably because called too early
             textView.selectedTextRange = textView.textRange(from: textView.endOfDocument, to: textView.endOfDocument)
             
             
@@ -273,11 +285,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
             self.saveEditBtn.layer.setValue(textView, forKey: "textview")
             
-//            let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
-//            let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
-//            let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
-//            self.maximumY = maxY
-            
+            //            let rectOfCellInTableView = self.tableView.rectForRow(at: IndexPath(row: tag, section: 0))
+            //            let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+            //            let maxY = rectOfCellInSuperview.origin.y + rectOfCellInSuperview.height
+            //            self.maximumY = maxY
+            textView.becomeFirstResponder()
         }))
         
         alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
@@ -375,6 +387,37 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         //}
     }
     
+    func refresh(sender: Any) {
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if status.userId == currentUser {
+                                self.statusArr.insert(status, at: 0)
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+            profilePicImg.isHidden = false
+            populateProfilePicture(user: viewedProfile)
+        }
+        
+        
+    }
+    
     func didPressJoinBtn(_ tag: Int) {
         //print("I have pressed a join button with a tag: \(tag)")
         let statusKey = selectedUserStatuses[tag].statusKey
@@ -437,6 +480,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 backBtn.isHidden = false
                 cancelEditBtn.isHidden = true
                 saveEditBtn.isHidden = true
+                refresh(sender: "")
                 tappedBtnTags.removeAll()
                 tableView.reloadData()
             }
@@ -470,6 +514,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
         //footerNewFriendIndicator.isHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

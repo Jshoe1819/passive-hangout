@@ -105,7 +105,10 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
+        if filtered.count == 0 {
+            print("empty, show label or img")
+        }
         return filtered.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

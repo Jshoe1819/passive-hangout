@@ -36,6 +36,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
     
+    override func viewDidAppear(_ animated: Bool) {
+        refresh(sender: "")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,68 +89,70 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         }
                     }
                 }
+                //self.tableView.reloadData()
             })
         }
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
-                            status.userId == key
-                        }
-                        if friends {
-                            if self.userFriendsList[status.userId] as? String == "friends" {
-                                //print("friends - \(status.userId)")
-                                self.statusArr.insert(status, at: 0)
-                            }
-                        }
-                        //self.statusArr.insert(status, at: 0)
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
-        
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.usersArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("USERS: \(snap)")
-                    if let usersDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let users = Users(usersKey: key, usersData: usersDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if currentUser == users.usersKey {
-                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                                    value as? String == "received"
-                                }
-                                if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-                                    value as? String == "false"
-                                }
-                                if newJoin {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                
-                            }
-                        }
-                        self.usersArr.append(users)
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
+//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+//            
+//            self.statusArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("STATUS: \(snap)")
+//                    if let statusDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let status = Status(statusKey: key, statusData: statusDict)
+//                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
+//                            status.userId == key
+//                        }
+//                        if friends {
+//                            if self.userFriendsList[status.userId] as? String == "friends" {
+//                                //print("friends - \(status.userId)")
+//                                self.statusArr.insert(status, at: 0)
+//                                //print(self.statusArr)
+//                            }
+//                        }
+//                        //self.statusArr.insert(status, at: 0)
+//                    }
+//                }
+//            }
+//            self.tableView.reloadData()
+//        })
+//        
+//        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+//            
+//            self.usersArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("USERS: \(snap)")
+//                    if let usersDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let users = Users(usersKey: key, usersData: usersDict)
+//                        if let currentUser = Auth.auth().currentUser?.uid {
+//                            if currentUser == users.usersKey {
+//                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+//                                    value as? String == "received"
+//                                }
+//                                if newFriend && users.friendsList["seen"] as? String == "false" {
+//                                    self.footerNewFriendIndicator.isHidden = false
+//                                }
+//                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+//                                    value as? String == "false"
+//                                }
+//                                if newJoin {
+//                                    self.footerNewFriendIndicator.isHidden = false
+//                                }
+//                                
+//                            }
+//                        }
+//                        self.usersArr.append(users)
+//                    }
+//                }
+//            }
+//            self.tableView.reloadData()
+//        })
         
     }
     
@@ -162,6 +168,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let status = statusArr[indexPath.row]
         let users = usersArr
+        //print(status)
         
         if statusArr.count == 0 {
             print("empty, show label or img")
@@ -349,6 +356,20 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func refresh(sender: Any) {
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if let value = snap.value {
+                            self.userFriendsList.updateValue(value, forKey: snap.key)
+                            //print(self.userFriendsList)
+                        }
+                    }
+                }
+                //self.tableView.reloadData()
+            })
+        }
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
@@ -359,7 +380,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
+                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
+                            status.userId == key
+                        }
+                        if friends {
+                            if self.userFriendsList[status.userId] as? String == "friends" {
+                                //print("friends - \(status.userId)")
+                                self.statusArr.insert(status, at: 0)
+                                //print(self.statusArr)
+                            }
+                        }
+                        //self.statusArr.insert(status, at: 0)
                     }
                 }
             }
@@ -390,6 +421,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                
                             }
                         }
                         self.usersArr.append(users)
@@ -399,7 +431,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
             
         })
-        
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
             // Your code with delay
