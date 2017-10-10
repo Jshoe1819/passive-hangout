@@ -3843,7 +3843,6 @@
                                                         <color key="titleColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="addFriendBtnPressed:" destination="Wv6-xV-EvA" eventType="touchUpInside" id="yd6-63-N88"/>
                                                         <action selector="requestBtnPressed:" destination="Wv6-xV-EvA" eventType="touchUpInside" id="YM5-b5-tqu"/>
                                                     </connections>
                                                 </button>
@@ -3950,6 +3949,7 @@
                     <connections>
                         <outlet property="searchBar" destination="RtF-qd-p6f" id="KkV-Tv-QCr"/>
                         <outlet property="tableView" destination="P3x-ZI-vDB" id="njW-RL-rxS"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="searchToHome" animates="NO" id="DY3-QO-UuQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zbM-NB-RjQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3978,12 +3978,12 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="goR-0M-Gfk"/>
-        <segue reference="U9w-Go-lZX"/>
-        <segue reference="D0t-Q4-6I8"/>
-        <segue reference="LgH-sn-NCD"/>
-        <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="DzP-9T-IMk"/>
+        <segue reference="DY3-QO-UuQ"/>
         <segue reference="FDh-cr-2VA"/>
         <segue reference="iaT-VV-cM3"/>
+        <segue reference="LgH-sn-NCD"/>
+        <segue reference="D0t-Q4-6I8"/>
+        <segue reference="5Tl-Jg-UAb"/>
+        <segue reference="DzP-9T-IMk"/>
     </inferredMetricsTieBreakers>
 </document>

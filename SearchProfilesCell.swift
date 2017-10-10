@@ -32,7 +32,7 @@ class SearchProfilesCell: UITableViewCell {
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         populateProfPic(user: user)
         nameLbl.text = user.name
-        primaryLbl.text = user.currentCity
+        //primaryLbl.text = user.currentCity
         
         let friendStatus = currentUser.friendsList.keys.contains { (key) -> Bool in
             user.usersKey == key
@@ -44,7 +44,9 @@ class SearchProfilesCell: UITableViewCell {
                     primaryLbl.text = "Friends"
                     primaryLbl.isHidden = false
                     separatorView.isHidden = true
+                    friendsStatusLbl.isHidden = true
                 } else {
+                    primaryLbl.text = user.currentCity
                     primaryLbl.isHidden = false
                     separatorView.isHidden = false
                     friendsStatusLbl.text = "Friends"
@@ -54,9 +56,12 @@ class SearchProfilesCell: UITableViewCell {
                 if user.currentCity == "" {
                     primaryLbl.isHidden = true
                     separatorView.isHidden = true
+                    friendsStatusLbl.isHidden = true
                 } else {
+                    primaryLbl.text = user.currentCity
                     primaryLbl.isHidden = false
-                    separatorView.isHidden = false
+                    separatorView.isHidden = true
+                    friendsStatusLbl.isHidden = true
                 }
                 requestSentBtn.isHidden = false
             } else if currentUser.friendsList[user.usersKey] as? String == "received" {
@@ -64,7 +69,9 @@ class SearchProfilesCell: UITableViewCell {
                     primaryLbl.text = "Received Request"
                     primaryLbl.isHidden = false
                     separatorView.isHidden = true
+                    friendsStatusLbl.isHidden = true
                 } else {
+                    primaryLbl.text = user.currentCity
                     primaryLbl.isHidden = false
                     separatorView.isHidden = false
                     friendsStatusLbl.text = "Received Request"
@@ -75,12 +82,14 @@ class SearchProfilesCell: UITableViewCell {
         
         if !friendStatus {
             if user.currentCity == "" {
-                //primaryLbl.text = "Friends"
                 primaryLbl.isHidden = true
                 separatorView.isHidden = true
+                friendsStatusLbl.isHidden = true
             } else {
+                primaryLbl.text = user.currentCity
                 primaryLbl.isHidden = false
                 separatorView.isHidden = true
+                friendsStatusLbl.isHidden = true
             }
             addFriendBtn.isHidden = false
         }

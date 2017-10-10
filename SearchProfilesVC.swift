@@ -14,6 +14,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     var usersArr = [Users]()
     var currentUserInfo: Users!
+    var searchResults = [Users]()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -23,6 +24,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
+        
+        searchBar.keyboardAppearance = .dark
+        tableView.keyboardDismissMode = .onDrag
         
         //use search text change to search query?
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -62,17 +67,37 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchResults = usersArr.filter({ (user) -> Bool in
+            
+            let nameCheck = user.name as NSString
+            let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            let cityCheck = user.currentCity as NSString
+            let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            return nameRange.location != NSNotFound || cityRange.location != NSNotFound
+            
+        })
+        
+        //        if(filtered.count == 0){
+        //            searchActive = false
+        //        } else {
+        //            searchActive = true;
+        //        }
+        
+        self.tableView.reloadData()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersArr.count
+        return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let user = usersArr[indexPath.row]
+        let user = searchResults[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
             cell.cellDelegate = self
@@ -82,6 +107,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             return cell
         }
         return SearchProfilesCell()
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,6 +129,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "searchToHome", sender: nil)
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
     }
