@@ -348,6 +348,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "homeToSearch", sender: nil)
     }
     
     @IBAction func profileBtnPressed(_ sender: Any) {

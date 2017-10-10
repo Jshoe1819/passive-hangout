@@ -50,6 +50,9 @@
 		16E8A5C41F7DB32E00E717F0 /* ViewProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E8A5C31F7DB32E00E717F0 /* ViewProfileVC.swift */; };
 		16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC5C641F413D4C0011BDF5 /* DataService.swift */; };
 		16F3CC3E1F8137820095C210 /* FeedCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F3CC3D1F8137820095C210 /* FeedCellDelegate.swift */; };
+		16FA95371F8C3E8100E7588B /* SearchProfilesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA95361F8C3E8100E7588B /* SearchProfilesVC.swift */; };
+		16FA95391F8C413300E7588B /* SearchProfilesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA95381F8C413300E7588B /* SearchProfilesCell.swift */; };
+		16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */; };
 		16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */; };
 		33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */; };
 		43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */; };
@@ -122,6 +125,9 @@
 		16E8A5C31F7DB32E00E717F0 /* ViewProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewProfileVC.swift; sourceTree = "<group>"; };
 		16EC5C641F413D4C0011BDF5 /* DataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		16F3CC3D1F8137820095C210 /* FeedCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCellDelegate.swift; sourceTree = "<group>"; };
+		16FA95361F8C3E8100E7588B /* SearchProfilesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesVC.swift; sourceTree = "<group>"; };
+		16FA95381F8C413300E7588B /* SearchProfilesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesCell.swift; sourceTree = "<group>"; };
+		16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesDelegate.swift; sourceTree = "<group>"; };
 		16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastStatusCellDelegate.swift; sourceTree = "<group>"; };
 		39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
 		4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +267,8 @@
 				16E578961F809673003B41FB /* JoinedListCellDelegate.swift */,
 				162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */,
 				162FF0451F896E5E00A29D7D /* JoinedProfilesListCellDelegate.swift */,
+				16FA95381F8C413300E7588B /* SearchProfilesCell.swift */,
+				16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -279,6 +287,7 @@
 				16E8A5C31F7DB32E00E717F0 /* ViewProfileVC.swift */,
 				16E578921F8081F8003B41FB /* JoinedListVC.swift */,
 				162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */,
+				16FA95361F8C3E8100E7588B /* SearchProfilesVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -645,6 +654,8 @@
 				16F3CC3E1F8137820095C210 /* FeedCellDelegate.swift in Sources */,
 				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */,
+				16FA95391F8C413300E7588B /* SearchProfilesCell.swift in Sources */,
+				16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */,
 				16D7AFBE1F7C18FF009F317B /* FriendsListVC.swift in Sources */,
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
 				1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */,
@@ -654,6 +665,7 @@
 				163E92511F3BBC720012D37F /* RoundedView.swift in Sources */,
 				16D7AFC41F7C5D4E009F317B /* FriendsListCellDelegate.swift in Sources */,
 				1616AC201F747B31004865C9 /* EditProfileVC.swift in Sources */,
+				16FA95371F8C3E8100E7588B /* SearchProfilesVC.swift in Sources */,
 				16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */,
 				160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */,
 				162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */,
