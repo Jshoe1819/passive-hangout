@@ -178,6 +178,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         performSegue(withIdentifier: "joinedFriendsToJoinedList", sender: nil)
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedFriendsToSearch", sender: nil)
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)

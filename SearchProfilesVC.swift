@@ -15,6 +15,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var usersArr = [Users]()
     var currentUserInfo: Users!
     var searchResults = [Users]()
+    var searchText = ""
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -27,7 +28,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         searchBar.delegate = self
         
         searchBar.keyboardAppearance = .dark
+        searchBar.tintColor = UIColor.purple
         tableView.keyboardDismissMode = .onDrag
+        
+        searchBar.text = searchText
         
         //use search text change to search query?
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -58,6 +62,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                             }
                         }
                         self.usersArr.append(users)
+                        
+                        if users.usersKey == self.currentUserInfo.usersKey {
+                            self.usersArr.removeLast()
+                        }
                     }
                 }
             }
@@ -67,8 +75,23 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        searchResults.removeAll()
+        tableView.reloadData()
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        searchBar.showsCancelButton = true
+        
         searchResults = usersArr.filter({ (user) -> Bool in
+            
+            if searchText == "" {
+                return false
+            }
             
             let nameCheck = user.name as NSString
             let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
@@ -103,10 +126,17 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             cell.cellDelegate = self
             cell.selectionStyle = .none
             cell.tag = indexPath.row
+            cell.addFriendBtn.isHidden = true
+            cell.requestSentBtn.isHidden = true
             cell.configureCell(user: user, currentUser: currentUserInfo)
             return cell
         }
         return SearchProfilesCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedUser = searchResults[indexPath.row]
+        performSegue(withIdentifier: "searchToViewProfile", sender: selectedUser)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -118,23 +148,46 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "searchToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+                nextVC.originController = "searchToViewProfile"
+                if let text = searchBar.text {
+                    nextVC.searchText = text
+                }
+            }
+        }
+    }
+    
     func didPressAddFriendBtn(_ tag: Int) {
         print(tag)
-        //tableView.reloadData()
+        let friendKey = searchResults[tag].usersKey
+        DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
+        DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
         print(tag)
-        //tableView.reloadData()
+        let friendKey = searchResults[tag].usersKey
+        DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
+        DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
     }
     
-    @IBAction func backBtnPressed(_ sender: Any) {
+    func didPressProfilePic(_ tag: Int) {
+        let selectedUser = searchResults[tag]
+        performSegue(withIdentifier: "searchToViewProfile", sender: selectedUser)
+    }
+    
+    @IBAction func homeBtnPressed(_ sender: Any) {
+        
         performSegue(withIdentifier: "searchToHome", sender: nil)
     }
-    @IBAction func homeBtnPressed(_ sender: Any) {
-    }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "searchToJoinedList", sender: nil)
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "searchToMyProfile", sender: nil)
     }
 }

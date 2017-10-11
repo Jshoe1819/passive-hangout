@@ -197,6 +197,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "leaveFeedbackToSearch", sender: nil)
     }
     
     @IBAction func profileBtnPressed(_ sender: Any) {

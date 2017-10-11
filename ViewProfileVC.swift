@@ -41,6 +41,7 @@ class ViewProfileVC: UIViewController {
     var selectedStatusArr = [Status]()
     var selectedStatus: Status!
     var originController = ""
+    var searchText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -406,6 +407,9 @@ class ViewProfileVC: UIViewController {
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
                     nextVC.selectedStatus = selectedStatus
+                } else if originController == "searchToViewProfile" {
+                    nextVC.originController = "searchToViewProfile"
+                    nextVC.searchText = searchText
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
@@ -416,6 +420,10 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? JoinedFriendsVC {
                 nextVC.selectedUser = selectedProfile
                 nextVC.selectedStatus = selectedStatus
+            }
+        } else if segue.identifier == "viewProfileToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.searchText = searchText
             }
         }
     }
@@ -505,7 +513,9 @@ class ViewProfileVC: UIViewController {
         } else if
             originController == "joinedFriendsToViewProfile" {
                 performSegue(withIdentifier: "viewProfileToJoinedFriends", sender: nil)
-            }
+        } else if originController == "searchToViewProfile" {
+            performSegue(withIdentifier: "viewProfileToSearch", sender: nil)
+        }
         
             //        else if originController == "joinedListToViewProfile" {
             //            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
@@ -519,6 +529,9 @@ class ViewProfileVC: UIViewController {
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
+    }
+    @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "viewProfileToSearch", sender: nil)
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToMyProfile", sender: nil)

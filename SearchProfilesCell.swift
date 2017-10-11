@@ -25,6 +25,14 @@ class SearchProfilesCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        addFriendBtn.layer.cornerRadius = 3
+        addFriendBtn.layer.borderColor = UIColor.purple.cgColor
+        addFriendBtn.layer.borderWidth = 1
+        
+        requestSentBtn.layer.cornerRadius = 3
+        requestSentBtn.layer.borderColor = UIColor.purple.cgColor
+        requestSentBtn.layer.borderWidth = 1
+        
         // Initialization code
     }
     
@@ -136,7 +144,7 @@ class SearchProfilesCell: UITableViewCell {
     
     
     func imageTapped(_ sender: UITapGestureRecognizer) {
-        print("go to profile")
+        cellDelegate?.didPressProfilePic(self.tag)
     }
     
     @IBAction func addFriendBtnPressed(_ sender: Any) {

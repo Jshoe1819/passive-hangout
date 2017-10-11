@@ -456,6 +456,9 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBAction func cancelBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "editProfileToMyProfile", sender: nil)
     }
+    @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "editProfileToSearch", sender: nil)
+    }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "editProfileToHome", sender: nil)

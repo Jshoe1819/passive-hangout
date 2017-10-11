@@ -327,6 +327,7 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToSearch", sender: nil)
     }
     
     @IBAction func editProfileBtnPressed(_ sender: Any) {

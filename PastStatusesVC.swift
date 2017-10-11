@@ -29,6 +29,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var maximumY:CGFloat!
     var status: Status!
     var selectedStatus: Status!
+    var searchText = ""
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -68,7 +69,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.tableView.reloadData()
         })
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
         }
@@ -164,7 +165,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             print("hi")
             return selectedUserStatuses.count
         }
@@ -176,7 +177,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
             print("hil")
         } else {
@@ -197,7 +198,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status)
             
-            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
                 //cell.configureCell(status: selectedUserStatuses[indexPath.row])
                 if let currentUser = Auth.auth().currentUser?.uid {
                     let join = status.joinedList.keys.contains { (key) -> Bool in
@@ -410,7 +411,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             self.tableView.reloadData()
         })
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
         }
@@ -456,6 +457,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 nextVC.selectedProfile = sender as? Users
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
+                } else if originController == "searchToViewProfile" {
+                    nextVC.originController = "searchToViewProfile"
+                    nextVC.searchText = searchText
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
                     nextVC.selectedStatus = selectedStatus
@@ -499,7 +503,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func backBtnPressed(_ sender: Any) {
         
-        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
@@ -510,6 +514,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToJoinedList", sender: nil)
+    }
+    @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "pastStatusesToSearch", sender: nil)
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)

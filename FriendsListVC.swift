@@ -264,6 +264,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "friendsListToSearch", sender: nil)
     }
     
     @IBAction func profileBtnPressed(_ sender: Any) {

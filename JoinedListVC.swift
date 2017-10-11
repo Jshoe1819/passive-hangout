@@ -180,6 +180,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func joinedBtnPressed(_ sender: Any) {
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "joinedListToSearch", sender: nil)
     }
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToMyProfile", sender: nil)
