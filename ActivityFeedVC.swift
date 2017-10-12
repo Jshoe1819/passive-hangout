@@ -19,6 +19,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var userFriendsList = Dictionary<String, Any>()
+    var userCity = ""
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
@@ -265,6 +266,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "content": statusContent,
                               "joinedList": ["seen": true],
                               "joinedNumber": 0,
+                              "city": userCity,
                               "postedDate": ServerValue.timestamp(),
                               "userId": userId] as [String : Any]
                 let childUpdates = ["/status/\(key)": status,
@@ -422,6 +424,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                self.userCity = users.currentCity
                                 
                             }
                         }

@@ -135,17 +135,18 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.profilesTableView.reloadData()
             
         } else if segmentChoice.selectedSegmentIndex == 1 {
+            
             statusSearchResults = statusArr.filter({ (status) -> Bool in
                 
                 if searchText == "" {
                     return false
                 }
                 
-                let contentCheck = status.content as NSString
-                let contentRange = contentCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                let cityCheck = status.city as NSString
+                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
                 //                let cityCheck = user.currentCity as NSString
                 //                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                return contentRange.location != NSNotFound //|| cityRange.location != NSNotFound
+                return cityRange.location != NSNotFound //|| cityRange.location != NSNotFound
                 
             })
             
@@ -168,7 +169,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         if segmentChoice.selectedSegmentIndex == 0 {
             return profileSearchResults.count
         }
-        
+        print(statusSearchResults.count)
         return statusSearchResults.count
         
     }
@@ -208,8 +209,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if segmentChoice.selectedSegmentIndex == 0 {
         let selectedUser = profileSearchResults[indexPath.row]
         performSegue(withIdentifier: "searchToViewProfile", sender: selectedUser)
+        }
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -347,6 +350,49 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
                 self.statusesTableView.reloadData()
+            })
+            
+            DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                self.usersArr = []
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("USERS: \(snap)")
+                        if let usersDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let users = Users(usersKey: key, usersData: usersDict)
+//                            if let currentUser = Auth.auth().currentUser?.uid {
+//                                if currentUser == users.usersKey {
+//                                    let newFriend = users.friendsList.values.contains { (value) -> Bool in
+//                                        value as? String == "received"
+//                                    }
+//                                    if newFriend && users.friendsList["seen"] as? String == "false" {
+//                                        //self.footerNewFriendIndicator.isHidden = false
+//                                    }
+//                                    let newJoin = users.joinedList.values.contains { (value) -> Bool in
+//                                        value as? String == "false"
+//                                    }
+//                                    if newJoin {
+//                                        //self.footerNewFriendIndicator.isHidden = false
+//                                    }
+//                                    self.currentUserInfo = users
+//                                    
+//                                }
+//                            }
+                            
+                            self.usersArr.append(users)
+                            
+//                            if let currentUser = Auth.auth().currentUser?.uid {
+//                                if users.usersKey == currentUser {
+//                                    self.usersArr.removeLast()
+//                                }
+//                            }
+                        }
+                    }
+                }
+                self.profilesTableView.reloadData()
+                
             })
             
             //load status, also ad segment selected to count and cell for row at
