@@ -154,6 +154,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         let friendKey = filtered[tag].usersKey
             DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
+        DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues(["seen": "false"])
         
     }
     
