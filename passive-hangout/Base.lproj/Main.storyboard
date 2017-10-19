@@ -4071,7 +4071,7 @@
                                             <constraint firstAttribute="height" constant="29" id="tnb-MC-8Os"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                                        <state key="normal" title="Top">
+                                        <state key="normal" title="Hangouts">
                                             <color key="titleColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>

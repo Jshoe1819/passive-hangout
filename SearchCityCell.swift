@@ -77,40 +77,6 @@ class SearchCityCell: UITableViewCell {
             }
         }
         
-        //                if let image = ActivityFeedVC.imageCache.object(forKey: users[index].profilePicUrl as NSString) {
-        //                    profilePicImg.image = image
-        //                    //print("JAKE: caching working")
-        //                } else {
-        //                    if users[index].id != "a" {
-        //                        let profileUrl = URL(string: users[index].profilePicUrl)
-        //                        let data = try? Data(contentsOf: profileUrl!)
-        //                        if let profileImage = UIImage(data: data!) {
-        //                            self.profilePicImg.image = profileImage
-        //                            //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-        //                            ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
-        //                        }
-        //
-        //                    } else {
-        //                        let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
-        //                        profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-        //                            if error != nil {
-        //                                //print("JAKE: unable to download image from storage")
-        //                            } else {
-        //                                //print("JAKE: image downloaded from storage")
-        //                                if let imageData = data {
-        //                                    if let profileImage = UIImage(data: imageData) {
-        //                                        self.profilePicImg.image = profileImage
-        //                                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-        //                                        ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
-        //                                    }
-        //                                }
-        //                            }
-        //                        })
-        //                    }
-        //                }
-        //            }
-        //        }
-        
         self.statusLbl.text = status.content
     }
     

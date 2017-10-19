@@ -18,6 +18,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
     var searchText = ""
+    var cityArr = [String]()
     
     @IBOutlet weak var profilesTableView: UITableView!
     @IBOutlet weak var statusesTableView: UITableView!
@@ -31,7 +32,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var citiesIndicatorView: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
-        performSearch(searchBar, searchText: self.searchText)
+        //code to refresh
     }
     
     override func viewDidLoad() {
@@ -106,12 +107,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.becomeFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
+        searchBar.endEditing(true)
+        searchBar.setShowsCancelButton(false, animated: true)
         
         if profilesIndicatorView.isHidden == false {
             profileSearchResults.removeAll()
@@ -123,13 +125,25 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
+    //only show stack if search pressed
+    //otherwise show top hangouts all time? dont show number, some kind of explore criteria?
+    
+    //hangouts - search by city, user, content? (if content use joined number?)
+    //profiles - search by user and city, add mutual friends
+    //cities - show available list , when clicked show hangouts in that area sorted by number joined
+    //if empty use suggestions?
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        searchBar.endEditing(true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if profilesIndicatorView.isHidden == false {
+        if topIndicatorView.isHidden == false {
+            //change top to hangout
+//            let rand = arc4random_uniform(25)
+//            print(rand)
+        } else if profilesIndicatorView.isHidden == false {
             
             profileSearchResults = usersArr.filter({ (user) -> Bool in
                 
@@ -154,7 +168,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.profilesTableView.reloadData()
             
         } else if citiesIndicatorView.isHidden == false {
-            
+
             statusSearchResults = statusArr.filter({ (status) -> Bool in
                 
                 if searchText == "" {
@@ -165,6 +179,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
                 //                let cityCheck = user.currentCity as NSString
                 //                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+
                 return cityRange.location != NSNotFound //|| cityRange.location != NSNotFound
                 
             })
@@ -176,59 +191,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             //        }
             
             self.statusesTableView.reloadData()
+            
         }
-    }
-    
-    func performSearch(_ searchBar: UISearchBar, searchText: String) {
         
-        if profilesIndicatorView.isHidden == false {
-            
-            profileSearchResults = usersArr.filter({ (user) -> Bool in
-                
-                if searchText == "" {
-                    return false
-                }
-                
-                let nameCheck = user.name as NSString
-                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                let cityCheck = user.currentCity as NSString
-                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                return nameRange.location != NSNotFound || cityRange.location != NSNotFound
-                
-            })
-            
-            //        if(filtered.count == 0){
-            //            searchActive = false
-            //        } else {
-            //            searchActive = true;
-            //        }
-            
-            self.profilesTableView.reloadData()
-            
-        } else if citiesIndicatorView.isHidden == false {
-            
-            statusSearchResults = statusArr.filter({ (status) -> Bool in
-                
-                if searchText == "" {
-                    return false
-                }
-                
-                let cityCheck = status.city as NSString
-                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                //                let cityCheck = user.currentCity as NSString
-                //                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                return cityRange.location != NSNotFound //|| cityRange.location != NSNotFound
-                
-            })
-            
-            //        if(filtered.count == 0){
-            //            searchActive = false
-            //        } else {
-            //            searchActive = true;
-            //        }
-            
-            self.statusesTableView.reloadData()
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -266,7 +231,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         } else if citiesIndicatorView.isHidden == false {
             
-            let status = statusArr[indexPath.row]
+            let status = statusSearchResults[indexPath.row]
             usersArr.append(currentUserInfo)
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchCityCell") as? SearchCityCell {
@@ -358,15 +323,30 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         citiesIndicatorView.isHidden = true
         
         profileSearchResults.removeAll()
-//        segmentChoice.tintColor = UIColor.white
-//        let segAttributes: NSDictionary = [
-//            NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
-//            //NSFontAttributeName: UIFont(name: "Avenir-MediumOblique", size: 20)!
-//        ]
-//        segmentChoice.setTitleTextAttributes(segAttributes as? [AnyHashable : Any], for: .selected)
+        //        segmentChoice.tintColor = UIColor.white
+        //        let segAttributes: NSDictionary = [
+        //            NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
+        //            //NSFontAttributeName: UIFont(name: "Avenir-MediumOblique", size: 20)!
+        //        ]
+        //        segmentChoice.setTitleTextAttributes(segAttributes as? [AnyHashable : Any], for: .selected)
         
         if let searchText = searchBar.text {
-            performSearch(searchBar, searchText: searchText)
+            profileSearchResults = usersArr.filter({ (user) -> Bool in
+                
+                if searchText == "" {
+                    return false
+                }
+                
+                let nameCheck = user.name as NSString
+                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                let cityCheck = user.currentCity as NSString
+                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                return nameRange.location != NSNotFound || cityRange.location != NSNotFound
+                
+            })
+
+            self.profilesTableView.reloadData()
+            
         }
         
         statusesTableView.isHidden = true
@@ -433,8 +413,23 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         statusSearchResults.removeAll()
         
         if let searchText = searchBar.text {
-            performSearch(searchBar, searchText: searchText)
+            
+            statusSearchResults = statusArr.filter({ (status) -> Bool in
+                
+                if searchText == "" {
+                    return false
+                }
+                
+                let cityCheck = status.city as NSString
+                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                return cityRange.location != NSNotFound
+                
+            })
+            
+            self.statusesTableView.reloadData()
+            
         }
+        
         
         statusesTableView.rowHeight = UITableViewAutomaticDimension
         statusesTableView.estimatedRowHeight = 90
@@ -449,17 +444,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        //                            let friends = self.userFriendsList.keys.contains { (key) -> Bool in
-                        //                                status.userId == key
-                        //                            }
-                        //                            if friends {
-                        //                                if self.userFriendsList[status.userId] as? String == "friends" {
-                        //                                    //print("friends - \(status.userId)")
-                        //                                    self.statusArr.insert(status, at: 0)
-                        //                                    //print(self.statusArr)
-                        //                                }
-                        //                            }
                         self.statusArr.insert(status, at: 0)
+
                     }
                 }
             }
@@ -476,37 +462,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
-                        //                            if let currentUser = Auth.auth().currentUser?.uid {
-                        //                                if currentUser == users.usersKey {
-                        //                                    let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                        //                                        value as? String == "received"
-                        //                                    }
-                        //                                    if newFriend && users.friendsList["seen"] as? String == "false" {
-                        //                                        //self.footerNewFriendIndicator.isHidden = false
-                        //                                    }
-                        //                                    let newJoin = users.joinedList.values.contains { (value) -> Bool in
-                        //                                        value as? String == "false"
-                        //                                    }
-                        //                                    if newJoin {
-                        //                                        //self.footerNewFriendIndicator.isHidden = false
-                        //                                    }
-                        //                                    self.currentUserInfo = users
-                        //
-                        //                                }
-                        //                            }
-                        
                         self.usersArr.append(users)
-                        
-                        //                            if let currentUser = Auth.auth().currentUser?.uid {
-                        //                                if users.usersKey == currentUser {
-                        //                                    self.usersArr.removeLast()
-                        //                                }
-                        //                            }
                     }
                 }
             }
             self.profilesTableView.reloadData()
-            
         })
     }
     
@@ -520,161 +480,5 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         performSegue(withIdentifier: "searchToMyProfile", sender: nil)
     }
     @IBAction func segmentChoiceBtnPressed(_ sender: Any) {
-        
-        switch segmentChoice.selectedSegmentIndex {
-        case 0:
-            print("hi")
-//            profileSearchResults.removeAll()
-//            segmentChoice.tintColor = UIColor.white
-//            let segAttributes: NSDictionary = [
-//                NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
-//                //NSFontAttributeName: UIFont(name: "Avenir-MediumOblique", size: 20)!
-//            ]
-//            segmentChoice.setTitleTextAttributes(segAttributes as? [AnyHashable : Any], for: .selected)
-//            
-//            if let searchText = searchBar.text {
-//                performSearch(searchBar, searchText: searchText)
-//            }
-//            
-//            statusesTableView.isHidden = true
-//            profilesTableView.isHidden = false
-//            
-//            DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-//                
-//                self.usersArr = []
-//                
-//                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                    for snap in snapshot {
-//                        //print("USERS: \(snap)")
-//                        if let usersDict = snap.value as? Dictionary<String, Any> {
-//                            let key = snap.key
-//                            let users = Users(usersKey: key, usersData: usersDict)
-//                            if let currentUser = Auth.auth().currentUser?.uid {
-//                                if currentUser == users.usersKey {
-//                                    let newFriend = users.friendsList.values.contains { (value) -> Bool in
-//                                        value as? String == "received"
-//                                    }
-//                                    if newFriend && users.friendsList["seen"] as? String == "false" {
-//                                        //self.footerNewFriendIndicator.isHidden = false
-//                                    }
-//                                    let newJoin = users.joinedList.values.contains { (value) -> Bool in
-//                                        value as? String == "false"
-//                                    }
-//                                    if newJoin {
-//                                        //self.footerNewFriendIndicator.isHidden = false
-//                                    }
-//                                    self.currentUserInfo = users
-//                                    
-//                                }
-//                            }
-//                            
-//                            self.usersArr.append(users)
-//                            
-//                            if let currentUser = Auth.auth().currentUser?.uid {
-//                                if users.usersKey == currentUser {
-//                                    self.usersArr.removeLast()
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//                self.profilesTableView.reloadData()
-//                
-//            })
-        case 1:
-            print("hi")
-            
-//            statusSearchResults.removeAll()
-//            
-//            if let searchText = searchBar.text {
-//                performSearch(searchBar, searchText: searchText)
-//            }
-//            
-//            statusesTableView.rowHeight = UITableViewAutomaticDimension
-//            statusesTableView.estimatedRowHeight = 90
-//            
-//            profilesTableView.isHidden = true
-//            statusesTableView.isHidden = false
-//            
-//            DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
-//                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                    for snap in snapshot {
-//                        //print("STATUS: \(snap)")
-//                        if let statusDict = snap.value as? Dictionary<String, Any> {
-//                            let key = snap.key
-//                            let status = Status(statusKey: key, statusData: statusDict)
-//                            //                            let friends = self.userFriendsList.keys.contains { (key) -> Bool in
-//                            //                                status.userId == key
-//                            //                            }
-//                            //                            if friends {
-//                            //                                if self.userFriendsList[status.userId] as? String == "friends" {
-//                            //                                    //print("friends - \(status.userId)")
-//                            //                                    self.statusArr.insert(status, at: 0)
-//                            //                                    //print(self.statusArr)
-//                            //                                }
-//                            //                            }
-//                            self.statusArr.insert(status, at: 0)
-//                        }
-//                    }
-//                }
-//                self.statusesTableView.reloadData()
-//            })
-//            
-//            DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-//                
-//                self.usersArr = []
-//                
-//                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                    for snap in snapshot {
-//                        //print("USERS: \(snap)")
-//                        if let usersDict = snap.value as? Dictionary<String, Any> {
-//                            let key = snap.key
-//                            let users = Users(usersKey: key, usersData: usersDict)
-//                            //                            if let currentUser = Auth.auth().currentUser?.uid {
-//                            //                                if currentUser == users.usersKey {
-//                            //                                    let newFriend = users.friendsList.values.contains { (value) -> Bool in
-//                            //                                        value as? String == "received"
-//                            //                                    }
-//                            //                                    if newFriend && users.friendsList["seen"] as? String == "false" {
-//                            //                                        //self.footerNewFriendIndicator.isHidden = false
-//                            //                                    }
-//                            //                                    let newJoin = users.joinedList.values.contains { (value) -> Bool in
-//                            //                                        value as? String == "false"
-//                            //                                    }
-//                            //                                    if newJoin {
-//                            //                                        //self.footerNewFriendIndicator.isHidden = false
-//                            //                                    }
-//                            //                                    self.currentUserInfo = users
-//                            //
-//                            //                                }
-//                            //                            }
-//                            
-//                            self.usersArr.append(users)
-//                            
-//                            //                            if let currentUser = Auth.auth().currentUser?.uid {
-//                            //                                if users.usersKey == currentUser {
-//                            //                                    self.usersArr.removeLast()
-//                            //                                }
-//                            //                            }
-//                        }
-//                    }
-//                }
-//                self.profilesTableView.reloadData()
-//                
-//            })
-            
-            //load status, also ad segment selected to count and cell for row at
-            //might need 2 separate views
-            //very ambitious but may payoff
-            break
-        default:
-            break
-        }
-        
-        
-    }
-    
-    func refresh(sender: Any) {
-        //refresh
     }
 }
