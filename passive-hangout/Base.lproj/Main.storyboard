@@ -4055,14 +4055,14 @@
                                     <constraint firstAttribute="height" constant="0.5" id="zOX-BN-HBE"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24N-FD-EZt">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24N-FD-EZt">
                                 <rect key="frame" x="0.0" y="93" width="375" height="0.5"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.5" id="JTn-WD-A8A"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bFW-c3-d7d">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bFW-c3-d7d">
                                 <rect key="frame" x="0.0" y="66" width="375" height="29"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeP-KU-oVo">
@@ -4109,7 +4109,7 @@
                                     <constraint firstAttribute="height" constant="29" id="9ga-aH-Cdd"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5x-eS-kBp">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5x-eS-kBp">
                                 <rect key="frame" x="0.0" y="93.5" width="125" height="0.5"/>
                                 <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -4171,12 +4171,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomSeparatorView" destination="24N-FD-EZt" id="pKf-Kk-NKX"/>
                         <outlet property="citiesChoiceBtn" destination="tTC-VO-LD0" id="7HG-gs-l2a"/>
                         <outlet property="citiesIndicatorView" destination="cHO-RW-vxf" id="CQw-VG-1Ik"/>
                         <outlet property="profilesChoiceBtn" destination="qFQ-1v-jQq" id="rvu-cD-3Mq"/>
                         <outlet property="profilesIndicatorView" destination="4bo-Bz-ANY" id="nwO-g9-08j"/>
                         <outlet property="profilesTableView" destination="P3x-ZI-vDB" id="lPW-sD-YQT"/>
                         <outlet property="searchBar" destination="RtF-qd-p6f" id="KkV-Tv-QCr"/>
+                        <outlet property="searchOptionsStackView" destination="bFW-c3-d7d" id="CPH-32-wh3"/>
                         <outlet property="segmentChoice" destination="uUl-kq-o3S" id="l1h-vJ-7h2"/>
                         <outlet property="statusesTableView" destination="heS-28-YeZ" id="g6e-TC-2j2"/>
                         <outlet property="topChoiceBtn" destination="HeP-KU-oVo" id="XyD-k7-bmC"/>
