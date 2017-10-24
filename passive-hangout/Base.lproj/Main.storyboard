@@ -4065,7 +4065,7 @@
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bFW-c3-d7d">
                                 <rect key="frame" x="0.0" y="66" width="375" height="29"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeP-KU-oVo">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HeP-KU-oVo">
                                         <rect key="frame" x="0.0" y="0.0" width="125" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="tnb-MC-8Os"/>

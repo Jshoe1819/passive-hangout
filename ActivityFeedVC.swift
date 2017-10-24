@@ -37,10 +37,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
     
-    override func viewDidAppear(_ animated: Bool) {
-        refresh(sender: "")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -155,6 +151,11 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            self.tableView.reloadData()
 //        })
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        refresh(sender: "")
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

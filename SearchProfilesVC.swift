@@ -161,9 +161,16 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //hide explore
         searchOptionsStackView.isHidden = false
         bottomSeparatorView.isHidden = false
-        topIndicatorView.isHidden = false
-        profilesIndicatorView.isHidden = true
-        citiesIndicatorView.isHidden = true
+        if topChoiceBtn.isEnabled == false {
+            topIndicatorView.isHidden = false
+        } else if profilesChoiceBtn.isEnabled == false {
+            profilesIndicatorView.isHidden = false
+        } else if citiesChoiceBtn.isEnabled == false {
+            citiesIndicatorView.isHidden = false
+        }
+//        topIndicatorView.isHidden = false
+//        profilesIndicatorView.isHidden = true
+//        citiesIndicatorView.isHidden = true
         searchBar.setShowsCancelButton(true, animated: true)
         searchBar.becomeFirstResponder()
     }
@@ -412,8 +419,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         profilesIndicatorView.isHidden = false
         citiesIndicatorView.isHidden = true
         
-        print(usersArr.count)
-        
         for index in 0..<usersArr.count {
             if usersArr[index].usersKey == currentUserInfo.usersKey {
                 usersArr.remove(at: index)
@@ -422,7 +427,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         profileSearchResults.removeAll()
-        print(usersArr.count)
+
         //        segmentChoice.tintColor = UIColor.white
         //        let segAttributes: NSDictionary = [
         //            NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
