@@ -55,6 +55,9 @@
 		16FA95391F8C413300E7588B /* SearchProfilesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA95381F8C413300E7588B /* SearchProfilesCell.swift */; };
 		16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */; };
 		16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */; };
+		16FF566F1F9FF760008C4257 /* SearchHangoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */; };
+		16FF56711F9FF781008C4257 /* SearchHangoutsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */; };
+		16FF56731F9FFE90008C4257 /* SearchCitiesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */; };
 		33F9BAD66845D7C5A9087859 /* Pods_passive_hangoutTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */; };
 		43AA41B926321D9D88D27487 /* Pods_passive_hangout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00D6A327E5D000460F246F6 /* Pods_passive_hangout.framework */; };
 		57CF2EE49AB5E3C2F31858E9 /* Pods_passive_hangoutUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBC93D3FC5EE1B067C09A482 /* Pods_passive_hangoutUITests.framework */; };
@@ -131,6 +134,9 @@
 		16FA95381F8C413300E7588B /* SearchProfilesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesCell.swift; sourceTree = "<group>"; };
 		16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesDelegate.swift; sourceTree = "<group>"; };
 		16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastStatusCellDelegate.swift; sourceTree = "<group>"; };
+		16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHangoutCell.swift; sourceTree = "<group>"; };
+		16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHangoutsDelegate.swift; sourceTree = "<group>"; };
+		16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCitiesDelegate.swift; sourceTree = "<group>"; };
 		39C0C944BC330723009222CB /* Pods-passive-hangout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangout.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangout/Pods-passive-hangout.debug.xcconfig"; sourceTree = "<group>"; };
 		4437FA57E169EE59334C47ED /* Pods_passive_hangoutTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passive_hangoutTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E0D6D2E6B8D461AAC00C567 /* Pods-passive-hangoutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passive-hangoutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passive-hangoutTests/Pods-passive-hangoutTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -269,9 +275,12 @@
 				16E578961F809673003B41FB /* JoinedListCellDelegate.swift */,
 				162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */,
 				162FF0451F896E5E00A29D7D /* JoinedProfilesListCellDelegate.swift */,
+				16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */,
 				16FA95381F8C413300E7588B /* SearchProfilesCell.swift */,
 				161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */,
+				16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */,
 				16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */,
+				16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -661,6 +670,7 @@
 				16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */,
 				16D7AFBE1F7C18FF009F317B /* FriendsListVC.swift in Sources */,
 				161D9D401F8EE5C400392A67 /* SearchCityCell.swift in Sources */,
+				16FF566F1F9FF760008C4257 /* SearchHangoutCell.swift in Sources */,
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
 				1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */,
 				16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */,
@@ -676,10 +686,12 @@
 				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
 				160267FF1F451A1B00C586D4 /* Users.swift in Sources */,
 				168D6BEC1F4CF02500D29DCA /* RoundedPopUp.swift in Sources */,
+				16FF56731F9FFE90008C4257 /* SearchCitiesDelegate.swift in Sources */,
 				16E8A5C41F7DB32E00E717F0 /* ViewProfileVC.swift in Sources */,
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				167686331F4261D70029595A /* Status.swift in Sources */,
+				16FF56711F9FF781008C4257 /* SearchHangoutsDelegate.swift in Sources */,
 				16D7AFC21F7C2312009F317B /* FriendsListCell.swift in Sources */,
 				168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */,
 				16D815201F69F80F00934516 /* PastStatusesCell.swift in Sources */,

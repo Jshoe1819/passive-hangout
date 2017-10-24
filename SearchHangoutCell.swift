@@ -1,8 +1,8 @@
 //
-//  SearchCityCell.swift
+//  SearchHangoutCell.swift
 //  passive-hangout
 //
-//  Created by Jacob Shoemaker on 10/11/17.
+//  Created by Jacob Shoemaker on 10/24/17.
 //  Copyright © 2017 Jacob Shoemaker. All rights reserved.
 //
 
@@ -12,8 +12,8 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class SearchCityCell: UITableViewCell {
-    
+class SearchHangoutCell: UITableViewCell {
+
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
@@ -22,7 +22,7 @@ class SearchCityCell: UITableViewCell {
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var alreadyJoinedBtn: UIButton!
     
-    weak var cellDelegate: SearchCitiesDelegate?
+    weak var cellDelegate: SearchHangoutsDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -132,4 +132,5 @@ class SearchCityCell: UITableViewCell {
     }
     @IBAction func alreadyJoinedBtnPressed(_ sender: Any) {
     }
+
 }
