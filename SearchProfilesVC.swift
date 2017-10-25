@@ -10,17 +10,19 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SearchHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
+class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ExploreHangoutsDelegate, SearchHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
     
     var usersArr = [Users]()
     var statusArr = [Status]()
     var currentUserInfo: Users!
+    var searchActive = false
     var hangoutsSearchResults = [Status]()
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
     var searchText = ""
     var cityArr = [String]()
     
+    @IBOutlet weak var exploreTableView: UITableView!
     @IBOutlet weak var hangoutsTableView: UITableView!
     @IBOutlet weak var profilesTableView: UITableView!
     @IBOutlet weak var statusesTableView: UITableView!
@@ -44,6 +46,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         //self.segmentChoice.selectedSegmentIndex = 0
         
+        exploreTableView.delegate = self
+        exploreTableView.dataSource = self
         hangoutsTableView.delegate = self
         hangoutsTableView.dataSource = self
         profilesTableView.delegate = self
@@ -124,7 +128,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
             }
             //change to explore.reload
-            self.statusesTableView.reloadData()
+            self.exploreTableView.reloadData()
         })
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -160,20 +164,26 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
             }
             //change to explire.reload
-            self.statusesTableView.reloadData()
+            self.exploreTableView.reloadData()
         })
         
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //hide explore
+        searchActive = true
+        exploreTableView.isHidden = true
+
         searchOptionsStackView.isHidden = false
         bottomSeparatorView.isHidden = false
         if topChoiceBtn.isEnabled == false {
+            hangoutsTableView.isHidden = false
             topIndicatorView.isHidden = false
         } else if profilesChoiceBtn.isEnabled == false {
+            profilesTableView.isHidden = false
             profilesIndicatorView.isHidden = false
         } else if citiesChoiceBtn.isEnabled == false {
+            statusesTableView.isHidden = false
             citiesIndicatorView.isHidden = false
         }
         //        topIndicatorView.isHidden = false
@@ -185,17 +195,27 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         //hide all tables, show explore
+        searchActive = false
+        
+        exploreTableView.isHidden = false
+        hangoutsTableView.isHidden = true
+        profilesTableView.isHidden = true
+        statusesTableView.isHidden = true
+        
         searchOptionsStackView.isHidden = true
         bottomSeparatorView.isHidden = true
         topIndicatorView.isHidden = true
         profilesIndicatorView.isHidden = true
         citiesIndicatorView.isHidden = true
+        
         hangoutsSearchResults.removeAll()
         profileSearchResults.removeAll()
         statusSearchResults.removeAll()
+        
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        
         hangoutsTableView.reloadData()
         profilesTableView.reloadData()
         statusesTableView.reloadData()
@@ -291,7 +311,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if topIndicatorView.isHidden == false {
+        if searchActive == false {
+            return statusArr.count
+        } else if topIndicatorView.isHidden == false {
             return hangoutsSearchResults.count
         } else if profilesIndicatorView.isHidden == false {
             return profileSearchResults.count
@@ -305,8 +327,44 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         //let user = searchResults[indexPath.row]
         //let status = statusArr[indexPath.row]
-        
-        if topIndicatorView.isHidden == false {
+        if searchActive == false {
+            
+            let status = statusArr[indexPath.row]
+            
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
+                
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    
+                    if status.userId == currentUser {
+                        cell.joinBtn.isHidden = true
+                        cell.alreadyJoinedBtn.isHidden = true
+                    } else {
+                        
+                        let join = status.joinedList.keys.contains { (key) -> Bool in
+                            key == currentUser
+                        }
+                        if join {
+                            cell.joinBtn.isHidden = true
+                            cell.alreadyJoinedBtn.isHidden = false
+                        } else{
+                            cell.joinBtn.isHidden = false
+                            cell.alreadyJoinedBtn.isHidden = true
+                        }
+                    }
+                }
+                
+                exploreTableView.rowHeight = UITableViewAutomaticDimension
+                exploreTableView.estimatedRowHeight = 90
+                
+                cell.cellDelegate = self
+                cell.selectionStyle = .none
+                cell.tag = indexPath.row
+                cell.configureCell(status: status, users: usersArr)
+                
+                return cell
+            }
+            
+        } else if topIndicatorView.isHidden == false {
             
             let status = hangoutsSearchResults[indexPath.row]
             
@@ -331,6 +389,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         }
                     }
                 }
+                
+                hangoutsTableView.rowHeight = UITableViewAutomaticDimension
+                hangoutsTableView.estimatedRowHeight = 90
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
@@ -379,6 +440,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         }
                     }
                 }
+                
+                statusesTableView.rowHeight = UITableViewAutomaticDimension
+                statusesTableView.estimatedRowHeight = 90
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
