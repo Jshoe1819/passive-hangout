@@ -11,6 +11,4 @@ import Foundation
 protocol SearchProfilesDelegate : class {
     func didPressAddFriendBtn(_ tag: Int)
     func didPressRequestSentBtn (_ tag: Int)
-    func didPressProfilePic (_ tag: Int)
-    
 }

@@ -9,6 +9,6 @@
 import Foundation
 
 protocol ExploreHangoutsDelegate : class {
-    func didPressAddFriendBtn(_ tag: Int)
-    func didPressRequestSentBtn (_ tag: Int)
+    func didPressJoinBtn(_ tag: Int)
+    func didPressAlreadyJoinedBtn(_ tag: Int)
 }

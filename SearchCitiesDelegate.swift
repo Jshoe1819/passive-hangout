@@ -9,7 +9,6 @@
 import Foundation
 
 protocol SearchCitiesDelegate : class {
-    func didPressAddFriendBtn(_ tag: Int)
-    func didPressRequestSentBtn (_ tag: Int)
-    
+    func didPressJoinBtn(_ tag: Int)
+    func didPressAlreadyJoinedBtn(_ tag: Int)
 }

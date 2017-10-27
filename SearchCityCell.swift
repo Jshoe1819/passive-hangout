@@ -19,6 +19,7 @@ class SearchCityCell: UITableViewCell {
     @IBOutlet weak var numberJoinedLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var statusLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var alreadyJoinedBtn: UIButton!
     
@@ -39,6 +40,7 @@ class SearchCityCell: UITableViewCell {
                 self.nameLbl.text = users[index].name
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                 self.numberJoinedLbl.text = ("\(status.joinedNumber) Joined")
+                self.cityLbl.text = status.city
                 
                 ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
                     if let image = profileImage {
@@ -129,7 +131,9 @@ class SearchCityCell: UITableViewCell {
     
     
     @IBAction func joinBtnPressed(_ sender: Any) {
+        cellDelegate?.didPressJoinBtn(self.tag)
     }
     @IBAction func alreadyJoinedBtnPressed(_ sender: Any) {
+        cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
     }
 }

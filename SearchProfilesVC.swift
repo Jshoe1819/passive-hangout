@@ -20,7 +20,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
     var searchText = ""
-    var cityArr = [String]()
     
     @IBOutlet weak var exploreTableView: UITableView!
     @IBOutlet weak var hangoutsTableView: UITableView!
@@ -58,6 +57,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         searchBar.keyboardAppearance = .dark
         searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
+        
         hangoutsTableView.keyboardDismissMode = .onDrag
         profilesTableView.keyboardDismissMode = .onDrag
         statusesTableView.keyboardDismissMode = .onDrag
@@ -354,7 +354,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
                 
                 exploreTableView.rowHeight = UITableViewAutomaticDimension
-                exploreTableView.estimatedRowHeight = 90
+                exploreTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
@@ -391,7 +391,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
                 
                 hangoutsTableView.rowHeight = UITableViewAutomaticDimension
-                hangoutsTableView.estimatedRowHeight = 90
+                hangoutsTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
@@ -442,7 +442,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
                 
                 statusesTableView.rowHeight = UITableViewAutomaticDimension
-                statusesTableView.estimatedRowHeight = 90
+                statusesTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
@@ -484,6 +484,26 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
     }
     
+    func didPressJoinBtn(_ tag: Int) {
+        if searchActive == false {
+            print(statusArr[tag].content)
+        } else if topIndicatorView.isHidden == false {
+            print(hangoutsSearchResults[tag].content)
+        } else if citiesIndicatorView.isHidden == false {
+            print(statusSearchResults[tag].content)
+        }
+    }
+    
+    func didPressAlreadyJoinedBtn(_ tag: Int) {
+        if searchActive == false {
+            print(statusArr[tag].content)
+        } else if topIndicatorView.isHidden == false {
+            print(hangoutsSearchResults[tag].content)
+        } else if citiesIndicatorView.isHidden == false {
+            print(statusSearchResults[tag].content)
+        }
+    }
+    
     func didPressAddFriendBtn(_ tag: Int) {
         print(tag)
         let friendKey = profileSearchResults[tag].usersKey
@@ -499,10 +519,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
     }
     
-    func didPressProfilePic(_ tag: Int) {
-        let selectedUser = profileSearchResults[tag]
-        performSegue(withIdentifier: "searchToViewProfile", sender: selectedUser)
-    }
     @IBAction func didPressTopChoiceBtn(_ sender: UIButton) {
         
         //if topIndicatorView.isHidden == false {
@@ -695,6 +711,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             statusSearchResults = statusArr.filter({ (status) -> Bool in
                 
                 if searchText == "" {
+                    //statusesTableView.isScrollEnabled = false
                     return false
                 }
                 

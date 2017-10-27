@@ -38,7 +38,7 @@ class SearchProfilesCell: UITableViewCell {
     }
     
     func configureCell(user: Users, currentUser: Users) {
-        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        //profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         populateProfPic(user: user)
         nameLbl.text = user.name
         //primaryLbl.text = user.currentCity
@@ -144,9 +144,9 @@ class SearchProfilesCell: UITableViewCell {
     }
     
     
-    func imageTapped(_ sender: UITapGestureRecognizer) {
-        cellDelegate?.didPressProfilePic(self.tag)
-    }
+//    func imageTapped(_ sender: UITapGestureRecognizer) {
+//        cellDelegate?.didPressProfilePic(self.tag)
+//    }
     
     @IBAction func addFriendBtnPressed(_ sender: Any) {
         cellDelegate?.didPressAddFriendBtn(self.tag)
