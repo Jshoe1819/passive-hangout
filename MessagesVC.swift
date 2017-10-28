@@ -26,7 +26,10 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         tableView.dataSource = self
         searchBar.delegate = self
         
-        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observe(.value, with: { (snapshot) in
+        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.conversationArr = []
+            
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     //print("Conversation: \(snap)")
@@ -38,7 +41,6 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                             if userConversation {
                                 self.conversationArr.insert(conversation, at: 0)
                             }
-                        //self.conversationArr.insert(conversation, at: 0)
                         }
                     }
                 }
@@ -76,15 +78,12 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                 if newJoin {
                                     //self.footerNewFriendIndicator.isHidden = false
                                 }
-                                //self.currentUserInfo = users
-                                
                             }
                         }
                         self.usersArr.append(users)
                     }
                 }
             }
-            //change to explire.reload
             self.tableView.reloadData()
         })
         
