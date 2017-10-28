@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
@@ -21,6 +21,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        //get conversation id
+        //load data by message posted date (use append)
+        //use if to decide which view to place content in (receiver vs sender)
+        //use if last to display and format time
+        //load table bottome up, or automatically place scroll position to bottom
+        //add placeholder text
+        //grow textview input
+        //autosizing view using >= lbl width
+        //translate table up if pressed or down if scrolling
         
         // Do any additional setup after loading the view.
     }
