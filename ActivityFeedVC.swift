@@ -306,7 +306,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
         
     @IBAction func msgBtnPressed(_ sender: Any) {
-        print("message btn pressed")
+        performSegue(withIdentifier: "feedToMessages", sender: nil)
     }
     
     @IBAction func joinedListBtnPressed(_ sender: Any) {

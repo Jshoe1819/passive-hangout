@@ -421,7 +421,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         }
         if profilesIndicatorView.isHidden == false {
-            
+            //if results is empty disable scrolling
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {

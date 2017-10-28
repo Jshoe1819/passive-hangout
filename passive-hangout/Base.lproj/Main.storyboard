@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bXL-p8-wqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -1092,6 +1092,7 @@
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="activityFeedToJoinedList" animates="NO" id="iaT-VV-cM3"/>
                         <segue destination="82o-zX-OZb" kind="show" identifier="feedToViewProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="goR-0M-Gfk"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="homeToSearch" animates="NO" id="URg-cD-E2a"/>
+                        <segue destination="bXL-p8-wqX" kind="show" identifier="feedToMessages" id="W4L-ij-kOw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSY-df-ufC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4621,8 +4622,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gi5-Um-M79" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profiles Joined" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJr-Kn-wUp">
-                                        <rect key="frame" x="134" y="33" width="108" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJr-Kn-wUp">
+                                        <rect key="frame" x="150" y="33" width="76" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="9Qc-iu-tcB"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="76" id="FnU-DN-Zqj"/>
@@ -4678,6 +4679,10 @@
                         <outlet property="footerNewFriendIndicator" destination="GXH-r4-nLX" id="PMw-N5-z2N"/>
                         <outlet property="searchBar" destination="c51-dM-byq" id="Jnh-xx-bqz"/>
                         <outlet property="tableView" destination="e5D-ID-OKV" id="BlA-Xz-kbb"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="messagesToFeed" animates="NO" id="7ZA-73-jNd"/>
+                        <segue destination="Thv-Jb-0qu" kind="show" identifier="messagesToJoinedList" animates="NO" id="10u-LX-lAE"/>
+                        <segue destination="fHV-HD-fhD" kind="show" identifier="messagesToSearch" animates="NO" id="hpM-YK-AX3"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="messagesToMyProfile" animates="NO" id="v6I-qg-3qN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPB-Xn-OtW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4706,13 +4711,13 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="FDh-cr-2VA"/>
-        <segue reference="DY3-QO-UuQ"/>
-        <segue reference="oiz-n8-MeS"/>
+        <segue reference="7ZA-73-jNd"/>
+        <segue reference="hpM-YK-AX3"/>
+        <segue reference="10u-LX-lAE"/>
+        <segue reference="v6I-qg-3qN"/>
+        <segue reference="fJQ-dC-hyU"/>
+        <segue reference="5Tl-Jg-UAb"/>
         <segue reference="Yry-oZ-Wzs"/>
         <segue reference="DzP-9T-IMk"/>
-        <segue reference="pdT-dH-DV6"/>
-        <segue reference="tvf-Vx-V8c"/>
-        <segue reference="Fz5-tL-9gQ"/>
-        <segue reference="5Tl-Jg-UAb"/>
     </inferredMetricsTieBreakers>
 </document>

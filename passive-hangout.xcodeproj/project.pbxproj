@@ -16,6 +16,7 @@
 		161D9D401F8EE5C400392A67 /* SearchCityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */; };
 		16213FDB1FA4B67D00456028 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FDA1FA4B67D00456028 /* MessagesVC.swift */; };
 		16213FDF1FA4BC4300456028 /* MessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FDE1FA4BC4300456028 /* MessagesCell.swift */; };
+		16213FE11FA4C81A00456028 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE01FA4C81A00456028 /* Conversation.swift */; };
 		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */; };
 		162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */; };
@@ -94,6 +95,7 @@
 		161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCityCell.swift; sourceTree = "<group>"; };
 		16213FDA1FA4B67D00456028 /* MessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		16213FDE1FA4BC4300456028 /* MessagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCell.swift; sourceTree = "<group>"; };
+		16213FE01FA4C81A00456028 /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedFriendsVC.swift; sourceTree = "<group>"; };
 		162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedProfilesListCell.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				167686321F4261D70029595A /* Status.swift */,
 				160267FE1F451A1B00C586D4 /* Users.swift */,
+				16213FE01FA4C81A00456028 /* Conversation.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 				162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */,
 				164D817B1F3A7D3400C8AD6E /* LoginVC.swift in Sources */,
 				160267FF1F451A1B00C586D4 /* Users.swift in Sources */,
+				16213FE11FA4C81A00456028 /* Conversation.swift in Sources */,
 				168D6BEC1F4CF02500D29DCA /* RoundedPopUp.swift in Sources */,
 				16FF56731F9FFE90008C4257 /* SearchCitiesDelegate.swift in Sources */,
 				16E8A5C41F7DB32E00E717F0 /* ViewProfileVC.swift in Sources */,
