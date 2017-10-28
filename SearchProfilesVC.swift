@@ -123,7 +123,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.insert(status, at: 0)
-                        
                     }
                 }
             }
@@ -173,7 +172,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //hide explore
         searchActive = true
         exploreTableView.isHidden = true
-
+        
         searchOptionsStackView.isHidden = false
         bottomSeparatorView.isHidden = false
         if topChoiceBtn.isEnabled == false {
@@ -279,7 +278,27 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
                 let cityCheck = user.currentCity as NSString
                 let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                
+                //                let mutualFriend = user.friendsList.keys.contains { (key) -> Bool in
+                //                    for index in 0..<currentUserInfo.friendsList.count {
+                //                        if Array(currentUserInfo.friendsList)[index].key == key {
+                //                            return true
+                //                        }
+                //                    }
+                //                    return false
+                //                }
+                //                if mutualFriend {
+                //                    print("hey")
+                //                }
+                
                 return nameRange.location != NSNotFound || cityRange.location != NSNotFound
+                
+                //                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                //                    value as? String == "received"
+                //                }
+                
+                
+                
                 
             })
             
@@ -456,9 +475,51 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if profilesIndicatorView.isHidden == false {
-            let selectedUser = profileSearchResults[indexPath.row]
-            performSegue(withIdentifier: "searchToViewProfile", sender: selectedUser)
+        if let currentUser = Auth.auth().currentUser?.uid {
+            
+            if searchActive == false {
+                let userKey = statusArr[indexPath.row].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+                
+            } else if topIndicatorView.isHidden == false {
+                let userKey = hangoutsSearchResults[indexPath.row].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+                
+            } else if profilesIndicatorView.isHidden == false {
+                let selectedProfile = profileSearchResults[indexPath.row]
+                performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                
+            } else if citiesIndicatorView.isHidden == false {
+                let userKey = statusSearchResults[indexPath.row].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+            }
         }
     }
     
@@ -483,24 +544,82 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             }
         }
     }
+    //    func didPressJoinBtn(_ tag: Int) {
+    //        let statusKey = statusArr[tag].statusKey
+    //        let userKey = statusArr[tag].userId
+    //        if let currentUser = Auth.auth().currentUser?.uid {
+    //            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
+    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+    //            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+    //        }
+    //
+    //    }
+    //
+    //    func didPressAlreadyJoinedBtn(_ tag: Int) {
+    //        let statusKey = statusArr[tag].statusKey
+    //        if let currentUser = Auth.auth().currentUser?.uid {
+    //            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+    //        }
+    //    }
     
     func didPressJoinBtn(_ tag: Int) {
-        if searchActive == false {
-            print(statusArr[tag].content)
-        } else if topIndicatorView.isHidden == false {
-            print(hangoutsSearchResults[tag].content)
-        } else if citiesIndicatorView.isHidden == false {
-            print(statusSearchResults[tag].content)
+        if let currentUser = Auth.auth().currentUser?.uid {
+            
+            if searchActive == false {
+                
+                let statusKey = statusArr[tag].statusKey
+                let userKey = statusArr[tag].userId
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+                DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                
+            } else if topIndicatorView.isHidden == false {
+                
+                let statusKey = hangoutsSearchResults[tag].statusKey
+                let userKey = hangoutsSearchResults[tag].userId
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+                DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                
+            } else if citiesIndicatorView.isHidden == false {
+                
+                let statusKey = statusSearchResults[tag].statusKey
+                let userKey = statusSearchResults[tag].userId
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+                DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                
+            }
         }
     }
     
     func didPressAlreadyJoinedBtn(_ tag: Int) {
-        if searchActive == false {
-            print(statusArr[tag].content)
-        } else if topIndicatorView.isHidden == false {
-            print(hangoutsSearchResults[tag].content)
-        } else if citiesIndicatorView.isHidden == false {
-            print(statusSearchResults[tag].content)
+        if let currentUser = Auth.auth().currentUser?.uid {
+            
+            if searchActive == false {
+                
+                let statusKey = statusArr[tag].statusKey
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                
+            } else if topIndicatorView.isHidden == false {
+                
+                let statusKey = hangoutsSearchResults[tag].statusKey
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                
+            } else if citiesIndicatorView.isHidden == false {
+                
+                let statusKey = statusSearchResults[tag].statusKey
+                DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                
+            }
         }
     }
     

@@ -130,11 +130,16 @@ class SearchHangoutCell: UITableViewCell {
     }
     
     
-    @IBAction func joinBtnPressed(_ sender: Any) {
+    @IBAction func joinBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressJoinBtn(self.tag)
+        joinBtn.isHidden = true
+        alreadyJoinedBtn.isHidden = false
+        
     }
     @IBAction func alreadyJoinedBtnPressed(_ sender: Any) {
         cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
+        joinBtn.isHidden = false
+        alreadyJoinedBtn.isHidden = true
     }
 
 }
