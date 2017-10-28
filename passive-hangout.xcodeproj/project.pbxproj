@@ -14,6 +14,8 @@
 		1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1615C1661F658BAB00D3DC01 /* ProfileVC.swift */; };
 		1616AC201F747B31004865C9 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616AC1F1F747B31004865C9 /* EditProfileVC.swift */; };
 		161D9D401F8EE5C400392A67 /* SearchCityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */; };
+		16213FDB1FA4B67D00456028 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FDA1FA4B67D00456028 /* MessagesVC.swift */; };
+		16213FDF1FA4BC4300456028 /* MessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FDE1FA4BC4300456028 /* MessagesCell.swift */; };
 		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */; };
 		162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */; };
@@ -90,6 +92,8 @@
 		1615C1661F658BAB00D3DC01 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		1616AC1F1F747B31004865C9 /* EditProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCityCell.swift; sourceTree = "<group>"; };
+		16213FDA1FA4B67D00456028 /* MessagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
+		16213FDE1FA4BC4300456028 /* MessagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCell.swift; sourceTree = "<group>"; };
 		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedFriendsVC.swift; sourceTree = "<group>"; };
 		162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedProfilesListCell.swift; sourceTree = "<group>"; };
@@ -287,6 +291,7 @@
 				16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */,
 				16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */,
 				16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */,
+				16213FDE1FA4BC4300456028 /* MessagesCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -306,6 +311,7 @@
 				16E578921F8081F8003B41FB /* JoinedListVC.swift */,
 				162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */,
 				16FA95361F8C3E8100E7588B /* SearchProfilesVC.swift */,
+				16213FDA1FA4B67D00456028 /* MessagesVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -669,6 +675,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16213FDF1FA4BC4300456028 /* MessagesCell.swift in Sources */,
 				16F3CC3E1F8137820095C210 /* FeedCellDelegate.swift in Sources */,
 				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */,
@@ -713,6 +720,7 @@
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 				162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */,
 				16E578951F8084C3003B41FB /* JoinedListCell.swift in Sources */,
+				16213FDB1FA4B67D00456028 /* MessagesVC.swift in Sources */,
 				160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
