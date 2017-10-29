@@ -22,6 +22,7 @@ class DataService {
     private var _REF_STATUS = DB_BASE.child("status")
     private var _REF_USERS = DB_BASE.child("users")
     private var _REF_CONVERSATION = DB_BASE.child("conversations")
+    private var _REF_MESSAGES = DB_BASE.child("conversations").child("messages")
     private var _REF_STATUS_UID = DB_BASE.child("status").child("userId")
     
     //Storage references
@@ -44,6 +45,10 @@ class DataService {
     
     var REF_CONVERSATION: DatabaseReference {
         return _REF_CONVERSATION
+    }
+    
+    var REF_MESSAGES: DatabaseReference {
+        return _REF_MESSAGES
     }
     
     var REF_STATUS_UID: DatabaseReference {

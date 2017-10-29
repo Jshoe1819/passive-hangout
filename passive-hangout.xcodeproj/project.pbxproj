@@ -20,6 +20,7 @@
 		16213FE31FA4F33E00456028 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE21FA4F33E00456028 /* ConversationVC.swift */; };
 		16213FE51FA4F3A100456028 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE41FA4F3A100456028 /* ConversationCell.swift */; };
 		16213FE71FA50AF200456028 /* ReceiverMessageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */; };
+		16213FE91FA557BA00456028 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE81FA557BA00456028 /* Messages.swift */; };
 		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */; };
 		162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */; };
@@ -102,6 +103,7 @@
 		16213FE21FA4F33E00456028 /* ConversationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationVC.swift; sourceTree = "<group>"; };
 		16213FE41FA4F3A100456028 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiverMessageColor.swift; sourceTree = "<group>"; };
+		16213FE81FA557BA00456028 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedFriendsVC.swift; sourceTree = "<group>"; };
 		162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedProfilesListCell.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				167686321F4261D70029595A /* Status.swift */,
 				160267FE1F451A1B00C586D4 /* Users.swift */,
 				16213FE01FA4C81A00456028 /* Conversation.swift */,
+				16213FE81FA557BA00456028 /* Messages.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				16FF56751FA00A4F008C4257 /* ExploreHangoutCell.swift in Sources */,
 				16E6231F1F7B08D5001BEDBA /* LeaveFeedbackVC.swift in Sources */,
 				16D8151E1F69F68500934516 /* PastStatusesVC.swift in Sources */,
+				16213FE91FA557BA00456028 /* Messages.swift in Sources */,
 				16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 				162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */,

@@ -19,11 +19,11 @@ class Conversation {
     private var _conversationKey: String!
     private var _conversationRef: DatabaseReference!
     
-    var details: Dictionary<String, Any>! {
+    var details: Dictionary<String, Any> {
         return _details
     }
     
-    var messages: Dictionary<String, Any>! {
+    var messages: Dictionary<String, Any> {
         return _messages
     }
     
@@ -31,10 +31,15 @@ class Conversation {
         return _users
     }
     
-    init(details: Dictionary<String, Any>!, messages: Dictionary<String, Any>!, users: Dictionary<String,Any>) {
+    var conversationKey: String {
+        return _conversationKey
+    }
+    
+    init(details: Dictionary<String, Any>!, messages: Dictionary<String, Any>!, users: Dictionary<String,Any>, conversationKey: String) {
         self._details = details
         self._messages = messages
         self._users = users
+        self._conversationKey = conversationKey
     }
     
     init(conversationKey: String, conversationData: Dictionary<String, Any>) {
@@ -52,7 +57,7 @@ class Conversation {
             self._users = users
         }
         
-        _conversationRef = DataService.ds.REF_STATUS.child(_conversationKey)
+        _conversationRef = DataService.ds.REF_CONVERSATION.child(_conversationKey)
         
     }
     
