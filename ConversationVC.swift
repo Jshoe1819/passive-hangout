@@ -17,6 +17,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var conversationUid = ""
     var messagesArr = [Messages]()
     var currentConversation: Conversation!
+    var placeholderLabel : UILabel!
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var tableView: UITableView!
@@ -29,11 +30,26 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.delegate = self
         tableView.dataSource = self
+        textView.delegate = self
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = "Start typing..."
+        placeholderLabel.font = UIFont(name: "AvenirNext-Italic", size: 14)
+        textView.addSubview(placeholderLabel)
+        //placeholderLabel.preferredMaxLayoutWidth = CGFloat(tableView.frame.width)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.lightGray
+        //placeholderLabel.lineBreakMode = .byWordWrapping
+        //placeholderLabel.numberOfLines = 0
+        placeholderLabel.sizeToFit()
+        placeholderLabel.isHidden = !textView.text.isEmpty
         
         self.conversationUid = "uid3"
-        self.messagesArr = []
         
         DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").queryOrdered(byChild: "timestamp").observe(.value, with: { (snapshot) in
+            
+            self.messagesArr = []
+            
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     //print("Messages: \(snap)")
@@ -65,10 +81,12 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         })
         
+        //hooking up button segues
+        //selecting on messages
         //get conversation id
-        //load data by message posted date (use append)
-        //use if to decide which view to place content in (receiver vs sender)
-        //use if last to display and format time
+        //time not duration
+        //initializing data (initializer uid)
+        //writing data
         //load table bottome up, or automatically place scroll position to bottom
         //add placeholder text
         //grow textview input
@@ -181,10 +199,37 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    
     @IBAction func sendBtnPressed(_ sender: Any) {
-        print("send that shit")
+        guard let messageContent = textView.text, messageContent != "" else {
+            return
+        }
+        
+        if let messageContent = textView.text {
+            print("JAKE: \(messageContent)")
+            if let user = Auth.auth().currentUser {
+                let userId = user.uid
+                let key = DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").childByAutoId().key
+                //let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
+                let message = ["content": messageContent,
+                              "timestamp": ServerValue.timestamp(),
+                              "senderuid": userId] as [String : Any]
+                //let childUpdates = ["/status/\(key)": status,
+                                   // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
+                //print("JAKE: \(childUpdates)")
+                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message])
+                //DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                textView.text = ""
+                
+            }
+        }
     }
     @IBAction func backBtnPressed(_ sender: Any) {
+        
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
     }
