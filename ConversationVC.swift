@@ -24,6 +24,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var textInputView: ReceiverMessageColor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         textView.delegate = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 90
         
         placeholderLabel = UILabel()
         placeholderLabel.text = "Start typing..."
@@ -44,7 +48,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        self.conversationUid = "uid3"
+        //self.conversationUid = "uid3"
         
         DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").queryOrdered(byChild: "timestamp").observe(.value, with: { (snapshot) in
             
@@ -60,7 +64,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
+            
             self.tableView.reloadData()
+            
         })
         
         DataService.ds.REF_CONVERSATION.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -82,16 +88,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         })
         
         //hooking up button segues
-        //selecting on messages
         //get conversation id
         //time not duration
         //initializing data (initializer uid)
-        //writing data
-        //load table bottome up, or automatically place scroll position to bottom
-        //add placeholder text
+        //insert at 0, reverse array, scroll to bottom
         //grow textview input
-        //autosizing view using >= lbl width
-        //translate table up if pressed or down if scrolling
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -129,6 +130,21 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        if self.messagesArr.count > 0 {
+            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+        }
+        
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -142,16 +158,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let message = messagesArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell") as? ConversationCell {
-            //cell.configureCell(conversation: conversation, users: users)
-            //cell.selectionStyle = .none
-            tableView.rowHeight = UITableViewAutomaticDimension
-            tableView.estimatedRowHeight = 120
+            
             cell.configureCell(message: message)
+            
             if messagesArr.endIndex - 1 == indexPath.row {
                 if let currentUser = Auth.auth().currentUser?.uid {
                     if message.senderuid == currentUser {
+                        cell.sentMsgAgeLbl.isHidden = false
                         cell.sentMsgAgeLbl.text = "Sent \(cell.configureTimeAgo(unixTimestamp: message.timestamp))"
                     } else {
+                        cell.receivedMsgAgeLbl.isHidden = false
                         cell.receivedMsgAgeLbl.text = "Received \(cell.configureTimeAgo(unixTimestamp: message.timestamp))"
                     }
                 }
@@ -204,6 +220,26 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.tableView.frame.origin.y == 65 {
+                self.tableView.frame.origin.y -= keyboardSize.height - 50
+                self.textInputView.frame.origin.y -= keyboardSize.height - 50
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if self.tableView.frame.origin.y != 65 {
+            self.tableView.frame.origin.y = 65
+            self.textInputView.frame.origin.y = 572
+        }
+    }
+    
     @IBAction func sendBtnPressed(_ sender: Any) {
         guard let messageContent = textView.text, messageContent != "" else {
             return
@@ -222,23 +258,35 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                    // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message])
+                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                if self.messagesArr.count > 0 {
+                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+                    //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+                }
                 textView.text = ""
-                
             }
         }
     }
     @IBAction func backBtnPressed(_ sender: Any) {
-        
+        performSegue(withIdentifier: "conversationToMessages", sender: nil)
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "conversationToFeed", sender: nil)
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "conversationToJoinedList", sender: nil)
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "conversationToSearch", sender: nil)
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "conversationToMyProfile", sender: nil)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
 }

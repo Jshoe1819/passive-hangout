@@ -30,7 +30,8 @@ class MessagesCell: UITableViewCell {
         //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
-            let containsUser = conversation.users.keys.contains(users[index].usersKey)
+            if let currentUser = Auth.auth().currentUser?.uid {
+            let containsUser = conversation.users.keys.contains(users[index].usersKey) && users[index].usersKey != currentUser
             if containsUser {
                 self.nameLbl.text = users[index].name
                 if let lastMsgDate = conversation.details["lastMsgDate"] as? Double {
@@ -76,6 +77,7 @@ class MessagesCell: UITableViewCell {
                     }
                 }
             }
+        }
         }
         
     }

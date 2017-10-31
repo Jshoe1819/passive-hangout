@@ -155,7 +155,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        refresh(sender: "")
+        
+        let when = DispatchTime.now() + 0.01 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.refresh(sender: "")
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

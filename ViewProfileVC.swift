@@ -39,6 +39,7 @@ class ViewProfileVC: UIViewController {
     var selectedProfile: Users!
     var statusArr = [Status]()
     var selectedStatusArr = [Status]()
+    var conversationArr = [Conversation]()
     var selectedStatus: Status!
     var originController = ""
     var searchText = ""
@@ -77,6 +78,33 @@ class ViewProfileVC: UIViewController {
                 }
             }
             self.currentUserStatusArr(array: self.statusArr)
+        })
+        
+        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.conversationArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("Conversation: \(snap)")
+                    if let conversationDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            let userConversation = conversation.users.keys.contains(currentUser)
+                            if userConversation {
+                                self.conversationArr.insert(conversation, at: 0)
+                            }
+                        }
+                    }
+                }
+            }
+            //change to explore.reload
+            //            for index in 0..<self.conversationArr.count {
+            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
+            //            print(lastMsgDate)
+            //                }
+            //            }
         })
         
         currentUserStatusArr(array: statusArr)
@@ -256,47 +284,47 @@ class ViewProfileVC: UIViewController {
                 }
             }
         }
-    
-
-
+        
+        
+        
         //print("JAKE: going in to else")
-//        if user.id != "a" {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profileUrl = URL(string: user.profilePicUrl)
-//                let data = try? Data(contentsOf: profileUrl!)
-//                if let profileImage = UIImage(data: data!) {
-//                    self.profileImg.image = profileImage
-//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-//                }
-//            }
-//            
-//        } else {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                    if error != nil {
-//                        //print("JAKE: unable to download image from storage")
-//                    } else {
-//                        //print("JAKE: image downloaded from storage")
-//                        if let imageData = data {
-//                            if let image = UIImage(data: imageData) {
-//                                self.profileImg.image = image
-//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-//                                //self.postImg.image = image
-//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-//            
-//        }
+        //        if user.id != "a" {
+        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+        //                profileImg.image = image
+        //                //print("JAKE: Cache working")
+        //            } else {
+        //                let profileUrl = URL(string: user.profilePicUrl)
+        //                let data = try? Data(contentsOf: profileUrl!)
+        //                if let profileImage = UIImage(data: data!) {
+        //                    self.profileImg.image = profileImage
+        //                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
+        //                }
+        //            }
+        //
+        //        } else {
+        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
+        //                profileImg.image = image
+        //                //print("JAKE: Cache working")
+        //            } else {
+        //                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+        //                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+        //                    if error != nil {
+        //                        //print("JAKE: unable to download image from storage")
+        //                    } else {
+        //                        //print("JAKE: image downloaded from storage")
+        //                        if let imageData = data {
+        //                            if let image = UIImage(data: imageData) {
+        //                                self.profileImg.image = image
+        //                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
+        //                                //self.postImg.image = image
+        //                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+        //                            }
+        //                        }
+        //                    }
+        //                })
+        //            }
+        //
+        //        }
     }
     
     func populateCoverPicture(user: Users) {
@@ -335,54 +363,54 @@ class ViewProfileVC: UIViewController {
                 }
             }
         }
-    
-
-
-//        if user.id != "a" {
-//
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                }
-//                else {
-//                    //print("downloading")
-//                    let coverUrl = URL(string: user.cover["source"] as! String)
-//                    let data = try? Data(contentsOf: coverUrl!)
-//                    if let coverImage = UIImage(data: data!) {
-//                        self.coverImg.image = coverImage
-//                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
-//                    }
-//                }
-//            }
-//            
-//        } else {
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//                
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                } else {
-//                    //print("downloading")
-//                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-//                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                        if error != nil {
-//                            //print("JAKE: unable to download image from storage")
-//                        } else {
-//                            //print("JAKE: image downloaded from storage")
-//                            if let imageData = data {
-//                                if let image = UIImage(data: imageData) {
-//                                    self.coverImg.image = image
-//                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
-//                                    
-//                                }
-//                            }
-//                        }
-//                    })
-//                }
-//            }
-//        }
+        
+        
+        
+        //        if user.id != "a" {
+        //
+        //            if let coverStorageUrl = user.cover["source"] as? String {
+        //
+        //                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+        //                    //print("using cache")
+        //                    coverImg.image = image
+        //                }
+        //                else {
+        //                    //print("downloading")
+        //                    let coverUrl = URL(string: user.cover["source"] as! String)
+        //                    let data = try? Data(contentsOf: coverUrl!)
+        //                    if let coverImage = UIImage(data: data!) {
+        //                        self.coverImg.image = coverImage
+        //                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
+        //                    }
+        //                }
+        //            }
+        //
+        //        } else {
+        //            if let coverStorageUrl = user.cover["source"] as? String {
+        //
+        //                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
+        //                    //print("using cache")
+        //                    coverImg.image = image
+        //                } else {
+        //                    //print("downloading")
+        //                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
+        //                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+        //                        if error != nil {
+        //                            //print("JAKE: unable to download image from storage")
+        //                        } else {
+        //                            //print("JAKE: image downloaded from storage")
+        //                            if let imageData = data {
+        //                                if let image = UIImage(data: imageData) {
+        //                                    self.coverImg.image = image
+        //                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
+        //
+        //                                }
+        //                            }
+        //                        }
+        //                    })
+        //                }
+        //            }
+        //        }
     }
     
     func currentUserStatusArr(array: [Status]) {
@@ -425,6 +453,10 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? SearchProfilesVC {
                 nextVC.searchText = searchText
             }
+        } else if segue.identifier == "viewProfileToConversation" {
+            if let nextVC = segue.destination as? ConversationVC {
+                nextVC.conversationUid = sender as! String
+            }
         }
     }
     
@@ -432,6 +464,30 @@ class ViewProfileVC: UIViewController {
         performSegue(withIdentifier: "viewProfileToPastStatuses", sender: selectedStatusArr)
     }
     @IBAction func sendMessageBtnPressed(_ sender: Any) {
+        
+        for index in 0..<conversationArr.count {
+            if conversationArr[index].users.keys.contains(selectedProfile.usersKey) {
+                let selectedConversation = conversationArr[index].conversationKey
+                performSegue(withIdentifier: "viewProfileToConversation", sender: selectedConversation)
+                return
+            }
+            //print("hi")
+        }
+        //print("out")
+        if let user = Auth.auth().currentUser {
+            let userId = user.uid
+            let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
+            let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
+                                "messages": ["a": true],
+                                "users": [userId: true,selectedProfile.usersKey: true]] as [String : Any]
+            
+            let childUpdates = ["/conversations/\(key)": conversation,
+                                "/users/\(userId)/conversationId/\(key)/": true] as Dictionary<String, Any>
+            DataService.ds.REF_BASE.updateChildValues(childUpdates)
+            performSegue(withIdentifier: "viewProfileToConversation", sender: key)
+        }
+        
+        //performSegue(withIdentifier: "viewProfileToConversation", sender: nil)//selectedConversation)
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
         
@@ -512,11 +568,11 @@ class ViewProfileVC: UIViewController {
             performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
         } else if
             originController == "joinedFriendsToViewProfile" {
-                performSegue(withIdentifier: "viewProfileToJoinedFriends", sender: nil)
+            performSegue(withIdentifier: "viewProfileToJoinedFriends", sender: nil)
         } else if originController == "searchToViewProfile" {
             performSegue(withIdentifier: "viewProfileToSearch", sender: nil)
         }
-        
+            
             //        else if originController == "joinedListToViewProfile" {
             //            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
             //        }

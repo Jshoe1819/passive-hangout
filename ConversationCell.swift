@@ -13,7 +13,7 @@ import FirebaseDatabase
 import FirebaseStorage
 
 class ConversationCell: UITableViewCell {
-
+    
     @IBOutlet weak var senderBubble: UIView!
     @IBOutlet weak var senderMsgLbl: UILabel!
     @IBOutlet weak var sentMsgAgeLbl: UILabel!
@@ -23,20 +23,29 @@ class ConversationCell: UITableViewCell {
     
     func configureCell(message: Messages) {
         
+        receiverBubble.isHidden = true
+        receivedMsgAgeLbl.isHidden = true
+        senderBubble.isHidden = true
+        sentMsgAgeLbl.isHidden = true
+        
         //        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
-            if let currentUser = Auth.auth().currentUser?.uid {
-                if message.senderuid == currentUser {
-                    senderBubble.isHidden = false
-                    senderMsgLbl.text = message.content
-                } else if message.senderuid != currentUser {
-                    receiverBubble.isHidden = false
-                    receiverMsgLbl.text = message.content
-                }
+        if let currentUser = Auth.auth().currentUser?.uid {
+            if message.senderuid == currentUser {
+                senderBubble.isHidden = false
+                senderMsgLbl.text = message.content
+                senderMsgLbl.sizeToFit()
+                //layoutIfNeeded()
+            } else if message.senderuid != currentUser {
+                receiverBubble.isHidden = false
+                receiverMsgLbl.text = message.content
+                receivedMsgAgeLbl.sizeToFit()
+                //layoutIfNeeded()
+            }
         }
     }
-    
+
     func configureTimeAgo(unixTimestamp: Double) -> String {
         let date = Date().timeIntervalSince1970
         let secondsInterval = Int((date - unixTimestamp/1000).rounded().nextDown)
@@ -83,5 +92,5 @@ class ConversationCell: UITableViewCell {
             return ("a few seconds ago")
         }
     }
-
+    
 }
