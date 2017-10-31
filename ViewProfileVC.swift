@@ -456,6 +456,7 @@ class ViewProfileVC: UIViewController {
         } else if segue.identifier == "viewProfileToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
                 nextVC.conversationUid = sender as! String
+                nextVC.originController = "viewProfileToConversation"
             }
         }
     }

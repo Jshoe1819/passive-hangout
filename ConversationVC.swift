@@ -15,6 +15,8 @@ import Kingfisher
 class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     var conversationUid = ""
+    var originController = ""
+    var selectedProfile: Users!
     var messagesArr = [Messages]()
     var currentConversation: Conversation!
     var placeholderLabel : UILabel!
@@ -121,6 +123,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                             if otherUser {
                                 self.nameLbl.text = users.name
                                 self.populateProfilePicture(user: users)
+                                self.selectedProfile = users
                             }
                         }
                     }
@@ -176,6 +179,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             return ConversationCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func populateProfilePicture(user: Users) {
@@ -252,10 +259,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let key = DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").childByAutoId().key
                 //let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
                 let message = ["content": messageContent,
-                              "timestamp": ServerValue.timestamp(),
-                              "senderuid": userId] as [String : Any]
+                               "timestamp": ServerValue.timestamp(),
+                               "senderuid": userId] as [String : Any]
                 //let childUpdates = ["/status/\(key)": status,
-                                   // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
+                // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
@@ -268,8 +275,33 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "conversationToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = sender as? Users
+            }
+        }
+    }
+    
     @IBAction func backBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "conversationToMessages", sender: nil)
+        
+        if originController == "viewProfileToConversation" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                    if lastMsgDate == "" {
+                        DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                        DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                    }
+                }
+            }
+            
+            let selectedUser = self.selectedProfile
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+            
+        } else {
+            performSegue(withIdentifier: "conversationToMessages", sender: nil)
+        }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "conversationToFeed", sender: nil)
