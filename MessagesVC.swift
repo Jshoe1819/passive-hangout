@@ -14,8 +14,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var usersArr = [Users]()
     var conversationArr = [Conversation]()
-    var blank = [Int]()
-    
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
@@ -106,11 +105,6 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let users = usersArr
         
          if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {
-            if let lastMsgDate = conversation.details["lastMsgDate"] as? String {
-                if lastMsgDate == "" {
-                    blank.append(indexPath.row)
-                }
-            }
             cell.configureCell(conversation: conversation, users: users)
             cell.selectionStyle = .none
             return cell
@@ -124,14 +118,6 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if blank.contains(indexPath.row) {
-            return 0
-        } else {
-            return 84
-        }
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "messagesToConversation" {
             if let nextVC = segue.destination as? ConversationVC {

@@ -89,12 +89,14 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         })
         
-        //hooking up button segues
-        //get conversation id
         //time not duration
-        //initializing data (initializer uid)
         //insert at 0, reverse array, scroll to bottom
         //grow textview input
+        //use read not a in conversation msgs
+        //best way to load on VDL
+        //paging
+        //delete deleted post everywhere
+        
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
