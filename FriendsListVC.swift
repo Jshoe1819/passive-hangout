@@ -33,7 +33,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         
         
         if let currentUser = Auth.auth().currentUser?.uid {
-            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByValue().observe(.value, with: { (snapshot) in
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observe(.value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let value = snap.value {
@@ -56,7 +56,12 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
                         if self.currentFriendsList.keys.contains(users.usersKey) {
-                            self.usersArr.insert(users, at: 0)
+                            if self.currentFriendsList[users.usersKey] as! String == "received" {
+                                self.usersArr.insert(users, at: 0)
+                            }
+                            else {
+                                self.usersArr.append(users)
+                            }
                         }
                         
                     }

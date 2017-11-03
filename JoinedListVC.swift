@@ -12,7 +12,10 @@ import FirebaseDatabase
 
 class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, JoinedListCellDelegate {
     
+    var refreshControl: UIRefreshControl!
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     var statusArr = [Status]()
@@ -22,6 +25,11 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(JoinedListVC.refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,6 +58,11 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                         }
                     }
                 }
+            }
+            if self.statusArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
             }
             self.tableView.reloadData()
             
@@ -103,6 +116,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         //        }
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
+            cell.alreadyJoinedBtn.isHidden = false
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.configureCell(status: status, users: users)
@@ -136,10 +150,12 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let statusKey = statusArr[tag].statusKey
         let userKey = statusArr[tag].userId
         if let currentUser = Auth.auth().currentUser?.uid {
-        DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
-        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
-        DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
-        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
+            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
+            //tableView.reloadData()
         }
         
     }
@@ -147,8 +163,10 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func didPressAlreadyJoinedBtn(_ tag: Int) {
         let statusKey = statusArr[tag].statusKey
         if let currentUser = Auth.auth().currentUser?.uid {
-        DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
-        DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count - 1])
+            //tableView.reloadData()
         }
     }
     
@@ -162,16 +180,16 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    func didPressStatusContentLbl(_ tag: Int) {
-        print(tag)
-        //        let usersKey = statusArr[tag].userId
-        //        for index in 0..<usersArr.count {
-        //           if usersArr[index].usersKey == usersKey {
-        //                print(usersArr[index].cover["source"])
-        //                //send to conversation
-        //            }
-        //        }
-    }
+//    func didPressStatusContentLbl(_ tag: Int) {
+//        print(tag)
+//        //        let usersKey = statusArr[tag].userId
+//        //        for index in 0..<usersArr.count {
+//        //           if usersArr[index].usersKey == usersKey {
+//        //                print(usersArr[index].cover["source"])
+//        //                //send to conversation
+//        //            }
+//        //        }
+//    }
     
     
     @IBAction func homeBtnPressed(_ sender: Any) {
@@ -185,6 +203,75 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToMyProfile", sender: nil)
         footerNewFriendIndicator.isHidden = true
+    }
+    
+    func refresh(sender: Any) {
+        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            let join = status.joinedList.keys.contains { (key) -> Bool in
+                                key == currentUser
+                            }
+                            if join {
+                                self.statusArr.insert(status, at: 0)
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            if self.statusArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
+            self.tableView.reloadData()
+            
+        })
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if answer && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                            }
+                        }
+                        self.usersArr.append(users)
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
+        
+        
     }
     
     

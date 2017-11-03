@@ -16,6 +16,7 @@ class JoinedListCell: UITableViewCell {
     
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var joinBtn: UIButton!
@@ -32,14 +33,16 @@ class JoinedListCell: UITableViewCell {
     func configureCell(status: Status, users: [Users]) {
         
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
-        contentLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
+        //contentLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         contentLbl.text = status.content
+        cityLbl.text = status.city
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
                 nameLbl.text = users[index].name
+                
                 populateProfPic(user: users[index])
             }
         }
@@ -168,9 +171,9 @@ class JoinedListCell: UITableViewCell {
         cellDelegate?.didPressProfilePic(self.tag)
     }
     
-    func contentTapped(_ sender: UITapGestureRecognizer) {
-        cellDelegate?.didPressStatusContentLbl(self.tag)
-    }
+//    func contentTapped(_ sender: UITapGestureRecognizer) {
+//        cellDelegate?.didPressStatusContentLbl(self.tag)
+//    }
 
     @IBAction func joinBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressJoinBtn(self.tag)

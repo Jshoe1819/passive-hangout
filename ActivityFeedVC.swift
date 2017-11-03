@@ -25,7 +25,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var textView: NewStatusTextView!
+    @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
@@ -71,11 +73,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //placeholderLabel.preferredMaxLayoutWidth = CGFloat(tableView.frame.width)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.white
-        placeholderLabel.lineBreakMode = .byWordWrapping
-        placeholderLabel.numberOfLines = 0
+        //placeholderLabel.lineBreakMode = .byWordWrapping
+        //placeholderLabel.numberOfLines = 0
         placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
+        cityTextField.attributedPlaceholder = NSAttributedString(string: "City",
+                                                                 attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
+
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -90,85 +95,86 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
         }
         
-//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-//            
-//            self.statusArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("STATUS: \(snap)")
-//                    if let statusDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let status = Status(statusKey: key, statusData: statusDict)
-//                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
-//                            status.userId == key
-//                        }
-//                        if friends {
-//                            if self.userFriendsList[status.userId] as? String == "friends" {
-//                                //print("friends - \(status.userId)")
-//                                self.statusArr.insert(status, at: 0)
-//                                //print(self.statusArr)
-//                            }
-//                        }
-//                        //self.statusArr.insert(status, at: 0)
-//                    }
-//                }
-//            }
-//            self.tableView.reloadData()
-//        })
-//        
-//        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-//            
-//            self.usersArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("USERS: \(snap)")
-//                    if let usersDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let users = Users(usersKey: key, usersData: usersDict)
-//                        if let currentUser = Auth.auth().currentUser?.uid {
-//                            if currentUser == users.usersKey {
-//                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-//                                    value as? String == "received"
-//                                }
-//                                if newFriend && users.friendsList["seen"] as? String == "false" {
-//                                    self.footerNewFriendIndicator.isHidden = false
-//                                }
-//                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-//                                    value as? String == "false"
-//                                }
-//                                if newJoin {
-//                                    self.footerNewFriendIndicator.isHidden = false
-//                                }
-//                                
-//                            }
-//                        }
-//                        self.usersArr.append(users)
-//                    }
-//                }
-//            }
-//            self.tableView.reloadData()
-//        })
+        //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.statusArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //                    //print("STATUS: \(snap)")
+        //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let status = Status(statusKey: key, statusData: statusDict)
+        //                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
+        //                            status.userId == key
+        //                        }
+        //                        if friends {
+        //                            if self.userFriendsList[status.userId] as? String == "friends" {
+        //                                //print("friends - \(status.userId)")
+        //                                self.statusArr.insert(status, at: 0)
+        //                                //print(self.statusArr)
+        //                            }
+        //                        }
+        //                        //self.statusArr.insert(status, at: 0)
+        //                    }
+        //                }
+        //            }
+        //            self.tableView.reloadData()
+        //        })
+        //
+        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.usersArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //                    //print("USERS: \(snap)")
+        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let users = Users(usersKey: key, usersData: usersDict)
+        //                        if let currentUser = Auth.auth().currentUser?.uid {
+        //                            if currentUser == users.usersKey {
+        //                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+        //                                    value as? String == "received"
+        //                                }
+        //                                if newFriend && users.friendsList["seen"] as? String == "false" {
+        //                                    self.footerNewFriendIndicator.isHidden = false
+        //                                }
+        //                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+        //                                    value as? String == "false"
+        //                                }
+        //                                if newJoin {
+        //                                    self.footerNewFriendIndicator.isHidden = false
+        //                                }
+        //
+        //                            }
+        //                        }
+        //                        self.usersArr.append(users)
+        //                    }
+        //                }
+        //            }
+        //            self.tableView.reloadData()
+        //        })
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-        let when = DispatchTime.now() + 0.01 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            // Your code with delay
-            self.refresh(sender: "")
-        }
-        
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        let when = DispatchTime.now() + 0.01 // change 2 to desired number of seconds
+//        DispatchQueue.main.asyncAfter(deadline: when) {
+//            // Your code with delay
+//            self.refresh(sender: "")
+//        }
+//        
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if usersArr.count == 0 {
+            self.refresh(sender: self)
+        }
         return statusArr.count
     }
     
@@ -217,9 +223,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         opaqueStatusBackground.isHidden = false
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
-            self.textViewDidChange(self.textView)
+            //self.textViewDidChange(self.textView)
             self.textView.becomeFirstResponder()
-            self.availableSelected.selectedSegmentIndex = 0
+            //self.availableSelected.selectedSegmentIndex = 0
         })
     }
     
@@ -231,7 +237,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
             self.textView.resignFirstResponder()
+            self.characterCountLbl.isHidden = true
             self.textView.text = ""
+            self.cityTextField.text = self.userCity
         })
     }
     
@@ -251,13 +259,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return updatedText.characters.count <= CHARACTER_LIMIT
     }
     
-    func setAvailable(segmentControl: UISegmentedControl) -> Bool {
-        if segmentControl.selectedSegmentIndex == 0 {
-            return true
-        } else {
-            return false
-        }
-    }
+    //    func setAvailable(segmentControl: UISegmentedControl) -> Bool {
+    //        if segmentControl.selectedSegmentIndex == 0 {
+    //            return true
+    //        } else {
+    //            return false
+    //        }
+    //    }
     
     @IBAction func saveStatusBtnPressed(_ sender: Any) {
         guard let statusContent = textView.text, statusContent != "" else {
@@ -268,29 +276,33 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //print("JAKE: \(statusContent)")
             if let user = Auth.auth().currentUser {
                 let userId = user.uid
-                let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
-                let status = ["available": setAvailable(segmentControl: availableSelected),
-                              "content": statusContent,
-                              "joinedList": ["seen": true],
-                              "joinedNumber": 0,
-                              "city": userCity,
-                              "postedDate": ServerValue.timestamp(),
-                              "userId": userId] as [String : Any]
-                let childUpdates = ["/status/\(key)": status,
-                                    "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
-                //print("JAKE: \(childUpdates)")
-                DataService.ds.REF_BASE.updateChildValues(childUpdates)
-                refresh(sender: "")
-                
-                statusPopupBottomConstraint.constant = -325
-                statusPopupTopConstraint.constant = 680
-                opaqueStatusBackground.isHidden = true
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.view.layoutIfNeeded()
-                    self.textView.resignFirstResponder()
-                    self.textView.text = ""
-                })
-                
+                if let city = cityTextField.text {
+                    let key = DataService.ds.REF_BASE.child("status").childByAutoId().key
+                    let status = [//"available": setAvailable(segmentControl: availableSelected),
+                        "content": statusContent,
+                        "joinedList": ["seen": true],
+                        "joinedNumber": 0,
+                        "city": city,
+                        "postedDate": ServerValue.timestamp(),
+                        "userId": userId] as [String : Any]
+                    let childUpdates = ["/status/\(key)": status,
+                                        "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
+                    //print("JAKE: \(childUpdates)")
+                    DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                    refresh(sender: "")
+                    
+                    statusPopupBottomConstraint.constant = -325
+                    statusPopupTopConstraint.constant = 680
+                    opaqueStatusBackground.isHidden = true
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.layoutIfNeeded()
+                        self.textView.resignFirstResponder()
+                        self.characterCountLbl.isHidden = true
+                        self.textView.text = ""
+                        self.cityTextField.text = self.userCity
+                    })
+                    
+                }
             }
         }
     }
@@ -310,7 +322,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-        
+    
     @IBAction func msgBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "feedToMessages", sender: nil)
     }
@@ -433,7 +445,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                
                                 self.userCity = users.currentCity
+                                self.cityTextField.text = self.userCity
                                 
                             }
                         }
@@ -442,15 +456,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
             self.tableView.reloadData()
-            
         })
+        
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
+            if self.statusArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
             // Your code with delay
             self.refreshControl.endRefreshing()
         }
-        
-        
     }
-    
 }

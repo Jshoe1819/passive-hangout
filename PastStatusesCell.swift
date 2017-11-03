@@ -40,9 +40,9 @@ class PastStatusesCell: UITableViewCell {
         if status.joinedList["seen"] as? String == "false" {
             newJoinIndicator.isHidden = false
         }
-        if status.available == false {
-            joinBtn.isEnabled = false
-        }
+//        if status.available == false {
+//            joinBtn.isEnabled = false
+//        }
         
     }
     

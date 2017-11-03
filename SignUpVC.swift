@@ -164,7 +164,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     
     func completeSignIn(uid: String) {
         KeychainWrapper.standard.set(uid, forKey: KEY_UID)
-        self.performSegue(withIdentifier: "signUpToActivityFeed", sender: nil)
+        self.performSegue(withIdentifier: "signUpToEditProfile", sender: nil)
 
     }
     

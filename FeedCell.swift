@@ -24,6 +24,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var joinBtnOutlet: UIButton!
     @IBOutlet weak var alreadyJoinedBtn: UIButton!
     
@@ -42,6 +43,8 @@ class FeedCell: UITableViewCell {
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
                 self.displayNameLbl.text = users[index].name
+                self.cityLbl.text = status.city
+                self.statusLbl.text = status.content
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                 
                 ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
@@ -115,14 +118,12 @@ class FeedCell: UITableViewCell {
         //            }
         //        }
         
-        self.statusLbl.text = status.content
-        
-        if status.available == false {
-            joinBtnOutlet.isEnabled = false
-            
-        } else {
-            joinBtnOutlet.isEnabled = true
-        }
+//        if status.available == false {
+//            joinBtnOutlet.isEnabled = false
+//            
+//        } else {
+//            joinBtnOutlet.isEnabled = true
+//        }
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {

@@ -624,7 +624,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func didPressAddFriendBtn(_ tag: Int) {
-        print(tag)
+        //print(tag)
         let friendKey = profileSearchResults[tag].usersKey
         DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
@@ -632,7 +632,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
-        print(tag)
+        //print(tag)
         let friendKey = profileSearchResults[tag].usersKey
         DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()

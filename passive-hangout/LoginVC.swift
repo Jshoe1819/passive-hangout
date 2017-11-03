@@ -116,6 +116,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     if error != nil {
                         print("error: \(error!)")
                     } else {
+                        //add other data to data where result is
                         let data: [String: Any] = result as! [String: Any]
                         self.firebaseCredentialAuth(credential, userData: data)
                     }
