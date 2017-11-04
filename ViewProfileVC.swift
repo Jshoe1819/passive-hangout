@@ -438,14 +438,12 @@ class ViewProfileVC: UIViewController {
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.searchText = searchText
-                    
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
                 nextVC.viewedProfile = selectedProfile
             }
-        }
-        if segue.identifier == "viewProfileToJoinedFriends" {
+        } else if segue.identifier == "viewProfileToJoinedFriends" {
             if let nextVC = segue.destination as? JoinedFriendsVC {
                 nextVC.selectedUser = selectedProfile
                 nextVC.selectedStatus = selectedStatus
@@ -481,7 +479,8 @@ class ViewProfileVC: UIViewController {
             let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
             let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
                                 "messages": ["a": true],
-                                "users": [userId: true,selectedProfile.usersKey: true]] as [String : Any]
+                                "users": [userId: true,
+                                          selectedProfile.usersKey: true]] as [String : Any]
             
             let childUpdates = ["/conversations/\(key)": conversation,
                                 "/users/\(userId)/conversationId/\(key)/": true] as Dictionary<String, Any>

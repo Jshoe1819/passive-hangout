@@ -14,12 +14,15 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var isEmptyImg: UIImageView!
     
     var usersArr = [Users]()
+    var conversationArr = [Conversation]()
     var currentFriendsList = Dictionary<String, Any>()
     var tappedBtnTags = [Int]()
     var deleted = [Int]()
     var filtered = [Users]()
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +31,18 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         tableView.dataSource = self
         searchBar.delegate = self
         
+        refreshControl = UIRefreshControl()
+        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
         searchBar.keyboardAppearance = .dark
         tableView.keyboardDismissMode = .onDrag
         
         
         if let currentUser = Auth.auth().currentUser?.uid {
-            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observe(.value, with: { (snapshot) in
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let value = snap.value {
@@ -45,7 +54,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             })
         }
         
-        DataService.ds.REF_USERS.observe(.value, with: { (snapshot) in
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.usersArr = []
             
@@ -68,7 +77,41 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 }
                 self.filtered = self.usersArr
             }
+            
+            if self.currentFriendsList.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
+            
             self.tableView.reloadData()
+        })
+        
+        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.conversationArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("Conversation: \(snap)")
+                    if let conversationDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            let userConversation = conversation.users.keys.contains(currentUser)
+                            if userConversation {
+                                self.conversationArr.insert(conversation, at: 0)
+                            }
+                        }
+                    }
+                }
+            }
+            //change to explore.reload
+            //            for index in 0..<self.conversationArr.count {
+            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
+            //            print(lastMsgDate)
+            //                }
+            //            }
         })
         
     }
@@ -155,6 +198,11 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
             }
+        } else if segue.identifier == "friendsListToConversation" {
+            if let nextVC = segue.destination as? ConversationVC {
+                nextVC.conversationUid = sender as! String
+                nextVC.originController = "friendsListToConversation"
+            }
         }
     }
     
@@ -196,6 +244,29 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         alert.addAction(UIAlertAction(title: "Send Message", style: UIAlertActionStyle.default, handler: { action in
             
             //perform segue
+            for index in 0..<self.conversationArr.count {
+                if self.conversationArr[index].users.keys.contains(self.usersArr[tag].usersKey) {
+                    let selectedConversation = self.conversationArr[index].conversationKey
+                    self.performSegue(withIdentifier: "friendsListToConversation", sender: selectedConversation)
+                    return
+                }
+                //print("hi")
+            }
+            //print("out")
+            if let user = Auth.auth().currentUser {
+                let userId = user.uid
+                let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
+                let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
+                                    "messages": ["a": true],
+                                    "users": [userId: true,
+                                              self.usersArr[tag].usersKey: true]] as [String : Any]
+                
+                let childUpdates = ["/conversations/\(key)": conversation,
+                                    "/users/\(userId)/conversationId/\(key)/": true] as Dictionary<String, Any>
+                DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                self.performSegue(withIdentifier: "friendsListToConversation", sender: key)
+            }
+            
             self.tappedBtnTags.removeAll()
             self.tableView.reloadData()
             
@@ -274,6 +345,59 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "friendsListToMyProfile", sender: nil)
+    }
+    
+    func refresh(sender: Any) {
+        
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if let value = snap.value {
+                            self.currentFriendsList.updateValue(value, forKey: snap.key)
+                            
+                        }
+                    }
+                }
+            })
+        }
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if self.currentFriendsList.keys.contains(users.usersKey) {
+                            if self.currentFriendsList[users.usersKey] as! String == "received" {
+                                self.usersArr.insert(users, at: 0)
+                            }
+                            else {
+                                self.usersArr.append(users)
+                            }
+                        }
+                        
+                    }
+                }
+                self.filtered = self.usersArr
+            }
+            self.tableView.reloadData()
+        })
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            if self.currentFriendsList.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
     }
     
 }

@@ -301,6 +301,17 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let selectedUser = self.selectedProfile
             performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
             
+        } else if originController == "friendsListToConversation" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                    if lastMsgDate == "" {
+                        DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                        DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                    }
+                }
+            }
+            performSegue(withIdentifier: "conversationToFriendsList", sender: nil)
+            
         } else {
             performSegue(withIdentifier: "conversationToMessages", sender: nil)
         }

@@ -30,6 +30,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var status: Status!
     var selectedStatus: Status!
     var searchText = ""
+    var refreshControl: UIRefreshControl!
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -43,6 +44,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refreshControl = UIRefreshControl()
+        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
@@ -166,10 +173,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-            print("hi")
+            //print("hi")
             return selectedUserStatuses.count
         }
-        print("bye")
+        //print("bye")
         return statusArr.count
     }
     
@@ -179,10 +186,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             status = selectedUserStatuses[indexPath.row]
-            print("hil")
+            //print("hil")
         } else {
             status = statusArr[indexPath.row] // causing index out of range error
-            print("byel")
+            //print("byel")
         }
         
         //status = statusArr[indexPath.row] // causing index out of range error
@@ -261,6 +268,32 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+            // create the alert
+            let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
+                    self.deleted.append(tag)
+                }
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+                
+                //textView.isHidden = true
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }))
+        
         alert.addAction(UIAlertAction(title: "Edit", style: UIAlertActionStyle.default, handler: { action in
             
             //button.isHidden = true
@@ -293,30 +326,15 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             textView.becomeFirstResponder()
         }))
         
-        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-            // create the alert
-            let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Joined", style: UIAlertActionStyle.default, handler: { action in
             
-            // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    DataService.ds.REF_STATUS.child(self.statusArr[tag].statusKey).removeValue()
-                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[tag].statusKey).removeValue()
-                    self.deleted.append(tag)
-                }
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
+            //textView.isHidden = true
+            let statusKey = self.statusArr[tag].statusKey
+            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
+            self.performSegue(withIdentifier: "pastStatusesToJoinedFriends", sender: self.statusArr[tag])
+            self.tappedBtnTags.removeAll()
+            self.tableView.reloadData()
             
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-                
-                //textView.isHidden = true
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
@@ -386,37 +404,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
         }
         //}
-    }
-    
-    func refresh(sender: Any) {
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                self.statusArr.insert(status, at: 0)
-                            }
-                        }
-                        
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        })
-        
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-            profilePicImg.isHidden = false
-            populateProfilePicture(user: viewedProfile)
-        }
-        
-        
     }
     
     func didPressJoinBtn(_ tag: Int) {
@@ -521,6 +508,48 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
         //footerNewFriendIndicator.isHidden = true
+    }
+    
+    func refresh(sender: Any) {
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if status.userId == currentUser {
+                                self.statusArr.insert(status, at: 0)
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+            profilePicImg.isHidden = false
+            populateProfilePicture(user: viewedProfile)
+        }
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+//            if self.statusArr.count == 0 {
+//                self.isEmptyImg.isHidden = false
+//            } else {
+//                self.isEmptyImg.isHidden = true
+//            }
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
+        
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

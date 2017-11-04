@@ -14,6 +14,7 @@ class PastStatusesCell: UITableViewCell {
     
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var menuBtn: UIButton!
@@ -36,6 +37,7 @@ class PastStatusesCell: UITableViewCell {
         
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
+        cityLbl.text = status.city
         numberJoinedLbl.text = "\(status.joinedList.count - 1) Joined"
         if status.joinedList["seen"] as? String == "false" {
             newJoinIndicator.isHidden = false
