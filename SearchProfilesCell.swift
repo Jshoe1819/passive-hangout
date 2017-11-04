@@ -26,15 +26,14 @@ class SearchProfilesCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        addFriendBtn.layer.cornerRadius = 3
+        addFriendBtn.layer.cornerRadius = 8
         addFriendBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
         addFriendBtn.layer.borderWidth = 1
         
-        requestSentBtn.layer.cornerRadius = 3
+        requestSentBtn.layer.cornerRadius = 8
         requestSentBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
         requestSentBtn.layer.borderWidth = 1
         
-        // Initialization code
     }
     
     func configureCell(user: Users, currentUser: Users) {

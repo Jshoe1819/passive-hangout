@@ -45,6 +45,8 @@
 		168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6BE91F4CEA8200D29DCA /* CircleButton.swift */; };
 		168D6BEC1F4CF02500D29DCA /* RoundedPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6BEB1F4CF02500D29DCA /* RoundedPopUp.swift */; };
 		168D6BEE1F4CF7C200D29DCA /* NewStatusTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6BED1F4CF7C200D29DCA /* NewStatusTextView.swift */; };
+		1694BFC71FAD211000887A1E /* MutableCollection+Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1694BFC61FAD211000887A1E /* MutableCollection+Shuffle.swift */; };
+		1694BFC91FAD220600887A1E /* Sequence+Shuffled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1694BFC81FAD220600887A1E /* Sequence+Shuffled.swift */; };
 		16D6A26C1F844D1F007E6ABF /* SegueNoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D6A26B1F844D1F007E6ABF /* SegueNoAnimation.swift */; };
 		16D7AFBE1F7C18FF009F317B /* FriendsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D7AFBD1F7C18FF009F317B /* FriendsListVC.swift */; };
 		16D7AFC21F7C2312009F317B /* FriendsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D7AFC11F7C2312009F317B /* FriendsListCell.swift */; };
@@ -133,6 +135,8 @@
 		168D6BE91F4CEA8200D29DCA /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		168D6BEB1F4CF02500D29DCA /* RoundedPopUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedPopUp.swift; sourceTree = "<group>"; };
 		168D6BED1F4CF7C200D29DCA /* NewStatusTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewStatusTextView.swift; sourceTree = "<group>"; };
+		1694BFC61FAD211000887A1E /* MutableCollection+Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MutableCollection+Shuffle.swift"; sourceTree = "<group>"; };
+		1694BFC81FAD220600887A1E /* Sequence+Shuffled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Shuffled.swift"; sourceTree = "<group>"; };
 		16D6A26B1F844D1F007E6ABF /* SegueNoAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueNoAnimation.swift; sourceTree = "<group>"; };
 		16D7AFBD1F7C18FF009F317B /* FriendsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListVC.swift; sourceTree = "<group>"; };
 		16D7AFC11F7C2312009F317B /* FriendsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCell.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 			isa = PBXGroup;
 			children = (
 				16276E6D1F43AA1C00718CE9 /* Constants.swift */,
+				1694BFC61FAD211000887A1E /* MutableCollection+Shuffle.swift */,
+				1694BFC81FAD220600887A1E /* Sequence+Shuffled.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -709,6 +715,7 @@
 				16213FE31FA4F33E00456028 /* ConversationVC.swift in Sources */,
 				16D7AFC41F7C5D4E009F317B /* FriendsListCellDelegate.swift in Sources */,
 				1616AC201F747B31004865C9 /* EditProfileVC.swift in Sources */,
+				1694BFC71FAD211000887A1E /* MutableCollection+Shuffle.swift in Sources */,
 				16FA95371F8C3E8100E7588B /* SearchProfilesVC.swift in Sources */,
 				16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */,
 				160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */,
@@ -736,6 +743,7 @@
 				16E6231F1F7B08D5001BEDBA /* LeaveFeedbackVC.swift in Sources */,
 				16D8151E1F69F68500934516 /* PastStatusesVC.swift in Sources */,
 				16213FE91FA557BA00456028 /* Messages.swift in Sources */,
+				1694BFC91FAD220600887A1E /* Sequence+Shuffled.swift in Sources */,
 				16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,
 				162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */,

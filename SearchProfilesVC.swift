@@ -19,7 +19,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var hangoutsSearchResults = [Status]()
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
+    var privateArr = [Int]()
     var searchText = ""
+    var refreshControl: UIRefreshControl!
     
     @IBOutlet weak var exploreTableView: UITableView!
     @IBOutlet weak var hangoutsTableView: UITableView!
@@ -35,6 +37,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var topIndicatorView: UIView!
     @IBOutlet weak var profilesIndicatorView: UIView!
     @IBOutlet weak var citiesIndicatorView: UIView!
+    @IBOutlet weak var noResultsLbl: UILabel!
     
     override func viewDidAppear(_ animated: Bool) {
         //code to refresh
@@ -44,6 +47,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         super.viewDidLoad()
         
         //self.segmentChoice.selectedSegmentIndex = 0
+        
+        refreshControl = UIRefreshControl()
+        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(SearchProfilesVC.refresh(sender:)), for: .valueChanged)
+        exploreTableView.addSubview(refreshControl)
         
         exploreTableView.delegate = self
         exploreTableView.dataSource = self
@@ -61,6 +70,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         hangoutsTableView.keyboardDismissMode = .onDrag
         profilesTableView.keyboardDismissMode = .onDrag
         statusesTableView.keyboardDismissMode = .onDrag
+        
+        noResultsLbl.isHidden = true
         
         //searchBar.backgroundImage = UIImage()
         //searchBar.layer.borderWidth = 1.0
@@ -123,9 +134,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.insert(status, at: 0)
+                        //print(status.content)
                     }
                 }
             }
+            self.statusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
         })
@@ -157,7 +170,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                                 self.currentUserInfo = users
                                 
                             }
+                            
                         }
+                        
                         self.usersArr.append(users)
                     }
                 }
@@ -264,6 +279,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 
             })
             
+            if hangoutsSearchResults.count == 0 && searchText != ""{
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
+            
             self.hangoutsTableView.reloadData()
             
         } else if profilesIndicatorView.isHidden == false {
@@ -302,6 +323,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 
             })
             
+            if profileSearchResults.count == 0 && searchText != "" {
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
+            
             self.profilesTableView.reloadData()
             
         } else if citiesIndicatorView.isHidden == false {
@@ -318,6 +345,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 return cityRange.location != NSNotFound
                 
             })
+            
+            if statusSearchResults.count == 0 && searchText != "" {
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
             
             self.statusesTableView.reloadData()
             
@@ -348,8 +381,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //let status = statusArr[indexPath.row]
         if searchActive == false {
             
+            //let shuffled = statusArr[indexPath.row]
+            //print(shuffled.content)
+            //let status = statusArr.shuffled()[indexPath.row]
             let status = statusArr[indexPath.row]
-            
+            //print(status.content)
             if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
                 
                 if let currentUser = Auth.auth().currentUser?.uid {
@@ -379,6 +415,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
+                
+                if cell.isPrivate == true {
+                    privateArr.append(indexPath.row)
+                }
                 
                 return cell
             }
@@ -422,6 +462,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         if profilesIndicatorView.isHidden == false {
             //if results is empty disable scrolling
+            //sort
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
@@ -472,6 +513,28 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         }
         return SearchCityCell()
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if privateArr.contains(indexPath.row) {
+//            return 0
+//        } else {
+//            return UITableViewAutomaticDimension
+//        }
+//    }
+    
+    func mutualFriendsSort(usersArr: [Users]) {
+        for index in 0..<usersArr.count {
+            let arrayKeys = Array(currentUserInfo.friendsList.keys)
+            for friend in 0..<arrayKeys.count {
+                let mutualFriend = usersArr[index].friendsList.keys.contains(arrayKeys[friend])
+                if mutualFriend && arrayKeys[friend] != "seen" {
+                    let element = self.usersArr.remove(at: index)
+                    self.usersArr.insert(element, at: 0)
+                    break
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -724,6 +787,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         profileSearchResults.removeAll()
         
+        mutualFriendsSort(usersArr: usersArr)
+        
         //        segmentChoice.tintColor = UIColor.white
         //        let segAttributes: NSDictionary = [
         //            NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
@@ -897,4 +962,71 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBAction func segmentChoiceBtnPressed(_ sender: Any) {
         //delete
     }
+    
+    func refresh(sender: Any) {
+        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.insert(status, at: 0)
+                    }
+                }
+            }
+            self.statusArr = self.statusArr.shuffled()
+            //change to explore.reload
+            self.exploreTableView.reloadData()
+        })
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
+                                    //self.footerNewFriendIndicator.isHidden = false
+                                }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    //self.footerNewFriendIndicator.isHidden = false
+                                }
+                                self.currentUserInfo = users
+                                
+                            }
+                        }
+                        self.usersArr.append(users)
+                    }
+                }
+            }
+            //change to explire.reload
+            self.exploreTableView.reloadData()
+        })
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+//            if self.statusArr.count == 0 {
+//                self.isEmptyImg.isHidden = false
+//            } else {
+//                self.isEmptyImg.isHidden = true
+//            }
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
 }

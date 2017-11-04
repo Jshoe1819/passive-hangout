@@ -438,6 +438,7 @@ class ViewProfileVC: UIViewController {
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.searchText = searchText
+                    
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
