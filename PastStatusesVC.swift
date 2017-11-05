@@ -13,6 +13,8 @@ import Kingfisher
 
 class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
+    @IBOutlet weak var isEmptyImg: UIImageView!
+    @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cancelEditBtn: UIButton!
     @IBOutlet weak var saveEditBtn: UIButton!
@@ -54,6 +56,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
+        isEmptyImg.isHidden = true
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
@@ -79,6 +83,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
+            nameLbl.text = viewedProfile.name
+            isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
+        } else {
+            self.isEmptyImg.isHidden = (self.statusArr.count == 0) ? false : true
         }
         
     }
@@ -185,9 +193,23 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+//            if selectedUserStatuses.count == 0 {
+//                isEmptyImg.isHidden = false
+//                print("yol")
+//            } else {
+//                print("lol")
+//                isEmptyImg.isHidden = true
+//            }
             status = selectedUserStatuses[indexPath.row]
             //print("hil")
         } else {
+//            if statusArr.count == 0 {
+//                print("yo")
+//                isEmptyImg.isHidden = false
+//            } else {
+//                print("lo")
+//                isEmptyImg.isHidden = true
+//            }
             status = statusArr[indexPath.row] // causing index out of range error
             //print("byel")
         }
@@ -221,6 +243,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     cell.menuBtn.isHidden = true
                     cell.numberJoinedLbl.isHidden = true
                     cell.newJoinIndicator.isHidden = true
+                    
                 }
             }
             

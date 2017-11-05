@@ -19,6 +19,7 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
+    //@IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var privateImg: UIImageView!
     @IBOutlet weak var staticStackView: UIStackView!
     @IBOutlet weak var userInfoStackView: UIStackView!
@@ -68,7 +69,9 @@ class ViewProfileVC: UIViewController {
                             for index in 0..<self.statusArr.count {
                                 if self.statusArr[index].userId == self.selectedProfile.usersKey {
                                     self.lastStatusLbl.text = self.statusArr[index].content
+                                    //self.lastStatusLbl.sizeToFit()
                                     self.statusAgeLbl.text = self.configureTimeAgo(unixTimestamp: self.statusArr[index].postedDate)
+                                    //self.cityLbl.text = status.city
                                     break
                                 }
                             }
