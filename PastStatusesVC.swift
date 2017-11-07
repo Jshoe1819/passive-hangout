@@ -84,9 +84,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
             nameLbl.text = viewedProfile.name
-            isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
+            //isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
         } else {
-            self.isEmptyImg.isHidden = (self.statusArr.count == 0) ? false : true
+            //print("HEY: \(self.statusArr.count)")
+            //self.isEmptyImg.isHidden = (self.statusArr.count == 0) ? false : true
         }
         
     }
@@ -201,6 +202,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
 //                isEmptyImg.isHidden = true
 //            }
             status = selectedUserStatuses[indexPath.row]
+            isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
             //print("hil")
         } else {
 //            if statusArr.count == 0 {
@@ -210,7 +212,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
 //                print("lo")
 //                isEmptyImg.isHidden = true
 //            }
-            status = statusArr[indexPath.row] // causing index out of range error
+            status = statusArr[indexPath.row]
+            isEmptyImg.isHidden = (statusArr.count == 0) ? false : true
+            // causing index out of range error
             //print("byel")
         }
         

@@ -11,6 +11,7 @@
 		160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */; };
 		160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */; };
 		160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160FEC511F40E9E0001799D0 /* FeedCell.swift */; };
+		16114FA11FB13C900094FCA2 /* MsgBubbleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114FA01FB13C900094FCA2 /* MsgBubbleLabel.swift */; };
 		1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1615C1661F658BAB00D3DC01 /* ProfileVC.swift */; };
 		1616AC201F747B31004865C9 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1616AC1F1F747B31004865C9 /* EditProfileVC.swift */; };
 		161D9D401F8EE5C400392A67 /* SearchCityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */; };
@@ -96,6 +97,7 @@
 		160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHeader.swift; sourceTree = "<group>"; };
 		160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedProfilePic.swift; sourceTree = "<group>"; };
 		160FEC511F40E9E0001799D0 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		16114FA01FB13C900094FCA2 /* MsgBubbleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MsgBubbleLabel.swift; sourceTree = "<group>"; };
 		1615C1661F658BAB00D3DC01 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		1616AC1F1F747B31004865C9 /* EditProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCityCell.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				16213FDE1FA4BC4300456028 /* MessagesCell.swift */,
 				16213FE41FA4F3A100456028 /* ConversationCell.swift */,
 				16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */,
+				16114FA01FB13C900094FCA2 /* MsgBubbleLabel.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -708,6 +711,7 @@
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
 				1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */,
 				16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */,
+				16114FA11FB13C900094FCA2 /* MsgBubbleLabel.swift in Sources */,
 				162FF0461F896E5E00A29D7D /* JoinedProfilesListCellDelegate.swift in Sources */,
 				168D6BEE1F4CF7C200D29DCA /* NewStatusTextView.swift in Sources */,
 				16213FE71FA50AF200456028 /* ReceiverMessageColor.swift in Sources */,

@@ -17,6 +17,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var conversationUid = ""
     var originController = ""
     var selectedProfile: Users!
+    var cellHeights = Dictionary<Int,CGFloat>()
     var messagesArr = [Messages]()
     var currentConversation: Conversation!
     var placeholderLabel : UILabel!
@@ -27,6 +28,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var textInputView: ReceiverMessageColor!
+    @IBOutlet weak var footerView: UIView!
+    //@IBOutlet weak var tvHeightContraint: NSLayoutConstraint!
+    @IBOutlet weak var textViewContainerHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +40,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         textView.delegate = self
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 90
+        tableView.estimatedRowHeight = 20
         
         placeholderLabel = UILabel()
         placeholderLabel.text = "Start typing..."
@@ -163,9 +167,14 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let message = messagesArr[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell") as? ConversationCell {
+//            cell.receiverBubble.frame.size.height = 0
+//            cell.receivedMsgAgeLbl.frame.size.height = 0
+//            cell.senderBubble.frame.size.height = 0
+//            cell.sentMsgAgeLbl.frame.size.height = 0
+//            cell.frame.size.height = 0
             
             cell.configureCell(message: message)
-            
+
             if messagesArr.endIndex - 1 == indexPath.row {
                 if let currentUser = Auth.auth().currentUser?.uid {
                     if message.senderuid == currentUser {
@@ -177,13 +186,27 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
+            //cell.layoutIfNeeded()
+            //tableView.layoutSubviews()
             return cell
         } else {
             return ConversationCell()
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if !cellHeights.keys.contains(indexPath.row) {
+            cellHeights[indexPath.row] = cell.frame.height
+        }
+        //cellHeights.append(cell.frame.height)
+        //print("\(indexPath.row): \(cellHeights)")
+    }
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let height = cellHeights[indexPath.row] {
+            return height
+        }
         return UITableViewAutomaticDimension
     }
     
@@ -227,6 +250,34 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
+        //textView.isScrollEnabled = false
+        
+        var frame = textView.frame
+        frame.size.height = textView.contentSize.height
+        textView.frame = frame
+        
+//        if textView.frame.size.height < textView.contentSize.height {
+//            textInputView.frame.origin.y -= (textView.contentSize.height - textView.frame.size.height)
+//            textInputView.frame.size.height += (textView.contentSize.height - textView.frame.size.height)
+//            textView.frame.size.height = textView.contentSize.height
+//        }
+        //print(textView.frame.origin)
+    
+        //textView.frame.size.height = textView.intrinsicContentSize.height
+        //textViewContainerHeightConstraint.constant = textView.frame.size.height + 10
+        //textView.superview?.sizeThatFits(textView.intrinsicContentSize)
+        
+        //tvHeightContraint.constant = textView.contentSize.height
+        //textView.layoutIfNeeded()
+        //let size = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
+//        print(size.height)
+//        print(tvHeightContraint.constant)
+//        print(textView.frame.size.height)
+//        if size.height != tvHeightContraint.constant && size.height > textView.frame.size.height {
+//            tvHeightContraint.constant = size.height
+//            textView.setContentOffset(CGPoint.zero, animated: false)
+//        }
+        //textView.sizeToFit()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -235,9 +286,14 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.tableView.frame.origin.y == 65 {
-                self.tableView.frame.origin.y -= keyboardSize.height - 50
-                self.textInputView.frame.origin.y -= keyboardSize.height - 50
+            if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
+                //print("hi")
+                if self.tableView.frame.origin.y == 65 {
+                    self.tableView.frame.origin.y -= keyboardSize.height - 50
+                    self.textInputView.frame.origin.y -= keyboardSize.height - 50
+                    self.footerView.frame.origin.y -= keyboardSize.height - 50
+                    //print(textView.frame.origin)
+                }
             }
         }
     }
@@ -246,8 +302,21 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if self.tableView.frame.origin.y != 65 {
             self.tableView.frame.origin.y = 65
             self.textInputView.frame.origin.y = 572
+            self.footerView.frame.origin.y = 617
         }
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        
+//        let contentSize = self.textView.sizeThatFits(self.textView.bounds.size)
+//        var frame = self.textView.frame
+//        frame.size.height = contentSize.height
+//        self.textView.frame = frame
+//        
+//        let aspectRatioTextViewConstraint = NSLayoutConstraint(item: self.textView, attribute: .height, relatedBy: .equal, toItem: self.textView, attribute: .width, multiplier: textView.bounds.height/textView.bounds.width, constant: 1)
+//        self.textView.addConstraint(aspectRatioTextViewConstraint)
+//    }
     
     @IBAction func sendBtnPressed(_ sender: Any) {
         guard let messageContent = textView.text, messageContent != "" else {
