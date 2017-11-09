@@ -22,6 +22,7 @@
 		16213FE51FA4F3A100456028 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE41FA4F3A100456028 /* ConversationCell.swift */; };
 		16213FE71FA50AF200456028 /* ReceiverMessageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */; };
 		16213FE91FA557BA00456028 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16213FE81FA557BA00456028 /* Messages.swift */; };
+		1624E5441FB3E0C4003F0796 /* MessagesCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1624E5431FB3E0C4003F0796 /* MessagesCellDelegate.swift */; };
 		16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16276E6D1F43AA1C00718CE9 /* Constants.swift */; };
 		162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */; };
 		162FF0441F8964EC00A29D7D /* JoinedProfilesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */; };
@@ -108,6 +109,7 @@
 		16213FE41FA4F3A100456028 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiverMessageColor.swift; sourceTree = "<group>"; };
 		16213FE81FA557BA00456028 /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		1624E5431FB3E0C4003F0796 /* MessagesCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCellDelegate.swift; sourceTree = "<group>"; };
 		16276E6D1F43AA1C00718CE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		162FF0411F893F7A00A29D7D /* JoinedFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedFriendsVC.swift; sourceTree = "<group>"; };
 		162FF0431F8964EC00A29D7D /* JoinedProfilesListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinedProfilesListCell.swift; sourceTree = "<group>"; };
@@ -290,6 +292,8 @@
 				1675401A1F3E8A2800E86A32 /* SegueFromRightToLeft.swift */,
 				160FEC4D1F40DB5F001799D0 /* CustomHeader.swift */,
 				160FEC4F1F40DDC4001799D0 /* FeedProfilePic.swift */,
+				16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */,
+				16114FA01FB13C900094FCA2 /* MsgBubbleLabel.swift */,
 				160FEC511F40E9E0001799D0 /* FeedCell.swift */,
 				16F3CC3D1F8137820095C210 /* FeedCellDelegate.swift */,
 				168D6BE91F4CEA8200D29DCA /* CircleButton.swift */,
@@ -312,9 +316,8 @@
 				16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */,
 				16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */,
 				16213FDE1FA4BC4300456028 /* MessagesCell.swift */,
+				1624E5431FB3E0C4003F0796 /* MessagesCellDelegate.swift */,
 				16213FE41FA4F3A100456028 /* ConversationCell.swift */,
-				16213FE61FA50AF200456028 /* ReceiverMessageColor.swift */,
-				16114FA01FB13C900094FCA2 /* MsgBubbleLabel.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 				16E6231F1F7B08D5001BEDBA /* LeaveFeedbackVC.swift in Sources */,
 				16D8151E1F69F68500934516 /* PastStatusesVC.swift in Sources */,
 				16213FE91FA557BA00456028 /* Messages.swift in Sources */,
+				1624E5441FB3E0C4003F0796 /* MessagesCellDelegate.swift in Sources */,
 				1694BFC91FAD220600887A1E /* Sequence+Shuffled.swift in Sources */,
 				16276E6E1F43AA1C00718CE9 /* Constants.swift in Sources */,
 				1675401B1F3E8A2800E86A32 /* SegueFromRightToLeft.swift in Sources */,

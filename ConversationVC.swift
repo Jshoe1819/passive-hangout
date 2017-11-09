@@ -361,6 +361,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
                 if self.messagesArr.count > 0 {
                     self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
                     //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
                 }
                 textView.text = ""

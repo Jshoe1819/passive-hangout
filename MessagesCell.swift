@@ -18,6 +18,11 @@ class MessagesCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var messageAgeLbl: UILabel!
     @IBOutlet weak var lastMessageLbl: UILabel!
+    @IBOutlet weak var newMessageView: UIView!
+    @IBOutlet weak var unselectedDeleteBtn: UIButton!
+    @IBOutlet weak var selectedDeleteBtn: UIButton!
+    
+    weak var cellDelegate: MessagesCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,53 +36,53 @@ class MessagesCell: UITableViewCell {
         
         for index in 0..<users.count {
             if let currentUser = Auth.auth().currentUser?.uid {
-            let containsUser = conversation.users.keys.contains(users[index].usersKey) && users[index].usersKey != currentUser
-            if containsUser {
-                self.nameLbl.text = users[index].name
-                if let lastMsgDate = conversation.details["lastMsgDate"] as? Double {
-                    self.messageAgeLbl.text = configureTimeAgo(unixTimestamp: lastMsgDate)
-                }
-                if let lastMsgContent = conversation.details["lastMsgContent"] as? String {
-                    self.lastMessageLbl.text = lastMsgContent
-                }
-                //self.cityLbl.text = status.city
-                
-                ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
-                    if let image = profileImage {
-                        //print("Get image \(image), cacheType: \(cacheType).")
-                        self.profilePicImg.image = image
-                    } else {
-                        print("not in cache")
-                        if users[index].id != "a" {
-                            let profileUrl = URL(string: users[index].profilePicUrl)
-                            let data = try? Data(contentsOf: profileUrl!)
-                            if let profileImage = UIImage(data: data!) {
-                                self.profilePicImg.image = profileImage
-                                //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-                                ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
-                            }
-                            
+                let containsUser = conversation.users.keys.contains(users[index].usersKey) && users[index].usersKey != currentUser
+                if containsUser {
+                    self.nameLbl.text = users[index].name
+                    if let lastMsgDate = conversation.details["lastMsgDate"] as? Double {
+                        self.messageAgeLbl.text = configureTimeAgo(unixTimestamp: lastMsgDate)
+                    }
+                    if let lastMsgContent = conversation.details["lastMsgContent"] as? String {
+                        self.lastMessageLbl.text = lastMsgContent
+                    }
+                    //self.cityLbl.text = status.city
+                    
+                    ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
+                        if let image = profileImage {
+                            //print("Get image \(image), cacheType: \(cacheType).")
+                            self.profilePicImg.image = image
                         } else {
-                            let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
-                            profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-                                if error != nil {
-                                    //print("JAKE: unable to download image from storage")
-                                } else {
-                                    //print("JAKE: image downloaded from storage")
-                                    if let imageData = data {
-                                        if let profileImage = UIImage(data: imageData) {
-                                            self.profilePicImg.image = profileImage
-                                            //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
-                                            ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
+                            print("not in cache")
+                            if users[index].id != "a" {
+                                let profileUrl = URL(string: users[index].profilePicUrl)
+                                let data = try? Data(contentsOf: profileUrl!)
+                                if let profileImage = UIImage(data: data!) {
+                                    self.profilePicImg.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
+                                }
+                                
+                            } else {
+                                let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
+                                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                                    if error != nil {
+                                        //print("JAKE: unable to download image from storage")
+                                    } else {
+                                        //print("JAKE: image downloaded from storage")
+                                        if let imageData = data {
+                                            if let profileImage = UIImage(data: imageData) {
+                                                self.profilePicImg.image = profileImage
+                                                //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                                ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
+                                            }
                                         }
                                     }
-                                }
-                            })
+                                })
+                            }
                         }
                     }
                 }
             }
-        }
         }
         
     }
@@ -128,6 +133,27 @@ class MessagesCell: UITableViewCell {
             return ("a few seconds ago")
         }
     }
+    @IBAction func unselectedDeleteBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressUnselectedDeleteBtn(self.tag)
+        unselectedDeleteBtn.isHidden = true
+        selectedDeleteBtn.isHidden = false
+    }
+    @IBAction func selectedDeleteBtnPressed(_ sender: UIButton) {
+        cellDelegate?.didPressSelectedDeleteBtn(self.tag)
+        unselectedDeleteBtn.isHidden = false
+        selectedDeleteBtn.isHidden = true
+    }
+    //    @IBAction func unselectedDeleteBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressUnselectedDeleteBtn(self.tag)
+    //        unselectedDeleteBtn.isHidden = true
+    //        selectedDeleteBtn.isHidden = false
+    //    }
+    //
+    //    @IBAction func selectedDeleteBtnPressed(_ sender: UIButton) {
+    //        cellDelegate?.didPressSelectedDeleteBtn(self.tag)
+    //        unselectedDeleteBtn.isHidden = false
+    //        selectedDeleteBtn.isHidden = true
+    //    }
     
     
 }
