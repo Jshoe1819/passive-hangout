@@ -32,6 +32,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var shiftView: UIView!
     @IBOutlet weak var tvHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textViewContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         textView.delegate = self
         
+        tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 30
         
@@ -254,8 +257,22 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         textView.isScrollEnabled = false
+        
+        
+        if let font = textView.font {
+            //            print(textView.contentSize.height)
+            //            print(font.lineHeight)
+            //            print(textView.contentSize.height / font.lineHeight)
+            
+            if textView.contentSize.height / font.lineHeight >= 5 {
+                //print("yoooooo")
+                textView.isScrollEnabled = true
+                textView.showsVerticalScrollIndicator = false
+                return
+            }
+        }
         textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
-        print(textInputView.frame.height)
+        //print(textInputView.frame.height)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -263,30 +280,51 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        print("hi")
+        //print("hi")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
                 //print("hi")
-                if self.tableView.frame.origin.y == 75 {
-                    self.tableView.frame.origin.y -= keyboardSize.height - 50
-                    self.textInputView.frame.origin.y -= keyboardSize.height - 50
-                    self.footerView.frame.origin.y -= keyboardSize.height - 50
+                if self.tableView.frame.origin.y == 65 {
+                    
+                    
+                    self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+                    //self.tableViewBottomConstraint.constant = keyboardSize.height
+                    
+                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardSize.height - 50, 0)
+                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+                    UIView.animate(withDuration: 1) {
+                        //print("hey")
+                        self.view.layoutIfNeeded()
+                    }
+                    
+                    //self.tableView.frame.origin.y -= keyboardSize.height - 50 - textInputView.frame.height
+                    //self.tableViewBottomConstraint.constant = 2
+                    //self.textInputView.frame.origin.y -= keyboardSize.height - 50
+                    //self.footerView.frame.origin.y -= keyboardSize.height - 50
                     //print(textView.frame.origin)
                 }
             } else {
-                self.textInputView.frame.origin.y -= keyboardSize.height - 50
-                self.footerView.frame.origin.y -= keyboardSize.height - 50
+                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+                UIView.animate(withDuration: 1) {
+                    //print("hey")
+                    self.view.layoutIfNeeded()
+                }
+                //self.textInputView.frame.origin.y -= keyboardSize.height - 50
+                //self.footerView.frame.origin.y -= keyboardSize.height - 50
             }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if self.tableView.frame.origin.y != 75 {
-            print("bye")
-            self.tableView.frame.origin.y = 75
-            self.textInputView.frame.origin.y = 569
-            self.footerView.frame.origin.y = 617
-        }
+        //if self.tableView.frame.origin.y != 75 {
+        //print("bye")
+        //self.tableView.frame.origin.y = 65
+        self.textViewContainerBottomConstraint.constant = 0
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        //self.textInputView.frame.origin.y = 569
+        //self.footerView.frame.origin.y = 617
+        //}
+        //}
     }
     
     //    override func viewDidLayoutSubviews() {
@@ -307,7 +345,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if let messageContent = textView.text {
-            print("JAKE: \(messageContent)")
+            //print("JAKE: \(messageContent)")
             if let user = Auth.auth().currentUser {
                 let userId = user.uid
                 let key = DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").childByAutoId().key

@@ -4796,7 +4796,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="39" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uxu-PC-NvI">
-                                <rect key="frame" x="0.0" y="75" width="375" height="492"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="502"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -4942,7 +4942,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7a-45-Ey4">
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7a-45-Ey4">
                                         <rect key="frame" x="326" y="8.5" width="34" height="32"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
                                         <state key="normal" title="Send">
@@ -4974,7 +4974,7 @@
                             <constraint firstAttribute="trailing" secondItem="uxu-PC-NvI" secondAttribute="trailing" id="JOp-9e-6Xz"/>
                             <constraint firstAttribute="trailing" secondItem="3pQ-Oz-ZR4" secondAttribute="trailing" id="Ndw-cD-mmf"/>
                             <constraint firstItem="uxu-PC-NvI" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="QLr-7N-PBr"/>
-                            <constraint firstItem="uxu-PC-NvI" firstAttribute="top" secondItem="3pQ-Oz-ZR4" secondAttribute="bottom" constant="10" id="YzR-KY-edI"/>
+                            <constraint firstItem="uxu-PC-NvI" firstAttribute="top" secondItem="3pQ-Oz-ZR4" secondAttribute="bottom" id="YzR-KY-edI"/>
                             <constraint firstItem="3pQ-Oz-ZR4" firstAttribute="top" secondItem="uEq-tj-IBb" secondAttribute="top" id="ccs-N5-4Ol"/>
                             <constraint firstItem="Izp-Yi-aE7" firstAttribute="top" secondItem="8k0-Pe-poz" secondAttribute="bottom" id="n4Y-gK-fSt"/>
                             <constraint firstItem="8k0-Pe-poz" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="oz4-6N-aY1"/>
@@ -4988,8 +4988,10 @@
                         <outlet property="nameLbl" destination="s1D-je-CaX" id="HdA-oO-ifI"/>
                         <outlet property="profilePicImg" destination="9rA-7i-JPa" id="xcC-km-zgv"/>
                         <outlet property="tableView" destination="uxu-PC-NvI" id="QUV-fY-e5J"/>
+                        <outlet property="tableViewBottomConstraint" destination="2Cz-AK-z2n" id="mUl-y4-f6q"/>
                         <outlet property="textInputView" destination="8k0-Pe-poz" id="CVK-sr-rQL"/>
                         <outlet property="textView" destination="mar-2c-Oy7" id="82Y-CO-SEI"/>
+                        <outlet property="textViewContainerBottomConstraint" destination="n4Y-gK-fSt" id="V4l-Wm-E8m"/>
                         <outlet property="textViewContainerHeightConstraint" destination="ef4-Mh-AB6" id="9ZA-VZ-Osl"/>
                         <segue destination="bXL-p8-wqX" kind="show" identifier="conversationToMessages" animates="NO" id="adL-Uz-ymj"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="conversationToFeed" animates="NO" id="hRN-vk-2wK"/>
