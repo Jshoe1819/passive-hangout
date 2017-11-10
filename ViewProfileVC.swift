@@ -52,6 +52,11 @@ class ViewProfileVC: UIViewController {
             self.backBtn.isHidden = true
         }
         
+        seePastStatusesBtn.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
+        sendMessageBtn.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
+        publicAddFriendBtn.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
+        privateAddFriendBtn.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
+        removeFriendBtn.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observe(.value, with: { (snapshot) in
             

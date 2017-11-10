@@ -16,6 +16,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var opaqueStatusBackground: UIButton!
+    @IBOutlet weak var editHangoutView: RoundedPopUp!
+    @IBOutlet weak var editHangoutTextview: NewStatusTextView!
+    @IBOutlet weak var editCityTextfield: UITextField!
+    @IBOutlet weak var characterCountLbl: UILabel!
     @IBOutlet weak var cancelEditBtn: UIButton!
     @IBOutlet weak var saveEditBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
@@ -24,6 +29,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     var statusArr = [Status]()
     var tappedBtnTags = [Int]()
+    var hangoutContentArr = Dictionary<Int, String>()
+    var hangoutCityArr = Dictionary<Int, String>()
+    var selectedHangout: Int!
     var deleted = [Int]()
     var originController = ""
     var selectedUserStatuses = [Status]()
@@ -32,11 +40,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var status: Status!
     var selectedStatus: Status!
     var searchText = ""
+    var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillShow, object: nil)
     }
@@ -46,6 +55,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         tableView.delegate = self
         tableView.dataSource = self
+        editHangoutTextview.delegate = self
         
         refreshControl = UIRefreshControl()
         //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -55,6 +65,21 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
+        
+        placeholderLabel = UILabel()
+        placeholderLabel.text = EMPTY_STATUS_STRING
+        placeholderLabel.font = UIFont(name: "AvenirNext-UltralightItalic", size: 16)
+        editHangoutTextview.addSubview(placeholderLabel)
+        //placeholderLabel.preferredMaxLayoutWidth = CGFloat(tableView.frame.width)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (editHangoutTextview.font?.pointSize)! / 2)
+        placeholderLabel.textColor = UIColor.white
+        //placeholderLabel.lineBreakMode = .byWordWrapping
+        //placeholderLabel.numberOfLines = 0
+        placeholderLabel.sizeToFit()
+        placeholderLabel.isHidden = !editHangoutTextview.text.isEmpty
+        
+        editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
+                                                                     attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
         isEmptyImg.isHidden = true
         
@@ -267,6 +292,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 //print("\(tappedBtnTags)")
             }
             
+            if !hangoutContentArr.keys.contains(indexPath.row) {
+                hangoutContentArr[indexPath.row] = cell.contentLbl.text
+            }
+            
+            if !hangoutCityArr.keys.contains(indexPath.row) {
+                hangoutCityArr[indexPath.row] = cell.cityLbl.text
+            }
+            
             //disable cell clicking
             //cell.selectionStyle = UITableViewCellSelectionStyle.none
             
@@ -284,6 +317,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+            return false
+        }
+        
         return true
     }
     
@@ -295,11 +333,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-//                if let currentUser = Auth.auth().currentUser?.uid {
-//                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
-//                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
-//                    self.deleted.append(indexPath.row)
-//                }
+                //                if let currentUser = Auth.auth().currentUser?.uid {
+                //                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
+                //                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
+                //                    self.deleted.append(indexPath.row)
+                //                }
                 print("DELETED \(indexPath.row)")
                 self.tappedBtnTags.removeAll()
                 self.tableView.reloadData()
@@ -323,8 +361,29 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             tableView.setEditing(true, animated: true)
             if tableView.isEditing == true{
                 //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
+                //textView.becomefirstresponder
+                //self.backBtn.isHidden = true
+                //self.saveEditBtn.isHidden = false
+                //self.cancelEditBtn.isHidden = false
+                
+                self.placeholderLabel.isHidden = true
+                self.editHangoutView.isHidden = false
+                self.opaqueStatusBackground.isHidden = false
+                
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.view.layoutIfNeeded()
+                })
+                self.editHangoutTextview.becomeFirstResponder()
+                self.editHangoutTextview.text = self.hangoutContentArr[indexPath.row]
+                self.editCityTextfield.text = self.hangoutCityArr[indexPath.row]
+                self.selectedHangout = indexPath.row
+                self.characterCountLbl.text = "\(self.editHangoutTextview.text.characters.count) / \(CHARACTER_LIMIT) characters used"
+                
             }else{
                 //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
+                //resignfirstresponder
+                
+                
             }
             print(indexPath.row)
             
@@ -332,6 +391,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         editAction.backgroundColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         
         return [deleteAction, editAction]
+    }
+    
+    func storeInfo(hangoutContent: String) {
+        //let text = hangoutContent
+        //textview.text = text
     }
     
     func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton) {
@@ -448,6 +512,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+        characterCountLbl.text = "\(textView.text.characters.count) / \(CHARACTER_LIMIT) characters used"
         self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
     }
     
@@ -465,31 +531,31 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         return updatedText.characters.count <= CHARACTER_LIMIT
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.tableView.frame.origin.y == 67{
-                //print("h: \(maximumY - keyboardSize.minY)")
-                if maximumY > (keyboardSize.minY) { //causing unwrapped nil fail
-                    //print("entering")
-                    self.tableView.isScrollEnabled = false
-                    //print(keyboardSize.minY)
-                    self.tableView.frame.origin.y -= (maximumY - keyboardSize.minY)
-                    
-                }
-            }
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        //if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-        if self.tableView.frame.origin.y != 67{
-            self.tableView.isScrollEnabled = true
-            //print(keyboardSize.minY)
-            self.tableView.frame.origin.y = 67
-            
-        }
-        //}
-    }
+    //    func keyboardWillShow(notification: NSNotification) {
+    //        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+    //            if self.tableView.frame.origin.y == 67{
+    //                //print("h: \(maximumY - keyboardSize.minY)")
+    //                if maximumY > (keyboardSize.minY) { //causing unwrapped nil fail
+    //                    //print("entering")
+    //                    self.tableView.isScrollEnabled = false
+    //                    //print(keyboardSize.minY)
+    //                    self.tableView.frame.origin.y -= (maximumY - keyboardSize.minY)
+    //
+    //                }
+    //            }
+    //        }
+    //    }
+    //
+    //    func keyboardWillHide(notification: NSNotification) {
+    //        //if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+    //        if self.tableView.frame.origin.y != 67{
+    //            self.tableView.isScrollEnabled = true
+    //            //print(keyboardSize.minY)
+    //            self.tableView.frame.origin.y = 67
+    //
+    //        }
+    //        //}
+    //    }
     
     func didPressJoinBtn(_ tag: Int) {
         //print("I have pressed a join button with a tag: \(tag)")
@@ -546,32 +612,81 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
     }
     
-    @IBAction func saveEditBtnPressed(_ sender: UIButton) {
+    //    @IBAction func saveEditBtnPressed(_ sender: UIButton) {
+    //
+    ////        if let text = sender.layer.value(forKey: "text") {
+    ////            if let tag = sender.layer.value(forKey: "tag") as? Int {
+    ////                DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
+    ////                //print("TAG: \(tag), TEXT: \(text)")
+    ////                hideKeyboard()
+    ////                backBtn.isHidden = false
+    ////                cancelEditBtn.isHidden = true
+    ////                saveEditBtn.isHidden = true
+    ////                refresh(sender: "")
+    ////                tappedBtnTags.removeAll()
+    ////                tableView.reloadData()
+    ////            }
+    ////        }
+    //        self.backBtn.isHidden = false
+    //        self.saveEditBtn.isHidden = true
+    //        self.cancelEditBtn.isHidden = true
+    //        self.editHangoutView.isHidden = true
+    //        self.opaqueStatusBackground.isHidden = true
+    //        self.editHangoutTextview.resignFirstResponder()
+    //        self.editHangoutTextview.text = ""
+    //        self.editCityTextfield.text = ""
+    //        tableView.reloadData()
+    //
+    //    }
+    @IBAction func saveEditBtnPressed(_ sender: Any) {
         
-        if let text = sender.layer.value(forKey: "text") {
-            if let tag = sender.layer.value(forKey: "tag") as? Int {
-                DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[tag].statusKey)/content": text])
-                //print("TAG: \(tag), TEXT: \(text)")
-                hideKeyboard()
-                backBtn.isHidden = false
-                cancelEditBtn.isHidden = true
-                saveEditBtn.isHidden = true
-                refresh(sender: "")
-                tappedBtnTags.removeAll()
-                tableView.reloadData()
-            }
+        guard let statusContent = editHangoutTextview.text, statusContent != "" else {
+            return
         }
         
+        if let newCity = editCityTextfield.text {
+            
+            print("\(statusArr[selectedHangout].statusKey): content: \(statusContent)")
+            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[selectedHangout].statusKey)/content": statusContent])
+            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[selectedHangout].statusKey)/city": newCity])
+            self.backBtn.isHidden = false
+            //self.saveEditBtn.isHidden = true
+            //self.cancelEditBtn.isHidden = true
+            self.editHangoutView.isHidden = true
+            self.opaqueStatusBackground.isHidden = true
+            self.editHangoutTextview.resignFirstResponder()
+            self.editHangoutTextview.text = ""
+            self.editCityTextfield.text = ""
+            refresh(sender: self)
+            //tableView.reloadData()
+        }
     }
-    
-    @IBAction func cancelEditBtnPressed(_ sender: UIButton) {
-        hideKeyboard()
-        backBtn.isHidden = false
-        cancelEditBtn.isHidden = true
-        saveEditBtn.isHidden = true
+    @IBAction func cancelEditBtnPressed(_ sender: Any) {
+        self.backBtn.isHidden = false
+        //self.saveEditBtn.isHidden = true
+        //self.cancelEditBtn.isHidden = true
+        self.editHangoutView.isHidden = true
+        self.opaqueStatusBackground.isHidden = true
+        self.editHangoutTextview.resignFirstResponder()
+        self.editHangoutTextview.text = ""
+        self.editCityTextfield.text = ""
         tappedBtnTags.removeAll()
         tableView.reloadData()
     }
+    
+    
+    //    @IBAction func cancelEditBtnPressed(_ sender: UIButton) {
+    //        self.backBtn.isHidden = false
+    //        self.saveEditBtn.isHidden = true
+    //        self.cancelEditBtn.isHidden = true
+    //        self.editHangoutView.isHidden = true
+    //        self.opaqueStatusBackground.isHidden = true
+    //        self.editHangoutTextview.resignFirstResponder()
+    //        self.editHangoutTextview.text = ""
+    //        self.editCityTextfield.text = ""
+    //        tappedBtnTags.removeAll()
+    //        tableView.reloadData()
+    //    }
     
     @IBAction func backBtnPressed(_ sender: Any) {
         

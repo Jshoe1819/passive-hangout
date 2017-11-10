@@ -2149,31 +2149,152 @@
                                     <constraint firstItem="Hd6-gk-Llg" firstAttribute="centerX" secondItem="VCx-Cl-ByB" secondAttribute="centerX" id="z4D-NB-olS"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ht1-w5-ZgD">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="cancelEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="Pgw-cA-lda"/>
+                                    <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Pjq-mC-4WG"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wd2-iH-dXQ" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
+                                <rect key="frame" x="20" y="70" width="335" height="325"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Hangout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tbj-2l-Wv5">
+                                        <rect key="frame" x="112" y="5" width="110.5" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="Dpb-Xe-OPf"/>
+                                            <constraint firstAttribute="height" constant="25" id="O65-FD-7Ey"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JuI-wF-wnD">
+                                        <rect key="frame" x="309" y="6" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="JPs-0z-Rv6"/>
+                                            <constraint firstAttribute="width" constant="20" id="sBw-An-mNF"/>
+                                        </constraints>
+                                        <state key="normal" image="clear-field-button">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="LAt-am-cPz"/>
+                                            <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="8Ry-Pl-yN0"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" directionalLockEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryS-vg-f4S" customClass="NewStatusTextView" customModule="passive_hangout" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="77.5" width="295" height="85"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="85" id="k9R-24-LtS"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                    </textView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1A4-V1-7vu">
+                                        <rect key="frame" x="25" y="184.5" width="285" height="22"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PuL-dv-w6X">
+                                        <rect key="frame" x="20" y="277" width="42" height="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="yeE-6B-ztJ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-UltraLightItalic" family="Avenir Next" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgY-VU-6yA">
+                                        <rect key="frame" x="215" y="259" width="100" height="36"/>
+                                        <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="GCw-ME-N1A"/>
+                                            <constraint firstAttribute="height" constant="36" id="h1m-57-KkS"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <state key="normal" title="Save Edit">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="saveEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="isI-Cp-JVL"/>
+                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="cxa-59-10G"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="ryS-vg-f4S" secondAttribute="bottom" multiplier="12:6" id="03R-p5-0sG"/>
+                                    <constraint firstItem="ryS-vg-f4S" firstAttribute="leading" secondItem="wd2-iH-dXQ" secondAttribute="leading" constant="20" id="2fQ-s3-rYJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="IgY-VU-6yA" secondAttribute="bottom" multiplier="11:10" id="Ja1-Qr-XF8"/>
+                                    <constraint firstAttribute="bottom" secondItem="1A4-V1-7vu" secondAttribute="bottom" multiplier="11:7" id="KRe-pZ-MOp"/>
+                                    <constraint firstItem="PuL-dv-w6X" firstAttribute="leading" secondItem="wd2-iH-dXQ" secondAttribute="leading" constant="20" id="Mey-2R-ekX"/>
+                                    <constraint firstAttribute="trailing" secondItem="IgY-VU-6yA" secondAttribute="trailing" constant="20" id="OI7-dZ-h4O"/>
+                                    <constraint firstItem="Tbj-2l-Wv5" firstAttribute="top" secondItem="wd2-iH-dXQ" secondAttribute="top" constant="5" id="S19-lD-7LI"/>
+                                    <constraint firstAttribute="trailing" secondItem="JuI-wF-wnD" secondAttribute="trailing" constant="6" id="Z8z-TV-CpL"/>
+                                    <constraint firstAttribute="trailing" secondItem="1A4-V1-7vu" secondAttribute="trailing" constant="25" id="ZcB-Kn-d2m"/>
+                                    <constraint firstItem="1A4-V1-7vu" firstAttribute="leading" secondItem="wd2-iH-dXQ" secondAttribute="leading" constant="25" id="daZ-vx-DhC"/>
+                                    <constraint firstItem="JuI-wF-wnD" firstAttribute="top" secondItem="wd2-iH-dXQ" secondAttribute="top" constant="6" id="iTC-Bw-EjL"/>
+                                    <constraint firstAttribute="trailing" secondItem="ryS-vg-f4S" secondAttribute="trailing" constant="20" id="r55-OX-9WP"/>
+                                    <constraint firstItem="IgY-VU-6yA" firstAttribute="centerY" secondItem="PuL-dv-w6X" secondAttribute="centerY" id="unJ-vj-9ge"/>
+                                    <constraint firstItem="Tbj-2l-Wv5" firstAttribute="centerX" secondItem="wd2-iH-dXQ" secondAttribute="centerX" id="v1B-9w-Dj0"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jLL-9n-deZ" firstAttribute="top" secondItem="ht1-w5-ZgD" secondAttribute="bottom" id="6oQ-sB-2RG"/>
                             <constraint firstAttribute="trailing" secondItem="VCx-Cl-ByB" secondAttribute="trailing" id="9mk-Ik-mfK"/>
+                            <constraint firstAttribute="trailing" secondItem="ht1-w5-ZgD" secondAttribute="trailing" id="Fmt-3I-g8J"/>
                             <constraint firstItem="VCx-Cl-ByB" firstAttribute="top" secondItem="DLX-wi-CyU" secondAttribute="top" id="GEK-W9-Syj"/>
                             <constraint firstItem="ROa-L5-LRh" firstAttribute="top" secondItem="3x9-4d-n9W" secondAttribute="bottom" id="In8-Vb-YPA"/>
                             <constraint firstItem="VCx-Cl-ByB" firstAttribute="leading" secondItem="DLX-wi-CyU" secondAttribute="leading" id="Ipi-ZT-bPG"/>
                             <constraint firstItem="wTg-4t-upB" firstAttribute="bottom" secondItem="3x9-4d-n9W" secondAttribute="bottom" id="MaT-U3-wm5"/>
+                            <constraint firstItem="jLL-9n-deZ" firstAttribute="top" secondItem="wd2-iH-dXQ" secondAttribute="bottom" constant="272" id="QcZ-eK-i5C"/>
                             <constraint firstItem="jLL-9n-deZ" firstAttribute="top" secondItem="ROa-L5-LRh" secondAttribute="bottom" id="ZfB-VL-xU8"/>
                             <constraint firstItem="3x9-4d-n9W" firstAttribute="leading" secondItem="DLX-wi-CyU" secondAttribute="leading" id="Zp6-Tg-Qwu"/>
                             <constraint firstItem="ROa-L5-LRh" firstAttribute="leading" secondItem="DLX-wi-CyU" secondAttribute="leading" id="bRT-kI-tlH"/>
+                            <constraint firstAttribute="trailing" secondItem="wd2-iH-dXQ" secondAttribute="trailing" constant="20" id="cVU-y3-iMc"/>
+                            <constraint firstItem="ht1-w5-ZgD" firstAttribute="top" secondItem="DLX-wi-CyU" secondAttribute="top" id="cVr-cP-oyX"/>
                             <constraint firstAttribute="trailing" secondItem="ROa-L5-LRh" secondAttribute="trailing" id="cpA-ab-JXc"/>
                             <constraint firstItem="wTg-4t-upB" firstAttribute="trailing" secondItem="3x9-4d-n9W" secondAttribute="trailing" id="dsa-KD-eFc"/>
                             <constraint firstItem="wTg-4t-upB" firstAttribute="top" secondItem="3x9-4d-n9W" secondAttribute="top" id="eWd-G2-71v"/>
+                            <constraint firstItem="ht1-w5-ZgD" firstAttribute="leading" secondItem="DLX-wi-CyU" secondAttribute="leading" id="eqc-iZ-i0G"/>
                             <constraint firstItem="3x9-4d-n9W" firstAttribute="top" secondItem="VCx-Cl-ByB" secondAttribute="bottom" constant="2" id="lYS-Pj-cAk"/>
                             <constraint firstItem="wTg-4t-upB" firstAttribute="leading" secondItem="3x9-4d-n9W" secondAttribute="leading" id="mv3-sI-tpp"/>
+                            <constraint firstItem="wd2-iH-dXQ" firstAttribute="top" secondItem="VCx-Cl-ByB" secondAttribute="bottom" constant="5" id="oKn-UM-j0i"/>
+                            <constraint firstItem="wd2-iH-dXQ" firstAttribute="leading" secondItem="DLX-wi-CyU" secondAttribute="leading" constant="20" id="xdx-z9-In6"/>
                             <constraint firstAttribute="trailing" secondItem="3x9-4d-n9W" secondAttribute="trailing" id="zeq-rd-Yxd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backBtn" destination="KGB-XA-Uwg" id="rp6-w1-gva"/>
                         <outlet property="cancelEditBtn" destination="lUu-fb-gT7" id="L5p-Sv-c4T"/>
+                        <outlet property="characterCountLbl" destination="PuL-dv-w6X" id="zLr-Bf-OxR"/>
+                        <outlet property="editCityTextfield" destination="1A4-V1-7vu" id="IcE-X3-y1z"/>
+                        <outlet property="editHangoutTextview" destination="ryS-vg-f4S" id="FXe-zh-xZh"/>
+                        <outlet property="editHangoutView" destination="wd2-iH-dXQ" id="hFL-B8-DMP"/>
                         <outlet property="footerNewFriendIndicator" destination="ijk-6R-gqA" id="ZyH-9O-U7E"/>
                         <outlet property="isEmptyImg" destination="wTg-4t-upB" id="PH7-qf-Wq6"/>
                         <outlet property="nameLbl" destination="Hd6-gk-Llg" id="RcB-sY-I4c"/>
+                        <outlet property="opaqueStatusBackground" destination="ht1-w5-ZgD" id="V6n-ZJ-QBp"/>
                         <outlet property="profilePicImg" destination="OT7-MI-x2g" id="CN8-pR-2ZT"/>
                         <outlet property="saveEditBtn" destination="okc-sa-w97" id="h0c-2z-W9s"/>
                         <outlet property="tableView" destination="3x9-4d-n9W" id="PNa-2K-ZaR"/>
@@ -3019,7 +3140,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                                 <state key="normal" title="Past Hangouts">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="seePastStatusesBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="a9q-Vt-2Vo"/>
@@ -3033,7 +3154,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                                 <state key="normal" title="Send Message">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.64313725489999995" green="0.83529411760000005" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="sendMessageBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="wQ0-PU-Tfh"/>
@@ -5046,16 +5167,16 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="tvf-Vx-V8c"/>
-        <segue reference="lPd-Em-nqx"/>
-        <segue reference="DY3-QO-UuQ"/>
-        <segue reference="pdT-dH-DV6"/>
-        <segue reference="Fz5-tL-9gQ"/>
+        <segue reference="pO3-lh-m1g"/>
+        <segue reference="tfq-Mk-6Zo"/>
+        <segue reference="PTq-OX-4io"/>
+        <segue reference="yYZ-zz-Uql"/>
+        <segue reference="9ga-VY-kxp"/>
+        <segue reference="3dF-EC-wDu"/>
+        <segue reference="f74-MD-8qo"/>
+        <segue reference="Yry-oZ-Wzs"/>
+        <segue reference="MTP-dR-lnk"/>
         <segue reference="W4L-ij-kOw"/>
-        <segue reference="Zl1-hz-g1g"/>
-        <segue reference="D0t-Q4-6I8"/>
-        <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="Q2u-Op-EZN"/>
-        <segue reference="agh-4t-wA8"/>
+        <segue reference="FDh-cr-2VA"/>
     </inferredMetricsTieBreakers>
 </document>
