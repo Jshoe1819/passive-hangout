@@ -38,7 +38,7 @@ class FeedCell: UITableViewCell {
     func configureCell(status: Status, users: [Users]) {
         
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
-        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
+        //statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {

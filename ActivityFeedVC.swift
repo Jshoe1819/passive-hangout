@@ -28,6 +28,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var textView: NewStatusTextView!
     @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var newStatusView: RoundedPopUp!
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
@@ -218,8 +219,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func newStatusBtn(_ sender: Any) {
-        statusPopupBottomConstraint.constant = 272
+        newStatusView.isHidden = false
         statusPopupTopConstraint.constant = 5
+        statusPopupBottomConstraint.constant = 272
+        //statusPopupTopConstraint.constant = 5
         opaqueStatusBackground.isHidden = false
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -241,6 +244,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.textView.text = ""
             self.cityTextField.text = self.userCity
         })
+        newStatusView.isHidden = true
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -296,12 +300,16 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     opaqueStatusBackground.isHidden = true
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.layoutIfNeeded()
-                        self.textView.resignFirstResponder()
-                        self.characterCountLbl.isHidden = true
-                        self.textView.text = ""
-                        self.cityTextField.text = self.userCity
+//                        self.textView.resignFirstResponder()
+//                        self.characterCountLbl.isHidden = true
+//                        self.textView.text = ""
+//                        self.cityTextField.text = self.userCity
                     })
-                    
+                    self.textView.resignFirstResponder()
+                    self.characterCountLbl.isHidden = true
+                    self.textView.text = ""
+                    self.cityTextField.text = self.userCity
+                    newStatusView.isHidden = true
                 }
             }
         }
@@ -418,6 +426,13 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
+            
+            if self.statusArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
+            
             self.tableView.reloadData()
         })
         
@@ -460,11 +475,11 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-            if self.statusArr.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
-            }
+//            if self.statusArr.count == 0 {
+//                self.isEmptyImg.isHidden = false
+//            } else {
+//                self.isEmptyImg.isHidden = true
+//            }
             // Your code with delay
             self.refreshControl.endRefreshing()
         }

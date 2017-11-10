@@ -23,7 +23,15 @@ class FriendsListCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        approveBtn.layer.cornerRadius = 8
+        approveBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
+        //addFriendBtn.layer.borderWidth = 1
+        
+        ignoreBtn.layer.cornerRadius = 8
+        //requestSentBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
+        //requestSentBtn.layer.borderWidth = 1
+        
     }
     
     func configureCell(friendsList: Dictionary<String, Any>, users: Users) {

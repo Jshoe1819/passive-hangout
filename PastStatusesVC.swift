@@ -291,7 +291,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (rowAction, indexPath) in
             //TODO: Delete the row at indexPath here
-            let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Delete Hangout", message: "Are you sure you would like to delete this hangout?", preferredStyle: UIAlertControllerStyle.alert)
             
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
@@ -320,7 +320,14 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         
         let editAction = UITableViewRowAction(style: .normal, title: " Edit ") { (rowAction, indexPath) in
+            tableView.setEditing(true, animated: true)
+            if tableView.isEditing == true{
+                //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
+            }else{
+                //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
+            }
             print(indexPath.row)
+            
         }
         editAction.backgroundColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         

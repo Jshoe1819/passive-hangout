@@ -14,6 +14,8 @@ import FirebaseStorage
 
 class SearchCityCell: UITableViewCell {
     
+    var isPrivate = false
+    
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
@@ -32,11 +34,14 @@ class SearchCityCell: UITableViewCell {
     
     func configureCell(status: Status, users: [Users]) {
         
-        //        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+                profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
+                if users[index].isPrivate == true {
+                    isPrivate = true
+                }
                 self.nameLbl.text = users[index].name
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                 self.numberJoinedLbl.text = ("\(status.joinedNumber) Joined")
@@ -127,6 +132,10 @@ class SearchCityCell: UITableViewCell {
         } else {
             return ("a few seconds ago")
         }
+    }
+    
+    func imageTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressProfilePic(self.tag)
     }
     
     

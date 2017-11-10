@@ -14,6 +14,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     var usersArr = [Users]()
     var statusArr = [Status]()
+    var shuffledStatusArr = [Status]()
     var currentUserInfo: Users!
     var searchActive = false
     var hangoutsSearchResults = [Status]()
@@ -138,7 +139,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
             }
-            self.statusArr = self.statusArr.shuffled()
+            
+            self.shuffledStatusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
         })
@@ -188,6 +190,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         searchActive = true
         exploreTableView.isHidden = true
         
+        privateArr = []
+        
         searchOptionsStackView.isHidden = false
         bottomSeparatorView.isHidden = false
         if topChoiceBtn.isEnabled == false {
@@ -221,6 +225,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         topIndicatorView.isHidden = true
         profilesIndicatorView.isHidden = true
         citiesIndicatorView.isHidden = true
+        
+        noResultsLbl.isHidden = true
         
         hangoutsSearchResults.removeAll()
         profileSearchResults.removeAll()
@@ -364,7 +370,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive == false {
-            return statusArr.count
+            return shuffledStatusArr.count
         } else if topIndicatorView.isHidden == false {
             return hangoutsSearchResults.count
         } else if profilesIndicatorView.isHidden == false {
@@ -384,7 +390,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             //let shuffled = statusArr[indexPath.row]
             //print(shuffled.content)
             //let status = statusArr.shuffled()[indexPath.row]
-            let status = statusArr[indexPath.row]
+            let status = shuffledStatusArr[indexPath.row]
             //print(status.content)
             if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
                 
@@ -417,6 +423,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.configureCell(status: status, users: usersArr)
                 
                 if cell.isPrivate == true {
+                    cell.isHidden = true
                     privateArr.append(indexPath.row)
                 }
                 
@@ -456,6 +463,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
+                
+                if cell.isPrivate == true {
+                    cell.isHidden = true
+                    privateArr.append(indexPath.row)
+                }
+                
                 return cell
             }
             
@@ -466,6 +479,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
+                
+//                profilesTableView.rowHeight = UITableViewAutomaticDimension
+//                profilesTableView.estimatedRowHeight = 120
+                
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
@@ -508,6 +525,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
+                
+                if cell.isPrivate == true {
+                    cell.isHidden = true
+                    privateArr.append(indexPath.row)
+                }
+                
                 return cell
             }
             
@@ -515,13 +538,15 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         return SearchCityCell()
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if privateArr.contains(indexPath.row) {
-//            return 0
-//        } else {
-//            return UITableViewAutomaticDimension
-//        }
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if privateArr.contains(indexPath.row) {
+            return 0
+        } else if profilesIndicatorView.isHidden == false {
+            return 84
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
     
     func mutualFriendsSort(usersArr: [Users]) {
         for index in 0..<usersArr.count {
@@ -538,51 +563,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let currentUser = Auth.auth().currentUser?.uid {
-            
-            if searchActive == false {
-                let userKey = statusArr[indexPath.row].userId
-                if userKey == currentUser {
-                    return
-                }
-                
-                for index in 0..<usersArr.count {
-                    if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                    }
-                }
-                
-            } else if topIndicatorView.isHidden == false {
-                let userKey = hangoutsSearchResults[indexPath.row].userId
-                if userKey == currentUser {
-                    return
-                }
-                
-                for index in 0..<usersArr.count {
-                    if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                    }
-                }
-                
-            } else if profilesIndicatorView.isHidden == false {
-                let selectedProfile = profileSearchResults[indexPath.row]
-                performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                
-            } else if citiesIndicatorView.isHidden == false {
-                let userKey = statusSearchResults[indexPath.row].userId
-                if userKey == currentUser {
-                    return
-                }
-                
-                for index in 0..<usersArr.count {
-                    if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                    }
-                }
-            }
+        if profilesIndicatorView.isHidden == false {
+            let selectedProfile = profileSearchResults[indexPath.row]
+            performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
         }
     }
     
@@ -627,13 +610,64 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     //        }
     //    }
     
+    func didPressProfilePic(_ tag: Int) {
+        if let currentUser = Auth.auth().currentUser?.uid {
+            
+            if searchActive == false {
+                let userKey = shuffledStatusArr[tag].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+                
+            } else if topIndicatorView.isHidden == false {
+                let userKey = hangoutsSearchResults[tag].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+                
+            }
+                //            else if profilesIndicatorView.isHidden == false {
+                //                let selectedProfile = profileSearchResults[tag]
+                //                performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                //
+                //            }
+            else if citiesIndicatorView.isHidden == false {
+                let userKey = statusSearchResults[tag].userId
+                if userKey == currentUser {
+                    return
+                }
+                
+                for index in 0..<usersArr.count {
+                    if userKey == usersArr[index].usersKey {
+                        let selectedProfile = usersArr[index]
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                    }
+                }
+            }
+        }
+    }
+    
     func didPressJoinBtn(_ tag: Int) {
         if let currentUser = Auth.auth().currentUser?.uid {
             
             if searchActive == false {
                 
-                let statusKey = statusArr[tag].statusKey
-                let userKey = statusArr[tag].userId
+                let statusKey = shuffledStatusArr[tag].statusKey
+                let userKey = shuffledStatusArr[tag].userId
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
@@ -666,7 +700,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if searchActive == false {
                 
-                let statusKey = statusArr[tag].statusKey
+                let statusKey = shuffledStatusArr[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
                 
@@ -727,6 +761,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         statusesTableView.isHidden = true
         
         hangoutsSearchResults.removeAll()
+        privateArr = []
         usersArr.append(currentUserInfo)
         
         if let searchText = searchBar.text {
@@ -786,7 +821,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         profileSearchResults.removeAll()
-        
+        privateArr = []
         mutualFriendsSort(usersArr: usersArr)
         
         //        segmentChoice.tintColor = UIColor.white
@@ -887,7 +922,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         profilesTableView.isHidden = true
         statusesTableView.isHidden = false
         
+        //noResultsLbl.isHidden = true
+        
         statusSearchResults.removeAll()
+        privateArr = []
         usersArr.append(currentUserInfo)
         
         if let searchText = searchBar.text {
@@ -1019,11 +1057,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-//            if self.statusArr.count == 0 {
-//                self.isEmptyImg.isHidden = false
-//            } else {
-//                self.isEmptyImg.isHidden = true
-//            }
+            //            if self.statusArr.count == 0 {
+            //                self.isEmptyImg.isHidden = false
+            //            } else {
+            //                self.isEmptyImg.isHidden = true
+            //            }
             // Your code with delay
             self.refreshControl.endRefreshing()
         }

@@ -20,6 +20,7 @@ class ProfileVC: UIViewController{
     var statusArr = [Status]()
     var selectedStatus: Status!
     
+    @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
@@ -39,6 +40,7 @@ class ProfileVC: UIViewController{
                 //print("USERS: \(snapshot)")
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
+                    self.nameLbl.text = user.name
                     self.populateProfilePicture(user: user)
                     //print(user.cover["source"])
                     self.populateCoverPicture(user: user)

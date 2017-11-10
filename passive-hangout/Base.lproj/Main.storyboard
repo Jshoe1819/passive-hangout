@@ -781,7 +781,7 @@
                                     <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="EV1-jn-WqC"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w44-Cq-hBs" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w44-Cq-hBs" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="20" y="745" width="335" height="247"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Hangout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sU4-ZB-BdP">
@@ -819,7 +819,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                     </textView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="nDN-qA-IKk">
-                                        <rect key="frame" x="25" y="135" width="285" height="22"/>
+                                        <rect key="frame" x="25" y="135.5" width="285" height="22"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -847,7 +847,7 @@
                                         </connections>
                                     </button>
                                     <segmentedControl hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="n8P-QR-I1X">
-                                        <rect key="frame" x="50" y="129" width="235" height="29"/>
+                                        <rect key="frame" x="50" y="129.5" width="235" height="29"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="5oT-Jm-ekJ"/>
@@ -1053,6 +1053,7 @@
                         <outlet property="isEmptyImg" destination="tAG-3I-TPu" id="2hT-MK-WDL"/>
                         <outlet property="lastUpdatedIndicatorImg" destination="Jle-Bz-PN6" id="oaz-vq-vgZ"/>
                         <outlet property="nameIndicatorImg" destination="Eq4-ko-1ar" id="zgX-Pt-xO2"/>
+                        <outlet property="newStatusView" destination="w44-Cq-hBs" id="d24-cM-4v5"/>
                         <outlet property="opaqueStatusBackground" destination="4R2-Va-DNM" id="ObW-wo-6il"/>
                         <outlet property="sortPopUpBottomConstraint" destination="4Da-6s-5bS" id="DWA-ZS-hL5"/>
                         <outlet property="statusPopupBottomConstraint" destination="OhL-sz-0aG" id="RPu-1R-hST"/>
@@ -1086,7 +1087,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r54-p5-UAD" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev5-Ka-Vnz">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ev5-Ka-Vnz">
                                         <rect key="frame" x="149.5" y="33" width="76" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="Ff3-cM-se8"/>
@@ -1578,6 +1579,7 @@
                         <outlet property="coverImg" destination="8ez-BK-hwo" id="xHd-tp-Gi7"/>
                         <outlet property="footerNewFriendIndicator" destination="VlO-y7-s8o" id="GUi-NJ-VM5"/>
                         <outlet property="lastStatusLbl" destination="zg9-B4-h0U" id="CfP-nl-Bj5"/>
+                        <outlet property="nameLbl" destination="Ev5-Ka-Vnz" id="V7t-F9-OaL"/>
                         <outlet property="numberJoinedLbl" destination="urf-y4-VEq" id="TjQ-G9-FpN"/>
                         <outlet property="pastStatusesIndicator" destination="WXj-xJ-baM" id="qI5-UW-bSe"/>
                         <outlet property="profileImg" destination="5nj-Vw-9DL" id="r1q-rJ-n0h"/>
@@ -3799,7 +3801,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KcT-n1-tUf" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KcT-n1-tUf" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="18.5" width="51" height="51"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
@@ -3879,7 +3881,7 @@
                                                 <constraint firstItem="tPg-g5-U5n" firstAttribute="top" secondItem="wUv-ge-xrs" secondAttribute="topMargin" constant="2" id="5kb-9K-5Gz"/>
                                                 <constraint firstItem="tPg-g5-U5n" firstAttribute="leading" secondItem="KcT-n1-tUf" secondAttribute="trailing" constant="10" id="Am3-pD-2aQ"/>
                                                 <constraint firstItem="D5l-fe-SPf" firstAttribute="bottom" secondItem="6jT-Cz-qHZ" secondAttribute="bottom" id="IMb-d4-Y59"/>
-                                                <constraint firstItem="CDp-SE-fTZ" firstAttribute="top" secondItem="tPg-g5-U5n" secondAttribute="bottom" constant="3.5" id="Ils-8p-Gjb"/>
+                                                <constraint firstItem="CDp-SE-fTZ" firstAttribute="top" secondItem="tPg-g5-U5n" secondAttribute="bottom" priority="750" constant="3.5" id="Ils-8p-Gjb"/>
                                                 <constraint firstItem="HfX-o0-ist" firstAttribute="leading" secondItem="tPg-g5-U5n" secondAttribute="leading" id="LXe-9h-6bh"/>
                                                 <constraint firstItem="yEY-iL-FdA" firstAttribute="top" secondItem="HfX-o0-ist" secondAttribute="bottom" constant="3.5" id="MXB-81-OyN"/>
                                                 <constraint firstItem="KcT-n1-tUf" firstAttribute="top" secondItem="wUv-ge-xrs" secondAttribute="top" constant="18.5" id="PQk-pr-r7S"/>
@@ -3925,7 +3927,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qhE-iH-WP6" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qhE-iH-WP6" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="18.5" width="51" height="51"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
@@ -4014,7 +4016,7 @@
                                                 <constraint firstItem="BI8-Zl-v0t" firstAttribute="leading" secondItem="qhE-iH-WP6" secondAttribute="trailing" constant="10" id="U2Q-RH-Lpm"/>
                                                 <constraint firstItem="LUB-nb-cqg" firstAttribute="bottom" secondItem="rFJ-Xg-cQ9" secondAttribute="bottom" id="VMt-Rw-EtW"/>
                                                 <constraint firstAttribute="trailing" secondItem="shR-LV-xz0" secondAttribute="trailing" id="aPA-in-1wo"/>
-                                                <constraint firstItem="CNi-3C-Ngn" firstAttribute="top" secondItem="wXi-m0-GOJ" secondAttribute="bottom" constant="3.5" id="fF5-bm-iWs"/>
+                                                <constraint firstItem="CNi-3C-Ngn" firstAttribute="top" secondItem="wXi-m0-GOJ" secondAttribute="bottom" priority="750" constant="3.5" id="fF5-bm-iWs"/>
                                                 <constraint firstItem="LUB-nb-cqg" firstAttribute="trailing" secondItem="rFJ-Xg-cQ9" secondAttribute="trailing" id="fJc-63-Odx"/>
                                                 <constraint firstItem="rgU-nl-bqX" firstAttribute="centerY" secondItem="BI8-Zl-v0t" secondAttribute="centerY" id="nqC-yH-GZG"/>
                                                 <constraint firstItem="wXi-m0-GOJ" firstAttribute="leading" secondItem="qhE-iH-WP6" secondAttribute="trailing" constant="10" id="o3Q-Sj-jUR"/>
@@ -4186,7 +4188,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hsU-Im-ETq" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hsU-Im-ETq" customClass="FeedProfilePic" customModule="passive_hangout" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="18.5" width="51" height="51"/>
                                                     <gestureRecognizers/>
                                                     <constraints>
@@ -4273,7 +4275,7 @@
                                                 <constraint firstItem="jNc-gl-TK4" firstAttribute="top" secondItem="Tlb-Bj-DUV" secondAttribute="top" id="N8N-1g-u91"/>
                                                 <constraint firstItem="GLk-cz-AGE" firstAttribute="centerY" secondItem="CpC-QY-kIO" secondAttribute="centerY" id="SAD-0g-jQv"/>
                                                 <constraint firstItem="GLk-cz-AGE" firstAttribute="leading" secondItem="CpC-QY-kIO" secondAttribute="trailing" constant="10" id="VXB-tU-03F"/>
-                                                <constraint firstItem="sIB-Hb-173" firstAttribute="top" secondItem="CpC-QY-kIO" secondAttribute="bottom" constant="3.5" id="WhH-mn-Whg"/>
+                                                <constraint firstItem="sIB-Hb-173" firstAttribute="top" secondItem="CpC-QY-kIO" secondAttribute="bottom" priority="750" constant="3.5" id="WhH-mn-Whg"/>
                                                 <constraint firstItem="Tlb-Bj-DUV" firstAttribute="leading" secondItem="sIB-Hb-173" secondAttribute="trailing" constant="10" id="Yb7-67-T6s"/>
                                                 <constraint firstAttribute="bottom" secondItem="GOY-Fv-oR6" secondAttribute="bottom" id="ch4-Mf-TDK"/>
                                                 <constraint firstAttribute="trailing" secondItem="GOY-Fv-oR6" secondAttribute="trailing" id="gmA-cc-HdU"/>
@@ -5043,17 +5045,17 @@
         <image name="sort-button" width="19" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="v6I-qg-3qN"/>
-        <segue reference="adL-Uz-ymj"/>
-        <segue reference="Zl1-hz-g1g"/>
-        <segue reference="UQZ-Az-aT1"/>
-        <segue reference="D0t-Q4-6I8"/>
         <segue reference="cdL-qi-TmD"/>
+        <segue reference="tvf-Vx-V8c"/>
         <segue reference="lPd-Em-nqx"/>
+        <segue reference="DY3-QO-UuQ"/>
+        <segue reference="pdT-dH-DV6"/>
+        <segue reference="Fz5-tL-9gQ"/>
+        <segue reference="W4L-ij-kOw"/>
+        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="D0t-Q4-6I8"/>
         <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="uf7-H6-dOj"/>
         <segue reference="Q2u-Op-EZN"/>
         <segue reference="agh-4t-wA8"/>
-        <segue reference="y9G-P1-8je"/>
     </inferredMetricsTieBreakers>
 </document>

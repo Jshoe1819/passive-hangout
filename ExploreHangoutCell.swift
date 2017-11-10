@@ -34,7 +34,7 @@ class ExploreHangoutCell: UITableViewCell {
     
     func configureCell(status: Status, users: [Users]) {
         
-        //        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+                profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
         
         for index in 0..<users.count {
@@ -134,6 +134,9 @@ class ExploreHangoutCell: UITableViewCell {
         }
     }
     
+    func imageTapped(_ sender: UITapGestureRecognizer) {
+        cellDelegate?.didPressProfilePic(self.tag)
+    }
     
     @IBAction func joinBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressJoinBtn(self.tag)
