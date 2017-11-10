@@ -10,31 +10,28 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MessagesCellDelegate {
+class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     var usersArr = [Users]()
     var conversationArr = [Conversation]()
-    var selectedUids = Dictionary<Int,String>()
-    var editSelected = false
-
+    var searchResults = [Users]()
+//    var currentUser: Users!
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var cancelBtn: UIButton!
-    @IBOutlet weak var editBtn: UIButton!
-    @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        editBtn.isHidden = false
-        cancelBtn.isHidden = true
-        deleteBtn.isHidden = true
         
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        
+        searchBar.keyboardAppearance = .dark
+        tableView.keyboardDismissMode = .onDrag
+        
         
         DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observe(.value, with: { (snapshot) in
             
@@ -48,7 +45,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
                             let userConversation = conversation.users.keys.contains(currentUser)
-                            if userConversation {
+                            if userConversation && conversation.users[currentUser] as? Bool == true {
                                 self.conversationArr.insert(conversation, at: 0)
                             }
                         }
@@ -56,11 +53,11 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
             //change to explore.reload
-//            for index in 0..<self.conversationArr.count {
-//                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
-//            print(lastMsgDate)
-//                }
-//            }
+            //            for index in 0..<self.conversationArr.count {
+            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
+            //            print(lastMsgDate)
+            //                }
+            //            }
             self.tableView.reloadData()
         })
         
@@ -88,19 +85,21 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                 if newJoin {
                                     //self.footerNewFriendIndicator.isHidden = false
                                 }
+                                //self.currentUser = users
                             }
                         }
                         self.usersArr.append(users)
                     }
                 }
+                self.searchResults = self.usersArr
             }
             self.tableView.reloadData()
         })
         
-
+        
     }
-
-
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -112,30 +111,79 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let conversation = conversationArr[indexPath.row]
-        let users = usersArr
+        let users = searchResults
         
-         if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {
-            
-            if editSelected == true {
-                cell.newMessageView.isHidden = true
-                cell.selectedDeleteBtn.isHidden = true
-                cell.unselectedDeleteBtn.isHidden = false
-            } else {
-                cell.selectedDeleteBtn.isHidden = true
-                cell.unselectedDeleteBtn.isHidden = true
-            }
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {
             
             cell.configureCell(conversation: conversation, users: users)
+            
+            //            let userDeleted = !currentUser.conversationId.keys.contains(conversation.conversationKey)
+            //
+            //            if userDeleted {
+            //                cell.isHidden = true
+            //            }
+            
             cell.selectionStyle = .none
             return cell
-         } else {
+        } else {
             return MessagesCell()
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DataService.ds.REF_CONVERSATION.child("\(conversationArr[indexPath.row].conversationKey)/messages").updateChildValues(["read" : true])
         let selectedConversation = conversationArr[indexPath.row].conversationKey
         performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            print(indexPath.row)
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_CONVERSATION.child(conversationArr[indexPath.row].conversationKey).child("users").updateChildValues([currentUser : false])
+            }
+            
+            
+            //delete conversation from user node
+            // handle delete (by removing the data from your array and updating the tableview)
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.becomeFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        searchResults = usersArr.filter({ (user) -> Bool in
+            
+            if searchText == "" {
+                return true
+            }
+            
+            let nameCheck = user.name as NSString
+            let contentRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+            
+            return contentRange.location != NSNotFound
+            
+        })
+        self.tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -144,42 +192,6 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 nextVC.conversationUid = sender as! String
             }
         }
-    }
-    @IBAction func editBtnPressed(_ sender: Any) {
-        editBtn.isHidden = true
-        backBtn.isHidden = true
-        cancelBtn.isHidden = false
-        deleteBtn.isHidden = false
-        
-        editSelected = true
-        tableView.reloadData()
-        
-    }
-    @IBAction func cancelBtnPressed(_ sender: Any) {
-        editBtn.isHidden = false
-        backBtn.isHidden = false
-        cancelBtn.isHidden = true
-        deleteBtn.isHidden = true
-        
-        selectedUids.removeAll()
-        editSelected = false
-        tableView.reloadData()
-        
-    }
-    @IBAction func deleteBtnPressed(_ sender: Any) {
-        print("deleted \(selectedUids)")
-    }
-    
-    func didPressSelectedDeleteBtn(_ tag: Int) {
-        selectedUids.removeValue(forKey: tag)
-        print(selectedUids)
-    }
-    
-    func didPressUnselectedDeleteBtn(_ tag: Int) {
-        print("hi")
-        selectedUids[tag] = self.conversationArr[tag].conversationKey
-        print(selectedUids)
-        
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {

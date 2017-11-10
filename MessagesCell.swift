@@ -14,22 +14,23 @@ import FirebaseStorage
 
 class MessagesCell: UITableViewCell {
     
+    var hideCell = false
+    
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var messageAgeLbl: UILabel!
     @IBOutlet weak var lastMessageLbl: UILabel!
     @IBOutlet weak var newMessageView: UIView!
-    @IBOutlet weak var unselectedDeleteBtn: UIButton!
-    @IBOutlet weak var selectedDeleteBtn: UIButton!
-    
-    weak var cellDelegate: MessagesCellDelegate?
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
     func configureCell(conversation: Conversation, users: [Users]) {
+        
+        
+        newMessageView.isHidden = true
         
         //        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
@@ -44,6 +45,12 @@ class MessagesCell: UITableViewCell {
                     }
                     if let lastMsgContent = conversation.details["lastMsgContent"] as? String {
                         self.lastMessageLbl.text = lastMsgContent
+                    }
+                    if let read = conversation.messages["read"] as? Bool {
+                        if !read {
+                            newMessageView.isHidden = false
+                            self.lastMessageLbl.font = UIFont(name: "AvenirNext-Medium", size: 14)
+                        }
                     }
                     //self.cityLbl.text = status.city
                     
@@ -133,27 +140,5 @@ class MessagesCell: UITableViewCell {
             return ("a few seconds ago")
         }
     }
-    @IBAction func unselectedDeleteBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressUnselectedDeleteBtn(self.tag)
-        unselectedDeleteBtn.isHidden = true
-        selectedDeleteBtn.isHidden = false
-    }
-    @IBAction func selectedDeleteBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressSelectedDeleteBtn(self.tag)
-        unselectedDeleteBtn.isHidden = false
-        selectedDeleteBtn.isHidden = true
-    }
-    //    @IBAction func unselectedDeleteBtnPressed(_ sender: UIButton) {
-    //        cellDelegate?.didPressUnselectedDeleteBtn(self.tag)
-    //        unselectedDeleteBtn.isHidden = true
-    //        selectedDeleteBtn.isHidden = false
-    //    }
-    //
-    //    @IBAction func selectedDeleteBtnPressed(_ sender: UIButton) {
-    //        cellDelegate?.didPressSelectedDeleteBtn(self.tag)
-    //        unselectedDeleteBtn.isHidden = false
-    //        selectedDeleteBtn.isHidden = true
-    //    }
-    
-    
+        
 }

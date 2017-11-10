@@ -37,8 +37,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillShow, object: nil)
     }
     
     override func viewDidLoad() {
@@ -194,24 +194,24 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-//            if selectedUserStatuses.count == 0 {
-//                isEmptyImg.isHidden = false
-//                print("yol")
-//            } else {
-//                print("lol")
-//                isEmptyImg.isHidden = true
-//            }
+            //            if selectedUserStatuses.count == 0 {
+            //                isEmptyImg.isHidden = false
+            //                print("yol")
+            //            } else {
+            //                print("lol")
+            //                isEmptyImg.isHidden = true
+            //            }
             status = selectedUserStatuses[indexPath.row]
             isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
             //print("hil")
         } else {
-//            if statusArr.count == 0 {
-//                print("yo")
-//                isEmptyImg.isHidden = false
-//            } else {
-//                print("lo")
-//                isEmptyImg.isHidden = true
-//            }
+            //            if statusArr.count == 0 {
+            //                print("yo")
+            //                isEmptyImg.isHidden = false
+            //            } else {
+            //                print("lo")
+            //                isEmptyImg.isHidden = true
+            //            }
             status = statusArr[indexPath.row]
             isEmptyImg.isHidden = (statusArr.count == 0) ? false : true
             // causing index out of range error
@@ -274,6 +274,57 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         } else {
             return PastStatusesCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //perform joinedlist segue
+        //        DataService.ds.REF_CONVERSATION.child("\(conversationArr[indexPath.row].conversationKey)/messages").updateChildValues(["read" : true])
+        //        let selectedConversation = conversationArr[indexPath.row].conversationKey
+        //        performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (rowAction, indexPath) in
+            //TODO: Delete the row at indexPath here
+            let alert = UIAlertController(title: "Delete Status", message: "Are you sure you would like to delete this status?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+//                if let currentUser = Auth.auth().currentUser?.uid {
+//                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
+//                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
+//                    self.deleted.append(indexPath.row)
+//                }
+                print("DELETED \(indexPath.row)")
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+                
+                //textView.isHidden = true
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        deleteAction.backgroundColor = UIColor.red
+        
+        
+        let editAction = UITableViewRowAction(style: .normal, title: " Edit ") { (rowAction, indexPath) in
+            print(indexPath.row)
+        }
+        editAction.backgroundColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
+        
+        return [deleteAction, editAction]
     }
     
     func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton) {
@@ -567,11 +618,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-//            if self.statusArr.count == 0 {
-//                self.isEmptyImg.isHidden = false
-//            } else {
-//                self.isEmptyImg.isHidden = true
-//            }
+            //            if self.statusArr.count == 0 {
+            //                self.isEmptyImg.isHidden = false
+            //            } else {
+            //                self.isEmptyImg.isHidden = true
+            //            }
             // Your code with delay
             self.refreshControl.endRefreshing()
         }

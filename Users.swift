@@ -14,6 +14,7 @@ class Users {
     private var _cover: Dictionary<String, Any>!
     private var _email: String!
     private var _id: String!
+    private var _conversationId: Dictionary<String, Any>!
     private var _name: String!
     private var _statusId: Dictionary<String, Any>!
     private var _friendsList: Dictionary<String, Any>!
@@ -37,6 +38,10 @@ class Users {
     
     var id: String {
         return _id
+    }
+    
+    var conversationId: Dictionary<String, Any> {
+        return _conversationId
     }
     
     var name: String {
@@ -84,10 +89,11 @@ class Users {
     }
     
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>, joinedList: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
+    init(cover: Dictionary<String, Any>, email: String, id: String, conversationId: Dictionary<String, Any>, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>, joinedList: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
         self._cover = cover
         self._email = email
         self._id = id
+        self._conversationId = conversationId
         self._name = name
         self._statusId = statusId
         self._friendsList = friendsList
@@ -115,6 +121,10 @@ class Users {
         
         if let id = usersData["id"] as? String {
             self._id = id
+        }
+        
+        if let conversationId = usersData["conversationId"] as? Dictionary<String, Any> {
+            self._conversationId = conversationId
         }
         
         if let name = usersData["name"] as? String {

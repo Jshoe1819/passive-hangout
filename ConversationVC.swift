@@ -158,6 +158,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
         }
         
+        DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["read" : true])
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -356,8 +358,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //let childUpdates = ["/status/\(key)": status,
                 // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
-                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message])
+                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, "read" : false])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
+                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/users").updateChildValues([userId : true,selectedProfile.usersKey : true])
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
                 if self.messagesArr.count > 0 {
                     self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
