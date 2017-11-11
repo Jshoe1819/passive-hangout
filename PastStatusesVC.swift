@@ -28,6 +28,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     
     var statusArr = [Status]()
+    var usersArr = [Users]()
     var tappedBtnTags = [Int]()
     var hangoutContentArr = Dictionary<Int, String>()
     var hangoutCityArr = Dictionary<Int, String>()
@@ -99,6 +100,33 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                             }
                         }
                         
+                    }
+                }
+            }
+            self.tableView.reloadData()
+        })
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if answer && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                            }
+                        }
+                        self.usersArr.append(users)
                     }
                 }
             }
@@ -254,7 +282,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.menuBtn.tag = indexPath.row
             cell.textView.isHidden = true
             cell.contentLbl.isHidden = false
-            cell.configureCell(status: status)
+            cell.configureCell(status: status, users: usersArr)
             
             if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
                 //cell.configureCell(status: selectedUserStatuses[indexPath.row])
@@ -269,6 +297,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                         cell.joinBtn.isHidden = false
                         cell.alreadyJoinedBtn.isHidden = true
                     }
+                    cell.profilePicsView.isHidden = true
                     cell.menuBtn.isHidden = true
                     cell.numberJoinedLbl.isHidden = true
                     cell.newJoinIndicator.isHidden = true
@@ -333,11 +362,12 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-                //                if let currentUser = Auth.auth().currentUser?.uid {
-                //                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
-                //                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
-                //                    self.deleted.append(indexPath.row)
-                //                }
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
+                    //self.deleted.append(indexPath.row)
+                }
+                self.refresh(sender: self)
                 print("DELETED \(indexPath.row)")
                 self.tappedBtnTags.removeAll()
                 self.tableView.reloadData()

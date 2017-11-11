@@ -9,6 +9,8 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
+import Kingfisher
 
 class PastStatusesCell: UITableViewCell {
     
@@ -17,6 +19,9 @@ class PastStatusesCell: UITableViewCell {
     @IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var contentLbl: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var profilePicsView: UIView!
+    @IBOutlet weak var firstProfilePicImg: FeedProfilePic!
+    @IBOutlet weak var secondProfilePicImg: FeedProfilePic!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var alreadyJoinedBtn: UIButton!
@@ -31,9 +36,45 @@ class PastStatusesCell: UITableViewCell {
         
     }
     
-    func configureCell(status: Status) {
+    func configureCell(status: Status, users: [Users]) {
         
         numberJoinedLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(numberJoinedTapped(_:))))
+        profilePicsView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(numberJoinedTapped(_:))))
+        
+        //need to add populate picture function
+        var joinedListArr = status.joinedList
+        joinedListArr.removeValue(forKey: "seen")
+        //print(status.content)
+        //print(joinedListArr)
+        if joinedListArr.count == 0 {
+            populateProfPicGeneric(url: "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png")
+        } else {
+            
+            let shuffledJoined = joinedListArr.keys.shuffled()
+            
+            if shuffledJoined.count >= 2 {
+                for index in 0..<users.count {
+                    if shuffledJoined[0] == users[index].usersKey {
+                        populateProfPic1(user: users[index])
+                    } else if shuffledJoined[1] == users[index].usersKey {
+                        populateProfPic2(user: users[index])
+                    }
+                    //populateProfPic(user: users[index])
+                    //print(shuffledJoined[index])
+                    //print(shuffledJoined[index])
+                    //assign pics
+                }
+            } else {
+                for index in 0..<users.count {
+                    if shuffledJoined[0] == users[index].usersKey {
+                        populateProfPic2(user: users[index])
+                        break
+                    }
+                }
+                populateProfPicOneGeneric(url: "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png")
+                //assign one pic and one blank
+            }
+        }
         
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
@@ -42,10 +83,143 @@ class PastStatusesCell: UITableViewCell {
         if status.joinedList["seen"] as? String == "false" {
             newJoinIndicator.isHidden = false
         }
-//        if status.available == false {
-//            joinBtn.isEnabled = false
-//        }
         
+    }
+    
+    func populateProfPic1(user: Users) {
+        
+        ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.firstProfilePicImg.image = image
+            } else {
+                print("not in cache")
+                if user.id != "a" {
+                    let profileUrl = URL(string: user.profilePicUrl)
+                    let data = try? Data(contentsOf: profileUrl!)
+                    if let profileImage = UIImage(data: data!) {
+                        self.firstProfilePicImg.image = profileImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                    }
+                    
+                } else {
+                    let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                    profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let profileImage = UIImage(data: imageData) {
+                                    self.firstProfilePicImg.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func populateProfPic2(user: Users) {
+        
+        ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.secondProfilePicImg.image = image
+            } else {
+                print("not in cache")
+                if user.id != "a" {
+                    let profileUrl = URL(string: user.profilePicUrl)
+                    let data = try? Data(contentsOf: profileUrl!)
+                    if let profileImage = UIImage(data: data!) {
+                        self.secondProfilePicImg.image = profileImage
+                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                        ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                    }
+                    
+                } else {
+                    let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
+                    profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                        if error != nil {
+                            //print("JAKE: unable to download image from storage")
+                        } else {
+                            //print("JAKE: image downloaded from storage")
+                            if let imageData = data {
+                                if let profileImage = UIImage(data: imageData) {
+                                    self.secondProfilePicImg.image = profileImage
+                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                    ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    func populateProfPicGeneric(url: String) {
+        
+        ImageCache.default.retrieveImage(forKey: url, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.firstProfilePicImg.image = image
+                self.secondProfilePicImg.image = image
+            } else {
+                print("not in cache")
+                let profPicRef = Storage.storage().reference(forURL: url)
+                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        //print("JAKE: unable to download image from storage")
+                    } else {
+                        //print("JAKE: image downloaded from storage")
+                        if let imageData = data {
+                            if let profileImage = UIImage(data: imageData) {
+                                self.firstProfilePicImg.image = profileImage
+                                self.secondProfilePicImg.image = profileImage
+                                //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                ImageCache.default.store(profileImage, forKey: url)
+                            }
+                        }
+                    }
+                })
+                
+            }
+        }
+    }
+    
+    func populateProfPicOneGeneric(url: String) {
+        
+        ImageCache.default.retrieveImage(forKey: url, options: nil) { (profileImage, cacheType) in
+            if let image = profileImage {
+                //print("Get image \(image), cacheType: \(cacheType).")
+                self.firstProfilePicImg.image = image
+                //self.secondProfilePicImg.image = image
+            } else {
+                print("not in cache")
+                let profPicRef = Storage.storage().reference(forURL: url)
+                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                    if error != nil {
+                        //print("JAKE: unable to download image from storage")
+                    } else {
+                        //print("JAKE: image downloaded from storage")
+                        if let imageData = data {
+                            if let profileImage = UIImage(data: imageData) {
+                                self.firstProfilePicImg.image = profileImage
+                                //self.secondProfilePicImg.image = profileImage
+                                //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
+                                ImageCache.default.store(profileImage, forKey: url)
+                            }
+                        }
+                    }
+                })
+                
+            }
+        }
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
