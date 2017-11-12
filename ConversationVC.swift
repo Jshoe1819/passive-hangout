@@ -17,6 +17,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var conversationUid = ""
     var originController = ""
     var selectedProfile: Users!
+    var keyboardHeight: CGFloat!
     var cellHeights = Dictionary<Int,CGFloat>()
     var messagesArr = [Messages]()
     var currentConversation: Conversation!
@@ -46,7 +47,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 30
+        tableView.estimatedRowHeight = 10
         
         placeholderLabel = UILabel()
         placeholderLabel.text = "Start typing..."
@@ -157,8 +158,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
             //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
         }
-        
-        DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["read" : true])
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["\(currentUser)" : true])
+        }
         
     }
     
@@ -212,9 +214,12 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //print(cellHeights[indexPath.row])
         if let height = cellHeights[indexPath.row] {
+            //print("AAAAAA: \(indexPath.row)")
             return height
         }
+        //print("WWWWWWWWW: \(indexPath.row)")
         return UITableViewAutomaticDimension
     }
     
@@ -274,17 +279,48 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight + textViewContainerHeightConstraint.constant, 0)
+        print(keyboardHeight + textViewContainerHeightConstraint.constant)
+        //self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+        UIView.animate(withDuration: 1) {
+            //print("hey")
+            self.view.layoutIfNeeded()
+        }
+        
+        
+        //tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight - 50, 0)
+        
+        //        if self.messagesArr.count > 0 {
+        //            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+        //            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+        //        }
+        
+        
         //print(textInputView.frame.height)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.becomeFirstResponder()
+        
+        //        if self.messagesArr.count > 0 {
+        //            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+        //            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+        //        }
+        
     }
     
     func keyboardWillShow(notification: NSNotification) {
         //print("hi")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
+            keyboardHeight = keyboardSize.height
+            if tableView.visibleCells.isEmpty {
+                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+                UIView.animate(withDuration: 1) {
+                    //print("hey")
+                    self.view.layoutIfNeeded()
+                }
+            } else if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
                 //print("hi")
                 if self.tableView.frame.origin.y == 65 {
                     
@@ -358,7 +394,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //let childUpdates = ["/status/\(key)": status,
                 // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
-                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, "read" : false])
+                DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, selectedProfile.usersKey : false, userId : true])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/users").updateChildValues([userId : true,selectedProfile.usersKey : true])
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
@@ -368,6 +404,15 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
                 }
                 textView.text = ""
+                placeholderLabel.isHidden = false
+                textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
+                if let lineHeight = textView.font?.lineHeight {
+                    print(lineHeight)
+                    textView.contentSize.height = lineHeight
+                }
+                print(messagesArr.count)
+                //set back to normal textview
+                //textView.frame.height = textView.intrinsicContentSize.height
             }
         }
     }
@@ -384,12 +429,17 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if originController == "viewProfileToConversation" {
             if let currentUser = Auth.auth().currentUser?.uid {
-                if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
-                    if lastMsgDate == "" {
-                        DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
-                        DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
-                    }
+                //print(currentConversation)
+                //print(messagesArr.count)
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //print(lastMsgDate)
+                //print(currentConversation.messages)
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
                 }
+                //}
             }
             
             let selectedUser = self.selectedProfile
@@ -397,13 +447,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         } else if originController == "friendsListToConversation" {
             if let currentUser = Auth.auth().currentUser?.uid {
-                if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
-                    if lastMsgDate == "" {
-                        DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
-                        DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
-                    }
+                //print(currentConversation)
+                //print(currentConversation.details["lastMsgDate"])
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
                 }
             }
+            
             performSegue(withIdentifier: "conversationToFriendsList", sender: nil)
             
         } else {
@@ -411,7 +464,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "conversationToFeed", sender: nil)
+        tableView.reloadData()
+        //performSegue(withIdentifier: "conversationToFeed", sender: nil)
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "conversationToJoinedList", sender: nil)

@@ -48,16 +48,20 @@ class ConversationCell: UITableViewCell {
             if message.senderuid == currentUser {
                 //senderBubble.isHidden = false
                 senderMsgLbl.isHidden = false
+                senderMsgLbl.numberOfLines = 0
+                senderMsgLbl.lineBreakMode = .byWordWrapping
                 senderMsgLbl.text = message.content
 //                print(senderMsgLbl.text!)
 //                print(senderMsgLbl.frame.size.height)
 //                print("Sent: \(senderMsgLbl.intrinsicContentSize.height)")
-                //senderMsgLbl.sizeToFit()
+                senderMsgLbl.sizeToFit()
                 //layoutIfNeeded()
             } else if message.senderuid != currentUser {
                 //receiverBubble.isHidden = false
                 receiverMsgLbl.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
                 receiverMsgLbl.isHidden = false
+                receiverMsgLbl.numberOfLines = 0
+                receiverMsgLbl.lineBreakMode = .byWordWrapping
                 receiverMsgLbl.text = message.content
                 //receiverMsgLbl.sizeToFit()
                 //receiverBubble.frame.size.height = receiverMsgLbl.frame.height + 10

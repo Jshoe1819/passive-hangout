@@ -46,7 +46,7 @@ class MessagesCell: UITableViewCell {
                     if let lastMsgContent = conversation.details["lastMsgContent"] as? String {
                         self.lastMessageLbl.text = lastMsgContent
                     }
-                    if let read = conversation.messages["read"] as? Bool {
+                    if let read = conversation.messages["\(currentUser)"] as? Bool {
                         if !read {
                             newMessageView.isHidden = false
                             self.lastMessageLbl.font = UIFont(name: "AvenirNext-Medium", size: 14)

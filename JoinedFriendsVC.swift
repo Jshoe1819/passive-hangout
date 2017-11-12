@@ -14,9 +14,8 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
-    
-    
     
     var usersArr = [Users]()
     var filtered = [Users]()
@@ -24,6 +23,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     var currentUserInfo: Users!
     var selectedUser: Users!
     var originController = ""
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,12 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        
+        refreshControl = UIRefreshControl()
+        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.tintColor = UIColor.purple
+        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
                 
         searchBar.keyboardAppearance = .dark
         tableView.keyboardDismissMode = .onDrag
@@ -73,6 +79,11 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 }
                 self.filtered = self.usersArr
             }
+            if self.usersArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
             self.tableView.reloadData()
         })
         
@@ -106,9 +117,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if filtered.count == 0 {
-            print("empty, show label or img")
-        }
+//        if filtered.count == 0 {
+//            print("empty, show label or img")
+//        }
         return filtered.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -183,6 +194,72 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)
+    }
+    
+    func refresh(sender: Any) {
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("USERS: \(snap)")
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let users = Users(usersKey: key, usersData: usersDict)
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if currentUser == users.usersKey {
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                self.currentUserInfo = users
+                            }
+                        }
+                        let userJoinedSelected = users.joinedList.keys.contains { (key) -> Bool in
+                            key == self.selectedStatus.statusKey
+                        }
+                        if userJoinedSelected {
+                            self.usersArr.append(users)
+                        }
+                    }
+                }
+                self.filtered = self.usersArr
+            }
+            if self.usersArr.count == 0 {
+                self.isEmptyImg.isHidden = false
+            } else {
+                self.isEmptyImg.isHidden = true
+            }
+            self.tableView.reloadData()
+        })
+        
+//        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+//            profilePicImg.isHidden = false
+//            populateProfilePicture(user: viewedProfile)
+//        }
+//        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            //            if self.statusArr.count == 0 {
+            //                self.isEmptyImg.isHidden = false
+            //            } else {
+            //                self.isEmptyImg.isHidden = true
+            //            }
+            // Your code with delay
+            self.refreshControl.endRefreshing()
+        }
+        
+        
     }
     
     

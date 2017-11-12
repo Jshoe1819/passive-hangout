@@ -3838,28 +3838,39 @@
                             </view>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="N1D-ob-laZ">
                                 <rect key="frame" x="0.0" y="67" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Dtc-QI-vO7"/>
+                                </constraints>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cudi-prof" translatesAutoresizingMaskIntoConstraints="NO" id="sBk-Ii-Hed">
+                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WOh-EY-dOb" firstAttribute="top" secondItem="c8w-1Y-R8A" secondAttribute="bottom" id="53S-bu-tJU"/>
                             <constraint firstItem="qV3-Qu-5n0" firstAttribute="leading" secondItem="7hc-vq-Ar7" secondAttribute="leading" id="7LB-XX-DlC"/>
+                            <constraint firstItem="sBk-Ii-Hed" firstAttribute="trailing" secondItem="qV3-Qu-5n0" secondAttribute="trailing" id="9TF-Rl-OXk"/>
                             <constraint firstAttribute="trailing" secondItem="N1D-ob-laZ" secondAttribute="trailing" id="EGO-Bl-RU3"/>
                             <constraint firstAttribute="trailing" secondItem="c8w-1Y-R8A" secondAttribute="trailing" id="F3L-ui-Pxs"/>
                             <constraint firstItem="N1D-ob-laZ" firstAttribute="top" secondItem="jDK-z1-7TN" secondAttribute="bottom" constant="2" id="HHX-nT-WEu"/>
                             <constraint firstItem="c8w-1Y-R8A" firstAttribute="leading" secondItem="7hc-vq-Ar7" secondAttribute="leading" id="JsJ-yk-EyJ"/>
+                            <constraint firstItem="sBk-Ii-Hed" firstAttribute="leading" secondItem="qV3-Qu-5n0" secondAttribute="leading" id="MLY-Z4-ZbK"/>
                             <constraint firstItem="jDK-z1-7TN" firstAttribute="top" secondItem="7hc-vq-Ar7" secondAttribute="top" id="Qmm-3u-LLb"/>
                             <constraint firstItem="jDK-z1-7TN" firstAttribute="leading" secondItem="7hc-vq-Ar7" secondAttribute="leading" id="R5A-Jh-XWW"/>
+                            <constraint firstItem="sBk-Ii-Hed" firstAttribute="bottom" secondItem="qV3-Qu-5n0" secondAttribute="bottom" id="UMZ-iJ-ufn"/>
                             <constraint firstAttribute="trailing" secondItem="jDK-z1-7TN" secondAttribute="trailing" id="d1Y-uu-2fP"/>
                             <constraint firstItem="N1D-ob-laZ" firstAttribute="leading" secondItem="7hc-vq-Ar7" secondAttribute="leading" id="dBq-vV-xSm"/>
                             <constraint firstItem="c8w-1Y-R8A" firstAttribute="top" secondItem="qV3-Qu-5n0" secondAttribute="bottom" id="eul-wa-Anw"/>
                             <constraint firstItem="qV3-Qu-5n0" firstAttribute="top" secondItem="N1D-ob-laZ" secondAttribute="bottom" id="puu-6h-PhY"/>
                             <constraint firstAttribute="trailing" secondItem="qV3-Qu-5n0" secondAttribute="trailing" id="wrI-aP-erG"/>
+                            <constraint firstItem="sBk-Ii-Hed" firstAttribute="top" secondItem="qV3-Qu-5n0" secondAttribute="top" id="xTe-Hb-anJ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="footerNewFriendIndicator" destination="nnh-MO-Yz5" id="KEw-oS-Tyo"/>
+                        <outlet property="isEmptyImg" destination="sBk-Ii-Hed" id="ctf-ZC-R7x"/>
                         <outlet property="searchBar" destination="N1D-ob-laZ" id="E7T-TJ-b5c"/>
                         <outlet property="tableView" destination="qV3-Qu-5n0" id="CVS-bG-9yb"/>
                         <segue destination="PDe-k8-epe" kind="show" identifier="joinedFriendsToPastStatuses" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="DzP-9T-IMk"/>
@@ -5199,15 +5210,15 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="pO3-lh-m1g"/>
-        <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="PTq-OX-4io"/>
+        <segue reference="Cvi-3u-GSf"/>
+        <segue reference="Yry-oZ-Wzs"/>
+        <segue reference="DzP-9T-IMk"/>
+        <segue reference="y2p-Hc-rBB"/>
+        <segue reference="03d-ku-lOM"/>
+        <segue reference="U9w-Go-lZX"/>
+        <segue reference="oiz-n8-MeS"/>
         <segue reference="yYZ-zz-Uql"/>
         <segue reference="9ga-VY-kxp"/>
-        <segue reference="3dF-EC-wDu"/>
-        <segue reference="f74-MD-8qo"/>
-        <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="MTP-dR-lnk"/>
         <segue reference="W4L-ij-kOw"/>
         <segue reference="FDh-cr-2VA"/>
     </inferredMetricsTieBreakers>
