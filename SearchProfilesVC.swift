@@ -39,6 +39,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var profilesIndicatorView: UIView!
     @IBOutlet weak var citiesIndicatorView: UIView!
     @IBOutlet weak var noResultsLbl: UILabel!
+    @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
         //code to refresh
@@ -161,13 +162,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                                     value as? String == "received"
                                 }
                                 if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 let newJoin = users.joinedList.values.contains { (value) -> Bool in
                                     value as? String == "false"
                                 }
                                 if newJoin {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 self.currentUserInfo = users
                                 
@@ -386,7 +387,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //let user = searchResults[indexPath.row]
         //let status = statusArr[indexPath.row]
         if searchActive == false {
-            
+            noResultsLbl.isHidden = true
             //let shuffled = statusArr[indexPath.row]
             //print(shuffled.content)
             //let status = statusArr.shuffled()[indexPath.row]
@@ -432,6 +433,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         } else if topIndicatorView.isHidden == false {
             
+            if hangoutsSearchResults.isEmpty {
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
+            
             let status = hangoutsSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchByHangout") as? SearchHangoutCell {
@@ -476,6 +483,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         if profilesIndicatorView.isHidden == false {
             //if results is empty disable scrolling
             //sort
+            
+            if profileSearchResults.isEmpty {
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
+            
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
@@ -493,6 +507,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             }
             
         } else if citiesIndicatorView.isHidden == false {
+            
+            if statusSearchResults.isEmpty {
+                noResultsLbl.isHidden = false
+            } else {
+                noResultsLbl.isHidden = true
+            }
             
             let status = statusSearchResults[indexPath.row]
             
@@ -584,6 +604,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
                 nextVC.originController = "searchToViewProfile"
+                nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 if let text = searchBar.text {
                     nextVC.searchText = text
                 }
@@ -741,6 +762,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         topChoiceBtn.isEnabled = false
         profilesChoiceBtn.isEnabled = true
         citiesChoiceBtn.isEnabled = true
+        
         //}
         
         topChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)

@@ -2759,11 +2759,26 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YrM-Fh-qLM">
+                                        <rect key="frame" x="337.5" y="14" width="8" height="8"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="8" id="10e-Se-e3k"/>
+                                            <constraint firstAttribute="width" constant="8" id="4bX-fz-b9h"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="aA2-O2-PKx" firstAttribute="leading" secondItem="BIJ-II-H8t" secondAttribute="leading" id="9Wv-9v-Vi0"/>
+                                    <constraint firstItem="YrM-Fh-qLM" firstAttribute="centerY" secondItem="uac-lI-58V" secondAttribute="centerY" constant="-7" id="F8i-AX-XJC"/>
                                     <constraint firstItem="aA2-O2-PKx" firstAttribute="centerY" secondItem="BIJ-II-H8t" secondAttribute="centerY" id="LpP-UW-h6Q"/>
+                                    <constraint firstItem="YrM-Fh-qLM" firstAttribute="centerX" secondItem="uac-lI-58V" secondAttribute="centerX" constant="6" id="MSt-De-nUo"/>
                                     <constraint firstAttribute="height" constant="50" id="qdp-yL-h31"/>
                                     <constraint firstAttribute="trailing" secondItem="aA2-O2-PKx" secondAttribute="trailing" id="rcO-uq-D0f"/>
                                 </constraints>
@@ -2839,7 +2854,7 @@
                                                         <constraint firstAttribute="height" constant="0.5" id="a92-1e-Mva"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPq-La-Bo6">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPq-La-Bo6">
                                                     <rect key="frame" x="305" y="6.5" width="62" height="71"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -3307,12 +3322,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcQ-RG-Uuh">
-                                        <rect key="frame" x="8" y="29" width="45" height="30"/>
+                                        <rect key="frame" x="20" y="29" width="45" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="ERC-e6-Ow9"/>
                                             <constraint firstAttribute="height" constant="30" id="UBl-dn-a24"/>
                                         </constraints>
-                                        <state key="normal" image="cudi-prof"/>
+                                        <state key="normal" image="chevron-left-white-button"/>
                                         <connections>
                                             <action selector="backBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="PtZ-wr-wuv"/>
                                         </connections>
@@ -3321,7 +3336,7 @@
                                 <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="3ff-UO-AS8"/>
-                                    <constraint firstItem="KcQ-RG-Uuh" firstAttribute="leading" secondItem="Bhn-4v-R42" secondAttribute="leading" constant="8" id="IQM-2y-S3X"/>
+                                    <constraint firstItem="KcQ-RG-Uuh" firstAttribute="leading" secondItem="Bhn-4v-R42" secondAttribute="leading" constant="20" id="IQM-2y-S3X"/>
                                     <constraint firstItem="KcQ-RG-Uuh" firstAttribute="centerY" secondItem="3jT-Gx-CIS" secondAttribute="centerY" id="QL2-XG-5UL"/>
                                     <constraint firstItem="3jT-Gx-CIS" firstAttribute="top" secondItem="Bhn-4v-R42" secondAttribute="top" constant="33" id="cyw-hg-CEh"/>
                                     <constraint firstItem="3jT-Gx-CIS" firstAttribute="centerX" secondItem="Bhn-4v-R42" secondAttribute="centerX" id="uT0-fM-RF6"/>
@@ -4648,6 +4663,7 @@
                         <outlet property="citiesChoiceBtn" destination="tTC-VO-LD0" id="7HG-gs-l2a"/>
                         <outlet property="citiesIndicatorView" destination="cHO-RW-vxf" id="CQw-VG-1Ik"/>
                         <outlet property="exploreTableView" destination="IjP-od-yUg" id="J2R-HN-1Pg"/>
+                        <outlet property="footerNewFriendIndicator" destination="1TY-Uj-jCe" id="R66-Hz-Rnd"/>
                         <outlet property="hangoutsTableView" destination="h75-Pb-bX6" id="KrM-rJ-pjd"/>
                         <outlet property="noResultsLbl" destination="fWm-hL-f1l" id="yJh-mW-H22"/>
                         <outlet property="profilesChoiceBtn" destination="qFQ-1v-jQq" id="rvu-cD-3Mq"/>
@@ -5229,16 +5245,16 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="agh-4t-wA8"/>
-        <segue reference="zZq-vH-goe"/>
-        <segue reference="3dF-EC-wDu"/>
-        <segue reference="Q2u-Op-EZN"/>
-        <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="fJQ-dC-hyU"/>
-        <segue reference="h9M-nc-TZC"/>
-        <segue reference="gCg-Ub-8sY"/>
-        <segue reference="9ga-VY-kxp"/>
+        <segue reference="O4J-wM-hDT"/>
+        <segue reference="yYZ-zz-Uql"/>
+        <segue reference="BJa-L8-pjS"/>
+        <segue reference="mAZ-fl-5u8"/>
+        <segue reference="tfq-Mk-6Zo"/>
+        <segue reference="mIA-N4-PrF"/>
+        <segue reference="vOi-0M-dkj"/>
+        <segue reference="y1D-2v-C8P"/>
+        <segue reference="gch-s9-LIa"/>
         <segue reference="adL-Uz-ymj"/>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="5Tl-Jg-UAb"/>
     </inferredMetricsTieBreakers>
 </document>

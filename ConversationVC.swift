@@ -39,8 +39,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(textInputView.frame.origin)
-        
+        //print(textInputView.frame.origin)
+        print(originController)
         tableView.delegate = self
         tableView.dataSource = self
         textView.delegate = self
@@ -123,13 +123,13 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                     value as? String == "received"
                                 }
                                 if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 let newJoin = users.joinedList.values.contains { (value) -> Bool in
                                     value as? String == "false"
                                 }
                                 if newJoin {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                             }
                             let otherUser = self.currentConversation.users.keys.contains(users.usersKey) && users.usersKey != currentUser
@@ -420,7 +420,21 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "conversationToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
+                if originController == "feedToViewProfile" {
+                    nextVC.originController = "feedToViewProfile"
+                    nextVC.selectedProfile = sender as? Users
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                } else if originController == "searchToViewProfile" {
+                    nextVC.originController = "searchToViewProfile"
+                    nextVC.selectedProfile = sender as? Users
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                } else if originController == "joinedListToViewProfile" {
+                    nextVC.originController = "joinedListToViewProfile"
+                    nextVC.selectedProfile = sender as? Users
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                }
                 nextVC.selectedProfile = sender as? Users
+                nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
             }
         }
     }
@@ -445,6 +459,57 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let selectedUser = self.selectedProfile
             performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
             
+        } else if originController == "feedToViewProfile" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                //print(currentConversation)
+                //print(messagesArr.count)
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //print(lastMsgDate)
+                //print(currentConversation.messages)
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                }
+                //}
+            }
+            
+            let selectedUser = self.selectedProfile
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+        } else if originController == "searchToViewProfile" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                //print(currentConversation)
+                //print(messagesArr.count)
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //print(lastMsgDate)
+                //print(currentConversation.messages)
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                }
+                //}
+            }
+            
+            let selectedUser = self.selectedProfile
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+        } else if originController == "joinedListToViewProfile" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                //print(currentConversation)
+                //print(messagesArr.count)
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //print(lastMsgDate)
+                //print(currentConversation.messages)
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                }
+                //}
+            }
+            
+            let selectedUser = self.selectedProfile
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
         } else if originController == "friendsListToConversation" {
             if let currentUser = Auth.auth().currentUser?.uid {
                 //print(currentConversation)
@@ -460,6 +525,19 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             performSegue(withIdentifier: "conversationToFriendsList", sender: nil)
             
         } else {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                //print(currentConversation)
+                //print(messagesArr.count)
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //print(lastMsgDate)
+                //print(currentConversation.messages)
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                }
+                //}
+            }
             performSegue(withIdentifier: "conversationToMessages", sender: nil)
         }
     }

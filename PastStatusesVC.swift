@@ -81,57 +81,80 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
-        
-        isEmptyImg.isHidden = true
-        
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                self.statusArr.insert(status, at: 0)
-                            }
-                        }
-                        
-                    }
-                }
+        print(selectedUserStatuses.count)
+        if originController != "myProfileToPastStatuses"  {
+            if selectedUserStatuses.count == 0 {
+                self.isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
+                self.isEmptyImg.isHidden = false
+            } else if selectedUserStatuses.count != 0 {
+                self.isEmptyImg.isHidden = true
             }
-            self.tableView.reloadData()
-        })
-        
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        } else {
             
-            self.usersArr = []
+            //isEmptyImg.isHidden = true
             
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("USERS: \(snap)")
-                    if let usersDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let users = Users(usersKey: key, usersData: usersDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if currentUser == users.usersKey {
-                                let answer = users.friendsList.values.contains { (value) -> Bool in
-                                    value as? String == "received"
-                                }
-                                if answer && users.friendsList["seen"] as? String == "false" {
-                                    self.footerNewFriendIndicator.isHidden = false
+            DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                self.statusArr = []
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("STATUS: \(snap)")
+                        if let statusDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let status = Status(statusKey: key, statusData: statusDict)
+                            if let currentUser = Auth.auth().currentUser?.uid {
+                                if status.userId == currentUser {
+                                    self.statusArr.insert(status, at: 0)
                                 }
                             }
+                            
                         }
-                        self.usersArr.append(users)
                     }
                 }
-            }
-            self.tableView.reloadData()
-        })
+                if self.statusArr.count == 0 {
+                    print("hi")
+                    self.isEmptyImg.isHidden = false
+                } else {
+                    self.isEmptyImg.isHidden = true
+                }
+                
+                self.tableView.reloadData()
+            })
+            
+            DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                self.usersArr = []
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("USERS: \(snap)")
+                        if let usersDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let users = Users(usersKey: key, usersData: usersDict)
+                            if let currentUser = Auth.auth().currentUser?.uid {
+                                if currentUser == users.usersKey {
+                                    let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                        value as? String == "received"
+                                    }
+                                    if newFriend && users.friendsList["seen"] as? String == "false" {
+                                        self.footerNewFriendIndicator.isHidden = false
+                                    }
+                                    let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                        value as? String == "false"
+                                    }
+                                    if newJoin {
+                                        self.footerNewFriendIndicator.isHidden = false
+                                    }
+                                }
+                            }
+                            self.usersArr.append(users)
+                        }
+                    }
+                }
+                self.tableView.reloadData()
+            })
+        }
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             profilePicImg.isHidden = false
@@ -625,13 +648,19 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 nextVC.selectedProfile = sender as? Users
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                     nextVC.searchText = searchText
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                     nextVC.selectedStatus = selectedStatus
                     nextVC.selectedProfile = viewedProfile
+                } else if originController == "joinedListToViewProfile" {
+                    nextVC.originController = "joinedListToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 }
             }
         }
@@ -720,7 +749,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func backBtnPressed(_ sender: Any) {
         
-        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" || originController == "joinedListToViewProfile" {
             performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)

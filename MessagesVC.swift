@@ -77,13 +77,13 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                     value as? String == "received"
                                 }
                                 if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 let newJoin = users.joinedList.values.contains { (value) -> Bool in
                                     value as? String == "false"
                                 }
                                 if newJoin {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 //self.currentUser = users
                             }

@@ -310,7 +310,7 @@ class ProfileVC: UIViewController{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "myProfileToPastStatuses" {
             if let nextVC = segue.destination as? PastStatusesVC {
-                nextVC.originController = ""
+                nextVC.originController = "myProfileToPastStatuses"
             }
         } else if segue.identifier == "myProfileToJoinedFriends" {
             if let nextVC = segue.destination as? JoinedFriendsVC {

@@ -78,7 +78,13 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 self.filtered = self.usersArr
             }
             
-            if self.currentFriendsList.count == 0 {
+//            if self.currentFriendsList.count == 0 {
+//                self.isEmptyImg.isHidden = false
+//            } else {
+//                self.isEmptyImg.isHidden = true
+//            }
+            
+            if self.usersArr.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
                 self.isEmptyImg.isHidden = true
@@ -168,11 +174,11 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 cell.isHidden = false
             }
             
-            if tappedBtnTags.count > 0 {
-                cell.menuBtn.isEnabled = false
-            } else {
-                cell.menuBtn.isEnabled = true
-            }
+//            if tappedBtnTags.count > 0 {
+//                cell.menuBtn.isEnabled = false
+//            } else {
+//                cell.menuBtn.isEnabled = true
+//            }
             
             cell.configureCell(friendsList: currentFriendsList, users: users)
             
@@ -187,6 +193,93 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProfile = usersArr[indexPath.row]
         performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction = UITableViewRowAction(style: .normal, title: "Remove") { (rowAction, indexPath) in
+            //TODO: Delete the row at indexPath here
+            let alert = UIAlertController(title: "Delete Hangout", message: "Are you sure you would like to remove this friend?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "Remove Friend", style: UIAlertActionStyle.destructive, handler: { action in
+                let friendKey = self.usersArr[indexPath.row].usersKey
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+                    DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+                    self.deleted.append(indexPath.row)
+                    self.tableView.reloadData()
+                }
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+                
+                //textView.isHidden = true
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+            }))
+            
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        deleteAction.backgroundColor = UIColor.red
+        
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Message") { (rowAction, indexPath) in
+            tableView.setEditing(true, animated: true)
+            if tableView.isEditing == true{
+                //perform segue
+                for index in 0..<self.conversationArr.count {
+                    if self.conversationArr[index].users.keys.contains(self.usersArr[indexPath.row].usersKey) {
+                        let selectedConversation = self.conversationArr[index].conversationKey
+                        self.performSegue(withIdentifier: "friendsListToConversation", sender: selectedConversation)
+                        return
+                    }
+                    //print("hi")
+                }
+                //print("out")
+                if let user = Auth.auth().currentUser {
+                    
+                    let userId = user.uid
+                    if self.usersArr[indexPath.row].isPrivate && self.usersArr[indexPath.row].friendsList[userId] as? String != "friends" {
+                        print("it is done")
+                        //creat pop up: Must be friends
+                        return
+                    }
+                    let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
+                    let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
+                                        "messages": ["a": true],
+                                        "users": [userId: true,
+                                                  self.usersArr[indexPath.row].usersKey: true]] as [String : Any]
+                    
+                    let childUpdates = ["/conversations/\(key)": conversation,
+                                        "/users/\(userId)/conversationId/\(key)/": true] as Dictionary<String, Any>
+                    DataService.ds.REF_BASE.updateChildValues(childUpdates)
+                    self.performSegue(withIdentifier: "friendsListToConversation", sender: key)
+                }
+                
+                self.tappedBtnTags.removeAll()
+                self.tableView.reloadData()
+                
+            }else{
+                //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
+                //resignfirstresponder
+                
+                
+            }
+            print(indexPath.row)
+            
+        }
+        editAction.backgroundColor = UIColor(red:0.64, green:0.84, blue:0.64, alpha:1)
+        
+        return [deleteAction, editAction]
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

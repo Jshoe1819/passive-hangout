@@ -80,10 +80,16 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                         let users = Users(usersKey: key, usersData: usersDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
                             if currentUser == users.usersKey {
-                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
                                     value as? String == "received"
                                 }
-                                if answer && users.friendsList["seen"] as? String == "false" {
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
                             }
@@ -136,6 +142,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
                 nextVC.originController = "joinedListToViewProfile"
+                nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 //only use back button on non main buttons
                 //have data loaders on main buttons
                 //instant loads on main btns

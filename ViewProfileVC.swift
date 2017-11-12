@@ -44,11 +44,16 @@ class ViewProfileVC: UIViewController {
     var selectedStatus: Status!
     var originController = ""
     var searchText = ""
+    var showFooterIndicator = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if originController == "feedToViewProfile" || originController == "joinedListToViewProfile" {
+        print(originController)
+        
+        footerNewFriendNotification.isHidden = !showFooterIndicator
+        
+        if originController == "feedToViewProfile" || originController == "joinedListToViewProfile" || originController == "searchToViewProfile" {
             self.backBtn.isHidden = true
         }
         
@@ -446,6 +451,8 @@ class ViewProfileVC: UIViewController {
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.searchText = searchText
+                } else if originController == "joinedListToViewProfile" {
+                    nextVC.originController = "joinedListToViewProfile"
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
@@ -462,8 +469,17 @@ class ViewProfileVC: UIViewController {
             }
         } else if segue.identifier == "viewProfileToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
+                //perhaps follow view to join chain for segue hints
                 nextVC.conversationUid = sender as! String
-                nextVC.originController = "viewProfileToConversation"
+                if originController == "feedToViewProfile" {
+                    nextVC.originController = "feedToViewProfile"
+                } else if originController == "searchToViewProfile" {
+                    nextVC.originController = "searchToViewProfile"
+                } else if originController == "joinedListToViewProfile" {
+                    nextVC.originController = "joinedListToViewProfile"
+                } else {
+                    nextVC.originController = "viewProfileToConversation"
+                }
             }
         }
     }

@@ -107,7 +107,7 @@ class FriendsListCell: UITableViewCell {
         if let friendKey = friendsList[users.usersKey] as? String {
             if friendKey == "friends" {
                 
-                menuBtn.isHidden = false
+                //menuBtn.isHidden = false
                 approveBtn.isHidden = true
                 ignoreBtn.isHidden = true
                 
@@ -117,7 +117,7 @@ class FriendsListCell: UITableViewCell {
                 
             } else if friendKey == "sent" {
                 
-                menuBtn.isHidden = true
+                //menuBtn.isHidden = true
                 //secondaryLbl.isHidden = true
                 //separatorDotView.isHidden = true
                 
@@ -127,7 +127,7 @@ class FriendsListCell: UITableViewCell {
                 
             } else if friendKey == "received" {
                 
-                menuBtn.isHidden = true
+                //menuBtn.isHidden = true
                 ignoreBtn.isHidden = false
                 approveBtn.isHidden = false
                 
@@ -138,7 +138,7 @@ class FriendsListCell: UITableViewCell {
                 
             } else {
                 
-                menuBtn.isHidden = true
+                //menuBtn.isHidden = true
                 //secondaryLbl.isHidden = true
                 //separatorDotView.isHidden = true
                 
