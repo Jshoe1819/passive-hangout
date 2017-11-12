@@ -29,6 +29,8 @@ class ProfileVC: UIViewController{
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var profileNewFriendIndicator: UIView!
     @IBOutlet weak var pastStatusesIndicator: UIView!
+    @IBOutlet weak var opaqueBackground: UIButton!
+    @IBOutlet weak var signOutView: RoundedPopUp!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -355,24 +357,43 @@ class ProfileVC: UIViewController{
     
     @IBAction func signOutBtnPressed(_ sender: Any) {
         
-        // create the alert
-        let alert = UIAlertController(title: "Sign Out", message: "Are you sure you would like to sign out?", preferredStyle: UIAlertControllerStyle.alert)
+        opaqueBackground.isHidden = false
+        signOutView.isHidden = false
         
-        // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.destructive, handler: { action in
-            
-            KeychainWrapper.standard.removeObject(forKey: KEY_UID)
-            try! Auth.auth().signOut()
-            FBSDKAccessToken.setCurrent(nil)
-            self.performSegue(withIdentifier: "myProfileToLogin", sender: nil)
-            
-        }))
+//        UIView.animate(withDuration: 11, animations: {
+//            self.signOutView.isHidden = false
+//            self.signOutView.frame.origin.y -= 0.5
+//        }, completion: nil)
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//        // create the alert
+//        let alert = UIAlertController(title: "Sign Out", message: "Are you sure you would like to sign out?", preferredStyle: UIAlertControllerStyle.alert)
+//        
+//        // add the actions (buttons)
+//        alert.addAction(UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.destructive, handler: { action in
+//            
+//            KeychainWrapper.standard.removeObject(forKey: KEY_UID)
+//            try! Auth.auth().signOut()
+//            FBSDKAccessToken.setCurrent(nil)
+//            self.performSegue(withIdentifier: "myProfileToLogin", sender: nil)
+//            
+//        }))
+//        
+//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//        
+//        // show the alert
+//        self.present(alert, animated: true, completion: nil)
         
-        // show the alert
-        self.present(alert, animated: true, completion: nil)
-        
+    }
+    @IBAction func cancelSignOutBtnPressed(_ sender: Any) {
+        opaqueBackground.isHidden = true
+        signOutView.isHidden = true
+    }
+    
+    @IBAction func finalSignOutBtnPressed(_ sender: Any) {
+        KeychainWrapper.standard.removeObject(forKey: KEY_UID)
+        try! Auth.auth().signOut()
+        FBSDKAccessToken.setCurrent(nil)
+        self.performSegue(withIdentifier: "myProfileToLogin", sender: nil)
     }
     
     @IBAction func leaveFeedbackBtnPressed(_ sender: Any) {

@@ -693,6 +693,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : shuffledStatusArr[tag].joinedList.count])
                 
             } else if topIndicatorView.isHidden == false {
                 
@@ -702,6 +703,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : hangoutsSearchResults[tag].joinedList.count])
                 
             } else if citiesIndicatorView.isHidden == false {
                 
@@ -711,6 +713,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusSearchResults[tag].joinedList.count])
                 
             }
         }
@@ -724,18 +727,21 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 let statusKey = shuffledStatusArr[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : shuffledStatusArr[tag].joinedList.count-1])
                 
             } else if topIndicatorView.isHidden == false {
                 
                 let statusKey = hangoutsSearchResults[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : hangoutsSearchResults[tag].joinedList.count-1])
                 
             } else if citiesIndicatorView.isHidden == false {
                 
                 let statusKey = statusSearchResults[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusSearchResults[tag].joinedList.count-1])
                 
             }
         }

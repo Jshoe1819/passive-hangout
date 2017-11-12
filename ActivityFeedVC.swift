@@ -358,7 +358,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
-            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count - 1])
+            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count-1])
             //tableView.reloadData()
         }
         

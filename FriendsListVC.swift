@@ -15,10 +15,15 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var isEmptyImg: UIImageView!
+    @IBOutlet weak var opaqueBackground: UIButton!
+    @IBOutlet weak var removeFriendView: RoundedPopUp!
+    @IBOutlet weak var removeFriendBtn: UIButton!
+    @IBOutlet weak var cancelBtn: UIButton!
     
     var usersArr = [Users]()
     var conversationArr = [Conversation]()
     var currentFriendsList = Dictionary<String, Any>()
+    var selectedProfile: Int!
     var tappedBtnTags = [Int]()
     var deleted = [Int]()
     var filtered = [Users]()
@@ -203,30 +208,33 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         
         let deleteAction = UITableViewRowAction(style: .normal, title: "Remove") { (rowAction, indexPath) in
             //TODO: Delete the row at indexPath here
-            let alert = UIAlertController(title: "Delete Hangout", message: "Are you sure you would like to remove this friend?", preferredStyle: UIAlertControllerStyle.alert)
-            
-            // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "Remove Friend", style: UIAlertActionStyle.destructive, handler: { action in
-                let friendKey = self.usersArr[indexPath.row].usersKey
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-                    DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-                    self.deleted.append(indexPath.row)
-                    self.tableView.reloadData()
-                }
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-                
-                //textView.isHidden = true
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
+            self.selectedProfile = indexPath.row
+            self.removeFriendView.isHidden = false
+            self.opaqueBackground.isHidden = false
+//            let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend?", preferredStyle: UIAlertControllerStyle.alert)
+//            
+//            // add the actions (buttons)
+//            alert.addAction(UIAlertAction(title: "Remove Friend", style: UIAlertActionStyle.destructive, handler: { action in
+//                let friendKey = self.usersArr[indexPath.row].usersKey
+//                if let currentUser = Auth.auth().currentUser?.uid {
+//                    DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+//                    DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+//                    self.deleted.append(indexPath.row)
+//                    self.tableView.reloadData()
+//                }
+//                self.tappedBtnTags.removeAll()
+//                self.tableView.reloadData()
+//            }))
+//            
+//            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+//                
+//                //textView.isHidden = true
+//                self.tappedBtnTags.removeAll()
+//                self.tableView.reloadData()
+//            }))
+//            
+//            // show the alert
+//            self.present(alert, animated: true, completion: nil)
             
         }
         deleteAction.backgroundColor = UIColor.red
@@ -419,6 +427,27 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             deleted.append(tag)
             tableView.reloadData()
         }
+    }
+    @IBAction func removeFriendBtnPressed(_ sender: Any) {
+        //remove friend data write
+        
+        let friendKey = self.usersArr[selectedProfile].usersKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+            DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+            self.deleted.append(selectedProfile)
+            self.tableView.reloadData()
+        }
+        
+        opaqueBackground.isHidden = true
+        removeFriendView.isHidden = true
+        tableView.reloadData()
+    }
+    
+    @IBAction func cancelBtnPressed(_ sender: Any) {
+        opaqueBackground.isHidden = true
+        removeFriendView.isHidden = true
+        tableView.reloadData()
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {

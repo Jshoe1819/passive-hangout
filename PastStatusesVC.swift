@@ -17,6 +17,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
+    @IBOutlet weak var deleteHangoutOpaqueView: UIButton!
+    @IBOutlet weak var deleteHangoutView: RoundedPopUp!
     @IBOutlet weak var editHangoutView: RoundedPopUp!
     @IBOutlet weak var editHangoutTextview: NewStatusTextView!
     @IBOutlet weak var editCityTextfield: UITextField!
@@ -381,30 +383,36 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (rowAction, indexPath) in
             //TODO: Delete the row at indexPath here
-            let alert = UIAlertController(title: "Delete Hangout", message: "Are you sure you would like to delete this hangout?", preferredStyle: UIAlertControllerStyle.alert)
+            self.deleteHangoutView.isHidden = false
+            //self.opaqueStatusBackground.isUserInteractionEnabled = false
+            self.deleteHangoutOpaqueView.isHidden = false
+            self.selectedHangout = indexPath.row
+            //self.opaqueStatusBackground.isHidden = false
             
-            // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
-                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
-                    //self.deleted.append(indexPath.row)
-                }
-                self.refresh(sender: self)
-                print("DELETED \(indexPath.row)")
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-                
-                //textView.isHidden = true
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
+//            let alert = UIAlertController(title: "Delete Hangout", message: "Are you sure you would like to delete this hangout?", preferredStyle: UIAlertControllerStyle.alert)
+//            
+//            // add the actions (buttons)
+//            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { action in
+//                if let currentUser = Auth.auth().currentUser?.uid {
+//                    DataService.ds.REF_STATUS.child(self.statusArr[indexPath.row].statusKey).removeValue()
+//                    DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[indexPath.row].statusKey).removeValue()
+//                    //self.deleted.append(indexPath.row)
+//                }
+//                self.refresh(sender: self)
+//                print("DELETED \(indexPath.row)")
+//                self.tappedBtnTags.removeAll()
+//                self.tableView.reloadData()
+//            }))
+//            
+//            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
+//                
+//                //textView.isHidden = true
+//                self.tappedBtnTags.removeAll()
+//                self.tableView.reloadData()
+//            }))
+//            
+//            // show the alert
+//            self.present(alert, animated: true, completion: nil)
             
         }
         deleteAction.backgroundColor = UIColor.red
@@ -619,10 +627,24 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : selectedUserStatuses[tag].joinedList.count])
             //tableView.reloadData()
         }
-        
     }
+    
+//    func didPressJoinBtn(_ tag: Int) {
+//        //print("I have pressed a join button with a tag: \(tag)")
+//        let statusKey = selectedUserStatuses[tag].statusKey
+//        let userKey = selectedUserStatuses[tag].userId
+//        if let currentUser = Auth.auth().currentUser?.uid {
+//            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true"])
+//            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
+//            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
+//            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
+//            //tableView.reloadData()
+//        }
+//        
+//    }
     
     func didPressAlreadyJoinedBtn(_ tag: Int) {
         //print("I have pressed already join button with a tag: \(tag)")
@@ -630,9 +652,21 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+            DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : selectedUserStatuses[tag].joinedList.count - 1])
             //tableView.reloadData()
         }
+        
     }
+    
+//    func didPressAlreadyJoinedBtn(_ tag: Int) {
+//        //print("I have pressed already join button with a tag: \(tag)")
+//        let statusKey = selectedUserStatuses[tag].statusKey
+//        if let currentUser = Auth.auth().currentUser?.uid {
+//            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
+//            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
+//            //tableView.reloadData()
+//        }
+//    }
     
     func didPressJoinedList(_ tag: Int) {
         //print(statusArr[tag].joinedList)
@@ -746,6 +780,25 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     //        tappedBtnTags.removeAll()
     //        tableView.reloadData()
     //    }
+    @IBAction func deleteHangoutBtnPressed(_ sender: Any) {
+        //delete hangout
+        
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_STATUS.child(self.statusArr[selectedHangout].statusKey).removeValue()
+            DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[selectedHangout].statusKey).removeValue()
+            //self.deleted.append(indexPath.row)
+        }
+        self.refresh(sender: self)
+        
+        deleteHangoutOpaqueView.isHidden = true
+        deleteHangoutView.isHidden = true
+        tableView.reloadData()
+    }
+    @IBAction func cancelHangoutDeleteBtnPressed(_ sender: Any) {
+        deleteHangoutOpaqueView.isHidden = true
+        deleteHangoutView.isHidden = true
+        tableView.reloadData()
+    }
     
     @IBAction func backBtnPressed(_ sender: Any) {
         

@@ -36,6 +36,8 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var isPrivateStackView: UIStackView!
     @IBOutlet weak var footerNewFriendNotification: UIView!
     @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var opaqueBackground: UIButton!
+    @IBOutlet weak var removeFriendView: RoundedPopUp!
     
     var selectedProfile: Users!
     var statusArr = [Status]()
@@ -516,23 +518,26 @@ class ViewProfileVC: UIViewController {
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
         
-        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
+        opaqueBackground.isHidden = false
+        removeFriendView.isHidden = false
         
-        // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
-            let friendKey = self.selectedProfile.usersKey
-            if let currentUser = Auth.auth().currentUser?.uid {
-                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
-            }
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        
-        // show the alert
-        present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
+//        
+//        // add the actions (buttons)
+//        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
+//            let friendKey = self.selectedProfile.usersKey
+//            if let currentUser = Auth.auth().currentUser?.uid {
+//                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+//                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+//                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+//            }
+//            
+//        }))
+//        
+//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//        
+//        // show the alert
+//        present(alert, animated: true, completion: nil)
         
     }
     
@@ -605,6 +610,26 @@ class ViewProfileVC: UIViewController {
             performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
         }
     }
+    
+    @IBAction func cancelRemoveFriendBtnPressed(_ sender: Any) {
+        opaqueBackground.isHidden = true
+        removeFriendView.isHidden = true
+    }
+    
+    @IBAction func finalRemoveFriendBtnPressed(_ sender: Any) {
+        //remove friend
+        
+        let friendKey = self.selectedProfile.usersKey
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+            DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+            self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+        }
+        
+        opaqueBackground.isHidden = true
+        removeFriendView.isHidden = true
+    }
+    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "viewProfileToHome", sender: nil)
     }
