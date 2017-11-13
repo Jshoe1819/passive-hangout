@@ -38,6 +38,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var nameIndicatorImg: UIImageView!
     @IBOutlet weak var lastUpdatedIndicatorImg: UIImageView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var newMsgChatIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
     
     override func viewDidLoad() {
@@ -184,10 +186,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let status = statusArr[indexPath.row]
         let users = usersArr
         //print(status)
-        
-        if statusArr.count == 0 {
-            print("empty, show label or img")
-        }
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell") as? FeedCell {
             if let currentUser = Auth.auth().currentUser?.uid {
@@ -375,7 +373,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func didPressStatusContentLbl(_ tag: Int) {
-        print(tag)
+        //print(tag)
         //send to conversation
     }
     
@@ -427,7 +425,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             }
-            
+                        
             if self.statusArr.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
@@ -461,7 +459,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
-                                
+                                self.newMsgChatIndicator.isHidden = !users.hasNewMsg
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
                                 self.userCity = users.currentCity
                                 self.cityTextField.text = self.userCity
                                 

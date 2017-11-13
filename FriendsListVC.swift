@@ -282,7 +282,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 
                 
             }
-            print(indexPath.row)
+            //print(indexPath.row)
             
         }
         editAction.backgroundColor = UIColor(red:0.64, green:0.84, blue:0.64, alpha:1)

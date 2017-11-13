@@ -20,6 +20,7 @@ class Users {
     private var _friendsList: Dictionary<String, Any>!
     private var _joinedList: Dictionary<String, Any>!
     private var _profilePicUrl: String!
+    private var _hasNewMsg: Bool!
     private var _isPrivate: Bool!
     private var _occupation: String!
     private var _employer: String!
@@ -64,6 +65,10 @@ class Users {
         return _profilePicUrl
     }
     
+    var hasNewMsg: Bool {
+        return _hasNewMsg
+    }
+    
     var isPrivate: Bool {
         return _isPrivate
     }
@@ -89,7 +94,7 @@ class Users {
     }
     
     
-    init(cover: Dictionary<String, Any>, email: String, id: String, conversationId: Dictionary<String, Any>, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>, joinedList: Dictionary<String, Any>, profilePicUrl: String, isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
+    init(cover: Dictionary<String, Any>, email: String, id: String, conversationId: Dictionary<String, Any>, name: String, statusId: Dictionary<String, Any>, friendsList: Dictionary<String, Any>, joinedList: Dictionary<String, Any>, profilePicUrl: String, hasNewMsg: Bool ,isPrivate: Bool, occupation: String, employer: String, currentCity: String, school: String, usersKey:String) {
         self._cover = cover
         self._email = email
         self._id = id
@@ -99,6 +104,7 @@ class Users {
         self._friendsList = friendsList
         self._joinedList = joinedList
         self._profilePicUrl = profilePicUrl
+        self._hasNewMsg = hasNewMsg
         self._isPrivate = isPrivate
         self._occupation = occupation
         self._employer = employer
@@ -145,6 +151,10 @@ class Users {
         
         if let profilePicUrl = usersData["profilePicUrl"] as? String {
             self._profilePicUrl = profilePicUrl
+        }
+        
+        if let hasNewMsg = usersData["hasNewMsg"] as? Bool {
+            self._hasNewMsg = hasNewMsg
         }
         
         if let isPrivate = usersData["isPrivate"] as? Bool {

@@ -51,7 +51,7 @@ class ViewProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(originController)
+        //print(originController)
         
         footerNewFriendNotification.isHidden = !showFooterIndicator
         

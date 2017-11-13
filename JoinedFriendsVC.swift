@@ -161,7 +161,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func didPressAddFriendBtn(_ tag: Int) {
-        print("a \(tag)")
+        //print("a \(tag)")
         let friendKey = filtered[tag].usersKey
             DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
@@ -170,7 +170,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
-        print("r \(tag)")
+        //print("r \(tag)")
         let friendKey = filtered[tag].usersKey
             DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()

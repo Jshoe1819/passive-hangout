@@ -83,7 +83,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
-        print(selectedUserStatuses.count)
+        //print(selectedUserStatuses.count)
         if originController != "myProfileToPastStatuses"  {
             if selectedUserStatuses.count == 0 {
                 self.isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
@@ -115,7 +115,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                     }
                 }
                 if self.statusArr.count == 0 {
-                    print("hi")
+                    //print("hi")
                     self.isEmptyImg.isHidden = false
                 } else {
                     self.isEmptyImg.isHidden = true

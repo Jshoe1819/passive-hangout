@@ -99,6 +99,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                             "id": "a",
                                                             "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
                                                             "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
+                                                            "hasNewMsg":false,
                                                             "isPrivate":false,
                                                             "occupation":"",
                                                             "employer":"",

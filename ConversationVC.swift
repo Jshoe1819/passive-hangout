@@ -397,6 +397,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, selectedProfile.usersKey : false, userId : true])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/users").updateChildValues([userId : true,selectedProfile.usersKey : true])
+                DataService.ds.REF_USERS.child(selectedProfile.usersKey).updateChildValues(["hasNewMsg" : true])
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
                 if self.messagesArr.count > 0 {
                     self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
@@ -407,10 +408,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 placeholderLabel.isHidden = false
                 textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
                 if let lineHeight = textView.font?.lineHeight {
-                    print(lineHeight)
+                    //print(lineHeight)
                     textView.contentSize.height = lineHeight
                 }
-                print(messagesArr.count)
+                //print(messagesArr.count)
                 //set back to normal textview
                 //textView.frame.height = textView.intrinsicContentSize.height
             }

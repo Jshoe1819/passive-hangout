@@ -142,7 +142,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            print(indexPath.row)
+            //print(indexPath.row)
             if let currentUser = Auth.auth().currentUser?.uid {
                 DataService.ds.REF_CONVERSATION.child(conversationArr[indexPath.row].conversationKey).child("users").updateChildValues([currentUser : false])
             }
