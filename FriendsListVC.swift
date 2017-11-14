@@ -19,6 +19,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     @IBOutlet weak var removeFriendView: RoundedPopUp!
     @IBOutlet weak var removeFriendBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     var usersArr = [Users]()
     var conversationArr = [Conversation]()
@@ -69,6 +70,13 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
+                        
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            if users.usersKey == currentUser {
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                            }
+                        }
+                        
                         if self.currentFriendsList.keys.contains(users.usersKey) {
                             if self.currentFriendsList[users.usersKey] as! String == "received" {
                                 self.usersArr.insert(users, at: 0)

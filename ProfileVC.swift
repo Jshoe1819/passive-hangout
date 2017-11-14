@@ -31,6 +31,7 @@ class ProfileVC: UIViewController{
     @IBOutlet weak var pastStatusesIndicator: UIView!
     @IBOutlet weak var opaqueBackground: UIButton!
     @IBOutlet weak var signOutView: RoundedPopUp!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,7 @@ class ProfileVC: UIViewController{
                     if user.joinedList["seen"] as? String == "false" {
                         self.pastStatusesIndicator.isHidden = false
                     }
+                    self.footerNewMsgIndicator.isHidden = !user.hasNewMsg
                 }
             })
         }
@@ -318,6 +320,11 @@ class ProfileVC: UIViewController{
             if let nextVC = segue.destination as? JoinedFriendsVC {
                 nextVC.selectedStatus = sender as? Status
                 nextVC.originController = "myProfileToJoinedFriends"
+            }
+        } else if segue.identifier == "myProfileToLeaveFeedback" {
+            if let nextVC = segue.destination as? LeaveFeedbackVC {
+                nextVC.showMsgFooter = !footerNewMsgIndicator.isHidden
+                nextVC.showProfileFooter = !footerNewFriendIndicator.isHidden
             }
         }
     }

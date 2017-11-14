@@ -28,6 +28,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var textInputView: ReceiverMessageColor!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var shiftView: UIView!
@@ -131,6 +132,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                                
                             }
                             let otherUser = self.currentConversation.users.keys.contains(users.usersKey) && users.usersKey != currentUser
                             if otherUser {

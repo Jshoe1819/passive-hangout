@@ -27,6 +27,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var saveEditBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     
     var statusArr = [Status]()
@@ -84,15 +85,16 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         //print(selectedUserStatuses.count)
-        if originController != "myProfileToPastStatuses"  {
-            if selectedUserStatuses.count == 0 {
-                self.isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
-                self.isEmptyImg.isHidden = false
-            } else if selectedUserStatuses.count != 0 {
-                self.isEmptyImg.isHidden = true
-            }
-        } else {
-            
+//        if originController != "myProfileToPastStatuses"  {
+//            if selectedUserStatuses.count == 0 {
+//                self.isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
+//                self.isEmptyImg.isHidden = false
+//            } else if selectedUserStatuses.count != 0 {
+//                self.isEmptyImg.isHidden = true
+//            }
+//        }
+//        else {
+        
             //isEmptyImg.isHidden = true
             
             DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -148,6 +150,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                                     if newJoin {
                                         self.footerNewFriendIndicator.isHidden = false
                                     }
+                                    self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
                                 }
                             }
                             self.usersArr.append(users)
@@ -156,7 +159,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 }
                 self.tableView.reloadData()
             })
-        }
+        //}
         
         if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
             profilePicImg.isHidden = false
@@ -683,18 +686,22 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                     nextVC.searchText = searchText
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                     nextVC.selectedStatus = selectedStatus
                     nextVC.selectedProfile = viewedProfile
                 } else if originController == "joinedListToViewProfile" {
                     nextVC.originController = "joinedListToViewProfile"
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 }
             }
         }

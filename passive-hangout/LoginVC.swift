@@ -17,11 +17,15 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var errorAlert: UILabel!
+    @IBOutlet weak var forgotPasswordLbl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.emailField.delegate = self
         self.passwordField.delegate = self
+        
+        //press forgot password brings up prompt for email and send, call function
+        //forgotPasswordLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendPasswordReset(withEmail:completion:))))
         
     }
     
@@ -47,6 +51,18 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    //TESTTTT
+    @IBAction func testForgot(_ sender: Any) {
+        
+        Auth.auth().sendPasswordReset(withEmail: "jshoe1819@gmail.com") { (error) in
+            if error != nil {
+                print(error!)
+            } else {
+                print("woo sent")
+            }
+        }
+
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
@@ -81,7 +97,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                 print("Successful login")
                                 self.errorAlert.text = " "
                                 if let user = user {
-                                self.completeSignIn(uid: user.uid)
+                                    self.completeSignIn(uid: user.uid)
                                 }
                             }})
                     }
@@ -112,15 +128,34 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
                 let userData = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name,cover"], tokenString: FBSDKAccessToken.current().tokenString, version: nil, httpMethod: "GET")
                 if let userData = userData {
-                userData.start(completionHandler: { (connection, result, error) -> Void in
-                    if error != nil {
-                        print("error: \(error!)")
-                    } else {
-                        //add other data to data where result is
-                        let data: [String: Any] = result as! [String: Any]
-                        self.firebaseCredentialAuth(credential, userData: data)
-                    }
-                })}
+                    userData.start(completionHandler: { (connection, result, error) -> Void in
+                        if error != nil {
+                            print("error: \(error!)")
+                        } else {
+                            //add other data to data where result is?
+                            let data: [String: Any] = result as! [String: Any]
+                            //data["school"] = "yo"
+                            
+                            //                        let userData = ["name":"\(self.nameField.text!)",
+                            //                            "email":"\(self.emailField.text!)",
+                            //                            "statusId": ["a":true],
+                            //                            "friendsList": ["seen": true],
+                            //                            "joinedList": ["seen": true],
+                            //                            "id": "a",
+                            //                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
+                            //                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
+                            //                            "hasNewMsg":false,
+                            //                            "isPrivate":false,
+                            //                            "occupation":"",
+                            //                            "employer":"",
+                            //                            "currentCity":"",
+                            //                            "school":""] as [String : Any]
+                            
+                            
+                            print(data)
+                            self.firebaseCredentialAuth(credential, userData: data)
+                        }
+                    })}
             }
         }
     }
@@ -132,8 +167,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             } else {
                 print("JAKE: Successfull passed credential for firebase auth")
                 if let user = user {
-                self.completeSignIn(uid: user.uid)
-                DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
+                    self.completeSignIn(uid: user.uid)
+                    
+                    //restricts to one data load?
+                    if let currentUser = Auth.auth().currentUser?.uid {
+                        if user.uid == currentUser {
+                            return
+                        }
+                    }
+                    
+                    DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
                 }
             }
         }

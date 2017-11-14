@@ -17,6 +17,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     var statusArr = [Status]()
     var usersArr = [Users]()
@@ -92,6 +93,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
                             }
                         }
                         self.usersArr.append(users)
@@ -143,6 +145,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 nextVC.selectedProfile = sender as? Users
                 nextVC.originController = "joinedListToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 //only use back button on non main buttons
                 //have data loaders on main buttons
                 //instant loads on main btns

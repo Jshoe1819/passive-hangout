@@ -325,6 +325,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 nextVC.originController = "feedToViewProfile"
             }
         }

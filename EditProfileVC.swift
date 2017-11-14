@@ -31,6 +31,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     if answer && user.friendsList["seen"] as? String == "false" {
                         self.footerNewFriendIndicator.isHidden = false
                     }
+                    self.footerNewMsgIndicator.isHidden = !user.hasNewMsg
+                    
                     self.toBeDeletedProfRef = user.profilePicUrl
                     //print("1: \(self.toBeDeletedProfRef)")
                     self.toBeDeletedCoverRef = user.cover["source"] as! String

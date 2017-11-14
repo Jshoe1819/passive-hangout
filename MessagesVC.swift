@@ -15,6 +15,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var usersArr = [Users]()
     var conversationArr = [Conversation]()
     var searchResults = [Users]()
+    var newMsgKeyArr = [String]()
 //    var currentUser: Users!
     
     @IBOutlet weak var tableView: UITableView!
@@ -47,6 +48,13 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                             let userConversation = conversation.users.keys.contains(currentUser)
                             if userConversation && conversation.users[currentUser] as? Bool == true {
                                 self.conversationArr.insert(conversation, at: 0)
+                                if let unread = conversation.messages[currentUser] as? Bool {
+                                    if unread == false {
+                                        self.newMsgKeyArr.insert(conversation.conversationKey, at: 0)
+                                        print(self.newMsgKeyArr)
+                                    }
+                                }
+                                //self.newMsgDict[conversation.conversationKey] = conversation.messages["\(currentUser)"] as? Bool
                             }
                         }
                     }
@@ -133,6 +141,13 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DataService.ds.REF_CONVERSATION.child("\(conversationArr[indexPath.row].conversationKey)/messages").updateChildValues(["read" : true])
         let selectedConversation = conversationArr[indexPath.row].conversationKey
+        if newMsgKeyArr.count == 1 {
+            if newMsgKeyArr[0] == conversationArr[indexPath.row].conversationKey {
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(["hasNewMsg" : false])
+                }
+            }
+        }
         performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
     }
     

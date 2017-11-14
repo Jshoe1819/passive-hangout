@@ -16,6 +16,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     var usersArr = [Users]()
     var filtered = [Users]()
@@ -66,6 +67,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                                
                                 self.currentUserInfo = users
                             }
                         }
@@ -155,6 +159,8 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             if let nextVC = segue.destination as? ViewProfileVC {
                 nextVC.selectedProfile = sender as? Users
                 nextVC.originController = "joinedFriendsToViewProfile"
+                nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 nextVC.selectedStatus = selectedStatus
             }
         }

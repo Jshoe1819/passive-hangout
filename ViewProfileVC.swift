@@ -35,6 +35,7 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var privateAddFriendBtn: RoundedButton!
     @IBOutlet weak var isPrivateStackView: UIStackView!
     @IBOutlet weak var footerNewFriendNotification: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var opaqueBackground: UIButton!
     @IBOutlet weak var removeFriendView: RoundedPopUp!
@@ -47,6 +48,7 @@ class ViewProfileVC: UIViewController {
     var originController = ""
     var searchText = ""
     var showFooterIndicator = false
+    var showFooterNewMsg = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +56,7 @@ class ViewProfileVC: UIViewController {
         //print(originController)
         
         footerNewFriendNotification.isHidden = !showFooterIndicator
+        footerNewMsgIndicator.isHidden = !showFooterNewMsg
         
         if originController == "feedToViewProfile" || originController == "joinedListToViewProfile" || originController == "searchToViewProfile" {
             self.backBtn.isHidden = true

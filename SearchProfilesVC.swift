@@ -40,6 +40,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var citiesIndicatorView: UIView!
     @IBOutlet weak var noResultsLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
         //code to refresh
@@ -170,6 +171,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                                
                                 self.currentUserInfo = users
                                 
                             }
@@ -605,6 +609,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 nextVC.selectedProfile = sender as? Users
                 nextVC.originController = "searchToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 if let text = searchBar.text {
                     nextVC.searchText = text
                 }

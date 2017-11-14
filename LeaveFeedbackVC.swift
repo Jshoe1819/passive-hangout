@@ -8,8 +8,12 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    var showProfileFooter = false
+    var showMsgFooter = false
     
     @IBOutlet weak var selectCategoryBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -19,6 +23,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var homeBtn: UIButton!
     @IBOutlet weak var characterCountLimitLblBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var hideTableBtn: UIButton!
     var placeholderLabel : UILabel!
     
@@ -32,6 +37,9 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         tableView.delegate = self
         tableView.dataSource = self
         textView.delegate = self
+        
+        footerNewFriendIndicator.isHidden = !showProfileFooter
+        footerNewMsgIndicator.isHidden = !showMsgFooter
         
         placeholderLabel = UILabel()
         placeholderLabel.text = "Please select a category..."
@@ -154,14 +162,17 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             textView.resignFirstResponder()
             performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
         }else {
-            let childUpdates = ["content": textView.text,
-                                "postedDate": ServerValue.timestamp()] as [String : Any]
-            if let category = selectCategoryBtn.titleLabel?.text {
-                
-                let key = DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).childByAutoId().key
-                DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).child(key).updateChildValues(childUpdates)
-                textView.resignFirstResponder()
-                performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
+            if let currentUser = Auth.auth().currentUser?.uid {
+                let childUpdates = ["content": textView.text,
+                                    "user": currentUser,
+                                    "postedDate": ServerValue.timestamp()] as [String : Any]
+                if let category = selectCategoryBtn.titleLabel?.text {
+                    
+                    let key = DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).childByAutoId().key
+                    DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).child(key).updateChildValues(childUpdates)
+                    textView.resignFirstResponder()
+                    performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
+                }
             }
         }
     }
