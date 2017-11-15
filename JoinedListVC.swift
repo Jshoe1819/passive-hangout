@@ -105,6 +105,16 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        tableView.frame.origin.x += 500
+        
+        UIView.animate(withDuration: 0.25) {
+            self.tableView.frame.origin.x -= 500
+        }
+        
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

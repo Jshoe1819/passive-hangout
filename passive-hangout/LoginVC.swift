@@ -94,7 +94,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.5) {
             self.forgotPasswordView.frame.origin.x = 38.5
         }
-        
+    
     }
 
     @IBAction func sendResetBtnPressed(_ sender: Any) {
@@ -109,28 +109,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     } else if resetEmail != confirmEmail {
                         confirmEmailErrorLbl.text = "Emails do not match"
                     } else {
-                        Auth.auth().sendPasswordReset(withEmail: confirmEmail) { (error) in
-
-                            if error != nil {
-                                if let errCode = AuthErrorCode(rawValue: error!._code) {
-                                    switch errCode {
-                                    case .userNotFound:
-                                        self.confirmEmailErrorLbl.text = "No account found with this email"
-                                    case .invalidEmail:
-                                        self.confirmEmailErrorLbl.text = "Invalid email format"
-                                    case .userDisabled:
-                                        self.errorAlert.text = "Account has been disabled"
-                                    default:
-                                        print("Login user error: \(error!)")
-                                    }
-                                }
-                            }else {
+                        
+                        AuthService.aus.sendPasswordReset(email: resetEmail, onComplete: { (errMsg, nil) in
+                            
+                            if errMsg == "All Good" {
                                 
                                 self.resignFirstResponder()
                                 
                                 UIView.animate(withDuration: 0.5) {
                                     self.forgotPasswordView.frame.origin.x += 500
                                 }
+                                
                                 let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
                                 DispatchQueue.main.asyncAfter(deadline: when) {
                                     // Your code with delay
@@ -138,12 +127,45 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                     self.forgotPasswordBackgroundBtn.isHidden = true
                                 }
                                 
-                                self.emailResetTextField.text = ""
-                                self.confirmEmailResetTextfield.text = ""
-                                self.confirmEmailErrorLbl.text = ""
-                                
+                            } else {
+                                self.confirmEmailErrorLbl.text = errMsg
                             }
-                        }
+                        })
+//                        Auth.auth().sendPasswordReset(withEmail: confirmEmail) { (error) in
+//
+//                            if error != nil {
+//                                if let errCode = AuthErrorCode(rawValue: error!._code) {
+//                                    switch errCode {
+//                                    case .userNotFound:
+//                                        self.confirmEmailErrorLbl.text = "No account found with this email"
+//                                    case .invalidEmail:
+//                                        self.confirmEmailErrorLbl.text = "Invalid email format"
+//                                    case .userDisabled:
+//                                        self.errorAlert.text = "Account has been disabled"
+//                                    default:
+//                                        print("Login user error: \(error!)")
+//                                    }
+//                                }
+//                            } else {
+//                                
+//                                self.resignFirstResponder()
+//                                
+//                                UIView.animate(withDuration: 0.5) {
+//                                    self.forgotPasswordView.frame.origin.x += 500
+//                                }
+//                                let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+//                                DispatchQueue.main.asyncAfter(deadline: when) {
+//                                    // Your code with delay
+//                                    self.forgotPasswordView.isHidden = true
+//                                    self.forgotPasswordBackgroundBtn.isHidden = true
+//                                }
+//
+//                                self.emailResetTextField.text = ""
+//                                self.confirmEmailResetTextfield.text = ""
+//                                self.confirmEmailErrorLbl.text = ""
+//                                
+//                            }
+//                        }
                     }
                     
                 }
@@ -192,31 +214,40 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     if password == "" {
                         errorAlert.text = "Please enter a password"
                     } else {
-                        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-                            if error != nil {
-                                if let errCode = AuthErrorCode(rawValue: error!._code) {
-                                    switch errCode {
-                                    case .userNotFound:
-                                        self.errorAlert.text = "No account found with this email"
-                                    case .tooManyRequests:
-                                        self.errorAlert.text = "Too many login attempts, please try again later"
-                                    case .invalidEmail:
-                                        self.errorAlert.text = "Invalid email format"
-                                    case .userDisabled:
-                                        self.errorAlert.text = "Account has been disabled"
-                                    case .wrongPassword:
-                                        self.errorAlert.text = "Wrong password"
-                                    default:
-                                        print("Login user error: \(error!)")
-                                    }
-                                }
-                            }else {
-                                print("Successful login")
-                                self.errorAlert.text = " "
-                                if let user = user {
-                                    self.completeSignIn(uid: user.uid)
-                                }
-                            }})
+                        
+                        AuthService.aus.login(email: email, password: password, onComplete: { (errMsg, uid) in
+                            if errMsg == "All Good" {
+                                self.completeSignIn(uid: uid as! String)
+                            } else {
+                                self.errorAlert.text = errMsg
+                            }
+                        })
+                        
+//                        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+//                            if error != nil {
+//                                if let errCode = AuthErrorCode(rawValue: error!._code) {
+//                                    switch errCode {
+//                                    case .userNotFound:
+//                                        self.errorAlert.text = "No account found with this email"
+//                                    case .tooManyRequests:
+//                                        self.errorAlert.text = "Too many login attempts, please try again later"
+//                                    case .invalidEmail:
+//                                        self.errorAlert.text = "Invalid email format"
+//                                    case .userDisabled:
+//                                        self.errorAlert.text = "Account has been disabled"
+//                                    case .wrongPassword:
+//                                        self.errorAlert.text = "Wrong password"
+//                                    default:
+//                                        print("Login user error: \(error!)")
+//                                    }
+//                                }
+//                            } else {
+//                                print("Successful login")
+//                                self.errorAlert.text = " "
+//                                if let user = user {
+//                                    self.completeSignIn(uid: user.uid)
+//                                }
+//                            }})
                     }
                     
                 }
@@ -308,7 +339,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     //                    var data = userData
                     //                    data["school"] = "yo"
                     //                    print(data)
-                    //DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
+                    DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
                 }
             }
         }

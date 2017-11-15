@@ -213,7 +213,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7As-cA-5Al">
-                                <rect key="frame" x="38.5" y="223" width="298" height="220"/>
+                                <rect key="frame" x="38.5" y="223.5" width="298" height="220"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9A9-DH-M7i">
                                         <rect key="frame" x="80.5" y="10" width="137" height="23.5"/>
@@ -637,8 +637,7 @@
                         <outlet property="nameField" destination="ZD5-Tg-bRa" id="X6T-LB-H72"/>
                         <outlet property="passwordField" destination="knJ-0V-HGu" id="2TL-9x-qEp"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="backToLogin" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="FNv-bu-mWP"/>
-                        <segue destination="BFj-D2-PmI" kind="show" identifier="signUpToActivityFeed" id="bSo-0X-Uch"/>
-                        <segue destination="YTD-vX-J96" kind="show" identifier="signUpToEditProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="2n0-8E-ntV"/>
+                        <segue destination="YTD-vX-J96" kind="show" identifier="signUpToEditProfile" id="2n0-8E-ntV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A2E-Y8-z56" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1207,10 +1206,9 @@
                         <outlet property="statusPopupTopConstraint" destination="SGR-be-zC8" id="W20-b5-z8J"/>
                         <outlet property="tableView" destination="jgn-hQ-K5J" id="xit-DA-jAr"/>
                         <outlet property="textView" destination="DvP-ps-ngK" id="Psj-aG-14M"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="feedToLogin" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="FDh-cr-2VA"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="activityFeedToProfile" animates="NO" id="LgH-sn-NCD"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="activityFeedToJoinedList" animates="NO" id="iaT-VV-cM3"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="feedToViewProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="goR-0M-Gfk"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="feedToViewProfile" animates="NO" id="goR-0M-Gfk"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="homeToSearch" animates="NO" id="URg-cD-E2a"/>
                         <segue destination="bXL-p8-wqX" kind="show" identifier="feedToMessages" id="W4L-ij-kOw"/>
                     </connections>
@@ -1853,13 +1851,13 @@
                         <outlet property="signOutView" destination="Wy6-GS-E2O" id="EA4-Ah-Bfp"/>
                         <outlet property="statusAgeLbl" destination="uAk-CY-J30" id="CWc-xf-rNo"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="profileToActivityFeed" animates="NO" id="y9G-P1-8je"/>
-                        <segue destination="PDe-k8-epe" kind="show" identifier="myProfileToPastStatuses" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="Q2u-Op-EZN"/>
-                        <segue destination="YTD-vX-J96" kind="show" identifier="myProfileToEditProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="cdL-qi-TmD"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="myProfileToLogin" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="agh-4t-wA8"/>
-                        <segue destination="zYD-JU-fTu" kind="show" identifier="myProfileToLeaveFeedback" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="kRb-K7-YZf"/>
-                        <segue destination="HzR-jr-3QO" kind="show" identifier="myProfileToFriendsList" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="5Tl-Jg-UAb"/>
+                        <segue destination="PDe-k8-epe" kind="show" identifier="myProfileToPastStatuses" animates="NO" id="Q2u-Op-EZN"/>
+                        <segue destination="YTD-vX-J96" kind="show" identifier="myProfileToEditProfile" animates="NO" id="cdL-qi-TmD"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="myProfileToLogin" id="agh-4t-wA8"/>
+                        <segue destination="zYD-JU-fTu" kind="show" identifier="myProfileToLeaveFeedback" animates="NO" id="kRb-K7-YZf"/>
+                        <segue destination="HzR-jr-3QO" kind="show" identifier="myProfileToFriendsList" animates="NO" id="5Tl-Jg-UAb"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="myProfileToJoinedList" animates="NO" id="uf7-H6-dOj"/>
-                        <segue destination="jKY-gA-loY" kind="show" identifier="myProfileToJoinedFriends" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="D0t-Q4-6I8"/>
+                        <segue destination="jKY-gA-loY" kind="show" identifier="myProfileToJoinedFriends" animates="NO" id="D0t-Q4-6I8"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="myProfileToSearch" animates="NO" id="lPd-Em-nqx"/>
                     </connections>
                 </viewController>
@@ -1876,11 +1874,11 @@
                         <viewControllerLayoutGuide type="bottom" id="1jM-F5-nZf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dE4-sx-BNx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LfN-qT-luA">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="740" width="375" height="50"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7AT-2j-Eqy">
                                         <rect key="frame" x="0.0" y="14" width="375" height="22"/>
@@ -1960,7 +1958,7 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bFs-Yp-7BH">
-                                <rect key="frame" x="25" y="147" width="320" height="323"/>
+                                <rect key="frame" x="25" y="147" width="320" height="446"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
@@ -1976,7 +1974,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 240 max characters used" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDh-pV-pPw">
-                                <rect key="frame" x="30" y="475" width="250" height="22"/>
+                                <rect key="frame" x="30" y="598" width="250" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="J6x-Dw-Xkm"/>
                                 </constraints>
@@ -2038,7 +2036,7 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PU2-g3-L1i">
-                                <rect key="frame" x="0.0" y="65" width="375" height="552"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="675"/>
                                 <connections>
                                     <action selector="hideTableBtnPressed:" destination="zYD-JU-fTu" eventType="touchUpInside" id="254-ao-3hs"/>
                                 </connections>
@@ -2114,10 +2112,10 @@
                         <outlet property="selectCategoryBtn" destination="rHx-Vj-rpl" id="Ydd-b2-qvq"/>
                         <outlet property="tableView" destination="Uh1-HM-xiq" id="1w7-OC-Owq"/>
                         <outlet property="textView" destination="bFs-Yp-7BH" id="Eym-WP-gTw"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="leaveFeedbackToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="PqB-AM-vXR"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="leaveFeedbackToMyProfile" animates="NO" id="PqB-AM-vXR"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="leaveFeedbackToHome" animates="NO" id="1oa-5w-smP"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="leaveFeedbackToJoinedList" animates="NO" id="EqC-GO-pSd"/>
-                        <segue destination="fHV-HD-fhD" kind="show" identifier="leaveFeedbackToSearch" id="wOn-Aq-wHf"/>
+                        <segue destination="fHV-HD-fhD" kind="show" identifier="leaveFeedbackToSearch" animates="NO" id="wOn-Aq-wHf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13Z-aU-wNr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2133,11 +2131,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jLL-9n-deZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="DLX-wi-CyU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROa-L5-LRh">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="740" width="375" height="50"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="yP9-V2-7Ve">
                                         <rect key="frame" x="0.0" y="14" width="375" height="22"/>
@@ -2217,7 +2215,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="123" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3x9-4d-n9W">
-                                <rect key="frame" x="0.0" y="67" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="67" width="375" height="673"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -2477,11 +2475,11 @@
                                 </constraints>
                             </view>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my-past-hangouts-isEmpty-image" translatesAutoresizingMaskIntoConstraints="NO" id="wTg-4t-upB">
-                                <rect key="frame" x="0.0" y="67" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="67" width="375" height="673"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ht1-w5-ZgD">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="cancelEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="Pgw-cA-lda"/>
@@ -2489,11 +2487,11 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoZ-6u-VBi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahl-cW-RyS" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="20" y="231" width="335" height="205.5"/>
+                                <rect key="frame" x="20" y="292.5" width="335" height="205.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete Hangout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZqW-0F-in6">
                                         <rect key="frame" x="100.5" y="5" width="133" height="25"/>
@@ -2581,7 +2579,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wd2-iH-dXQ" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="20" y="70" width="335" height="325"/>
+                                <rect key="frame" x="20" y="70" width="335" height="448"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Hangout" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tbj-2l-Wv5">
                                         <rect key="frame" x="112" y="5" width="110.5" height="25"/>
@@ -2608,7 +2606,7 @@
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" directionalLockEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryS-vg-f4S" customClass="NewStatusTextView" customModule="passive_hangout" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="77.5" width="295" height="85"/>
+                                        <rect key="frame" x="20" y="139" width="295" height="85"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -2619,7 +2617,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                     </textView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1A4-V1-7vu">
-                                        <rect key="frame" x="25" y="184.5" width="285" height="22"/>
+                                        <rect key="frame" x="25" y="263" width="285" height="22"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2627,7 +2625,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PuL-dv-w6X">
-                                        <rect key="frame" x="20" y="277" width="42" height="0.0"/>
+                                        <rect key="frame" x="20" y="389" width="42" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="yeE-6B-ztJ"/>
                                         </constraints>
@@ -2636,7 +2634,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgY-VU-6yA">
-                                        <rect key="frame" x="215" y="259" width="100" height="36"/>
+                                        <rect key="frame" x="215" y="371" width="100" height="36"/>
                                         <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="GCw-ME-N1A"/>
@@ -2731,11 +2729,11 @@
                         <outlet property="profilePicImg" destination="OT7-MI-x2g" id="CN8-pR-2ZT"/>
                         <outlet property="saveEditBtn" destination="okc-sa-w97" id="h0c-2z-W9s"/>
                         <outlet property="tableView" destination="3x9-4d-n9W" id="PNa-2K-ZaR"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="pastStatusesToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="pO3-lh-m1g"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="pastStatusesToMyProfile" animates="NO" id="pO3-lh-m1g"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="pastStatusesToActivityFeed" animates="NO" id="MTP-dR-lnk"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="pastStatusesToViewProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="PTq-OX-4io"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="pastStatusesToViewProfile" animates="NO" id="PTq-OX-4io"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="pastStatusesToJoinedList" animates="NO" id="3dF-EC-wDu"/>
-                        <segue destination="jKY-gA-loY" kind="show" identifier="pastStatusesToJoinedFriends" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="Yry-oZ-Wzs"/>
+                        <segue destination="jKY-gA-loY" kind="show" identifier="pastStatusesToJoinedFriends" animates="NO" id="Yry-oZ-Wzs"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="pastStatusesToSearch" animates="NO" id="f74-MD-8qo"/>
                     </connections>
                 </viewController>
@@ -3107,7 +3105,7 @@
                         <outlet property="profileImg" destination="PvR-ch-4op" id="5WQ-Qw-J48"/>
                         <outlet property="profileImgPicker" destination="R2Y-cC-qjX" id="dck-BQ-16r"/>
                         <outlet property="schoolTextField" destination="LBR-Co-QhD" id="ry5-sc-Q15"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="editProfileToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="crd-6O-jsE"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="editProfileToMyProfile" animates="NO" id="crd-6O-jsE"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="editProfileToHome" animates="NO" id="7R7-N8-loz"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="editProfileToJoinedList" animates="NO" id="GqT-o6-9WH"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="editProfileToSearch" animates="NO" id="PEf-1w-zZf"/>
@@ -3126,11 +3124,11 @@
                         <viewControllerLayoutGuide type="bottom" id="gDg-1C-Ljw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LdW-Cv-0Wi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIJ-II-H8t">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="740" width="375" height="50"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aA2-O2-PKx">
                                         <rect key="frame" x="0.0" y="14" width="375" height="22"/>
@@ -3214,7 +3212,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iAs-sU-Y1I">
-                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
+                                <rect key="frame" x="0.0" y="111" width="375" height="629"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -3368,18 +3366,18 @@
                                 </constraints>
                             </view>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="friends-list-isEmpty-image" translatesAutoresizingMaskIntoConstraints="NO" id="ejV-9G-s4g">
-                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
+                                <rect key="frame" x="0.0" y="111" width="375" height="629"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="td8-PI-HTb">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="gWZ-OA-jSU"/>
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHg-5b-YRO" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="20" y="231" width="335" height="205.5"/>
+                                <rect key="frame" x="20" y="292.5" width="335" height="205.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remove Friend" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id4-io-phi">
                                         <rect key="frame" x="104" y="5" width="126" height="25"/>
@@ -3510,11 +3508,11 @@
                         <outlet property="searchBar" destination="KYE-Xk-XIM" id="tRL-ar-ihS"/>
                         <outlet property="tableView" destination="iAs-sU-Y1I" id="RaT-dC-14u"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="friendsListToHome" animates="NO" id="mIA-N4-PrF"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="friendsListToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="O4J-wM-hDT"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="friendsListToViewProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="BJa-L8-pjS"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="friendsListToMyProfile" animates="NO" id="O4J-wM-hDT"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="friendsListToViewProfile" animates="NO" id="BJa-L8-pjS"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="friendsListToJoinedList" animates="NO" id="vOi-0M-dkj"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="friendsListToSearch" animates="NO" id="y1D-2v-C8P"/>
-                        <segue destination="rWv-yP-hHr" kind="show" identifier="friendsListToConversation" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="gch-s9-LIa"/>
+                        <segue destination="rWv-yP-hHr" kind="show" identifier="friendsListToConversation" id="gch-s9-LIa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsS-Re-c2k" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4038,13 +4036,13 @@
                         <outlet property="staticStackView" destination="PZT-Gd-vxW" id="dZU-PN-wq1"/>
                         <outlet property="statusAgeLbl" destination="Uze-ID-kPE" id="VnH-0Z-kbb"/>
                         <outlet property="userInfoStackView" destination="iOO-Tc-C8d" id="KLy-GU-lt7"/>
-                        <segue destination="HzR-jr-3QO" kind="show" identifier="viewProfileToFriendsList" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="yYZ-zz-Uql"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="viewProfileToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="CSu-Y2-zdl"/>
+                        <segue destination="HzR-jr-3QO" kind="show" identifier="viewProfileToFriendsList" animates="NO" id="yYZ-zz-Uql"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="viewProfileToMyProfile" animates="NO" id="CSu-Y2-zdl"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="viewProfileToHome" animates="NO" id="EHz-GF-FX6"/>
-                        <segue destination="PDe-k8-epe" kind="show" identifier="viewProfileToPastStatuses" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="tfq-Mk-6Zo"/>
+                        <segue destination="PDe-k8-epe" kind="show" identifier="viewProfileToPastStatuses" animates="NO" id="tfq-Mk-6Zo"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="viewProfileToFeed" animates="NO" id="YW1-0X-4mv"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="viewProfileToJoinedList" animates="NO" id="LO5-wp-VUO"/>
-                        <segue destination="jKY-gA-loY" kind="show" identifier="viewProfileToJoinedFriends" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="mAZ-fl-5u8"/>
+                        <segue destination="jKY-gA-loY" kind="show" identifier="viewProfileToJoinedFriends" animates="NO" id="mAZ-fl-5u8"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="viewProfileToSearch" animates="NO" id="qz8-im-CGH"/>
                         <segue destination="rWv-yP-hHr" kind="show" identifier="viewProfileToConversation" id="9ga-VY-kxp"/>
                     </connections>
@@ -4304,7 +4302,7 @@
                         <outlet property="tableView" destination="8zb-PQ-qS4" id="1iB-3U-Kda"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="joinedListToHome" animates="NO" id="h9M-nc-TZC"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="joinedListToMyProfile" animates="NO" id="zZq-vH-goe"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="joinedListToViewProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="fJQ-dC-hyU"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="joinedListToViewProfile" animates="NO" id="fJQ-dC-hyU"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="joinedListToSearch" animates="NO" id="gCg-Ub-8sY"/>
                     </connections>
                 </viewController>
@@ -4321,11 +4319,11 @@
                         <viewControllerLayoutGuide type="bottom" id="WOh-EY-dOb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7hc-vq-Ar7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c8w-1Y-R8A">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="740" width="375" height="50"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="F61-Le-RAl">
                                         <rect key="frame" x="0.0" y="14" width="375" height="22"/>
@@ -4400,7 +4398,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qV3-Qu-5n0">
-                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
+                                <rect key="frame" x="0.0" y="111" width="375" height="629"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -4548,7 +4546,7 @@
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joined-past-hangouts-isEmpty-image" translatesAutoresizingMaskIntoConstraints="NO" id="sBk-Ii-Hed">
-                                <rect key="frame" x="0.0" y="111" width="375" height="506"/>
+                                <rect key="frame" x="0.0" y="111" width="375" height="629"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                         </subviews>
@@ -4579,9 +4577,9 @@
                         <outlet property="isEmptyImg" destination="sBk-Ii-Hed" id="ctf-ZC-R7x"/>
                         <outlet property="searchBar" destination="N1D-ob-laZ" id="E7T-TJ-b5c"/>
                         <outlet property="tableView" destination="qV3-Qu-5n0" id="CVS-bG-9yb"/>
-                        <segue destination="PDe-k8-epe" kind="show" identifier="joinedFriendsToPastStatuses" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="DzP-9T-IMk"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="joinedFriendsToViewProfile" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="y2p-Hc-rBB"/>
-                        <segue destination="vee-CM-2bF" kind="show" identifier="joinedFriendsToMyProfile" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="Cvi-3u-GSf"/>
+                        <segue destination="PDe-k8-epe" kind="show" identifier="joinedFriendsToPastStatuses" animates="NO" id="DzP-9T-IMk"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="joinedFriendsToViewProfile" animates="NO" id="y2p-Hc-rBB"/>
+                        <segue destination="vee-CM-2bF" kind="show" identifier="joinedFriendsToMyProfile" animates="NO" id="Cvi-3u-GSf"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="joinedFriendsToHome" animates="NO" id="U9w-Go-lZX"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="joinedFriendsToJoinedList" animates="NO" id="03d-ku-lOM"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="joinedFriendsToSearch" animates="NO" id="oiz-n8-MeS"/>
@@ -5618,11 +5616,11 @@
                         <outlet property="footerNewFriendIndicator" destination="GXH-r4-nLX" id="PMw-N5-z2N"/>
                         <outlet property="searchBar" destination="c51-dM-byq" id="Jnh-xx-bqz"/>
                         <outlet property="tableView" destination="e5D-ID-OKV" id="BlA-Xz-kbb"/>
-                        <segue destination="BFj-D2-PmI" kind="show" identifier="messagesToFeed" animates="NO" id="7ZA-73-jNd"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="messagesToFeed" id="7ZA-73-jNd"/>
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="messagesToJoinedList" animates="NO" id="10u-LX-lAE"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="messagesToSearch" animates="NO" id="hpM-YK-AX3"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="messagesToMyProfile" animates="NO" id="v6I-qg-3qN"/>
-                        <segue destination="rWv-yP-hHr" kind="show" identifier="messagesToConversation" id="Zl1-hz-g1g"/>
+                        <segue destination="rWv-yP-hHr" kind="show" identifier="messagesToConversation" animates="NO" id="Zl1-hz-g1g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPB-Xn-OtW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5638,11 +5636,11 @@
                         <viewControllerLayoutGuide type="bottom" id="TfU-ag-ESJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uEq-tj-IBb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izp-Yi-aE7">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="740" width="375" height="50"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZuA-56-MzY">
                                         <rect key="frame" x="0.0" y="14" width="375" height="22"/>
@@ -5717,7 +5715,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="39" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uxu-PC-NvI">
-                                <rect key="frame" x="0.0" y="65" width="375" height="502"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="625"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -5849,7 +5847,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-Pe-poz" customClass="ReceiverMessageColor" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="569" width="375" height="48"/>
+                                <rect key="frame" x="0.0" y="692" width="375" height="48"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mar-2c-Oy7">
                                         <rect key="frame" x="15" y="5" width="296" height="38"/>
@@ -5920,8 +5918,8 @@
                         <segue destination="Thv-Jb-0qu" kind="show" identifier="conversationToJoinedList" animates="NO" id="aPr-sb-FpU"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="conversationToMyProfile" animates="NO" id="wBT-15-yfK"/>
                         <segue destination="fHV-HD-fhD" kind="show" identifier="conversationToSearch" animates="NO" id="nN3-Bv-6hq"/>
-                        <segue destination="82o-zX-OZb" kind="show" identifier="conversationToViewProfile" id="UQZ-Az-aT1"/>
-                        <segue destination="HzR-jr-3QO" kind="show" identifier="conversationToFriendsList" customClass="SegueFromLeftToRight" customModule="passive_hangout" customModuleProvider="target" id="250-dH-rGj"/>
+                        <segue destination="82o-zX-OZb" kind="show" identifier="conversationToViewProfile" animates="NO" id="UQZ-Az-aT1"/>
+                        <segue destination="HzR-jr-3QO" kind="show" identifier="conversationToFriendsList" animates="NO" id="250-dH-rGj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o0x-wc-eki" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5963,17 +5961,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BJa-L8-pjS"/>
-        <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="O4J-wM-hDT"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="Q2u-Op-EZN"/>
         <segue reference="agh-4t-wA8"/>
-        <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="qPi-bu-ONI"/>
-        <segue reference="y1D-2v-C8P"/>
-        <segue reference="vOi-0M-dkj"/>
-        <segue reference="gch-s9-LIa"/>
+        <segue reference="wBT-15-yfK"/>
+        <segue reference="Zl1-hz-g1g"/>
         <segue reference="adL-Uz-ymj"/>
+        <segue reference="aPr-sb-FpU"/>
+        <segue reference="hRN-vk-2wK"/>
+        <segue reference="UQZ-Az-aT1"/>
+        <segue reference="nN3-Bv-6hq"/>
+        <segue reference="250-dH-rGj"/>
+        <segue reference="mAZ-fl-5u8"/>
+        <segue reference="DzP-9T-IMk"/>
+        <segue reference="cdL-qi-TmD"/>
     </inferredMetricsTieBreakers>
 </document>
