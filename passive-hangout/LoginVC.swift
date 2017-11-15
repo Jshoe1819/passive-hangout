@@ -19,6 +19,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var errorAlert: UILabel!
     @IBOutlet weak var forgotPasswordLbl: UILabel!
+    @IBOutlet weak var forgotPasswordView: UIView!
+    @IBOutlet weak var forgotPasswordBackgroundBtn: UIButton!
+    @IBOutlet weak var emailResetTextField: UITextField!
+    @IBOutlet weak var confirmEmailResetTextfield: UITextField!
+    @IBOutlet weak var confirmEmailErrorLbl: UILabel!
     
     var userKeys = [String]()
     
@@ -26,9 +31,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.emailField.delegate = self
         self.passwordField.delegate = self
+        self.emailResetTextField.delegate = self
+        self.confirmEmailResetTextfield.delegate = self
         
         //press forgot password brings up prompt for email and send, call function
-        //forgotPasswordLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendPasswordReset(withEmail:completion:))))
+        forgotPasswordLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showForgotPasswordView)))
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -62,6 +69,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
             loginBtnPressed(self)
+        } else if textField == emailResetTextField {
+            confirmEmailResetTextfield.becomeFirstResponder()
+        } else if textField == confirmEmailResetTextfield {
+            confirmEmailResetTextfield.resignFirstResponder()
         }
         return true
     }
@@ -69,17 +80,106 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    //TESTTTT
-    @IBAction func testForgot(_ sender: Any) {
+    
+    func showForgotPasswordView() {
         
-        Auth.auth().sendPasswordReset(withEmail: "jshoe1819@gmail.com") { (error) in
-            if error != nil {
-                print(error!)
-            } else {
-                print("woo sent")
-            }
+        emailResetTextField.text = ""
+        confirmEmailResetTextfield.text = ""
+        confirmEmailErrorLbl.text = ""
+        
+        forgotPasswordView.frame.origin.x += 500
+        forgotPasswordView.isHidden = false
+        forgotPasswordBackgroundBtn.isHidden = false
+        
+        UIView.animate(withDuration: 0.5) {
+            self.forgotPasswordView.frame.origin.x = 38.5
         }
         
+    }
+
+    @IBAction func sendResetBtnPressed(_ sender: Any) {
+        
+        if let resetEmail = emailResetTextField.text {
+            if resetEmail == "" {
+                confirmEmailErrorLbl.text = "Please enter an email address"
+            } else {
+                if let confirmEmail = confirmEmailResetTextfield.text {
+                    if confirmEmail == "" {
+                        confirmEmailErrorLbl.text = "Please confirm email"
+                    } else if resetEmail != confirmEmail {
+                        confirmEmailErrorLbl.text = "Emails do not match"
+                    } else {
+                        Auth.auth().sendPasswordReset(withEmail: confirmEmail) { (error) in
+
+                            if error != nil {
+                                if let errCode = AuthErrorCode(rawValue: error!._code) {
+                                    switch errCode {
+                                    case .userNotFound:
+                                        self.confirmEmailErrorLbl.text = "No account found with this email"
+                                    case .invalidEmail:
+                                        self.confirmEmailErrorLbl.text = "Invalid email format"
+                                    case .userDisabled:
+                                        self.errorAlert.text = "Account has been disabled"
+                                    default:
+                                        print("Login user error: \(error!)")
+                                    }
+                                }
+                            }else {
+                                
+                                self.resignFirstResponder()
+                                
+                                UIView.animate(withDuration: 0.5) {
+                                    self.forgotPasswordView.frame.origin.x += 500
+                                }
+                                let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+                                DispatchQueue.main.asyncAfter(deadline: when) {
+                                    // Your code with delay
+                                    self.forgotPasswordView.isHidden = true
+                                    self.forgotPasswordBackgroundBtn.isHidden = true
+                                }
+                                
+                                self.emailResetTextField.text = ""
+                                self.confirmEmailResetTextfield.text = ""
+                                self.confirmEmailErrorLbl.text = ""
+                                
+                            }
+                        }
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+//        Auth.auth().sendPasswordReset(withEmail: "") { (error) in
+//            
+//            if error != nil {
+//                if let errCode = AuthErrorCode(rawValue: error!._code) {
+//                    print(errCode)
+//                    //                    switch errCode {
+//                    //                        //pick from below
+//                    //
+//                    //                    }
+//                }
+//            }
+//        }
+    }
+    @IBAction func cancelResetBtnPressed(_ sender: Any) {
+        
+        resignFirstResponder()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.forgotPasswordView.frame.origin.x += 500
+        }
+        
+        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.forgotPasswordView.isHidden = true
+            self.forgotPasswordBackgroundBtn.isHidden = true
+        }
+
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
