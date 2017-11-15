@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import FBSDKLoginKit
 import FBSDKCoreKit
 import SwiftKeychainWrapper
@@ -21,12 +22,28 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var errorAlert: UILabel!
     
+    var userKeys = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nameField.delegate = self
         self.emailField.delegate = self
         self.passwordField.delegate = self
         self.confirmPasswordField.delegate = self
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("JAKE: \(snap.key)")
+                    let key = snap.key
+                    //print("JAKE: \(snap.key)")
+                    self.userKeys.append(key)
+                    //print("JAKES: \(self.userKeys)")
+                }
+            }
+        })
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -141,7 +158,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                             print("error: \(error!)")
                         } else {
                             let data: [String: Any] = result as! [String: Any]
-                            print(data)
+                            //print(data)
                             self.firebaseCredentialAuth(credential, userData: data)
                         }
                     })}
@@ -157,7 +174,29 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                 print("JAKE: Successfull passed credential for firebase auth")
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
-                    DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
+                    
+                    var data = userData
+                    data["statusId"] = ["a":true]
+                    data["friendsList"] = ["seen": true]
+                    data["joinedList"] = ["seen": true]
+                    data["hasNewMsg"] = false
+                    data["isPrivate"] = false
+                    data["occupation"] = ""
+                    data["employer"] = ""
+                    data["currentCity"] = ""
+                    data["school"] = ""
+                    
+                    //restricts to one data load or cicumvents creating user altogether?
+                    if let currentUser = Auth.auth().currentUser?.uid {
+                        //print("JAKE \(currentUser)")
+                        if self.userKeys.contains(currentUser) {
+                            //print(currentUser)
+                            return
+                        }
+                    }
+                    
+                    
+                    DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
                 }
             }
         }

@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import FBSDKLoginKit
 import FBSDKCoreKit
 import SwiftKeychainWrapper
@@ -19,6 +20,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorAlert: UILabel!
     @IBOutlet weak var forgotPasswordLbl: UILabel!
     
+    var userKeys = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.emailField.delegate = self
@@ -26,6 +29,20 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
         //press forgot password brings up prompt for email and send, call function
         //forgotPasswordLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendPasswordReset(withEmail:completion:))))
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("JAKE: \(snap.key)")
+                    let key = snap.key
+                    //print("JAKE: \(snap.key)")
+                    self.userKeys.append(key)
+                    //print("JAKES: \(self.userKeys)")
+                }
+            }
+        })
+        //print("JAKES: \(userKeys)")
         
     }
     
@@ -62,7 +79,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 print("woo sent")
             }
         }
-
+        
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
@@ -152,7 +169,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             //                            "school":""] as [String : Any]
                             
                             
-                            print(data)
+                            //print(data)
                             self.firebaseCredentialAuth(credential, userData: data)
                         }
                     })}
@@ -169,14 +186,29 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
                     
-                    //restricts to one data load?
+                    var data = userData
+                    data["statusId"] = ["a":true]
+                    data["friendsList"] = ["seen": true]
+                    data["joinedList"] = ["seen": true]
+                    data["hasNewMsg"] = false
+                    data["isPrivate"] = false
+                    data["occupation"] = ""
+                    data["employer"] = ""
+                    data["currentCity"] = ""
+                    data["school"] = ""
+                    
+                    //restricts to one data load or cicumvents creating user altogether?
                     if let currentUser = Auth.auth().currentUser?.uid {
-                        if user.uid == currentUser {
+                        if self.userKeys.contains(currentUser) {
                             return
                         }
                     }
                     
-                    DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
+                    //print(data)
+                    //                    var data = userData
+                    //                    data["school"] = "yo"
+                    //                    print(data)
+                    //DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
                 }
             }
         }
