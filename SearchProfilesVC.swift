@@ -20,8 +20,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var hangoutsSearchResults = [Status]()
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
+    var shuffledNew = [Status]()
     var privateArr = [Int]()
     var searchText = ""
+    var numberOfPosts = 3
+    var totalPosts:UInt = 0
+    var statusKeys = [String]()
     var refreshControl: UIRefreshControl!
     
     @IBOutlet weak var exploreTableView: UITableView!
@@ -128,6 +132,44 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //            self.profilesTableView.reloadData()
         //
         //        })
+//        .queryLimited(toLast: UInt(numberOfPosts))
+        //download all keys, randomize, query to limited pust numbers, up number as scrollview to end
+        
+        //print("JAKE \(DataService.ds.REF_BASE.child("status").key)")
+
+//        DataService.ds.REF_STATUS.observeSingleEvent(of: .value, with: { (snapshot) in
+//            self.totalPosts = snapshot.childrenCount
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    self.statusKeys.append(snap.key)
+//                }
+//                print(self.statusKeys)
+//            }
+//        })
+//        
+//        let queryKeys = self.statusKeys.shuffled()
+//        
+//        for index in 0...numberOfPosts {
+//            
+//            DataService.ds.REF_STATUS.queryEqual(toValue: queryKeys[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+//                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                    for snap in snapshot {
+//                        //print("STATUS: \(snap)")
+//                        if let statusDict = snap.value as? Dictionary<String, Any> {
+//                            let key = snap.key
+//                            let status = Status(statusKey: key, statusData: statusDict)
+//                            self.statusArr.append(status)
+//                            //print(status.content)
+//                        }
+//                    }
+//                }
+//                
+//                self.shuffledStatusArr = self.statusArr.shuffled()
+//                //change to explore.reload
+//                self.exploreTableView.reloadData()
+//            })
+//        }
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -137,11 +179,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.insert(status, at: 0)
-                        //print(status.content)
                     }
                 }
             }
-            
             self.shuffledStatusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
@@ -188,6 +228,37 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.exploreTableView.reloadData()
         })
         
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (scrollView.contentOffset.y + 100) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+            // You have reeached bottom (well not really, but you have reached 100px less)
+            // Increase post limit and read posts
+            let newPosts = numberOfPosts + 3
+            numberOfPosts += 3
+            //readPosts()
+            
+            DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").queryLimited(toFirst: UInt(newPosts)).observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("STATUS: \(snap)")
+                        if let statusDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let status = Status(statusKey: key, statusData: statusDict)
+                            self.shuffledStatusArr.append(status)
+                            //self.shuffledNew.append(status)
+                            //print(status.content)
+                        }
+                    }
+                }
+                //let shuffledToAdd = self.shuffledNew.shuffled()
+                //self.shuffledStatusArr.append(contentsOf: shuffledToAdd)
+                //self.shuffledStatusArr = self.statusArr.shuffled()
+                //change to explore.reload
+                self.exploreTableView.reloadData()
+            })
+            
+        }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -1047,7 +1118,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
             }
-            self.statusArr = self.statusArr.shuffled()
+            self.shuffledStatusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
         })

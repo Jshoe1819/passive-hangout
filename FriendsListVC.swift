@@ -411,8 +411,8 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "friends"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "friends"])
-            tableView.reloadData()
-            
+            //tableView.reloadData()
+            self.refresh(sender: self)
         }
         
     }
@@ -433,7 +433,8 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
             deleted.append(tag)
-            tableView.reloadData()
+            self.refresh(sender: self)
+            //tableView.reloadData()
         }
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {

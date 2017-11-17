@@ -13,6 +13,7 @@ target 'passive-hangout' do
   pod 'FacebookShare'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/AdMob'
   pod 'SwiftKeychainWrapper'
   pod 'Kingfisher', '~> 3.13.1'
 
