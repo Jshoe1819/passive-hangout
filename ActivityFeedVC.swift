@@ -22,7 +22,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var userCity = ""
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
-    var numberOfPosts: UInt = 20
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -402,7 +401,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //self.tableView.reloadData()
             })
         }
-        //for loop for keys??
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []

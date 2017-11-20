@@ -21,12 +21,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var hangoutsSearchResults = [Status]()
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
-    var shuffledNew = [Status]()
     var privateArr = [Int]()
     var searchText = ""
-    var numberOfPosts = 3
-    var totalPosts:UInt = 0
-    var statusKeys = [String]()
     var refreshControl: UIRefreshControl!
     var bannerView: GADBannerView!
     
@@ -142,6 +138,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //            self.profilesTableView.reloadData()
         //
         //        })
+<<<<<<< HEAD
         //        .queryLimited(toLast: UInt(numberOfPosts))
         //download all keys, randomize, query to limited pust numbers, up number as scrollview to end
         
@@ -180,6 +177,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //                self.exploreTableView.reloadData()
         //            })
         //        }
+=======
+>>>>>>> parent of 2409b7e... adding ad pod
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -189,9 +188,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.insert(status, at: 0)
+                        //print(status.content)
                     }
                 }
             }
+            
             self.shuffledStatusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
@@ -240,6 +241,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
+<<<<<<< HEAD
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("adViewDidReceiveAd")
         //addBannerViewToView(bannerView)
@@ -299,6 +301,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     //        }
     //    }
     
+=======
+>>>>>>> parent of 2409b7e... adding ad pod
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //hide explore
         searchActive = true
@@ -1205,7 +1209,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
             }
-            self.shuffledStatusArr = self.statusArr.shuffled()
+            self.statusArr = self.statusArr.shuffled()
             //change to explore.reload
             self.exploreTableView.reloadData()
         })
