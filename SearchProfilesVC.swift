@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import GoogleMobileAds
 
-class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ExploreHangoutsDelegate, SearchHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
+class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, GADBannerViewDelegate, ExploreHangoutsDelegate, SearchHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
     
     var usersArr = [Users]()
     var statusArr = [Status]()
@@ -27,6 +28,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var totalPosts:UInt = 0
     var statusKeys = [String]()
     var refreshControl: UIRefreshControl!
+    var bannerView: GADBannerView!
     
     @IBOutlet weak var exploreTableView: UITableView!
     @IBOutlet weak var hangoutsTableView: UITableView!
@@ -52,6 +54,14 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//        bannerView.rootViewController = self
+//        bannerView.load(GADRequest())
+//        addBannerViewToView(bannerView)
+//        bannerView.delegate = self
+        
         
         //self.segmentChoice.selectedSegmentIndex = 0
         
@@ -132,44 +142,44 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //            self.profilesTableView.reloadData()
         //
         //        })
-//        .queryLimited(toLast: UInt(numberOfPosts))
+        //        .queryLimited(toLast: UInt(numberOfPosts))
         //download all keys, randomize, query to limited pust numbers, up number as scrollview to end
         
         //print("JAKE \(DataService.ds.REF_BASE.child("status").key)")
-
-//        DataService.ds.REF_STATUS.observeSingleEvent(of: .value, with: { (snapshot) in
-//            self.totalPosts = snapshot.childrenCount
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    self.statusKeys.append(snap.key)
-//                }
-//                print(self.statusKeys)
-//            }
-//        })
-//        
-//        let queryKeys = self.statusKeys.shuffled()
-//        
-//        for index in 0...numberOfPosts {
-//            
-//            DataService.ds.REF_STATUS.queryEqual(toValue: queryKeys[index]).observeSingleEvent(of: .value, with: { (snapshot) in
-//                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                    for snap in snapshot {
-//                        //print("STATUS: \(snap)")
-//                        if let statusDict = snap.value as? Dictionary<String, Any> {
-//                            let key = snap.key
-//                            let status = Status(statusKey: key, statusData: statusDict)
-//                            self.statusArr.append(status)
-//                            //print(status.content)
-//                        }
-//                    }
-//                }
-//                
-//                self.shuffledStatusArr = self.statusArr.shuffled()
-//                //change to explore.reload
-//                self.exploreTableView.reloadData()
-//            })
-//        }
+        
+        //        DataService.ds.REF_STATUS.observeSingleEvent(of: .value, with: { (snapshot) in
+        //            self.totalPosts = snapshot.childrenCount
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //                    self.statusKeys.append(snap.key)
+        //                }
+        //                print(self.statusKeys)
+        //            }
+        //        })
+        //
+        //        let queryKeys = self.statusKeys.shuffled()
+        //
+        //        for index in 0...numberOfPosts {
+        //
+        //            DataService.ds.REF_STATUS.queryEqual(toValue: queryKeys[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+        //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                    for snap in snapshot {
+        //                        //print("STATUS: \(snap)")
+        //                        if let statusDict = snap.value as? Dictionary<String, Any> {
+        //                            let key = snap.key
+        //                            let status = Status(statusKey: key, statusData: statusDict)
+        //                            self.statusArr.append(status)
+        //                            //print(status.content)
+        //                        }
+        //                    }
+        //                }
+        //
+        //                self.shuffledStatusArr = self.statusArr.shuffled()
+        //                //change to explore.reload
+        //                self.exploreTableView.reloadData()
+        //            })
+        //        }
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -230,36 +240,64 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y + 100) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            // You have reeached bottom (well not really, but you have reached 100px less)
-            // Increase post limit and read posts
-            let newPosts = numberOfPosts + 3
-            numberOfPosts += 3
-            //readPosts()
-            
-            DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").queryLimited(toFirst: UInt(newPosts)).observeSingleEvent(of: .value, with: { (snapshot) in
-                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        //print("STATUS: \(snap)")
-                        if let statusDict = snap.value as? Dictionary<String, Any> {
-                            let key = snap.key
-                            let status = Status(statusKey: key, statusData: statusDict)
-                            self.shuffledStatusArr.append(status)
-                            //self.shuffledNew.append(status)
-                            //print(status.content)
-                        }
-                    }
-                }
-                //let shuffledToAdd = self.shuffledNew.shuffled()
-                //self.shuffledStatusArr.append(contentsOf: shuffledToAdd)
-                //self.shuffledStatusArr = self.statusArr.shuffled()
-                //change to explore.reload
-                self.exploreTableView.reloadData()
-            })
-            
-        }
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("adViewDidReceiveAd")
+        //addBannerViewToView(bannerView)
     }
+    
+    
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        view.addConstraints(
+            [NSLayoutConstraint(item: bannerView,
+                                attribute: .bottom,
+                                relatedBy: .equal,
+                                toItem: bottomLayoutGuide,
+                                attribute: .top,
+                                multiplier: 1,
+                                constant: 0),
+             NSLayoutConstraint(item: bannerView,
+                                attribute: .centerX,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .centerX,
+                                multiplier: 1,
+                                constant: 0)
+            ])
+    }
+    
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        if (scrollView.contentOffset.y + 100) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+    //            // You have reeached bottom (well not really, but you have reached 100px less)
+    //            // Increase post limit and read posts
+    //            let newPosts = numberOfPosts + 3
+    //            numberOfPosts += 3
+    //            //readPosts()
+    //
+    //            DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").queryLimited(toFirst: UInt(newPosts)).observeSingleEvent(of: .value, with: { (snapshot) in
+    //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+    //                    for snap in snapshot {
+    //                        //print("STATUS: \(snap)")
+    //                        if let statusDict = snap.value as? Dictionary<String, Any> {
+    //                            let key = snap.key
+    //                            let status = Status(statusKey: key, statusData: statusDict)
+    //                            self.shuffledStatusArr.append(status)
+    //                            //self.shuffledNew.append(status)
+    //                            //print(status.content)
+    //                        }
+    //                    }
+    //                }
+    //                //let shuffledToAdd = self.shuffledNew.shuffled()
+    //                //self.shuffledStatusArr.append(contentsOf: shuffledToAdd)
+    //                //self.shuffledStatusArr = self.statusArr.shuffled()
+    //                //change to explore.reload
+    //                self.exploreTableView.reloadData()
+    //            })
+    //
+    //        }
+    //    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //hide explore
@@ -468,42 +506,91 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             //let status = statusArr.shuffled()[indexPath.row]
             let status = shuffledStatusArr[indexPath.row]
             //print(status.content)
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
+            
+            if (1 == (indexPath.row % 9)) {  // or 9 == if you don't want the first cell to be an ad!
+                //print(indexPath.row % 9)
+                let myIdentifier = "adCell"
+                //var adCell = tableView.dequeueReusableCell(withIdentifier: myIdentifier)
                 
-                if let currentUser = Auth.auth().currentUser?.uid {
+                if let adCell = tableView.dequeueReusableCell(withIdentifier: myIdentifier) as? AdCell {
+                    let bannerView = adCell.cellBannerView(rootVC: self, frame: adCell.bounds)
+                    bannerView.delegate = self
+                    print("bye")
+                    adCell.addSubview(bannerView)
+//                    bannerView.translatesAutoresizingMaskIntoConstraints = false
+//                    adCell.contentView.addSubview(bannerView)
+//                    
+//                    adCell.contentView.didAddSubview(bannerView)
                     
-                    if status.userId == currentUser {
-                        cell.joinBtn.isHidden = true
-                        cell.alreadyJoinedBtn.isHidden = true
-                    } else {
+                    //adCell?.contentView.addSubview(bannerView)
+                    //                [cell.contentView addSubview:[AdMobView requestAdWithDelegate:self]];
+                    
+                }
+//                else {
+//                    print("hi")
+//                    adCell = UITableViewCell.init(frame: CGRect.zero)
+//
+//                    bannerView.translatesAutoresizingMaskIntoConstraints = false
+//                    view.addSubview(bannerView)
+//                    view.addConstraints(
+//                        [NSLayoutConstraint(item: bannerView,
+//                                            attribute: .bottom,
+//                                            relatedBy: .equal,
+//                                            toItem: bottomLayoutGuide,
+//                                            attribute: .top,
+//                                            multiplier: 1,
+//                                            constant: 0),
+//                         NSLayoutConstraint(item: bannerView,
+//                                            attribute: .centerX,
+//                                            relatedBy: .equal,
+//                                            toItem: view,
+//                                            attribute: .centerX,
+//                                            multiplier: 1,
+//                                            constant: 0)
+//                        ])
+//                    
+//                    //[[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease]
+//                }
+                
+            } else {
+                
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
+                    
+                    if let currentUser = Auth.auth().currentUser?.uid {
                         
-                        let join = status.joinedList.keys.contains { (key) -> Bool in
-                            key == currentUser
-                        }
-                        if join {
+                        if status.userId == currentUser {
                             cell.joinBtn.isHidden = true
-                            cell.alreadyJoinedBtn.isHidden = false
-                        } else{
-                            cell.joinBtn.isHidden = false
                             cell.alreadyJoinedBtn.isHidden = true
+                        } else {
+                            
+                            let join = status.joinedList.keys.contains { (key) -> Bool in
+                                key == currentUser
+                            }
+                            if join {
+                                cell.joinBtn.isHidden = true
+                                cell.alreadyJoinedBtn.isHidden = false
+                            } else{
+                                cell.joinBtn.isHidden = false
+                                cell.alreadyJoinedBtn.isHidden = true
+                            }
                         }
                     }
+                    
+                    exploreTableView.rowHeight = UITableViewAutomaticDimension
+                    exploreTableView.estimatedRowHeight = 120
+                    
+                    cell.cellDelegate = self
+                    cell.selectionStyle = .none
+                    cell.tag = indexPath.row
+                    cell.configureCell(status: status, users: usersArr)
+                    
+                    if cell.isPrivate == true {
+                        cell.isHidden = true
+                        privateArr.append(indexPath.row)
+                    }
+                    
+                    return cell
                 }
-                
-                exploreTableView.rowHeight = UITableViewAutomaticDimension
-                exploreTableView.estimatedRowHeight = 120
-                
-                cell.cellDelegate = self
-                cell.selectionStyle = .none
-                cell.tag = indexPath.row
-                cell.configureCell(status: status, users: usersArr)
-                
-                if cell.isPrivate == true {
-                    cell.isHidden = true
-                    privateArr.append(indexPath.row)
-                }
-                
-                return cell
             }
             
         } else if topIndicatorView.isHidden == false {
@@ -569,8 +656,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
                 
-//                profilesTableView.rowHeight = UITableViewAutomaticDimension
-//                profilesTableView.estimatedRowHeight = 120
+                //                profilesTableView.rowHeight = UITableViewAutomaticDimension
+                //                profilesTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
