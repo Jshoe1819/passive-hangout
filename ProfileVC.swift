@@ -341,6 +341,20 @@ class ProfileVC: UIViewController{
         performSegue(withIdentifier: "myProfileToSearch", sender: nil)
     }
     
+    @IBAction func donateBtnPressed(_ sender: Any) {
+        print("helloooo")
+        guard let url = URL(string: "https://www.paypal.com") else {
+            return //be safe
+        }
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
+    
     @IBAction func editProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "myProfileToEditProfile", sender: nil)
     }
