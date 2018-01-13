@@ -21,6 +21,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var profileSearchResults = [Users]()
     var statusSearchResults = [Status]()
     var privateArr = [Int]()
+    var privateArrIds = [String]()
+    var numberLoadMores = 1
     var searchText = ""
     var refreshControl: UIRefreshControl!
     
@@ -129,23 +131,36 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         //
         //        })
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
-                        //print(status.content)
-                    }
-                }
-            }
-            
-            self.shuffledStatusArr = self.statusArr.shuffled()
-            //change to explore.reload
-            self.exploreTableView.reloadData()
-        })
+        
+        
+        
+//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+//            
+//            self.statusArr = []
+//            
+//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+//                for snap in snapshot {
+//                    //print("STATUS: \(snap)")
+//                    if let statusDict = snap.value as? Dictionary<String, Any> {
+//                        let key = snap.key
+//                        let status = Status(statusKey: key, statusData: statusDict)
+//                        //print(status.joinedNumber)
+//                        if !self.privateArrIds.contains(status.userId) {
+//                            //print(status.userId)
+//                            //print("here: \(self.privateArrIds)")
+//                            //self.statusArr.append(status)
+//                            self.statusArr.insert(status, at: 0)
+//                        }
+//                        //print(status.content)
+//                    }
+//                }
+//            }
+//            
+//            //self.shuffledStatusArr = self.statusArr.shuffled()
+//            self.shuffledStatusArr = self.statusArr
+//            //change to explore.reload
+//            self.exploreTableView.reloadData()
+//        })
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -157,6 +172,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
+                        
+                        if users.isPrivate == true {
+                            //print(users.usersKey)
+                            self.privateArrIds.append(users.usersKey)
+                        }
+                        
                         if let currentUser = Auth.auth().currentUser?.uid {
                             if currentUser == users.usersKey {
                                 let newFriend = users.friendsList.values.contains { (value) -> Bool in
@@ -185,6 +206,63 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
             }
             //change to explire.reload
+            self.exploreTableView.reloadData()
+        })
+        
+        
+        
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        // UITableView only moves in one direction, y axis
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        // Change 10.0 to adjust the distance from bottom
+        if maximumOffset - currentOffset <= 10.0 {
+            self.loadMore()
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
+//                        print("do something")
+//                        print(statusArr.count)
+//            //            print(friendPostCount)
+//            loadMore()
+//        }
+//    }
+    
+    func loadMore() {
+        //print("hey")
+        self.numberLoadMores += 1
+        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: UInt(10 * numberLoadMores)).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    //print("STATUS: \(snap)")
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        //print(status.joinedNumber)
+                        if !self.privateArrIds.contains(status.userId) {
+                            //print(status.userId)
+                            //print("here: \(self.privateArrIds)")
+                            //self.statusArr.append(status)
+                            self.statusArr.insert(status, at: 0)
+                        }
+                        //print(status.content)
+                    }
+                }
+            }
+            
+            //self.shuffledStatusArr = self.statusArr.shuffled()
+            self.shuffledStatusArr = self.statusArr
+            //change to explore.reload
             self.exploreTableView.reloadData()
         })
         
@@ -273,6 +351,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         if topIndicatorView.isHidden == false {
+            
             //change top to hangout
             //            let rand = arc4random_uniform(25)
             //            print(rand)
@@ -375,6 +454,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive == false {
+            print("hmmmmmmm \(shuffledStatusArr.count)")
+            
+            if shuffledStatusArr.count == 0 {
+                self.refresh(sender: self)
+            }
+            
             return shuffledStatusArr.count
         } else if topIndicatorView.isHidden == false {
             return hangoutsSearchResults.count
@@ -427,10 +512,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
                 
-                if cell.isPrivate == true {
-                    cell.isHidden = true
-                    privateArr.append(indexPath.row)
-                }
+                //                if cell.isPrivate == true {
+                //                    cell.isHidden = true
+                //                    privateArr.append(indexPath.row)
+                //                }
                 
                 return cell
             }
@@ -498,8 +583,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
                 
-//                profilesTableView.rowHeight = UITableViewAutomaticDimension
-//                profilesTableView.estimatedRowHeight = 120
+                //                profilesTableView.rowHeight = UITableViewAutomaticDimension
+                //                profilesTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
@@ -1036,23 +1121,39 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func refresh(sender: Any) {
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
+        //privateArr = []
+        
+        numberLoadMores = 1
+        
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: 10).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     //print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        self.statusArr.insert(status, at: 0)
+                        //print(status.joinedNumber)
+                        if !self.privateArrIds.contains(status.userId) {
+                            //print(status.userId)
+                            //print("here: \(self.privateArrIds)")
+                            //self.statusArr.append(status)
+                            self.statusArr.insert(status, at: 0)
+                        }
+                        //print(status.content)
                     }
                 }
             }
-            self.statusArr = self.statusArr.shuffled()
+            
+            //self.shuffledStatusArr = self.statusArr.shuffled()
+            self.shuffledStatusArr = self.statusArr
             //change to explore.reload
             self.exploreTableView.reloadData()
         })
         
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        DataService.ds.REF_USERS.observe( .value, with: { (snapshot) in
             
             self.usersArr = []
             
