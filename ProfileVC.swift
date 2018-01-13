@@ -343,7 +343,7 @@ class ProfileVC: UIViewController{
     
     @IBAction func donateBtnPressed(_ sender: Any) {
         print("helloooo")
-        guard let url = URL(string: "https://www.paypal.com") else {
+        guard let url = URL(string: "https://www.paypal.me/jshoe1819") else {
             return //be safe
         }
         

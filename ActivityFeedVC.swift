@@ -19,9 +19,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var statusArr = [Status]()
     var usersArr = [Users]()
     var userFriendsList = Dictionary<String, Any>()
+    var userFri = [String]()
     var userCity = ""
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
+    var friendPostArr = [String]()
+    //var numberFromLast = 1
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     @IBOutlet weak var tableView: UITableView!
@@ -83,20 +86,55 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cityTextField.attributedPlaceholder = NSAttributedString(string: "City",
                                                                  attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
-
+        
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let value = snap.value {
                             self.userFriendsList.updateValue(value, forKey: snap.key)
-                            //print(self.userFriendsList)
+                            print(self.userFriendsList)
+                        }
+                        if let val = snap.value as? String {
+                            if val == "friends" {
+                                //                                self.userFri.append(snap.key)
+                                //                                print("ALT: \(self.userFri)")
+                                //                                print("HH: \(self.userFri.count)")
+                                print("hey there \(snap.key)")
+                                DataService.ds.REF_USERS.child(snap.key).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+                                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                                        for snap in snapshot {
+                                            print("WHOA \(snap.key)")
+                                            if snap.key != "a" {
+                                                self.friendPostArr.append(snap.key)
+                                            }
+                                        }
+                                    }
+                                })
+                            }
                         }
                     }
                 }
                 //self.tableView.reloadData()
             })
+            
         }
+        
+        print("YOOO \(friendPostArr)")
+        
+        //        if userFri.count > 0 {
+        //            print("hi honeyyyy")
+        //            for index in 0..<userFri.count {
+        //                DataService.ds.REF_USERS.child(userFri[index]).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+        //                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                        for snap in snapshot {
+        //                            print("HMMM: \(snap)")
+        //                        }
+        //                    }
+        //                    //self.tableView.reloadData()
+        //                })
+        //            }
+        //        }
         
         //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
         //
@@ -161,14 +199,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        let when = DispatchTime.now() + 0.01 // change 2 to desired number of seconds
-//        DispatchQueue.main.asyncAfter(deadline: when) {
-//            // Your code with delay
-//            self.refresh(sender: "")
-//        }
-//        
-//    }
+    //    override func viewDidAppear(_ animated: Bool) {
+    //        let when = DispatchTime.now() + 0.01 // change 2 to desired number of seconds
+    //        DispatchQueue.main.asyncAfter(deadline: when) {
+    //            // Your code with delay
+    //            self.refresh(sender: "")
+    //        }
+    //
+    //    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -298,10 +336,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     opaqueStatusBackground.isHidden = true
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.layoutIfNeeded()
-//                        self.textView.resignFirstResponder()
-//                        self.characterCountLbl.isHidden = true
-//                        self.textView.text = ""
-//                        self.cityTextField.text = self.userCity
+                        //                        self.textView.resignFirstResponder()
+                        //                        self.characterCountLbl.isHidden = true
+                        //                        self.textView.text = ""
+                        //                        self.cityTextField.text = self.userCity
                     })
                     self.textView.resignFirstResponder()
                     self.characterCountLbl.isHidden = true
@@ -393,6 +431,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let value = snap.value {
+                            //                            if value == "friends" {
+                            //                                self.userFriendsList.updateValue(value, forKey: snap.key)
+                            //                                print(value)
+                            //                            }
                             self.userFriendsList.updateValue(value, forKey: snap.key)
                             //print(self.userFriendsList)
                         }
@@ -401,6 +443,34 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //self.tableView.reloadData()
             })
         }
+        //        for friend in 0..<userFriendsList.count {
+        //            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
+        //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                    for snap in snapshot {
+        //                        if let value = snap.value {
+        //                            self.userFriendsList.updateValue(value, forKey: snap.key)
+        //                            //print(self.userFriendsList)
+        //                        }
+        //                    }
+        //                }
+        //                //self.tableView.reloadData()
+        //            })
+        //        }
+        
+        if userFri.count > 0 {
+            print("hi honeyyyy")
+            for index in 0..<userFri.count {
+                DataService.ds.REF_USERS.child(userFri[index]).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                        for snap in snapshot {
+                            print("HMMM: \(snap)")
+                        }
+                    }
+                    //self.tableView.reloadData()
+                })
+            }
+        }
+        
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -408,6 +478,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
+                    
                     //print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
@@ -422,11 +493,25 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 //print(self.statusArr)
                             }
                         }
+                        
+                        //what if i allow 30 from last to load at a time
+                        //if the arr is less than 10 load more until greater than 10
+                        //end this function
+                        
+                        //or create list of all friends posts, sort, cycle through, limit to xx until bottom**
+                        
+                        //write function to trigger a more load that allows loading until arr > count + 10 and continue
+                        
+                        //                        if self.statusArr.count > 9 {
+                        //                            print("\(self.statusArr.count)")
+                        //                            break
+                        //                        }
+                        
                         //self.statusArr.insert(status, at: 0)
                     }
                 }
             }
-                        
+            
             if self.statusArr.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
@@ -474,13 +559,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
         })
         
+        func loadMore(count: Int) {
+            //
+        }
+        
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
-//            if self.statusArr.count == 0 {
-//                self.isEmptyImg.isHidden = false
-//            } else {
-//                self.isEmptyImg.isHidden = true
-//            }
+            //            if self.statusArr.count == 0 {
+            //                self.isEmptyImg.isHidden = false
+            //            } else {
+            //                self.isEmptyImg.isHidden = true
+            //            }
             // Your code with delay
             self.refreshControl.endRefreshing()
         }
