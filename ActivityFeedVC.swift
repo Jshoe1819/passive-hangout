@@ -24,6 +24,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
     var friendPostArr = [String]()
+    var friendPostCount = 0
+    var numberLoadMores = 1
     //var numberFromLast = 1
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
@@ -93,19 +95,20 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     for snap in snapshot {
                         if let value = snap.value {
                             self.userFriendsList.updateValue(value, forKey: snap.key)
-                            print(self.userFriendsList)
+                            //print(self.userFriendsList)
                         }
                         if let val = snap.value as? String {
                             if val == "friends" {
                                 //                                self.userFri.append(snap.key)
                                 //                                print("ALT: \(self.userFri)")
                                 //                                print("HH: \(self.userFri.count)")
-                                print("hey there \(snap.key)")
+                                //print("hey there \(snap.key)")
                                 DataService.ds.REF_USERS.child(snap.key).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
                                     if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                                         for snap in snapshot {
-                                            print("WHOA \(snap.key)")
+                                            //print("WHOA \(snap.key)")
                                             if snap.key != "a" {
+                                                //print("ummm: \(snap.key)")
                                                 self.friendPostArr.append(snap.key)
                                             }
                                         }
@@ -120,7 +123,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
         
-        print("YOOO \(friendPostArr)")
+        
+        //print("YOOO \(friendPostArr)")
         
         //        if userFri.count > 0 {
         //            print("hi honeyyyy")
@@ -208,12 +212,36 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     //
     //    }
     
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+////        let  height = scrollView.frame.size.height
+//        let contentYoffset = scrollView.contentOffset.y
+////        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+////        if distanceFromBottom < height {
+////            loadMore()
+////        }
+//        
+//        if contentYoffset > scrollView.contentSize.height - scrollView.frame.size.height {
+//            loadMore()
+//        }
+//        
+//    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
+//            print("do something")
+//            print(statusArr.count)
+//            print(friendPostCount)
+            loadMore()
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if usersArr.count == 0 {
+        //print("UA: \(friendPostArr)")
+        if friendPostCount == 0 {
             self.refresh(sender: self)
         }
         return statusArr.count
@@ -425,74 +453,32 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         footerNewFriendIndicator.isHidden = true
     }
     
-    func refresh(sender: Any) {
-        if let currentUser = Auth.auth().currentUser?.uid {
-            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
-                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        if let value = snap.value {
-                            //                            if value == "friends" {
-                            //                                self.userFriendsList.updateValue(value, forKey: snap.key)
-                            //                                print(value)
-                            //                            }
-                            self.userFriendsList.updateValue(value, forKey: snap.key)
-                            //print(self.userFriendsList)
-                        }
-                    }
-                }
-                //self.tableView.reloadData()
-            })
-        }
-        //        for friend in 0..<userFriendsList.count {
-        //            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
-        //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                    for snap in snapshot {
-        //                        if let value = snap.value {
-        //                            self.userFriendsList.updateValue(value, forKey: snap.key)
-        //                            //print(self.userFriendsList)
-        //                        }
-        //                    }
-        //                }
-        //                //self.tableView.reloadData()
-        //            })
-        //        }
+    func loadMore() {
         
-        if userFri.count > 0 {
-            print("hi honeyyyy")
-            for index in 0..<userFri.count {
-                DataService.ds.REF_USERS.child(userFri[index]).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
-                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                        for snap in snapshot {
-                            print("HMMM: \(snap)")
-                        }
-                    }
-                    //self.tableView.reloadData()
-                })
-            }
-        }
+        //numberLoadMores += 1
+        //print(numberLoadMores)
         
+        //statusArr = []
+        self.isEmptyImg.isHidden = true
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
+        if friendPostArr != [] && friendPostArr.count < (numberLoadMores + 1) * 10 {
+            print("hi")
+            friendPostCount = friendPostArr.count
+            for index in numberLoadMores * 10..<friendPostArr.count {
+                //print(index)
+                //print("im trying here \(friendPostArr.sorted()[index])")
+                DataService.ds.REF_STATUS.child(friendPostArr.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    //print("snapshot: \(snapshot)")
+                    //self.statusArr = []
                     
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
-                            status.userId == key
-                        }
-                        if friends {
-                            if self.userFriendsList[status.userId] as? String == "friends" {
-                                //print("friends - \(status.userId)")
-                                self.statusArr.insert(status, at: 0)
-                                //print(self.statusArr)
-                            }
-                        }
+                        //print("friends - \(status.userId)")
+                        //self.statusArr.insert(status, at: 0)
+                        self.statusArr.append(status)
+                        //print(self.statusArr)
                         
                         //what if i allow 30 from last to load at a time
                         //if the arr is less than 10 load more until greater than 10
@@ -509,17 +495,259 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         
                         //self.statusArr.insert(status, at: 0)
                     }
-                }
+                    
+                    //                    if self.statusArr.count == 0 {
+                    //                        self.isEmptyImg.isHidden = false
+                    //                    } else {
+                    //                        self.isEmptyImg.isHidden = true
+                    //                    }
+                    //print("this one:: \(self.statusArr)")
+                    self.tableView.reloadData()
+                })
+                numberLoadMores += 1
             }
-            
-            if self.statusArr.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
+        } else if friendPostArr != [] && friendPostArr.count >= numberLoadMores * 10 {
+            print("bye")
+            friendPostCount = friendPostArr.count
+            for index in numberLoadMores * 10..<(numberLoadMores + 1) * 10 {
+                //print(index)
+                //print("im trying here \(friendPostArr.sorted()[index])")
+                DataService.ds.REF_STATUS.child(friendPostArr.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    //print("snapshot: \(snapshot)")
+                    //self.statusArr = []
+                    
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        //print("friends - \(status.userId)")
+                        //self.statusArr.insert(status, at: 0)
+                        self.statusArr.append(status)
+                        //print(self.statusArr)
+                        
+                        //what if i allow 30 from last to load at a time
+                        //if the arr is less than 10 load more until greater than 10
+                        //end this function
+                        
+                        //or create list of all friends posts, sort, cycle through, limit to xx until bottom**
+                        
+                        //write function to trigger a more load that allows loading until arr > count + 10 and continue
+                        
+                        //                        if self.statusArr.count > 9 {
+                        //                            print("\(self.statusArr.count)")
+                        //                            break
+                        //                        }
+                        
+                        //self.statusArr.insert(status, at: 0)
+                    }
+                    
+                    //                    if self.statusArr.count == 0 {
+                    //                        self.isEmptyImg.isHidden = false
+                    //                    } else {
+                    //                        self.isEmptyImg.isHidden = true
+                    //                    }
+                    //print("this one:: \(self.statusArr)")
+                    self.tableView.reloadData()
+                })
+                numberLoadMores += 1
             }
-            
-            self.tableView.reloadData()
-        })
+        } else if friendPostArr.count == 0 {
+            friendPostCount = friendPostArr.count
+            self.isEmptyImg.isHidden = false
+        }
+    }
+    
+    func refresh(sender: Any) {
+        
+        statusArr = []
+        self.isEmptyImg.isHidden = true
+        numberLoadMores = 1
+        
+        //        if let currentUser = Auth.auth().currentUser?.uid {
+        //            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
+        //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                    for snap in snapshot {
+        //                        if let value = snap.value {
+        //                            //                            if value == "friends" {
+        //                            //                                self.userFriendsList.updateValue(value, forKey: snap.key)
+        //                            //                                print(value)
+        //                            //                            }
+        //                            self.userFriendsList.updateValue(value, forKey: snap.key)
+        //                            //print(self.userFriendsList)
+        //                        }
+        //                    }
+        //                }
+        //                //self.tableView.reloadData()
+        //            })
+        //        }
+        //        for friend in 0..<userFriendsList.count {
+        //            DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
+        //                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                    for snap in snapshot {
+        //                        if let value = snap.value {
+        //                            self.userFriendsList.updateValue(value, forKey: snap.key)
+        //                            //print(self.userFriendsList)
+        //                        }
+        //                    }
+        //                }
+        //                //self.tableView.reloadData()
+        //            })
+        //        }
+        
+        //print("working?? \(friendPostArr)")
+        
+        if friendPostArr != [] && friendPostArr.count < 10 {
+            friendPostCount = friendPostArr.count
+            for index in 0..<friendPostArr.count {
+                //print("im trying here \(friendPostArr.sorted()[index])")
+                DataService.ds.REF_STATUS.child(friendPostArr.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    //print("snapshot: \(snapshot)")
+                    //self.statusArr = []
+                    
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        //print("friends - \(status.userId)")
+                        //self.statusArr.insert(status, at: 0)
+                        self.statusArr.append(status)
+                        //print(self.statusArr)
+                        
+                        //what if i allow 30 from last to load at a time
+                        //if the arr is less than 10 load more until greater than 10
+                        //end this function
+                        
+                        //or create list of all friends posts, sort, cycle through, limit to xx until bottom**
+                        
+                        //write function to trigger a more load that allows loading until arr > count + 10 and continue
+                        
+                        //                        if self.statusArr.count > 9 {
+                        //                            print("\(self.statusArr.count)")
+                        //                            break
+                        //                        }
+                        
+                        //self.statusArr.insert(status, at: 0)
+                    }
+                    
+                    //                    if self.statusArr.count == 0 {
+                    //                        self.isEmptyImg.isHidden = false
+                    //                    } else {
+                    //                        self.isEmptyImg.isHidden = true
+                    //                    }
+                    //print("this one:: \(self.statusArr)")
+                    self.tableView.reloadData()
+                })
+            }
+        } else if friendPostArr != [] && friendPostArr.count >= 10 {
+            friendPostCount = friendPostArr.count
+            for index in 0..<10 {
+                //print("im trying here \(friendPostArr.sorted()[index])")
+                DataService.ds.REF_STATUS.child(friendPostArr.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    //print("snapshot: \(snapshot)")
+                    //self.statusArr = []
+                    
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        //print("friends - \(status.userId)")
+                        //self.statusArr.insert(status, at: 0)
+                        self.statusArr.append(status)
+                        //print(self.statusArr)
+                        
+                        //what if i allow 30 from last to load at a time
+                        //if the arr is less than 10 load more until greater than 10
+                        //end this function
+                        
+                        //or create list of all friends posts, sort, cycle through, limit to xx until bottom**
+                        
+                        //write function to trigger a more load that allows loading until arr > count + 10 and continue
+                        
+                        //                        if self.statusArr.count > 9 {
+                        //                            print("\(self.statusArr.count)")
+                        //                            break
+                        //                        }
+                        
+                        //self.statusArr.insert(status, at: 0)
+                    }
+                    
+                    //                    if self.statusArr.count == 0 {
+                    //                        self.isEmptyImg.isHidden = false
+                    //                    } else {
+                    //                        self.isEmptyImg.isHidden = true
+                    //                    }
+                    //print("this one:: \(self.statusArr)")
+                    self.tableView.reloadData()
+                })
+            }
+        } else if friendPostArr.count == 0 {
+            friendPostCount = friendPostArr.count
+            self.isEmptyImg.isHidden = false
+        }
+        
+        //        if userFri.count > 0 {
+        //            print("hi honeyyyy")
+        //            for index in 0..<userFri.count {
+        //                DataService.ds.REF_USERS.child(userFri[index]).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+        //                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                        for snap in snapshot {
+        //                            print("HMMM: \(snap)")
+        //                        }
+        //                    }
+        //                    //self.tableView.reloadData()
+        //                })
+        //            }
+        //        }
+        
+        
+        //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.statusArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //
+        //                    //print("STATUS: \(snap)")
+        //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let status = Status(statusKey: key, statusData: statusDict)
+        //                        let friends = self.userFriendsList.keys.contains { (key) -> Bool in
+        //                            status.userId == key
+        //                        }
+        //                        if friends {
+        //                            if self.userFriendsList[status.userId] as? String == "friends" {
+        //                                //print("friends - \(status.userId)")
+        //                                self.statusArr.insert(status, at: 0)
+        //                                //print(self.statusArr)
+        //                            }
+        //                        }
+        //
+        //                        //what if i allow 30 from last to load at a time
+        //                        //if the arr is less than 10 load more until greater than 10
+        //                        //end this function
+        //
+        //                        //or create list of all friends posts, sort, cycle through, limit to xx until bottom**
+        //
+        //                        //write function to trigger a more load that allows loading until arr > count + 10 and continue
+        //
+        //                        //                        if self.statusArr.count > 9 {
+        //                        //                            print("\(self.statusArr.count)")
+        //                        //                            break
+        //                        //                        }
+        //
+        //                        //self.statusArr.insert(status, at: 0)
+        //                    }
+        //                }
+        //            }
+        //
+        //            if self.statusArr.count == 0 {
+        //                self.isEmptyImg.isHidden = false
+        //            } else {
+        //                self.isEmptyImg.isHidden = true
+        //            }
+        //
+        //            self.tableView.reloadData()
+        //        })
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -558,10 +786,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             self.tableView.reloadData()
         })
-        
-        func loadMore(count: Int) {
-            //
-        }
         
         let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
