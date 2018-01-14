@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol PastStatusCellDelegate : class {
-    func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton)
+    //func didPressMenuBtn(_ tag: Int, textView: UITextView, label: UILabel, button: UIButton)
     func didPressJoinBtn(_ tag: Int)
     func didPressAlreadyJoinedBtn(_ tag: Int)
     func didPressJoinedList(_ tag: Int)

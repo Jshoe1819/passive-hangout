@@ -281,9 +281,9 @@ class PastStatusesCell: UITableViewCell {
     }
     
     
-    @IBAction func menuBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
-        
+//    @IBAction func menuBtnPressed(_ sender: UIButton) {
+//        cellDelegate?.didPressMenuBtn(self.tag, textView: textView, label: contentLbl, button: menuBtn)
+    
         //pressedBtnTags.append(tag)
         
         
@@ -294,7 +294,7 @@ class PastStatusesCell: UITableViewCell {
         //        textView.becomeFirstResponder()
         
         
-    }
+    //}
     
     @IBAction func alreadyJoinedBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressAlreadyJoinedBtn(self.tag)
