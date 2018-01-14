@@ -174,14 +174,25 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if originController == "viewProfileToPastStatuses" || originController == "joinedFriendsToPastStatuses" {
+            tableView.isHidden = false
+            tableView.frame.origin.x -= 500
+            isEmptyImg.frame.origin.x -= 500
+        
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x += 500
+                self.isEmptyImg.frame.origin.x += 500
+            }
+        } else {
             tableView.isHidden = false
             tableView.frame.origin.x += 500
             isEmptyImg.frame.origin.x += 500
-        
+            
             UIView.animate(withDuration: 0.25) {
                 self.tableView.frame.origin.x -= 500
                 self.isEmptyImg.frame.origin.x -= 500
             }
+        }
     }
     
     func populateProfilePicture(user: Users) {
@@ -731,6 +742,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         } else if segue.identifier == "pastStatusesToJoinedList" {
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "pastStatusesToJoinedList"
+            }
+        } else if segue.identifier == "pastStatusesToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.originController = "pastStatusesToViewProfile"
             }
         }
     }

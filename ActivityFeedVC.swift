@@ -333,7 +333,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func cancelNewStatus(_ sender: Any) {
         statusPopupBottomConstraint.constant = -325
         statusPopupTopConstraint.constant = 680
-        sortPopUpBottomConstraint.constant = -240
+        //sortPopUpBottomConstraint.constant = -240
         opaqueStatusBackground.isHidden = true
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()

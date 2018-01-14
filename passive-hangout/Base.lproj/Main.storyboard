@@ -1085,6 +1085,7 @@
                         <outlet property="newMsgChatIndicator" destination="5ed-rF-xjX" id="bbT-tg-Eh7"/>
                         <outlet property="newStatusView" destination="w44-Cq-hBs" id="d24-cM-4v5"/>
                         <outlet property="opaqueStatusBackground" destination="4R2-Va-DNM" id="ObW-wo-6il"/>
+                        <outlet property="statusPopupBottomConstraint" destination="Hby-Pv-QNu" id="fBa-lV-Sdr"/>
                         <outlet property="statusPopupTopConstraint" destination="SGR-be-zC8" id="W20-b5-z8J"/>
                         <outlet property="tableView" destination="jgn-hQ-K5J" id="xit-DA-jAr"/>
                         <outlet property="textView" destination="DvP-ps-ngK" id="Psj-aG-14M"/>
@@ -4329,7 +4330,7 @@
                                     <constraint firstAttribute="height" constant="50" id="zLf-cd-e7i"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qV3-Qu-5n0">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qV3-Qu-5n0">
                                 <rect key="frame" x="0.0" y="111" width="375" height="506"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -4470,7 +4471,7 @@
                                     <constraint firstItem="37v-q4-zub" firstAttribute="centerX" secondItem="jDK-z1-7TN" secondAttribute="centerX" id="z1M-0f-MHj"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="N1D-ob-laZ">
+                            <searchBar hidden="YES" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="N1D-ob-laZ">
                                 <rect key="frame" x="0.0" y="67" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Dtc-QI-vO7"/>

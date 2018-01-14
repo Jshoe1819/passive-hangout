@@ -93,6 +93,20 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.frame.origin.x += 500
+        tableView.isHidden = false
+        searchBar.frame.origin.x += 500
+        searchBar.isHidden = false
+        isEmptyImg.frame.origin.x += 500
+        
+        UIView.animate(withDuration: 0.25) {
+            self.tableView.frame.origin.x -= 500
+            self.searchBar.frame.origin.x -= 500
+            self.isEmptyImg.frame.origin.x -= 500
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -174,6 +188,10 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         } else if segue.identifier == "joinedFriendsToJoinedList" {
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "joinedFriendsToJoinedList"
+            }
+        } else if segue.identifier == "joinedFriendsToPastStatuses" {
+            if let nextVC = segue.destination as? PastStatusesVC {
+                nextVC.originController = "joinedFriendsToPastStatuses"
             }
         }
     }

@@ -180,11 +180,22 @@ class ViewProfileVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        scrollView.frame.origin.x += 500
-        scrollView.isHidden = false
-        
-        UIView.animate(withDuration: 0.25) {
-            self.scrollView.frame.origin.x -= 500
+        print(originController)
+        if originController == "pastStatusesToViewProfile" {
+            scrollView.frame.origin.x -= 500
+            scrollView.isHidden = false
+            
+            UIView.animate(withDuration: 0.25) {
+                self.scrollView.frame.origin.x += 500
+            }
+        } else {
+            
+            scrollView.frame.origin.x += 500
+            scrollView.isHidden = false
+            
+            UIView.animate(withDuration: 0.25) {
+                self.scrollView.frame.origin.x -= 500
+            }
         }
     }
     
