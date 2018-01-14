@@ -363,6 +363,10 @@ class ProfileVC: UIViewController{
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "profileToActivityFeed"
             }
+        } else if segue.identifier == "myProfileToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "myProfileToJoinedList"
+            }
         }
         
     }

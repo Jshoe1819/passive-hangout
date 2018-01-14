@@ -244,7 +244,16 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "messagesToJoinedList", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.searchBar.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "messagesToJoinedList", sender: nil)
+        }
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "messagesToSearch", sender: nil)

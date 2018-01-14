@@ -4087,7 +4087,7 @@
                                     <constraint firstItem="h2C-rm-bTS" firstAttribute="centerY" secondItem="k0x-eL-VRq" secondAttribute="centerY" constant="-6" id="kz7-UW-M2W"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8zb-PQ-qS4">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8zb-PQ-qS4">
                                 <rect key="frame" x="0.0" y="67" width="375" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -5917,17 +5917,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UQZ-Az-aT1"/>
-        <segue reference="9ga-VY-kxp"/>
-        <segue reference="adL-Uz-ymj"/>
-        <segue reference="YW1-0X-4mv"/>
-        <segue reference="mAZ-fl-5u8"/>
-        <segue reference="yYZ-zz-Uql"/>
+        <segue reference="fJQ-dC-hyU"/>
         <segue reference="LO5-wp-VUO"/>
-        <segue reference="qz8-im-CGH"/>
-        <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="CSu-Y2-zdl"/>
+        <segue reference="zZq-vH-goe"/>
+        <segue reference="h9M-nc-TZC"/>
+        <segue reference="gCg-Ub-8sY"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
+        <segue reference="9ga-VY-kxp"/>
+        <segue reference="mAZ-fl-5u8"/>
+        <segue reference="yYZ-zz-Uql"/>
+        <segue reference="tfq-Mk-6Zo"/>
+        <segue reference="adL-Uz-ymj"/>
     </inferredMetricsTieBreakers>
 </document>

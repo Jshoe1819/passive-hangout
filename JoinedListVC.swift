@@ -21,6 +21,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     var statusArr = [Status]()
     var usersArr = [Users]()
+    var originController = ""
     //var currentUser: Users!
     //var joinedList = [Status]()
     
@@ -107,10 +108,26 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidAppear(_ animated: Bool) {
         
-        tableView.frame.origin.x += 500
-        
-        UIView.animate(withDuration: 0.25) {
-            self.tableView.frame.origin.x -= 500
+        if originController == "activityFeedToJoinedList" {
+            tableView.frame.origin.x += 500
+            tableView.isHidden = false
+            isEmptyImg.frame.origin.x += 500
+            
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x -= 500
+            }
+        } else if originController == "myProfileToJoinedList" || originController == "pastStatusesToJoinedList" || originController == "editProfileToJoinedList" || originController == "leaveFeedbackToJoinedList" || originController == "friendsListToJoinedList" || originController == "viewProfileToJoinedList" || originController == "joinedFriendsToJoinedList" || originController == "searchToJoinedList" {
+            tableView.frame.origin.x -= 500
+            tableView.isHidden = false
+            isEmptyImg.frame.origin.x -= 500
+            
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x += 500
+            }
+        } else if originController == "" {
+            tableView.isHidden = false
+            return
+
         }
         
     }
@@ -143,6 +160,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             return JoinedListCell()
         }
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

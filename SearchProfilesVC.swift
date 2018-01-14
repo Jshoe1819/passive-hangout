@@ -707,6 +707,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "searchToMyProfile"
             }
+        } else if segue.identifier == "searchToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "searchToJoinedList"
+            }
         }
     }
     //    func didPressJoinBtn(_ tag: Int) {

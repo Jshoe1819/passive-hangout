@@ -495,6 +495,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "editProfileToMyProfile"
             }
+        } else if segue.identifier == "editProfileToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "editProfileToJoinedList"
+            }
         }
     }
     

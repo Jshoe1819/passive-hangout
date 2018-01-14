@@ -432,6 +432,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "activityFeedToProfile"
             }
+        } else if segue.identifier == "activityFeedToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "activityFeedToJoinedList"
+            }
         }
     }
     

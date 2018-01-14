@@ -568,7 +568,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "conversationToJoinedList", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+            self.textInputView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "conversationToJoinedList", sender: nil)
+        }
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "conversationToSearch", sender: nil)

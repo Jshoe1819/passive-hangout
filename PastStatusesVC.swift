@@ -728,6 +728,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "pastStatusesToMyProfile"
             }
+        } else if segue.identifier == "pastStatusesToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "pastStatusesToJoinedList"
+            }
         }
     }
     

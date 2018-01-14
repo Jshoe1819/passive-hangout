@@ -507,6 +507,10 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? FriendsListVC {
                 nextVC.originController = "viewProfileToFriendsList"
             }
+        } else if segue.identifier == "viewProfileToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "viewProfileToJoinedList"
+            }
         }
     }
     
