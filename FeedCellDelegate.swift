@@ -12,7 +12,4 @@ protocol FeedCellDelegate : class {
     func didPressJoinBtn(_ tag: Int)
     func didPressAlreadyJoinedBtn(_ tag: Int)
     func didPressProfilePic(_ tag: Int)
-    func didPressStatusContentLbl(_ tag: Int)
-    //profile press
-    //content press
 }

@@ -177,10 +177,6 @@ class FeedCell: UITableViewCell {
         cellDelegate?.didPressProfilePic(self.tag)
     }
     
-    func contentTapped(_ sender: UITapGestureRecognizer) {
-        cellDelegate?.didPressStatusContentLbl(self.tag)
-    }
-    
     @IBAction func joinBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressJoinBtn(self.tag)
         joinBtnOutlet.isHidden = true
