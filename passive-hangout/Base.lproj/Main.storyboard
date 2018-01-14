@@ -903,7 +903,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-isEmpty-Image" translatesAutoresizingMaskIntoConstraints="NO" id="tAG-3I-TPu">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed-isEmpty-Image" translatesAutoresizingMaskIntoConstraints="NO" id="tAG-3I-TPu">
                                 <rect key="frame" x="0.0" y="67" width="375" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>

@@ -585,6 +585,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if friendPostArr.count == 0 {
             friendPostCount = friendPostArr.count
             self.isEmptyImg.isHidden = false
+            UIView.animate(withDuration: 0.75) {
+                self.isEmptyImg.alpha = 1.0
+            }
+            
         }
     }
     
