@@ -179,6 +179,15 @@ class ViewProfileVC: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        scrollView.frame.origin.x += 500
+        scrollView.isHidden = false
+        
+        UIView.animate(withDuration: 0.25) {
+            self.scrollView.frame.origin.x -= 500
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -536,23 +545,23 @@ class ViewProfileVC: UIViewController {
         opaqueBackground.isHidden = false
         removeFriendView.isHidden = false
         
-//        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
-//        
-//        // add the actions (buttons)
-//        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
-//            let friendKey = self.selectedProfile.usersKey
-//            if let currentUser = Auth.auth().currentUser?.uid {
-//                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-//                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-//                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
-//            }
-//            
-//        }))
-//        
-//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-//        
-//        // show the alert
-//        present(alert, animated: true, completion: nil)
+        //        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
+        //
+        //        // add the actions (buttons)
+        //        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
+        //            let friendKey = self.selectedProfile.usersKey
+        //            if let currentUser = Auth.auth().currentUser?.uid {
+        //                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
+        //                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
+        //                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+        //            }
+        //
+        //        }))
+        //
+        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        //
+        //        // show the alert
+        //        present(alert, animated: true, completion: nil)
         
     }
     

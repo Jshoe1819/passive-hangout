@@ -3550,7 +3550,7 @@
                                     <constraint firstAttribute="height" constant="50" id="jBQ-Og-zDR"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-Bx-HRf">
+                            <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-Bx-HRf">
                                 <rect key="frame" x="0.0" y="65" width="375" height="662"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVg-lD-6vF">
@@ -5919,15 +5919,15 @@
     <inferredMetricsTieBreakers>
         <segue reference="UQZ-Az-aT1"/>
         <segue reference="9ga-VY-kxp"/>
-        <segue reference="250-dH-rGj"/>
         <segue reference="adL-Uz-ymj"/>
-        <segue reference="PqB-AM-vXR"/>
+        <segue reference="YW1-0X-4mv"/>
+        <segue reference="mAZ-fl-5u8"/>
+        <segue reference="yYZ-zz-Uql"/>
+        <segue reference="LO5-wp-VUO"/>
+        <segue reference="qz8-im-CGH"/>
+        <segue reference="tfq-Mk-6Zo"/>
+        <segue reference="CSu-Y2-zdl"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="Q2u-Op-EZN"/>
-        <segue reference="D0t-Q4-6I8"/>
-        <segue reference="1oa-5w-smP"/>
-        <segue reference="EqC-GO-pSd"/>
-        <segue reference="wOn-Aq-wHf"/>
     </inferredMetricsTieBreakers>
 </document>
