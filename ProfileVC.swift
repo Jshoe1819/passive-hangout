@@ -326,6 +326,10 @@ class ProfileVC: UIViewController{
                 nextVC.showMsgFooter = !footerNewMsgIndicator.isHidden
                 nextVC.showProfileFooter = !footerNewFriendIndicator.isHidden
             }
+        } else if segue.identifier == "profileToActivityFeed" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "profileToActivityFeed"
+            }
         }
     }
     

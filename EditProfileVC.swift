@@ -452,6 +452,14 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editProfileToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "editProfileToHome"
+            }
+        }
+    }
+    
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "editProfileToJoinedList", sender: nil)
     }

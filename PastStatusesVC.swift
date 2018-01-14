@@ -709,6 +709,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? JoinedFriendsVC {
                 nextVC.selectedStatus = sender as? Status
             }
+        } else if segue.identifier == "pastStatusesToActivityFeed" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "pastStatusesToActivityFeed"
+            }
         }
     }
     

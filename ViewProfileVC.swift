@@ -486,6 +486,10 @@ class ViewProfileVC: UIViewController {
                     nextVC.originController = "viewProfileToConversation"
                 }
             }
+        } else if segue.identifier == "viewProfileToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "viewProfileToHome"
+            }
         }
     }
     

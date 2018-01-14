@@ -163,6 +163,10 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 nextVC.selectedStatus = selectedStatus
             }
+        } else if segue.identifier == "joinedFriendsToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "joinedFriendsToHome"
+            }
         }
     }
     

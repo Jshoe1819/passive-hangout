@@ -312,6 +312,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 nextVC.conversationUid = sender as! String
                 nextVC.originController = "friendsListToConversation"
             }
+        } else if segue.identifier == "friendsListToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "friendsListToHome"
+            }
         }
     }
     

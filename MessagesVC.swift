@@ -16,8 +16,10 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var conversationArr = [Conversation]()
     var searchResults = [Users]()
     var newMsgKeyArr = [String]()
-//    var currentUser: Users!
+    //    var currentUser: Users!
     
+    @IBOutlet weak var headerView: CustomHeader!
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var backBtn: UIButton!
@@ -206,14 +208,36 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             if let nextVC = segue.destination as? ConversationVC {
                 nextVC.conversationUid = sender as! String
             }
+        } else if segue.identifier == "messagesToFeed" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "messagesToFeed"
+            }
         }
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "messagesToFeed", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.searchBar.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "messagesToFeed", sender: nil)
+        }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "messagesToFeed", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.searchBar.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "messagesToFeed", sender: nil)
+        }
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "messagesToJoinedList", sender: nil)

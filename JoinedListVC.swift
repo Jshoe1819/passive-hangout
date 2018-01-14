@@ -163,6 +163,10 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 //can initialize user with seen: true for friends list and joined list(?)
                 //   can manipulate fonts
             }
+        } else if segue.identifier == "joinedListToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "joinedListToHome"
+            }
         }
     }
     

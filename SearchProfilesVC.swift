@@ -699,6 +699,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     nextVC.searchText = text
                 }
             }
+        } else if segue.identifier == "searchToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "searchToHome"
+            }
         }
     }
     //    func didPressJoinBtn(_ tag: Int) {

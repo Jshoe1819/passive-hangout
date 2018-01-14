@@ -26,6 +26,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var friendPostArr = [String]()
     var friendPostCount = 0
     var numberLoadMores = 1
+    var originController = ""
     //var numberFromLast = 1
     //static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
@@ -200,7 +201,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //            }
         //            self.tableView.reloadData()
         //        })
-        
     }
     
     //    override func viewDidAppear(_ animated: Bool) {
@@ -212,25 +212,56 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     //
     //    }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-////        let  height = scrollView.frame.size.height
-//        let contentYoffset = scrollView.contentOffset.y
-////        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
-////        if distanceFromBottom < height {
-////            loadMore()
-////        }
-//        
-//        if contentYoffset > scrollView.contentSize.height - scrollView.frame.size.height {
-//            loadMore()
-//        }
-//        
-//    }
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    ////        let  height = scrollView.frame.size.height
+    //        let contentYoffset = scrollView.contentOffset.y
+    ////        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+    ////        if distanceFromBottom < height {
+    ////            loadMore()
+    ////        }
+    //
+    //        if contentYoffset > scrollView.contentSize.height - scrollView.frame.size.height {
+    //            loadMore()
+    //        }
+    //
+    //    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("origin \(originController)")
+        if originController == "" {
+            return
+        }
+        if originController != "messagesToFeed" && originController != "conversationToFeed" {
+            print(originController)
+            tableView.frame.origin.x -= 500
+            isEmptyImg.frame.origin.x -= 500
+            
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x += 500
+                self.isEmptyImg.frame.origin.x += 500
+            }
+            
+        } else if originController == "messagesToFeed" || originController == "conversationToFeed" {
+            return
+//            view.frame.origin.y -= 500
+//            //tableView.frame.origin.y -= 500
+//            //isEmptyImg.frame.origin.y -= 500
+//            
+//            UIView.animate(withDuration: 0.50) {
+//                //self.tableView.frame.origin.y += 500
+//                //self.isEmptyImg.frame.origin.x += 500
+//                self.view.frame.origin.y += 500
+//            }
+            
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
-//            print("do something")
-//            print(statusArr.count)
-//            print(friendPostCount)
+            //            print("do something")
+            //            print(statusArr.count)
+            //            print(friendPostCount)
             loadMore()
         }
     }

@@ -57,7 +57,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         if let _ = KeychainWrapper.standard.string(forKey: KEY_UID) {
             self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
         }
+        
     }
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

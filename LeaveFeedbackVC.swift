@@ -199,6 +199,14 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "leaveFeedbackToHome" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "leaveFeedbackToHome"
+            }
+        }
+    }
+    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "leaveFeedbackToHome", sender: nil)
     }

@@ -441,6 +441,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 nextVC.selectedProfile = sender as? Users
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
             }
+        } else if segue.identifier == "conversationToFeed" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "conversationToFeed"
+            }
         }
     }
     
@@ -547,8 +551,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
-        tableView.reloadData()
-        //performSegue(withIdentifier: "conversationToFeed", sender: nil)
+        //tableView.reloadData()
+        performSegue(withIdentifier: "conversationToFeed", sender: nil)
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "conversationToJoinedList", sender: nil)
