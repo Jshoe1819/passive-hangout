@@ -16,6 +16,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var conversationArr = [Conversation]()
     var searchResults = [Users]()
     var newMsgKeyArr = [String]()
+    var originController = ""
     //    var currentUser: Users!
     
     @IBOutlet weak var headerView: CustomHeader!
@@ -109,6 +110,23 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if originController == "conversationToMessages" {
+            tableView.frame.origin.x -= 500
+            tableView.isHidden = false
+            searchBar.frame.origin.x -= 500
+            searchBar.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x += 500
+                self.searchBar.frame.origin.x += 500
+            }
+        } else {
+            tableView.isHidden = false
+            searchBar.isHidden = false
+            return
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

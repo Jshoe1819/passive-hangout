@@ -5391,7 +5391,7 @@
                                     <constraint firstAttribute="trailing" secondItem="1dE-tB-A2P" secondAttribute="trailing" id="s4l-nG-R1S"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e5D-ID-OKV">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e5D-ID-OKV">
                                 <rect key="frame" x="0.0" y="111" width="375" height="616"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -5529,7 +5529,7 @@
                                     <constraint firstItem="tXh-4y-yxO" firstAttribute="centerY" secondItem="TJr-Kn-wUp" secondAttribute="centerY" id="pyB-fr-hgl"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="c51-dM-byq">
+                            <searchBar hidden="YES" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="c51-dM-byq">
                                 <rect key="frame" x="0.0" y="67" width="375" height="44"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
@@ -5919,16 +5919,16 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fJQ-dC-hyU"/>
-        <segue reference="LO5-wp-VUO"/>
-        <segue reference="zZq-vH-goe"/>
-        <segue reference="h9M-nc-TZC"/>
-        <segue reference="gCg-Ub-8sY"/>
+        <segue reference="10u-LX-lAE"/>
+        <segue reference="adL-Uz-ymj"/>
+        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="7ZA-73-jNd"/>
+        <segue reference="v6I-qg-3qN"/>
+        <segue reference="hpM-YK-AX3"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="9ga-VY-kxp"/>
         <segue reference="mAZ-fl-5u8"/>
         <segue reference="yYZ-zz-Uql"/>
         <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="adL-Uz-ymj"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -166,6 +166,12 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["\(currentUser)" : true])
         }
+        tableView.frame.origin.x -= 500
+        tableView.isHidden = false
+        UIView.animate(withDuration: 0.25) {
+            self.tableView.frame.origin.x += 500
+            self.searchBar.frame.origin.x += 500
+        }
         
     }
     
@@ -449,6 +455,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if segue.identifier == "conversationToMyProfile" {
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "conversationToMyProfile"
+            }
+        } else if segue.identifier == "conversationToMessages" {
+            if let nextVC = segue.destination as? MessagesVC {
+                nextVC.originController = "conversationToMessages"
             }
         }
     }
