@@ -18,8 +18,8 @@ import Kingfisher
 class ProfileVC: UIViewController{
     
     var statusArr = [Status]()
-    var originController = ""
     var selectedStatus: Status!
+    var originController = ""
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var nameLbl: UILabel!
@@ -38,16 +38,13 @@ class ProfileVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        numberJoinedLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProfileVC.numberJoinedTapped(_:))))
-        
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-                //print("USERS: \(snapshot)")
+
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
                     self.nameLbl.text = user.name
                     self.populateProfilePicture(user: user)
-                    //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
                     let answer = user.friendsList.values.contains { (value) -> Bool in
                         value as? String == "received"
@@ -70,7 +67,6 @@ class ProfileVC: UIViewController{
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -94,10 +90,11 @@ class ProfileVC: UIViewController{
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("origin \(originController)")
+
         if originController == "activityFeedToProfile" || originController == "joinedListToMyProfile" || originController == "searchToMyProfile"{
             scrollView.frame.origin.x += 500
             scrollView.isHidden = false
+            
             UIView.animate(withDuration: 0.25) {
                 self.scrollView.frame.origin.x -= 500
             }
@@ -105,28 +102,15 @@ class ProfileVC: UIViewController{
         } else if originController == "messagesToMyProfile" || originController == "conversationToMyProfile" {
             scrollView.isHidden = false
             return
-            //            view.frame.origin.y -= 500
-            //            //tableView.frame.origin.y -= 500
-            //            //isEmptyImg.frame.origin.y -= 500
-            //
-            //            UIView.animate(withDuration: 0.50) {
-            //                //self.tableView.frame.origin.y += 500
-            //                //self.isEmptyImg.frame.origin.x += 500
-            //                self.view.frame.origin.y += 500
-            //            }
-            
+
         } else if originController == "pastStatusesToMyProfile" || originController == "editProfileToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
+            
             UIView.animate(withDuration: 0.25) {
                 self.scrollView.frame.origin.x += 500
             }
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func configureTimeAgo(unixTimestamp: Double) -> String {
@@ -161,9 +145,9 @@ class ProfileVC: UIViewController{
             let shortenedUnix = unixTimestamp / 1000
             let date = Date(timeIntervalSince1970: shortenedUnix)
             let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone.current //Set timezone that you want
+            dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = NSLocale.current
-            dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
+            dateFormatter.dateFormat = "MM/dd/yyyy"
             var strDate = dateFormatter.string(from: date)
             if strDate.characters.first == "0" {
                 strDate.characters.removeFirst()
@@ -180,16 +164,13 @@ class ProfileVC: UIViewController{
         
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.profileImg.image = image
             } else {
-                print("not in cache")
                 if user.id != "a" {
                     let profileUrl = URL(string: user.profilePicUrl)
                     let data = try? Data(contentsOf: profileUrl!)
                     if let profileImage = UIImage(data: data!) {
                         self.profileImg.image = profileImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                     }
                     
@@ -197,13 +178,11 @@ class ProfileVC: UIViewController{
                     let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle pic download error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let profileImage = UIImage(data: imageData) {
                                     self.profileImg.image = profileImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                                 }
                             }
@@ -212,68 +191,19 @@ class ProfileVC: UIViewController{
                 }
             }
         }
-    
-
-
-//        //print("JAKE: going in to else")
-//        if user.id != "a" {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profileUrl = URL(string: user.profilePicUrl)
-//                let data = try? Data(contentsOf: profileUrl!)
-//                if let profileImage = UIImage(data: data!) {
-//                    self.profileImg.image = profileImage
-//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-//                }
-//            }
-//            
-//        } else {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                    if error != nil {
-//                        //print("JAKE: unable to download image from storage")
-//                    } else {
-//                        //print("JAKE: image downloaded from storage")
-//                        if let imageData = data {
-//                            if let image = UIImage(data: imageData) {
-//                                self.profileImg.image = image
-//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-//                                //self.postImg.image = image
-//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-//            
-//        }
-    }
-    
-    func numberJoinedTapped(_ sender: UITapGestureRecognizer) {
-        //perform segue, pass required info
-        performSegue(withIdentifier: "myProfileToJoinedFriends", sender: selectedStatus)
     }
     
     func populateCoverPicture(user: Users) {
         
         ImageCache.default.retrieveImage(forKey: user.cover["source"] as! String, options: nil) { (coverImage, cacheType) in
             if let image = coverImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.coverImg.image = image
             } else {
-                //print("not in cache")
                 if user.id != "a" {
                     let coverUrl = URL(string: user.cover["source"] as! String)
                     let data = try? Data(contentsOf: coverUrl!)
                     if let coverImage = UIImage(data: data!) {
                         self.coverImg.image = coverImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                     }
                     
@@ -281,13 +211,11 @@ class ProfileVC: UIViewController{
                     let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
                     coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle pic download error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let coverImage = UIImage(data: imageData) {
                                     self.coverImg.image = coverImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                                 }
                             }
@@ -297,51 +225,6 @@ class ProfileVC: UIViewController{
             }
         }
         
-//        if user.id != "a" {
-//            
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//                
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                }
-//                else {
-//                    //print("downloading")
-//                    let coverUrl = URL(string: user.cover["source"] as! String)
-//                    let data = try? Data(contentsOf: coverUrl!)
-//                    if let coverImage = UIImage(data: data!) {
-//                        self.coverImg.image = coverImage
-//                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
-//                    }
-//                }
-//            }
-//            
-//        } else {
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//                
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                } else {
-//                    //print("downloading")
-//                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-//                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                        if error != nil {
-//                            //print("JAKE: unable to download image from storage")
-//                        } else {
-//                            //print("JAKE: image downloaded from storage")
-//                            if let imageData = data {
-//                                if let image = UIImage(data: imageData) {
-//                                    self.coverImg.image = image
-//                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
-//                                    
-//                                }
-//                            }
-//                        }
-//                    })
-//                }
-//            }
-//        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -388,9 +271,8 @@ class ProfileVC: UIViewController{
     }
     
     @IBAction func donateBtnPressed(_ sender: Any) {
-        print("helloooo")
         guard let url = URL(string: "https://www.paypal.me/jshoe1819") else {
-            return //be safe
+            return
         }
         
         if #available(iOS 10.0, *) {
@@ -419,41 +301,28 @@ class ProfileVC: UIViewController{
         }
     }
     
-    @IBAction func notificationsBtnPressed(_ sender: Any) {
-    }
-    
     @IBAction func signOutBtnPressed(_ sender: Any) {
-        
         opaqueBackground.isHidden = false
+        signOutView.frame.origin.y += 1000
         signOutView.isHidden = false
         
-//        UIView.animate(withDuration: 11, animations: {
-//            self.signOutView.isHidden = false
-//            self.signOutView.frame.origin.y -= 0.5
-//        }, completion: nil)
-        
-//        // create the alert
-//        let alert = UIAlertController(title: "Sign Out", message: "Are you sure you would like to sign out?", preferredStyle: UIAlertControllerStyle.alert)
-//        
-//        // add the actions (buttons)
-//        alert.addAction(UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.destructive, handler: { action in
-//            
-//            KeychainWrapper.standard.removeObject(forKey: KEY_UID)
-//            try! Auth.auth().signOut()
-//            FBSDKAccessToken.setCurrent(nil)
-//            self.performSegue(withIdentifier: "myProfileToLogin", sender: nil)
-//            
-//        }))
-//        
-//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-//        
-//        // show the alert
-//        self.present(alert, animated: true, completion: nil)
-        
+        UIView.animate(withDuration: 0.25) {
+            self.signOutView.frame.origin.y -= 1000
+        }
     }
     @IBAction func cancelSignOutBtnPressed(_ sender: Any) {
         opaqueBackground.isHidden = true
-        signOutView.isHidden = true
+        
+        UIView.animate(withDuration: 0.25) {
+            self.signOutView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.signOutView.isHidden = true
+            self.signOutView.frame.origin.y -= 1000
+        }
+        
     }
     
     @IBAction func finalSignOutBtnPressed(_ sender: Any) {
