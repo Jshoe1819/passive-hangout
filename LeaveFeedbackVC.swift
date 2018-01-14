@@ -54,6 +54,24 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        selectCategoryBtn.frame.origin.x += 500
+        selectCategoryBtn.isHidden = false
+        textView.frame.origin.x += 500
+        textView.isHidden = false
+        characterCountLbl.frame.origin.x += 500
+        characterCountLbl.isHidden = false
+        
+        UIView.animate(withDuration: 0.25) {
+            
+            self.selectCategoryBtn.frame.origin.x -= 500
+            self.textView.frame.origin.x -= 500
+            self.characterCountLbl.frame.origin.x -= 500
+            
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

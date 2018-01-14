@@ -1888,7 +1888,7 @@
                                     <constraint firstItem="96v-S6-jgG" firstAttribute="centerX" secondItem="KX8-eJ-Iw0" secondAttribute="centerX" constant="6" id="xuD-Zt-ebG"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bFs-Yp-7BH">
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bFs-Yp-7BH">
                                 <rect key="frame" x="25" y="147" width="320" height="323"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1904,7 +1904,7 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 240 max characters used" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDh-pV-pPw">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 240 max characters used" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDh-pV-pPw">
                                 <rect key="frame" x="30" y="475" width="250" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="J6x-Dw-Xkm"/>
@@ -1972,7 +1972,7 @@
                                     <action selector="hideTableBtnPressed:" destination="zYD-JU-fTu" eventType="touchUpInside" id="254-ao-3hs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHx-Vj-rpl">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHx-Vj-rpl">
                                 <rect key="frame" x="30" y="95" width="153" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="bOS-uN-X7U"/>
@@ -5921,13 +5921,13 @@
         <segue reference="9ga-VY-kxp"/>
         <segue reference="250-dH-rGj"/>
         <segue reference="adL-Uz-ymj"/>
-        <segue reference="crd-6O-jsE"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="GqT-o6-9WH"/>
-        <segue reference="PEf-1w-zZf"/>
-        <segue reference="7R7-N8-loz"/>
+        <segue reference="PqB-AM-vXR"/>
         <segue reference="agh-4t-wA8"/>
+        <segue reference="cdL-qi-TmD"/>
         <segue reference="Q2u-Op-EZN"/>
         <segue reference="D0t-Q4-6I8"/>
+        <segue reference="1oa-5w-smP"/>
+        <segue reference="EqC-GO-pSd"/>
+        <segue reference="wOn-Aq-wHf"/>
     </inferredMetricsTieBreakers>
 </document>
