@@ -14,6 +14,8 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     
     var showProfileFooter = false
     var showMsgFooter = false
+    let choiceArray = ["Positive", "Negative", "Suggestion", "Inquiry", "Other"]
+    let characterLimit = 240
     
     @IBOutlet weak var selectCategoryBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -26,10 +28,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var hideTableBtn: UIButton!
     var placeholderLabel : UILabel!
-    
-    let choiceArray = ["Positive", "Negative", "Suggestion", "Inquiry", "Other"]
-    let characterLimit = 240
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,11 +68,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             self.characterCountLbl.frame.origin.x -= 500
             
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -200,7 +193,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         if !textView.text.isEmpty {
             let alert = UIAlertController(title: "Feedback Not Sent", message: "Are you sure you would like to continue?", preferredStyle: UIAlertControllerStyle.alert)
             
-            // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: { action in
                 self.textView.resignFirstResponder()
                 self.performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
@@ -208,7 +200,6 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             
             alert.addAction(UIAlertAction(title: "Stay", style: UIAlertActionStyle.cancel, handler: nil))
             
-            // show the alert
             self.present(alert, animated: true, completion: nil)
         } else {
             textView.resignFirstResponder()
