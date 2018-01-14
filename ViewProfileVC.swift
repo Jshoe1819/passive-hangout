@@ -490,6 +490,7 @@ class ViewProfileVC: UIViewController {
             }
         } else if segue.identifier == "viewProfileToSearch" {
             if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "viewProfileToSearch"
                 nextVC.searchText = searchText
             }
         } else if segue.identifier == "viewProfileToConversation" {
@@ -522,7 +523,7 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "viewProfileToJoinedList"
             }
-        }
+        } 
     }
     
     @IBAction func seePastStatusesBtnPressed(_ sender: Any) {

@@ -193,6 +193,10 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             if let nextVC = segue.destination as? PastStatusesVC {
                 nextVC.originController = "joinedFriendsToPastStatuses"
             }
+        } else if segue.identifier == "joinedFriendsToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "joinedFriendsToSearch"
+            }
         }
     }
     

@@ -230,6 +230,10 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "leaveFeedbackToJoinedList"
             }
+        } else if segue.identifier == "leaveFeedbackToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "leaveFeedbackToSearch"
+            }
         }
     }
     

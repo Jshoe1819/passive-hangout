@@ -25,6 +25,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var numberLoadMores = 1
     var searchText = ""
     var refreshControl: UIRefreshControl!
+    var originController = ""
     
     @IBOutlet weak var exploreTableView: UITableView!
     @IBOutlet weak var hangoutsTableView: UITableView!
@@ -45,7 +46,31 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
-        //code to refresh
+        
+        if originController == "homeToSearch" || originController == "joinedListToSearch" {
+            exploreTableView.frame.origin.x += 500
+            exploreTableView.isHidden = false
+            searchBar.frame.origin.x += 500
+            searchBar.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.exploreTableView.frame.origin.x -= 500
+                self.searchBar.frame.origin.x -= 500
+            }
+        } else if originController == "myProfileToSearch" || originController == "pastStatusesToSearch" || originController == "editProfileToSearch" || originController == "leaveFeedbackToSearch" || originController == "friendsListToSearch" || originController == "viewProfileToSearch" || originController == "joinedFriendsToSearch" {
+            exploreTableView.frame.origin.x -= 500
+            exploreTableView.isHidden = false
+            searchBar.frame.origin.x -= 500
+            searchBar.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.exploreTableView.frame.origin.x += 500
+                self.searchBar.frame.origin.x += 500
+            }
+        } else {
+            exploreTableView.isHidden = false
+            searchBar.isHidden = false
+            return
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -711,7 +736,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "searchToJoinedList"
             }
-        }
+        } 
     }
     //    func didPressJoinBtn(_ tag: Int) {
     //        let statusKey = statusArr[tag].statusKey

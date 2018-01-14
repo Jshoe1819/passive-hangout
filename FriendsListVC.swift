@@ -362,6 +362,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "friendsListToJoinedList"
             }
+        } else if segue.identifier == "friendsListToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "friendsListToSearch"
+            }
         }
     }
     

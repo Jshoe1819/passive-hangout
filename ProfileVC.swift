@@ -367,6 +367,10 @@ class ProfileVC: UIViewController{
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "myProfileToJoinedList"
             }
+        } else if segue.identifier == "myProfileToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "myProfileToSearch"
+            }
         }
         
     }

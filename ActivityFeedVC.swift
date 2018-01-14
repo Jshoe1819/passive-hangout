@@ -436,6 +436,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "activityFeedToJoinedList"
             }
+        } else if segue.identifier == "homeToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "homeToSearch"
+            }
         }
     }
     

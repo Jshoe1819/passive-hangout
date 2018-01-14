@@ -256,7 +256,16 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     @IBAction func searchBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "messagesToSearch", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.searchBar.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "messagesToSearch", sender: nil)
+        }
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         UIView.animate(withDuration: 0.75) {
