@@ -204,6 +204,10 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "leaveFeedbackToHome"
             }
+        } else if segue.identifier == "leaveFeedbackToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "leaveFeedbackToMyProfile"
+            }
         }
     }
     

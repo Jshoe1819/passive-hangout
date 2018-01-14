@@ -316,6 +316,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "friendsListToHome"
             }
+        } else if segue.identifier == "friendsListToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "friendsListToMyProfile"
+            }
         }
     }
     

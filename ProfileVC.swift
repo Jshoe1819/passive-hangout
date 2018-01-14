@@ -18,8 +18,10 @@ import Kingfisher
 class ProfileVC: UIViewController{
     
     var statusArr = [Status]()
+    var originController = ""
     var selectedStatus: Status!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
@@ -89,6 +91,37 @@ class ProfileVC: UIViewController{
                 }
             }
         })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("origin \(originController)")
+        if originController == "activityFeedToProfile" || originController == "joinedListToMyProfile" || originController == "searchToMyProfile"{
+            scrollView.frame.origin.x += 500
+            scrollView.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.scrollView.frame.origin.x -= 500
+            }
+            
+        } else if originController == "messagesToMyProfile" || originController == "conversationToMyProfile" {
+            scrollView.isHidden = false
+            return
+            //            view.frame.origin.y -= 500
+            //            //tableView.frame.origin.y -= 500
+            //            //isEmptyImg.frame.origin.y -= 500
+            //
+            //            UIView.animate(withDuration: 0.50) {
+            //                //self.tableView.frame.origin.y += 500
+            //                //self.isEmptyImg.frame.origin.x += 500
+            //                self.view.frame.origin.y += 500
+            //            }
+            
+        } else if originController == "pastStatusesToMyProfile" || originController == "editProfileToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" {
+            scrollView.frame.origin.x -= 500
+            scrollView.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.scrollView.frame.origin.x += 500
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -331,6 +364,7 @@ class ProfileVC: UIViewController{
                 nextVC.originController = "profileToActivityFeed"
             }
         }
+        
     }
     
     @IBAction func homeBtnPressed(_ sender: Any) {

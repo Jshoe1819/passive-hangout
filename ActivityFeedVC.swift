@@ -229,19 +229,22 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         print("origin \(originController)")
         if originController == "" {
+            tableView.isHidden = false
             return
         }
         if originController != "messagesToFeed" && originController != "conversationToFeed" {
             print(originController)
             tableView.frame.origin.x -= 500
             isEmptyImg.frame.origin.x -= 500
-            
+            tableView.isHidden = false
+
             UIView.animate(withDuration: 0.25) {
                 self.tableView.frame.origin.x += 500
                 self.isEmptyImg.frame.origin.x += 500
             }
             
         } else if originController == "messagesToFeed" || originController == "conversationToFeed" {
+            tableView.isHidden = false
             return
 //            view.frame.origin.y -= 500
 //            //tableView.frame.origin.y -= 500
@@ -424,6 +427,10 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 nextVC.originController = "feedToViewProfile"
+            }
+        } else if segue.identifier == "activityFeedToProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "activityFeedToProfile"
             }
         }
     }

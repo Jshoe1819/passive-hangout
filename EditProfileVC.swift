@@ -457,6 +457,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "editProfileToHome"
             }
+        } else if segue.identifier == "editProfileToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "editProfileToMyProfile"
+            }
         }
     }
     

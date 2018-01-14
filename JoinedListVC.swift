@@ -167,6 +167,10 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "joinedListToHome"
             }
+        } else if segue.identifier == "joinedListToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "joinedListToMyProfile"
+            }
         }
     }
     

@@ -703,6 +703,10 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "searchToHome"
             }
+        } else if segue.identifier == "searchToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "searchToMyProfile"
+            }
         }
     }
     //    func didPressJoinBtn(_ tag: Int) {

@@ -23,6 +23,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentConversation: Conversation!
     var placeholderLabel : UILabel!
     
+    @IBOutlet weak var headerView: CustomHeader!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
@@ -445,6 +446,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "conversationToFeed"
             }
+        } else if segue.identifier == "conversationToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "conversationToMyProfile"
+            }
         }
     }
     
@@ -551,8 +556,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     @IBAction func homeBtnPressed(_ sender: Any) {
-        //tableView.reloadData()
-        performSegue(withIdentifier: "conversationToFeed", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+            self.textInputView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "conversationToFeed", sender: nil)
+        }
     }
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "conversationToJoinedList", sender: nil)
@@ -561,7 +574,16 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         performSegue(withIdentifier: "conversationToSearch", sender: nil)
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "conversationToMyProfile", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+            self.textInputView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "conversationToMyProfile", sender: nil)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

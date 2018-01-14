@@ -713,6 +713,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "pastStatusesToActivityFeed"
             }
+        } else if segue.identifier == "pastStatusesToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "pastStatusesToMyProfile"
+            }
         }
     }
     

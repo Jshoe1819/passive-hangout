@@ -788,7 +788,7 @@
                                     <constraint firstItem="KkK-Zo-4i6" firstAttribute="centerY" secondItem="Sjz-QZ-3Du" secondAttribute="centerY" constant="-6" id="zUS-h9-cva"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jgn-hQ-K5J">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="97" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jgn-hQ-K5J">
                                 <rect key="frame" x="0.0" y="67" width="375" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1209,7 +1209,7 @@
                                     <constraint firstItem="pbd-xB-s61" firstAttribute="centerY" secondItem="4Cc-6X-4xx" secondAttribute="centerY" id="ydN-86-Goe"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKo-Ab-3Hj">
+                            <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKo-Ab-3Hj">
                                 <rect key="frame" x="0.0" y="65" width="375" height="735"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LvP-zp-OvQ">
@@ -1778,6 +1778,7 @@
                         <outlet property="pastStatusesIndicator" destination="WXj-xJ-baM" id="qI5-UW-bSe"/>
                         <outlet property="profileImg" destination="5nj-Vw-9DL" id="r1q-rJ-n0h"/>
                         <outlet property="profileNewFriendIndicator" destination="PJe-3A-dOo" id="340-mu-U1D"/>
+                        <outlet property="scrollView" destination="dKo-Ab-3Hj" id="ClI-O5-Iij"/>
                         <outlet property="signOutView" destination="Wy6-GS-E2O" id="EA4-Ah-Bfp"/>
                         <outlet property="statusAgeLbl" destination="uAk-CY-J30" id="CWc-xf-rNo"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="profileToActivityFeed" animates="NO" id="y9G-P1-8je"/>
@@ -5582,6 +5583,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JKW-En-R5n" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="jar-6C-e0T"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izp-Yi-aE7">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
@@ -5835,12 +5843,16 @@
                             <constraint firstItem="Izp-Yi-aE7" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="Gvz-Pf-rgf"/>
                             <constraint firstAttribute="trailing" secondItem="uxu-PC-NvI" secondAttribute="trailing" id="JOp-9e-6Xz"/>
                             <constraint firstAttribute="trailing" secondItem="3pQ-Oz-ZR4" secondAttribute="trailing" id="Ndw-cD-mmf"/>
+                            <constraint firstItem="JKW-En-R5n" firstAttribute="top" secondItem="3pQ-Oz-ZR4" secondAttribute="top" id="OH2-Mf-mSi"/>
                             <constraint firstItem="uxu-PC-NvI" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="QLr-7N-PBr"/>
+                            <constraint firstItem="JKW-En-R5n" firstAttribute="leading" secondItem="3pQ-Oz-ZR4" secondAttribute="leading" id="WgT-ne-HPJ"/>
                             <constraint firstItem="uxu-PC-NvI" firstAttribute="top" secondItem="3pQ-Oz-ZR4" secondAttribute="bottom" id="YzR-KY-edI"/>
+                            <constraint firstItem="JKW-En-R5n" firstAttribute="trailing" secondItem="3pQ-Oz-ZR4" secondAttribute="trailing" id="bmG-4C-CyA"/>
                             <constraint firstItem="3pQ-Oz-ZR4" firstAttribute="top" secondItem="uEq-tj-IBb" secondAttribute="top" id="ccs-N5-4Ol"/>
                             <constraint firstItem="Izp-Yi-aE7" firstAttribute="top" secondItem="8k0-Pe-poz" secondAttribute="bottom" id="n4Y-gK-fSt"/>
                             <constraint firstItem="8k0-Pe-poz" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="oz4-6N-aY1"/>
                             <constraint firstItem="3pQ-Oz-ZR4" firstAttribute="leading" secondItem="uEq-tj-IBb" secondAttribute="leading" id="rcP-PX-grR"/>
+                            <constraint firstItem="JKW-En-R5n" firstAttribute="bottom" secondItem="3pQ-Oz-ZR4" secondAttribute="bottom" id="t0p-HL-xbh"/>
                             <constraint firstAttribute="trailing" secondItem="Izp-Yi-aE7" secondAttribute="trailing" id="vJE-1X-3wu"/>
                         </constraints>
                     </view>
@@ -5848,6 +5860,7 @@
                         <outlet property="footerNewFriendIndicator" destination="wHh-EO-gxy" id="O8X-DL-HwX"/>
                         <outlet property="footerNewMsgIndicator" destination="hRZ-F0-QwD" id="zC4-u6-Hv2"/>
                         <outlet property="footerView" destination="Izp-Yi-aE7" id="JfT-mX-ZV5"/>
+                        <outlet property="headerView" destination="3pQ-Oz-ZR4" id="p8D-xH-tz5"/>
                         <outlet property="nameLbl" destination="s1D-je-CaX" id="HdA-oO-ifI"/>
                         <outlet property="profilePicImg" destination="9rA-7i-JPa" id="xcC-km-zgv"/>
                         <outlet property="tableView" destination="uxu-PC-NvI" id="QUV-fY-e5J"/>
@@ -5903,17 +5916,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="goR-0M-Gfk"/>
-        <segue reference="7ZA-73-jNd"/>
-        <segue reference="W4L-ij-kOw"/>
-        <segue reference="10u-LX-lAE"/>
-        <segue reference="v6I-qg-3qN"/>
-        <segue reference="hpM-YK-AX3"/>
-        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="UQZ-Az-aT1"/>
+        <segue reference="9ga-VY-kxp"/>
+        <segue reference="250-dH-rGj"/>
+        <segue reference="wBT-15-yfK"/>
+        <segue reference="aPr-sb-FpU"/>
+        <segue reference="hRN-vk-2wK"/>
+        <segue reference="adL-Uz-ymj"/>
+        <segue reference="nN3-Bv-6hq"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="Q2u-Op-EZN"/>
         <segue reference="D0t-Q4-6I8"/>
-        <segue reference="5Tl-Jg-UAb"/>
     </inferredMetricsTieBreakers>
 </document>

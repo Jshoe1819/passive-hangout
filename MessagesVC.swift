@@ -212,6 +212,10 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "messagesToFeed"
             }
+        } else if segue.identifier == "messagesToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "messagesToMyProfile"
+            }
         }
     }
     
@@ -246,6 +250,15 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         performSegue(withIdentifier: "messagesToSearch", sender: nil)
     }
     @IBAction func myProfileBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "messagesToMyProfile", sender: nil)
+        UIView.animate(withDuration: 0.75) {
+            self.footerView.frame.origin.y += 3000
+            self.tableView.frame.origin.y += 3000
+            self.searchBar.frame.origin.y += 3000
+            self.headerView.frame.origin.y += 3000
+        }
+        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.performSegue(withIdentifier: "messagesToMyProfile", sender: nil)
+        }
     }
 }
