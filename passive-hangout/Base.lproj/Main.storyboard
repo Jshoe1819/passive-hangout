@@ -3021,18 +3021,23 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cityView" destination="vts-NJ-e6z" id="Vo2-Hq-aVR"/>
                         <outlet property="coverImg" destination="y8e-qf-pgG" id="riq-Cy-pJE"/>
                         <outlet property="coverImgPicker" destination="XWJ-Ax-cgp" id="lxZ-6l-Wfi"/>
                         <outlet property="currentCityTextField" destination="ZDq-Qz-08Z" id="ulG-vm-SIP"/>
                         <outlet property="employerTextField" destination="BRn-vH-bfH" id="TdX-mG-UAD"/>
+                        <outlet property="employerView" destination="fci-TM-ixs" id="QH9-fD-F2j"/>
                         <outlet property="footerNewFriendIndicator" destination="L5Z-fN-i8D" id="oZa-En-ETl"/>
                         <outlet property="footerNewMsgIndicator" destination="rJy-7n-EJn" id="uso-mr-asO"/>
                         <outlet property="nameTextField" destination="SY8-6l-uJG" id="J0y-Jk-sQ7"/>
+                        <outlet property="nameView" destination="WWK-BN-8El" id="uEJ-fz-R0D"/>
                         <outlet property="occupationTextField" destination="OPU-Gd-tmY" id="H7z-7j-BZc"/>
+                        <outlet property="occupationView" destination="8HY-hf-Wf5" id="2D2-Ny-aPC"/>
                         <outlet property="privateProfileSwitch" destination="YgR-HA-Zxc" id="d03-Pf-1nQ"/>
                         <outlet property="profileImg" destination="PvR-ch-4op" id="5WQ-Qw-J48"/>
                         <outlet property="profileImgPicker" destination="R2Y-cC-qjX" id="dck-BQ-16r"/>
                         <outlet property="schoolTextField" destination="LBR-Co-QhD" id="ry5-sc-Q15"/>
+                        <outlet property="schoolView" destination="CSL-uS-3M3" id="43b-ze-qm5"/>
                         <outlet property="stackView" destination="n79-oW-7P3" id="LSU-P2-lE5"/>
                         <segue destination="vee-CM-2bF" kind="show" identifier="editProfileToMyProfile" animates="NO" id="crd-6O-jsE"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="editProfileToHome" animates="NO" id="7R7-N8-loz"/>
@@ -5914,17 +5919,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="goR-0M-Gfk"/>
-        <segue reference="y9G-P1-8je"/>
-        <segue reference="LgH-sn-NCD"/>
-        <segue reference="D0t-Q4-6I8"/>
-        <segue reference="uf7-H6-dOj"/>
-        <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="agh-4t-wA8"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="lPd-Em-nqx"/>
+        <segue reference="PTq-OX-4io"/>
         <segue reference="Q2u-Op-EZN"/>
+        <segue reference="crd-6O-jsE"/>
+        <segue reference="cdL-qi-TmD"/>
+        <segue reference="GqT-o6-9WH"/>
+        <segue reference="PEf-1w-zZf"/>
+        <segue reference="7R7-N8-loz"/>
         <segue reference="W4L-ij-kOw"/>
         <segue reference="Zl1-hz-g1g"/>
+        <segue reference="5Tl-Jg-UAb"/>
+        <segue reference="agh-4t-wA8"/>
+        <segue reference="Yry-oZ-Wzs"/>
     </inferredMetricsTieBreakers>
 </document>

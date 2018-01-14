@@ -23,10 +23,15 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var currentCityTextField: UITextField!
+    @IBOutlet weak var cityView: UIView!
     @IBOutlet weak var schoolTextField: UITextField!
+    @IBOutlet weak var schoolView: UIView!
     @IBOutlet weak var employerTextField: UITextField!
+    @IBOutlet weak var employerView: UIView!
     @IBOutlet weak var occupationTextField: UITextField!
+    @IBOutlet weak var occupationView: UIView!
     @IBOutlet weak var privateProfileSwitch: UISwitch!
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
@@ -52,8 +57,9 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         if let currentUser = Auth.auth().currentUser?.uid {
+           
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-                //print("USERS: \(snapshot)")
+                
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
                     let answer = user.friendsList.values.contains { (value) -> Bool in
@@ -65,11 +71,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     self.footerNewMsgIndicator.isHidden = !user.hasNewMsg
                     
                     self.toBeDeletedProfRef = user.profilePicUrl
-                    //print("1: \(self.toBeDeletedProfRef)")
+
                     self.toBeDeletedCoverRef = user.cover["source"] as! String
-                    //print(self.toBeDeletedCoverRef)
+
                     self.populateProfilePicture(user: user)
-                    //print(user.cover["source"])
                     self.populateCoverPicture(user: user)
                     self.populateInformation(user: user)
                     self.toBeDeletedProfRef = user.profilePicUrl
@@ -84,14 +89,24 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         
         nameTextField.frame.origin.x += 500
         nameTextField.isHidden = false
+        nameView.frame.origin.x += 500
+        nameView.isHidden = false
         currentCityTextField.frame.origin.x += 500
         currentCityTextField.isHidden = false
+        cityView.frame.origin.x += 500
+        cityView.isHidden = false
         schoolTextField.frame.origin.x += 500
         schoolTextField.isHidden = false
+        schoolView.frame.origin.x += 500
+        schoolView.isHidden = false
         employerTextField.frame.origin.x += 500
         employerTextField.isHidden = false
+        employerView.frame.origin.x += 500
+        employerView.isHidden = false
         occupationTextField.frame.origin.x += 500
         occupationTextField.isHidden = false
+        occupationView.frame.origin.x += 500
+        occupationView.isHidden = false
         privateProfileSwitch.frame.origin.x += 500
         privateProfileSwitch.isHidden = false
         profileImgPicker.frame.origin.x += 500
@@ -101,22 +116,22 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         
         UIView.animate(withDuration: 0.25) {
             self.nameTextField.frame.origin.x -= 500
+            self.nameView.frame.origin.x -= 500
             self.currentCityTextField.frame.origin.x -= 500
+            self.cityView.frame.origin.x -= 500
             self.schoolTextField.frame.origin.x -= 500
+            self.schoolView.frame.origin.x -= 500
             self.employerTextField.frame.origin.x -= 500
+            self.employerView.frame.origin.x -= 500
             self.occupationTextField.frame.origin.x -= 500
+            self.occupationView.frame.origin.x -= 500
             self.privateProfileSwitch.frame.origin.x -= 500
             self.profileImgPicker.frame.origin.x -= 500
             self.coverImgPicker.frame.origin.x -= 500
             self.stackView.frame.origin.x -= 500
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             
@@ -126,7 +141,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                 imageSelected = true
                 
                 guard let image = profileImg.image, imageSelected == true else {
-                    print("JAKE: image must be selected")
                     return
                 }
                 
@@ -137,24 +151,20 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     
                     DataService.ds.REF_PROFILE_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
                         if error != nil {
-                            print("JAKE: unable to upload image to storage")
+                            //Handle error?
                         } else {
-                            print("JAKE: successful upload image to storage")
                             let downloadUrl = metaData?.downloadURL()?.absoluteString
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
                                     DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
-                                    //print("2: \(self.toBeDeletedProfRef)")
                                     let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedProfRef)
                                     deletedImgRef.delete(completion: { (error) in
                                         if error != nil {
-                                            print("error")
-                                            //handle error
+                                            //Handle Error?
                                         } else {
-                                            print("deleted")
+                                            //Deleted
                                         }
                                     })
-                                    //ActivityFeedVC.imageCache.setObject(image, forKey: currentUser.profilePicUrl as NSString)
                                     
                                 }
                                 
@@ -169,7 +179,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                 imageSelected = true
                 
                 guard let image = coverImg.image, imageSelected == true else {
-                    print("JAKE: image must be selected")
                     return
                 }
                 
@@ -180,9 +189,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     
                     DataService.ds.REF_BACKGROUND_PICTURES.child(imageUid).putData(imageData, metadata: metaData) { (metaData, error) in
                         if error != nil {
-                            print("JAKE: unable to upload image to storage")
+                            //Handle error?
                         } else {
-                            print("JAKE: successful upload image to storage")
                             
                             let downloadUrl = metaData?.downloadURL()?.absoluteString
                             if let url = downloadUrl {
@@ -191,10 +199,9 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                                     let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedCoverRef)
                                     deletedImgRef.delete(completion: { (error) in
                                         if error != nil {
-                                            print("error")
-                                            //handle error
+                                            //Handle error?
                                         } else {
-                                            //print("deleted")
+                                            //Deleted
                                         }
                                     })
                                 }
@@ -207,7 +214,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             
             
         } else {
-            print("JAKE: Valid image not selected")
+            //Handle error?
         }
         imagePicker.dismiss(animated: true, completion: nil)
     }
@@ -220,7 +227,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.profileImg.image = image
             } else {
                 print("not in cache")
@@ -229,7 +235,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     let data = try? Data(contentsOf: profileUrl!)
                     if let profileImage = UIImage(data: data!) {
                         self.profileImg.image = profileImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                     }
                     
@@ -237,13 +242,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let profileImage = UIImage(data: imageData) {
                                     self.profileImg.image = profileImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                                 }
                             }
@@ -252,47 +255,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                 }
             }
         }
-    
-
-
-        //print("JAKE: going in to else")
-//        if user.id != "a" {
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profileUrl = URL(string: user.profilePicUrl)
-//                let data = try? Data(contentsOf: profileUrl!)
-//                if let profileImage = UIImage(data: data!) {
-//                    self.profileImg.image = profileImage
-//                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-//                }
-//            }
-//        } else {
-//            profileImgPicker.isHidden = false
-//            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-//                profileImg.image = image
-//                //print("JAKE: Cache working")
-//            } else {
-//                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-//                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                    if error != nil {
-//                        //print("JAKE: unable to download image from storage")
-//                    } else {
-//                        //print("JAKE: image downloaded from storage")
-//                        if let imageData = data {
-//                            if let image = UIImage(data: imageData) {
-//                                self.profileImg.image = image
-//                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-//                                //self.postImg.image = image
-//                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-//                            }
-//                        }
-//                    }
-//                })
-//            }
-//            
-//        }
     }
     
     func populateCoverPicture(user: Users) {
@@ -303,16 +265,13 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         
         ImageCache.default.retrieveImage(forKey: user.cover["source"] as! String, options: nil) { (coverImage, cacheType) in
             if let image = coverImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.coverImg.image = image
             } else {
-                //print("not in cache")
                 if user.id != "a" {
                     let coverUrl = URL(string: user.cover["source"] as! String)
                     let data = try? Data(contentsOf: coverUrl!)
                     if let coverImage = UIImage(data: data!) {
                         self.coverImg.image = coverImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                     }
                     
@@ -320,13 +279,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
                     coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let coverImage = UIImage(data: imageData) {
                                     self.coverImg.image = coverImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                                 }
                             }
@@ -336,52 +293,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             }
         }
         
-//        if user.id != "a" {
-//            
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//                
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                }
-//                else {
-//                    //print("downloading")
-//                    let coverUrl = URL(string: user.cover["source"] as! String)
-//                    let data = try? Data(contentsOf: coverUrl!)
-//                    if let coverImage = UIImage(data: data!) {
-//                        self.coverImg.image = coverImage
-//                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
-//                    }
-//                }
-//            }
-//            
-//        } else {
-//            coverImgPicker.isHidden = false
-//            if let coverStorageUrl = user.cover["source"] as? String {
-//                
-//                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-//                    //print("using cache")
-//                    coverImg.image = image
-//                } else {
-//                    //print("downloading")
-//                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-//                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-//                        if error != nil {
-//                            //print("JAKE: unable to download image from storage")
-//                        } else {
-//                            //print("JAKE: image downloaded from storage")
-//                            if let imageData = data {
-//                                if let image = UIImage(data: imageData) {
-//                                    self.coverImg.image = image
-//                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
-//                                    
-//                                }
-//                            }
-//                        }
-//                    })
-//                }
-//            }
-//        }
     }
     
     func populateInformation(user: Users) {
