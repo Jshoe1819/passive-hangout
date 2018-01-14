@@ -5667,7 +5667,7 @@
                                     <constraint firstItem="ZuA-56-MzY" firstAttribute="centerY" secondItem="Izp-Yi-aE7" secondAttribute="centerY" id="v6N-MG-SKh"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="39" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uxu-PC-NvI">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="39" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uxu-PC-NvI">
                                 <rect key="frame" x="0.0" y="65" width="375" height="612"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -5799,7 +5799,7 @@
                                     <constraint firstItem="9rA-7i-JPa" firstAttribute="top" secondItem="3pQ-Oz-ZR4" secondAttribute="top" constant="27" id="x6k-bG-2EF"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-Pe-poz" customClass="ReceiverMessageColor" customModule="passive_hangout" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8k0-Pe-poz" customClass="ReceiverMessageColor" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="679" width="375" height="48"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mar-2c-Oy7">
@@ -5918,17 +5918,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fJQ-dC-hyU"/>
-        <segue reference="10u-LX-lAE"/>
-        <segue reference="adL-Uz-ymj"/>
+        <segue reference="UQZ-Az-aT1"/>
         <segue reference="Zl1-hz-g1g"/>
-        <segue reference="7ZA-73-jNd"/>
-        <segue reference="v6I-qg-3qN"/>
-        <segue reference="hpM-YK-AX3"/>
+        <segue reference="adL-Uz-ymj"/>
+        <segue reference="250-dH-rGj"/>
+        <segue reference="wBT-15-yfK"/>
+        <segue reference="aPr-sb-FpU"/>
+        <segue reference="hRN-vk-2wK"/>
+        <segue reference="nN3-Bv-6hq"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="mAZ-fl-5u8"/>
-        <segue reference="yYZ-zz-Uql"/>
         <segue reference="tfq-Mk-6Zo"/>
     </inferredMetricsTieBreakers>
 </document>

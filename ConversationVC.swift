@@ -166,11 +166,13 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["\(currentUser)" : true])
         }
-        tableView.frame.origin.x -= 500
+        tableView.frame.origin.x += 500
         tableView.isHidden = false
+        textInputView.frame.origin.x += 500
+        textInputView.isHidden = false
         UIView.animate(withDuration: 0.25) {
-            self.tableView.frame.origin.x += 500
-            self.searchBar.frame.origin.x += 500
+            self.tableView.frame.origin.x -= 500
+            self.textInputView.frame.origin.x -= 500
         }
         
     }
