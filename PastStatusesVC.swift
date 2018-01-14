@@ -173,6 +173,17 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+            tableView.isHidden = false
+            tableView.frame.origin.x += 500
+            isEmptyImg.frame.origin.x += 500
+        
+            UIView.animate(withDuration: 0.25) {
+                self.tableView.frame.origin.x -= 500
+                self.isEmptyImg.frame.origin.x -= 500
+            }
+    }
+    
     func populateProfilePicture(user: Users) {
         
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
