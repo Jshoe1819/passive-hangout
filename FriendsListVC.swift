@@ -28,6 +28,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     var tappedBtnTags = [Int]()
     var deleted = [Int]()
     var filtered = [Users]()
+    var originController = ""
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -133,6 +134,43 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             //            }
         })
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+
+        if originController == "" {
+            
+            searchBar.frame.origin.x += 500
+            searchBar.isHidden = false
+            tableView.frame.origin.x += 500
+            tableView.isHidden = false
+            isEmptyImg.frame.origin.x += 500
+            
+            UIView.animate(withDuration: 0.25) {
+                
+                self.searchBar.frame.origin.x -= 500
+                self.tableView.frame.origin.x -= 500
+                self.isEmptyImg.frame.origin.x -= 500
+                
+            }
+            
+        } else {
+            
+            searchBar.frame.origin.x -= 500
+            searchBar.isHidden = false
+            tableView.frame.origin.x -= 500
+            tableView.isHidden = false
+            isEmptyImg.frame.origin.x -= 500
+            
+            UIView.animate(withDuration: 0.25) {
+                
+                self.searchBar.frame.origin.x += 500
+                self.tableView.frame.origin.x += 500
+                self.isEmptyImg.frame.origin.x += 500
+                
+            }
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -494,6 +494,10 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? ProfileVC {
                 nextVC.originController = "viewProfileToMyProfile"
             }
+        } else if segue.identifier == "viewProfileToFriendsList" {
+            if let nextVC = segue.destination as? FriendsListVC {
+                nextVC.originController = "viewProfileToFriendsList"
+            }
         }
     }
     
