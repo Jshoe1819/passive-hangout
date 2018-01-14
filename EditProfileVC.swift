@@ -30,8 +30,10 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBOutlet weak var privateProfileSwitch: UISwitch!
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
+    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +78,38 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             })
         }
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        nameTextField.frame.origin.x += 500
+        nameTextField.isHidden = false
+        currentCityTextField.frame.origin.x += 500
+        currentCityTextField.isHidden = false
+        schoolTextField.frame.origin.x += 500
+        schoolTextField.isHidden = false
+        employerTextField.frame.origin.x += 500
+        employerTextField.isHidden = false
+        occupationTextField.frame.origin.x += 500
+        occupationTextField.isHidden = false
+        privateProfileSwitch.frame.origin.x += 500
+        privateProfileSwitch.isHidden = false
+        profileImgPicker.frame.origin.x += 500
+        coverImgPicker.frame.origin.x += 500
+        stackView.frame.origin.x += 500
+        stackView.isHidden = false
+        
+        UIView.animate(withDuration: 0.25) {
+            self.nameTextField.frame.origin.x -= 500
+            self.currentCityTextField.frame.origin.x -= 500
+            self.schoolTextField.frame.origin.x -= 500
+            self.employerTextField.frame.origin.x -= 500
+            self.occupationTextField.frame.origin.x -= 500
+            self.privateProfileSwitch.frame.origin.x -= 500
+            self.profileImgPicker.frame.origin.x -= 500
+            self.coverImgPicker.frame.origin.x -= 500
+            self.stackView.frame.origin.x -= 500
+        }
     }
     
     override func didReceiveMemoryWarning() {
