@@ -23,8 +23,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var editHangoutTextview: NewStatusTextView!
     @IBOutlet weak var editCityTextfield: UITextField!
     @IBOutlet weak var characterCountLbl: UILabel!
-    @IBOutlet weak var cancelEditBtn: UIButton!
-    @IBOutlet weak var saveEditBtn: UIButton!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
@@ -316,7 +314,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         characterCountLbl.text = "\(textView.text.characters.count) / \(CHARACTER_LIMIT) characters used"
-        self.saveEditBtn.layer.setValue(textView.text, forKey: "text")
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
