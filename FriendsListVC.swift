@@ -44,6 +44,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         tableView.addSubview(refreshControl)
         
         searchBar.keyboardAppearance = .dark
+        searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         tableView.keyboardDismissMode = .onDrag
         
         

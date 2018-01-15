@@ -12,19 +12,18 @@ import FirebaseDatabase
 
 class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    var usersArr = [Users]()
-    var conversationArr = [Conversation]()
-    var searchResults = [Users]()
-    var newMsgKeyArr = [String]()
-    var originController = ""
-    //    var currentUser: Users!
-    
     @IBOutlet weak var headerView: CustomHeader!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
+    
+    var usersArr = [Users]()
+    var conversationArr = [Conversation]()
+    var newMsgKeyArr = [String]()
+    var filtered = [Users]()
+    var originController = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +33,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         searchBar.delegate = self
         
         searchBar.keyboardAppearance = .dark
+        searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         tableView.keyboardDismissMode = .onDrag
         
         
@@ -43,7 +43,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("Conversation: \(snap)")
+
                     if let conversationDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
@@ -54,21 +54,14 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                 if let unread = conversation.messages[currentUser] as? Bool {
                                     if unread == false {
                                         self.newMsgKeyArr.insert(conversation.conversationKey, at: 0)
-                                        print(self.newMsgKeyArr)
                                     }
                                 }
-                                //self.newMsgDict[conversation.conversationKey] = conversation.messages["\(currentUser)"] as? Bool
                             }
                         }
                     }
                 }
             }
-            //change to explore.reload
-            //            for index in 0..<self.conversationArr.count {
-            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
-            //            print(lastMsgDate)
-            //                }
-            //            }
+
             self.tableView.reloadData()
         })
         
@@ -78,7 +71,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -96,13 +89,13 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                 if newJoin {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
-                                //self.currentUser = users
+
                             }
                         }
                         self.usersArr.append(users)
                     }
                 }
-                self.searchResults = self.usersArr
+                self.filtered = self.usersArr
             }
             self.tableView.reloadData()
         })
@@ -139,17 +132,11 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let conversation = conversationArr[indexPath.row]
-        let users = searchResults
+        let users = filtered
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {
             
             cell.configureCell(conversation: conversation, users: users)
-            
-            //            let userDeleted = !currentUser.conversationId.keys.contains(conversation.conversationKey)
-            //
-            //            if userDeleted {
-            //                cell.isHidden = true
-            //            }
             
             cell.selectionStyle = .none
             return cell
@@ -177,19 +164,14 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            //print(indexPath.row)
+
             if let currentUser = Auth.auth().currentUser?.uid {
                 DataService.ds.REF_CONVERSATION.child(conversationArr[indexPath.row].conversationKey).child("users").updateChildValues([currentUser : false])
             }
-            
-            
-            //delete conversation from user node
-            // handle delete (by removing the data from your array and updating the tableview)
         }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
         searchBar.becomeFirstResponder()
     }
     
@@ -205,19 +187,18 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        searchResults = usersArr.filter({ (user) -> Bool in
-            
+        filtered = usersArr.filter({ (user) -> Bool in
             if searchText == "" {
                 return true
+            } else {
+                
+                let nameCheck = user.name as NSString
+                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                return nameRange.location != NSNotFound
             }
             
-            let nameCheck = user.name as NSString
-            let contentRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-            
-            return contentRange.location != NSNotFound
-            
         })
+        
         self.tableView.reloadData()
     }
     
@@ -244,7 +225,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchBar.frame.origin.y += 3000
             self.headerView.frame.origin.y += 3000
         }
-        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.25
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToFeed", sender: nil)
         }
@@ -256,7 +237,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchBar.frame.origin.y += 3000
             self.headerView.frame.origin.y += 3000
         }
-        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.25
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToFeed", sender: nil)
         }
@@ -268,7 +249,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchBar.frame.origin.y += 3000
             self.headerView.frame.origin.y += 3000
         }
-        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.25
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToJoinedList", sender: nil)
         }
@@ -280,7 +261,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchBar.frame.origin.y += 3000
             self.headerView.frame.origin.y += 3000
         }
-        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.25
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToSearch", sender: nil)
         }
@@ -292,7 +273,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.searchBar.frame.origin.y += 3000
             self.headerView.frame.origin.y += 3000
         }
-        let when = DispatchTime.now() + 0.25 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.25
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToMyProfile", sender: nil)
         }

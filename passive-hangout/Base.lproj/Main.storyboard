@@ -5529,6 +5529,8 @@
                             </view>
                             <searchBar hidden="YES" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="c51-dM-byq">
                                 <rect key="frame" x="0.0" y="67" width="375" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
                         </subviews>
@@ -5916,17 +5918,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fJQ-dC-hyU"/>
-        <segue reference="GqT-o6-9WH"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="zZq-vH-goe"/>
+        <segue reference="Fz5-tL-9gQ"/>
+        <segue reference="hpM-YK-AX3"/>
+        <segue reference="W4L-ij-kOw"/>
+        <segue reference="7ZA-73-jNd"/>
+        <segue reference="v6I-qg-3qN"/>
+        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="10u-LX-lAE"/>
         <segue reference="5Tl-Jg-UAb"/>
         <segue reference="agh-4t-wA8"/>
+        <segue reference="cdL-qi-TmD"/>
         <segue reference="Q2u-Op-EZN"/>
         <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="gCg-Ub-8sY"/>
-        <segue reference="h9M-nc-TZC"/>
-        <segue reference="W4L-ij-kOw"/>
-        <segue reference="Zl1-hz-g1g"/>
     </inferredMetricsTieBreakers>
 </document>
