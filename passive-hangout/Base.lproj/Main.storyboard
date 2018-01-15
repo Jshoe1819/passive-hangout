@@ -2642,9 +2642,6 @@
                                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="erh-Jv-3mc">
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
-                                                <connections>
-                                                    <action selector="profileBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="eJ0-z5-CW7"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -2945,7 +2942,6 @@
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
                                                     <action selector="homeBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="7Ta-bY-zik"/>
-                                                    <action selector="homeBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="Kzh-YE-n1Q"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tj1-CP-6vp">
@@ -3332,7 +3328,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="QlQ-2t-fbE"/>
                                                     <action selector="homeBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="UHD-Wl-Nis"/>
                                                     <action selector="homeBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="aWI-u5-guV"/>
                                                 </connections>
@@ -3357,7 +3352,6 @@
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
                                                     <action selector="profileBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="DkR-nq-WzS"/>
-                                                    <action selector="profileBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="cC5-Bo-aAY"/>
                                                     <action selector="profileBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="uAt-3e-ct1"/>
                                                 </connections>
                                             </button>
@@ -5763,17 +5757,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="URg-cD-E2a"/>
-        <segue reference="MTP-dR-lnk"/>
-        <segue reference="Q2u-Op-EZN"/>
-        <segue reference="LgH-sn-NCD"/>
-        <segue reference="agh-4t-wA8"/>
+        <segue reference="PEf-1w-zZf"/>
         <segue reference="cdL-qi-TmD"/>
+        <segue reference="crd-6O-jsE"/>
+        <segue reference="agh-4t-wA8"/>
+        <segue reference="Q2u-Op-EZN"/>
         <segue reference="5Tl-Jg-UAb"/>
         <segue reference="Yry-oZ-Wzs"/>
+        <segue reference="GqT-o6-9WH"/>
+        <segue reference="7R7-N8-loz"/>
         <segue reference="goR-0M-Gfk"/>
         <segue reference="W4L-ij-kOw"/>
-        <segue reference="iaT-VV-cM3"/>
         <segue reference="9ga-VY-kxp"/>
     </inferredMetricsTieBreakers>
 </document>
