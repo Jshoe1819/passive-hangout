@@ -34,7 +34,6 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         searchBar.delegate = self
         
         refreshControl = UIRefreshControl()
-        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.tintColor = UIColor.purple
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
@@ -49,7 +48,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -107,11 +106,6 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filtered = usersArr.filter({ (user) -> Bool in
             if searchText == "" {
@@ -134,12 +128,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-//        if filtered.count == 0 {
-//            print("empty, show label or img")
-//        }
         return filtered.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let users = filtered[indexPath.row]
@@ -158,8 +149,6 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //go to view profile
-        //origin controller and selected profile
         let selectedProfile = filtered[indexPath.row]
         performSegue(withIdentifier: "joinedFriendsToViewProfile", sender: selectedProfile)
     }
@@ -201,7 +190,6 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func didPressAddFriendBtn(_ tag: Int) {
-        //print("a \(tag)")
         let friendKey = filtered[tag].usersKey
             DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
@@ -210,11 +198,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
-        //print("r \(tag)")
         let friendKey = filtered[tag].usersKey
             DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
-        
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
@@ -223,15 +209,19 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
         performSegue(withIdentifier: "joinedFriendsToPastStatuses", sender: nil)
     }
+    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToHome", sender: nil)
     }
+    
     @IBAction func joinedListBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToJoinedList", sender: nil)
     }
+    
     @IBAction func searchBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToSearch", sender: nil)
     }
+    
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)
     }
@@ -244,7 +234,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -283,19 +273,8 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             self.tableView.reloadData()
         })
         
-//        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-//            profilePicImg.isHidden = false
-//            populateProfilePicture(user: viewedProfile)
-//        }
-//        
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
-            //            if self.statusArr.count == 0 {
-            //                self.isEmptyImg.isHidden = false
-            //            } else {
-            //                self.isEmptyImg.isHidden = true
-            //            }
-            // Your code with delay
             self.refreshControl.endRefreshing()
         }
         
