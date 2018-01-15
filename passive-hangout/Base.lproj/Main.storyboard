@@ -907,17 +907,6 @@
                                 <rect key="frame" x="0.0" y="67" width="375" height="660"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5xT-ak-3IR" customClass="CircleButton" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="295" y="647" width="55" height="55"/>
-                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="KbK-X2-oeR"/>
-                                    <constraint firstAttribute="width" constant="55" id="ckP-yw-aw7"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="newStatusBtn:" destination="BFj-D2-PmI" eventType="touchUpInside" id="5qC-Nv-Kwk"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-Va-DNM">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="777"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1048,7 +1037,6 @@
                         <constraints>
                             <constraint firstItem="f77-FR-bKL" firstAttribute="centerX" secondItem="laE-Pa-QzU" secondAttribute="centerX" id="2Rx-mX-T8p"/>
                             <constraint firstAttribute="trailing" secondItem="4R2-Va-DNM" secondAttribute="trailing" id="67a-Rf-62v"/>
-                            <constraint firstItem="Zpg-PJ-OuY" firstAttribute="top" secondItem="5xT-ak-3IR" secondAttribute="bottom" constant="25" id="8g6-ZN-fGW"/>
                             <constraint firstItem="jgn-hQ-K5J" firstAttribute="leading" secondItem="laE-Pa-QzU" secondAttribute="leading" id="BoW-o3-DEg"/>
                             <constraint firstItem="f77-FR-bKL" firstAttribute="top" secondItem="laE-Pa-QzU" secondAttribute="top" id="Cqg-OG-yeG"/>
                             <constraint firstItem="f77-FR-bKL" firstAttribute="leading" secondItem="laE-Pa-QzU" secondAttribute="leading" id="DCw-gr-Twg"/>
@@ -1071,7 +1059,6 @@
                             <constraint firstItem="w44-Cq-hBs" firstAttribute="leading" secondItem="laE-Pa-QzU" secondAttribute="leading" constant="20" id="rx0-E2-U0V"/>
                             <constraint firstItem="tAG-3I-TPu" firstAttribute="bottom" secondItem="jgn-hQ-K5J" secondAttribute="bottom" id="uup-s1-BsQ"/>
                             <constraint firstAttribute="trailing" secondItem="Zpg-PJ-OuY" secondAttribute="trailing" id="vfd-aL-5is"/>
-                            <constraint firstAttribute="trailing" secondItem="5xT-ak-3IR" secondAttribute="trailing" constant="25" id="waA-So-srj"/>
                             <constraint firstItem="Xmb-CX-3lk" firstAttribute="top" secondItem="4R2-Va-DNM" secondAttribute="bottom" id="zD7-O0-E5s"/>
                         </constraints>
                     </view>
@@ -1142,7 +1129,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="E0l-Bb-jNl"/>
                                                     <action selector="homeBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="ukg-Kd-ga3"/>
                                                 </connections>
                                             </button>
@@ -1158,15 +1144,11 @@
                                                 <state key="normal" image="search-outline-button"/>
                                                 <connections>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="5Zo-8s-bTr"/>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="PAa-oF-pFd"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmP-Ll-AKQ">
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-button"/>
-                                                <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Ws8-NF-ug7"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -1647,9 +1629,6 @@
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsa-fI-MfH">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="UpW-8o-aqU"/>
-                                </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wy6-GS-E2O" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="20" y="322.5" width="335" height="205.5"/>
@@ -1693,7 +1672,6 @@
                                         <connections>
                                             <action selector="finalSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="qnG-Hn-BuR"/>
                                             <action selector="removeFriendBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="4IZ-NY-SWU"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Byu-3d-sL1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zk0-Zm-wgT">
@@ -1715,7 +1693,6 @@
                                         <connections>
                                             <action selector="cancelBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="Ar3-wl-LGP"/>
                                             <action selector="cancelSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="eYS-6n-8c9"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="AG6-p9-Y51"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1815,7 +1792,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="8Fb-eH-Bhk"/>
                                                     <action selector="homeBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="9Hu-OH-F0K"/>
                                                     <action selector="homeBtnPressed:" destination="zYD-JU-fTu" eventType="touchUpInside" id="UMG-bu-SU1"/>
                                                 </connections>
@@ -1833,14 +1809,12 @@
                                                 <connections>
                                                     <action selector="searchBtnPressed:" destination="zYD-JU-fTu" eventType="touchUpInside" id="KPf-YL-XdS"/>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="N7G-Jd-1Sh"/>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="eIc-3C-TMv"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KX8-eJ-Iw0">
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="JRK-tW-D2f"/>
                                                     <action selector="profileBtnPressed:" destination="zYD-JU-fTu" eventType="touchUpInside" id="sc7-Fx-HFH"/>
                                                 </connections>
                                             </button>
@@ -2072,7 +2046,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="get-WJ-8cS"/>
                                                     <action selector="homeBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="QCi-QS-PH2"/>
                                                     <action selector="homeBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="sgA-Tk-dOP"/>
                                                 </connections>
@@ -2090,14 +2063,12 @@
                                                 <connections>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="VpC-JT-oEg"/>
                                                     <action selector="searchBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="pOY-2H-VHa"/>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="qO7-JE-bxF"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVn-bH-0hL">
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="EJm-Bz-IQ2"/>
                                                     <action selector="profileBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="bH7-93-Jvn"/>
                                                 </connections>
                                             </button>
@@ -2407,7 +2378,6 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="cancelEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="Pgw-cA-lda"/>
-                                    <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Pjq-mC-4WG"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoZ-6u-VBi">
@@ -2456,7 +2426,6 @@
                                         <connections>
                                             <action selector="deleteHangoutBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="Sdh-If-HS9"/>
                                             <action selector="removeFriendBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="KH8-LY-jWG"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="VST-oC-1mN"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="re6-0o-2i1">
@@ -2478,7 +2447,6 @@
                                         <connections>
                                             <action selector="cancelBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="GQy-jh-FmK"/>
                                             <action selector="cancelHangoutDeleteBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="cHr-vv-i1O"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="REN-Se-rKj"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2526,7 +2494,6 @@
                                         </state>
                                         <connections>
                                             <action selector="cancelEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="LAt-am-cPz"/>
-                                            <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="8Ry-Pl-yN0"/>
                                         </connections>
                                     </button>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" directionalLockEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ryS-vg-f4S" customClass="NewStatusTextView" customModule="passive_hangout" customModuleProvider="target">
@@ -2575,7 +2542,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="saveEditBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="isI-Cp-JVL"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="cxa-59-10G"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2738,7 +2704,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="KcY-kc-bRc"/>
                                                     <action selector="homeBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="L89-6p-0Hc"/>
                                                     <action selector="homeBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="LMA-AL-Pkm"/>
                                                     <action selector="homeBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="S6Q-gW-18c"/>
@@ -2755,7 +2720,6 @@
                                                 <rect key="frame" x="197.5" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="search-outline-button"/>
                                                 <connections>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="cGs-R6-rhV"/>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="dyQ-01-tBq"/>
                                                     <action selector="searchBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="tMZ-Mj-XzZ"/>
                                                 </connections>
@@ -2764,7 +2728,6 @@
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="6fG-3w-yOf"/>
                                                     <action selector="profileBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="cdb-dr-UM1"/>
                                                     <action selector="profileBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="eJ0-z5-CW7"/>
                                                 </connections>
@@ -2897,7 +2860,7 @@
                                 <color key="onTintColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                             </switch>
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="SY8-6l-uJG">
-                                <rect key="frame" x="136" y="369.5" width="219" height="22"/>
+                                <rect key="frame" x="136" y="368.5" width="219" height="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done"/>
@@ -2915,13 +2878,13 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Employer" adjustsFontSizeToFit="NO" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="BRn-vH-bfH">
-                                <rect key="frame" x="136" y="506" width="219" height="22"/>
+                                <rect key="frame" x="136" y="507" width="219" height="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
                             <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Occupation" adjustsFontSizeToFit="NO" minimumFontSize="8" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OPU-Gd-tmY">
-                                <rect key="frame" x="136" y="552" width="219" height="22"/>
+                                <rect key="frame" x="136" y="553" width="219" height="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done"/>
@@ -3067,7 +3030,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="gmr-3f-Od1"/>
                                                     <action selector="homeBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="7Ta-bY-zik"/>
                                                     <action selector="homeBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="Kzh-YE-n1Q"/>
                                                     <action selector="homeBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="a7N-1r-zyM"/>
@@ -3085,7 +3047,6 @@
                                                 <rect key="frame" x="197.5" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="search-outline-button"/>
                                                 <connections>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="CXr-ho-2ST"/>
                                                     <action selector="searchBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="E5i-qC-NPz"/>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="cdl-0u-YFY"/>
                                                 </connections>
@@ -3094,7 +3055,6 @@
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="EcR-DN-Bdo"/>
                                                     <action selector="profileBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="Fxh-bg-Wkk"/>
                                                     <action selector="profileBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="d8Q-7p-YyJ"/>
                                                     <action selector="profileBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="xOS-gm-eIZ"/>
@@ -3298,9 +3258,6 @@
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="td8-PI-HTb">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="777"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="gWZ-OA-jSU"/>
-                                </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHg-5b-YRO" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="20" y="286" width="335" height="205.5"/>
@@ -3343,7 +3300,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="removeFriendBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="qOV-6U-gRS"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="bm0-Pe-JgF"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOY-Wf-hmC">
@@ -3364,7 +3320,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="cancelBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="Cby-Xi-3mD"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="g7y-fn-GTm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3467,7 +3422,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="home-outline-button"/>
                                                 <connections>
-                                                    <action selector="homeBTnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="5iL-CO-U8N"/>
                                                     <action selector="homeBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="QlQ-2t-fbE"/>
                                                     <action selector="homeBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="UHD-Wl-Nis"/>
                                                     <action selector="homeBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="aWI-u5-guV"/>
@@ -3486,7 +3440,6 @@
                                                 <rect key="frame" x="197.5" y="0.0" width="79" height="22"/>
                                                 <state key="normal" image="search-outline-button"/>
                                                 <connections>
-                                                    <action selector="searchBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Fg7-7T-MbL"/>
                                                     <action selector="searchBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="GcE-ir-M5a"/>
                                                     <action selector="searchBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="PJk-Ze-Tuk"/>
                                                     <action selector="searchBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="crd-e4-j2p"/>
@@ -3496,7 +3449,6 @@
                                                 <rect key="frame" x="296.5" y="0.0" width="78.5" height="22"/>
                                                 <state key="normal" image="person-outline-button"/>
                                                 <connections>
-                                                    <action selector="profileBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="9O3-gz-O4J"/>
                                                     <action selector="profileBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="DkR-nq-WzS"/>
                                                     <action selector="profileBtnPressed:" destination="PDe-k8-epe" eventType="touchUpInside" id="Ehs-CU-JcK"/>
                                                     <action selector="profileBtnPressed:" destination="YTD-vX-J96" eventType="touchUpInside" id="cC5-Bo-aAY"/>
@@ -3819,9 +3771,6 @@
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGF-SX-g5j">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="777"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="XTs-YQ-cC6"/>
-                                </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ree-60-dqv" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="20" y="285" width="335" height="205.5"/>
@@ -3865,7 +3814,6 @@
                                         <connections>
                                             <action selector="finalRemoveFriendBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="jCq-9Y-6V5"/>
                                             <action selector="removeFriendBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="gSZ-Gt-Pry"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="WJ6-fr-exa"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YKF-xN-mlU">
@@ -3887,7 +3835,6 @@
                                         <connections>
                                             <action selector="cancelBtnPressed:" destination="HzR-jr-3QO" eventType="touchUpInside" id="mFg-na-INh"/>
                                             <action selector="cancelRemoveFriendBtnPressed:" destination="82o-zX-OZb" eventType="touchUpInside" id="1ED-pq-Rzy"/>
-                                            <action selector="saveStatusBtnPressed:" destination="BFj-D2-PmI" eventType="touchUpInside" id="Rzi-tV-ymm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -5910,17 +5857,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PTq-OX-4io"/>
+        <segue reference="URg-cD-E2a"/>
+        <segue reference="YW1-0X-4mv"/>
+        <segue reference="goR-0M-Gfk"/>
+        <segue reference="mAZ-fl-5u8"/>
         <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="pO3-lh-m1g"/>
-        <segue reference="3dF-EC-wDu"/>
-        <segue reference="MTP-dR-lnk"/>
-        <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="f74-MD-8qo"/>
-        <segue reference="W4L-ij-kOw"/>
         <segue reference="yYZ-zz-Uql"/>
-        <segue reference="gch-s9-LIa"/>
-        <segue reference="2n0-8E-ntV"/>
+        <segue reference="9ga-VY-kxp"/>
+        <segue reference="LgH-sn-NCD"/>
+        <segue reference="W4L-ij-kOw"/>
+        <segue reference="iaT-VV-cM3"/>
         <segue reference="FNv-bu-mWP"/>
+        <segue reference="2n0-8E-ntV"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -35,20 +35,12 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("JAKE: \(snap.key)")
                     let key = snap.key
-                    //print("JAKE: \(snap.key)")
                     self.userKeys.append(key)
-                    //print("JAKES: \(self.userKeys)")
                 }
             }
         })
         
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -158,7 +150,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                             print("error: \(error!)")
                         } else {
                             let data: [String: Any] = result as! [String: Any]
-                            //print(data)
                             self.firebaseCredentialAuth(credential, userData: data)
                         }
                     })}
@@ -207,11 +198,5 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         self.performSegue(withIdentifier: "signUpToEditProfile", sender: nil)
 
     }
-    
-    //    func validateEmail(emailStr: String) -> Bool {
-    //        let REGEX: String
-    //        REGEX = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
-    //        return NSPredicate(format: "SELF MATCHES %@", REGEX).evaluate(with: emailStr)
-    //    }
     
 }

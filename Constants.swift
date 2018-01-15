@@ -9,6 +9,5 @@
 import Foundation
 
 let KEY_UID = "uid"
-//let EMPTY_STATUS_STRING = "Let's go hiking, camping, to a concert, play some hockey, grab a beer, etc."
 let EMPTY_STATUS_STRING = "What should we do?"
 let CHARACTER_LIMIT = 110
