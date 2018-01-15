@@ -13,8 +13,6 @@ class Messages {
     
     private var _content: String!
     private var _senderuid: String!
-    //private var _profilePicUrl: String!
-    //private var _username: String!
     private var _timestamp: Double!
     private var _messageKey: String!
     private var _messageRef: DatabaseReference!

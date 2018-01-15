@@ -11,10 +11,7 @@ import FirebaseDatabase
 
 class Status {
     
-    //private var _available: Bool!
     private var _content: String!
-    //private var _profilePicUrl: String!
-    //private var _username: String!
     private var _joinedList: Dictionary<String, Any>!
     private var _joinedNumber: Int!
     private var _userId: String!
@@ -22,10 +19,6 @@ class Status {
     private var _postedDate: Double!
     private var _statusKey: String!
     private var _statusRef: DatabaseReference!
-    
-//    var available: Bool {
-//        return _available
-//    }
     
     var content: String {
         return _content
@@ -56,7 +49,6 @@ class Status {
     }
     
     init(content: String, joinedList: Dictionary<String,Any>, joinedNumber: Int, userId: String, city: String,postedDate: Double) {
-        //self._available = available
         self._content = content
         self._joinedList = joinedList
         self._joinedNumber = joinedNumber
@@ -67,10 +59,6 @@ class Status {
     
     init(statusKey: String, statusData: Dictionary<String, Any>) {
         self._statusKey = statusKey
-        
-//        if let available = statusData["available"] as? Bool {
-//            self._available = available
-//        }
         
         if let content = statusData["content"] as? String {
             self._content = content

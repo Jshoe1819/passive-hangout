@@ -13,8 +13,6 @@ class Conversation {
     
     private var _details: Dictionary<String, Any>!
     private var _messages: Dictionary<String, Any>!
-    //private var _profilePicUrl: String!
-    //private var _username: String!
     private var _users: Dictionary<String, Any>!
     private var _conversationKey: String!
     private var _conversationRef: DatabaseReference!
