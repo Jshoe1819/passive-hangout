@@ -153,7 +153,7 @@ class FriendsListCell: UITableViewCell {
         cellDelegate?.didPressAcceptBtn(self.tag)
     }
     @IBAction func menuBtnPressed(_ sender: UIButton) {
-        cellDelegate?.didPressMenuBtn(self.tag)
+        //cellDelegate?.didPressMenuBtn(self.tag)
     }
     
     

@@ -39,7 +39,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         searchBar.delegate = self
         
         refreshControl = UIRefreshControl()
-        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.tintColor = UIColor.purple
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
@@ -67,7 +66,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -92,12 +90,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 self.filtered = self.usersArr
             }
             
-//            if self.currentFriendsList.count == 0 {
-//                self.isEmptyImg.isHidden = false
-//            } else {
-//                self.isEmptyImg.isHidden = true
-//            }
-            
             if self.usersArr.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
@@ -113,7 +105,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("Conversation: \(snap)")
                     if let conversationDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
@@ -126,12 +117,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     }
                 }
             }
-            //change to explore.reload
-            //            for index in 0..<self.conversationArr.count {
-            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
-            //            print(lastMsgDate)
-            //                }
-            //            }
+            
         })
         
     }
@@ -173,11 +159,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filtered = usersArr.filter({ (user) -> Bool in
             if searchText == "" {
@@ -192,12 +173,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             }
             
         })
-        
-        //        if(filtered.count == 0){
-        //            searchActive = false
-        //        } else {
-        //            searchActive = true;
-        //        }
         
         self.tableView.reloadData()
     }
@@ -225,12 +200,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                 cell.isHidden = false
             }
             
-//            if tappedBtnTags.count > 0 {
-//                cell.menuBtn.isEnabled = false
-//            } else {
-//                cell.menuBtn.isEnabled = true
-//            }
-            
             cell.configureCell(friendsList: currentFriendsList, users: users)
             
             return cell
@@ -253,60 +222,41 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let deleteAction = UITableViewRowAction(style: .normal, title: "Remove") { (rowAction, indexPath) in
-            //TODO: Delete the row at indexPath here
+
             self.selectedProfile = indexPath.row
+            self.removeFriendView.frame.origin.y += 1000
             self.removeFriendView.isHidden = false
             self.opaqueBackground.isHidden = false
-//            let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend?", preferredStyle: UIAlertControllerStyle.alert)
-//            
-//            // add the actions (buttons)
-//            alert.addAction(UIAlertAction(title: "Remove Friend", style: UIAlertActionStyle.destructive, handler: { action in
-//                let friendKey = self.usersArr[indexPath.row].usersKey
-//                if let currentUser = Auth.auth().currentUser?.uid {
-//                    DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-//                    DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-//                    self.deleted.append(indexPath.row)
-//                    self.tableView.reloadData()
-//                }
-//                self.tappedBtnTags.removeAll()
-//                self.tableView.reloadData()
-//            }))
-//            
-//            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-//                
-//                //textView.isHidden = true
-//                self.tappedBtnTags.removeAll()
-//                self.tableView.reloadData()
-//            }))
-//            
-//            // show the alert
-//            self.present(alert, animated: true, completion: nil)
+            
+            UIView.animate(withDuration: 0.25) {
+                self.removeFriendView.frame.origin.y -= 1000
+            }
             
         }
+        
         deleteAction.backgroundColor = UIColor.red
         
         
         let editAction = UITableViewRowAction(style: .normal, title: "Message") { (rowAction, indexPath) in
             tableView.setEditing(true, animated: true)
-            if tableView.isEditing == true{
-                //perform segue
+            if tableView.isEditing == true {
+
                 for index in 0..<self.conversationArr.count {
                     if self.conversationArr[index].users.keys.contains(self.usersArr[indexPath.row].usersKey) {
                         let selectedConversation = self.conversationArr[index].conversationKey
                         self.performSegue(withIdentifier: "friendsListToConversation", sender: selectedConversation)
                         return
                     }
-                    //print("hi")
+
                 }
-                //print("out")
+
                 if let user = Auth.auth().currentUser {
                     
                     let userId = user.uid
                     if self.usersArr[indexPath.row].isPrivate && self.usersArr[indexPath.row].friendsList[userId] as? String != "friends" {
-                        print("it is done")
-                        //creat pop up: Must be friends
                         return
                     }
+                    
                     let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
                     let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
                                         "messages": ["a": true],
@@ -319,18 +269,12 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     self.performSegue(withIdentifier: "friendsListToConversation", sender: key)
                 }
                 
-                self.tappedBtnTags.removeAll()
                 self.tableView.reloadData()
                 
-            }else{
-                //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("editButtonPressed"))
-                //resignfirstresponder
-                
-                
             }
-            //print(indexPath.row)
             
         }
+        
         editAction.backgroundColor = UIColor(red:0.64, green:0.84, blue:0.64, alpha:1)
         
         return [deleteAction, editAction]
@@ -369,103 +313,13 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         }
     }
     
-    func didPressMenuBtn(_ tag: Int) {
-        
-        tappedBtnTags.append(tag)
-        tableView.reloadData()
-        
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        
-        // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: "Remove Friend", style: UIAlertActionStyle.destructive, handler: { action in
-            // create the alert
-            let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
-            
-            // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
-                let friendKey = self.usersArr[tag].usersKey
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-                    DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-                    self.deleted.append(tag)
-                    self.tableView.reloadData()
-                }
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-                
-                self.tappedBtnTags.removeAll()
-                self.tableView.reloadData()
-            }))
-            
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Send Message", style: UIAlertActionStyle.default, handler: { action in
-            
-            //perform segue
-            for index in 0..<self.conversationArr.count {
-                if self.conversationArr[index].users.keys.contains(self.usersArr[tag].usersKey) {
-                    let selectedConversation = self.conversationArr[index].conversationKey
-                    self.performSegue(withIdentifier: "friendsListToConversation", sender: selectedConversation)
-                    return
-                }
-                //print("hi")
-            }
-            //print("out")
-            if let user = Auth.auth().currentUser {
-                let userId = user.uid
-                let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
-                let conversation = ["details": ["lastMsgContent":"","lastMsgDate":""],
-                                    "messages": ["a": true],
-                                    "users": [userId: true,
-                                              self.usersArr[tag].usersKey: true]] as [String : Any]
-                
-                let childUpdates = ["/conversations/\(key)": conversation,
-                                    "/users/\(userId)/conversationId/\(key)/": true] as Dictionary<String, Any>
-                DataService.ds.REF_BASE.updateChildValues(childUpdates)
-                self.performSegue(withIdentifier: "friendsListToConversation", sender: key)
-            }
-            
-            self.tappedBtnTags.removeAll()
-            self.tableView.reloadData()
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "View Profile", style: UIAlertActionStyle.default, handler: { action in
-            
-            //perform segue
-            let selectedProfile = self.usersArr[tag]
-            
-            self.performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
-            self.tappedBtnTags.removeAll()
-            self.tableView.reloadData()
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { action in
-            
-            self.tappedBtnTags.removeAll()
-            self.tableView.reloadData()
-            
-        }))
-        
-        // show the alert
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
-    
     func didPressAcceptBtn(_ tag: Int) {
         
         let friendKey = usersArr[tag].usersKey
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "friends"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "friends"])
-            tableView.reloadData()
+            self.refresh(sender: self)
             
         }
         
@@ -491,24 +345,42 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         }
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
-        //remove friend data write
         
         let friendKey = self.usersArr[selectedProfile].usersKey
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
             self.deleted.append(selectedProfile)
-            self.tableView.reloadData()
         }
         
         opaqueBackground.isHidden = true
-        removeFriendView.isHidden = true
-        tableView.reloadData()
+        
+        UIView.animate(withDuration: 0.25) {
+            self.removeFriendView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.removeFriendView.isHidden = true
+            self.removeFriendView.frame.origin.y -= 1000
+        }
+        
+        self.refresh(sender: self)
     }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {
+        
         opaqueBackground.isHidden = true
-        removeFriendView.isHidden = true
+
+        UIView.animate(withDuration: 0.25) {
+            self.removeFriendView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.removeFriendView.isHidden = true
+            self.removeFriendView.frame.origin.y -= 1000
+        }
         tableView.reloadData()
     }
     
@@ -533,6 +405,10 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     
     func refresh(sender: Any) {
         
+        self.usersArr = []
+        self.filtered = []
+        deleted.removeAll()
+        
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -552,7 +428,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -572,14 +447,13 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             self.tableView.reloadData()
         })
         
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
             if self.currentFriendsList.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
                 self.isEmptyImg.isHidden = true
             }
-            // Your code with delay
             self.refreshControl.endRefreshing()
         }
     }
