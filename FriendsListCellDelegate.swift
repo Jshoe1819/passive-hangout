@@ -9,7 +9,6 @@
 import Foundation
 
 protocol FriendsListCellDelegate : class {
-    //func didPressMenuBtn(_ tag: Int)
     func didPressIgnoreBtn(_ tag: Int)
     func didPressAcceptBtn(_ tag: Int)
 }

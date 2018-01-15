@@ -9,7 +9,7 @@
 import UIKit
 
 class RoundedPopUp: UIView {
-
+    
     override func awakeFromNib() {
         
         self.layer.cornerRadius = 8.0

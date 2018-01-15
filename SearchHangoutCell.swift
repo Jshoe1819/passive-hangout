@@ -15,7 +15,7 @@ import FirebaseStorage
 class SearchHangoutCell: UITableViewCell {
     
     var isPrivate = false
-
+    
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var numberJoinedLbl: UILabel!
@@ -27,15 +27,9 @@ class SearchHangoutCell: UITableViewCell {
     
     weak var cellDelegate: SearchHangoutsDelegate?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
     func configureCell(status: Status, users: [Users]) {
         
-                profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
-        //        statusLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(contentTapped(_:))))
+        profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
@@ -49,16 +43,13 @@ class SearchHangoutCell: UITableViewCell {
                 
                 ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
                     if let image = profileImage {
-                        //print("Get image \(image), cacheType: \(cacheType).")
                         self.profilePicImg.image = image
                     } else {
-                        print("not in cache")
                         if users[index].id != "a" {
                             let profileUrl = URL(string: users[index].profilePicUrl)
                             let data = try? Data(contentsOf: profileUrl!)
                             if let profileImage = UIImage(data: data!) {
                                 self.profilePicImg.image = profileImage
-                                //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                 ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
                             }
                             
@@ -66,13 +57,11 @@ class SearchHangoutCell: UITableViewCell {
                             let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
                             profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                                 if error != nil {
-                                    //print("JAKE: unable to download image from storage")
+                                    //Handle error?
                                 } else {
-                                    //print("JAKE: image downloaded from storage")
                                     if let imageData = data {
                                         if let profileImage = UIImage(data: imageData) {
                                             self.profilePicImg.image = profileImage
-                                            //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                             ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
                                         }
                                     }
@@ -119,9 +108,9 @@ class SearchHangoutCell: UITableViewCell {
             let shortenedUnix = unixTimestamp / 1000
             let date = Date(timeIntervalSince1970: shortenedUnix)
             let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone.current //Set timezone that you want
+            dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = NSLocale.current
-            dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
+            dateFormatter.dateFormat = "MM/dd/yyyy"
             var strDate = dateFormatter.string(from: date)
             if strDate.characters.first == "0" {
                 strDate.characters.removeFirst()
@@ -149,5 +138,5 @@ class SearchHangoutCell: UITableViewCell {
         joinBtn.isHidden = false
         alreadyJoinedBtn.isHidden = true
     }
-
+    
 }

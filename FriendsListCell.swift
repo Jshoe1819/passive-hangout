@@ -17,38 +17,27 @@ class FriendsListCell: UITableViewCell {
     @IBOutlet weak var primaryLbl: UILabel!
     @IBOutlet weak var ignoreBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
-    @IBOutlet weak var menuBtn: UIButton!
     
     weak var cellDelegate: FriendsListCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         approveBtn.layer.cornerRadius = 8
         approveBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
-        //addFriendBtn.layer.borderWidth = 1
-        
         ignoreBtn.layer.cornerRadius = 8
-        //requestSentBtn.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
-        //requestSentBtn.layer.borderWidth = 1
-        
     }
     
     func configureCell(friendsList: Dictionary<String, Any>, users: Users) {
-        //profilePic.image = ...
         
         ImageCache.default.retrieveImage(forKey: users.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.profilePic.image = image
             } else {
-                print("not in cache")
                 if users.id != "a" {
                     let profileUrl = URL(string: users.profilePicUrl)
                     let data = try? Data(contentsOf: profileUrl!)
                     if let profileImage = UIImage(data: data!) {
                         self.profilePic.image = profileImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
                     }
                     
@@ -56,13 +45,11 @@ class FriendsListCell: UITableViewCell {
                     let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let profileImage = UIImage(data: imageData) {
                                     self.profilePic.image = profileImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
                                 }
                             }
@@ -72,54 +59,16 @@ class FriendsListCell: UITableViewCell {
             }
         }
         
-        
-        
-        //        if let image = ActivityFeedVC.imageCache.object(forKey: users.profilePicUrl as NSString) {
-        //            profilePic.image = image
-        //            //print("JAKE: caching working")
-        //        } else {
-        //            if users.id != "a" {
-        //                let profileUrl = URL(string: users.profilePicUrl)
-        //                let data = try? Data(contentsOf: profileUrl!)
-        //                if let profileImage = UIImage(data: data!) {
-        //                    self.profilePic.image = profileImage
-        //                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
-        //                }
-        //
-        //            } else {
-        //                let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
-        //                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-        //                    if error != nil {
-        //                        //print("JAKE: unable to download image from storage")
-        //                    } else {
-        //                        //print("JAKE: image downloaded from storage")
-        //                        if let imageData = data {
-        //                            if let profileImage = UIImage(data: imageData) {
-        //                                self.profilePic.image = profileImage
-        //                                ActivityFeedVC.imageCache.setObject(profileImage, forKey: users.profilePicUrl as NSString)
-        //                            }
-        //                        }
-        //                    }
-        //                })
-        //            }
-        //        }
-        
         if let friendKey = friendsList[users.usersKey] as? String {
             if friendKey == "friends" {
                 
-                //menuBtn.isHidden = false
                 approveBtn.isHidden = true
                 ignoreBtn.isHidden = true
                 
                 primaryLbl.text = users.currentCity
-                //secondaryLbl.text = users.employer
                 nameLbl.text = users.name
                 
             } else if friendKey == "sent" {
-                
-                //menuBtn.isHidden = true
-                //secondaryLbl.isHidden = true
-                //separatorDotView.isHidden = true
                 
                 primaryLbl.text = "Friend Request Sent"
                 primaryLbl.font = UIFont(name: "AvenirNext-UltralightItalic", size: 14)
@@ -127,36 +76,24 @@ class FriendsListCell: UITableViewCell {
                 
             } else if friendKey == "received" {
                 
-                //menuBtn.isHidden = true
                 ignoreBtn.isHidden = false
                 approveBtn.isHidden = false
                 
                 primaryLbl.text = "Awaiting Approval"
                 primaryLbl.font = UIFont(name: "AvenirNext-UltralightItalic", size: 14)
-                //secondaryLbl.text = users.employer
                 nameLbl.text = users.name
-                
-            } else {
-                
-                //menuBtn.isHidden = true
-                //secondaryLbl.isHidden = true
-                //separatorDotView.isHidden = true
                 
             }
         }
         
     }
+    
     @IBAction func ignoreBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressIgnoreBtn(self.tag)
     }
+    
     @IBAction func approveBtnPressed(_ sender: UIButton) {
         cellDelegate?.didPressAcceptBtn(self.tag)
     }
-    @IBAction func menuBtnPressed(_ sender: UIButton) {
-        //cellDelegate?.didPressMenuBtn(self.tag)
-    }
-    
-    
-    
     
 }

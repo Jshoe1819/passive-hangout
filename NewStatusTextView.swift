@@ -16,8 +16,6 @@ class NewStatusTextView: UITextView {
         self.textColor = UIColor.white
         self.font = UIFont(name: "AvenirNext-Regular", size: 16)
         self.selectedTextRange = self.textRange(from: self.beginningOfDocument, to: self.beginningOfDocument)
-//        self.textContainer.maximumNumberOfLines = 3
-//        self.textContainer.lineBreakMode = .byClipping
         
     }
     
