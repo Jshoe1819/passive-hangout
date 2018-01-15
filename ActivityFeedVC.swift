@@ -111,7 +111,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         if originController != "messagesToFeed" && originController != "conversationToFeed" {
-            print(originController)
+
             tableView.frame.origin.x -= 500
             isEmptyImg.frame.origin.x -= 500
             tableView.isHidden = false

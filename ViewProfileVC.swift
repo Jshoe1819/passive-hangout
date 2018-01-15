@@ -19,7 +19,6 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var lastStatusLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
-    //@IBOutlet weak var cityLbl: UILabel!
     @IBOutlet weak var privateImg: UIImageView!
     @IBOutlet weak var staticStackView: UIStackView!
     @IBOutlet weak var userInfoStackView: UIStackView!
@@ -53,8 +52,6 @@ class ViewProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //print(originController)
-        
         footerNewFriendNotification.isHidden = !showFooterIndicator
         footerNewMsgIndicator.isHidden = !showFooterNewMsg
         
@@ -74,7 +71,6 @@ class ViewProfileVC: UIViewController {
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -84,9 +80,7 @@ class ViewProfileVC: UIViewController {
                             for index in 0..<self.statusArr.count {
                                 if self.statusArr[index].userId == self.selectedProfile.usersKey {
                                     self.lastStatusLbl.text = self.statusArr[index].content
-                                    //self.lastStatusLbl.sizeToFit()
                                     self.statusAgeLbl.text = self.configureTimeAgo(unixTimestamp: self.statusArr[index].postedDate)
-                                    //self.cityLbl.text = status.city
                                     break
                                 }
                             }
@@ -104,7 +98,6 @@ class ViewProfileVC: UIViewController {
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("Conversation: \(snap)")
                     if let conversationDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
@@ -117,12 +110,6 @@ class ViewProfileVC: UIViewController {
                     }
                 }
             }
-            //change to explore.reload
-            //            for index in 0..<self.conversationArr.count {
-            //                if let lastMsgDate = self.conversationArr[index].details["lastMsgDate"] {
-            //            print(lastMsgDate)
-            //                }
-            //            }
         })
         
         currentUserStatusArr(array: statusArr)
@@ -131,8 +118,6 @@ class ViewProfileVC: UIViewController {
         populateCoverPicture(user: selectedProfile)
         populateProfilePicture(user: selectedProfile)
         
-        //for now friend status is from perspective of selected profile NOT current user
-        //call function for readability
         if let currentUser = Auth.auth().currentUser?.uid {
             if let friendStatus = selectedProfile.friendsList[currentUser] as? String {
                 if friendStatus == "received" {
@@ -180,7 +165,7 @@ class ViewProfileVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print(originController)
+
         if originController == "pastStatusesToViewProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
@@ -199,10 +184,6 @@ class ViewProfileVC: UIViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func privateConfigure() {
         
@@ -271,9 +252,9 @@ class ViewProfileVC: UIViewController {
             let shortenedUnix = unixTimestamp / 1000
             let date = Date(timeIntervalSince1970: shortenedUnix)
             let dateFormatter = DateFormatter()
-            dateFormatter.timeZone = TimeZone.current //Set timezone that you want
+            dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = NSLocale.current
-            dateFormatter.dateFormat = "MM/dd/yyyy" //Specify your format that you want
+            dateFormatter.dateFormat = "MM/dd/yyyy"
             var strDate = dateFormatter.string(from: date)
             if strDate.characters.first == "0" {
                 strDate.characters.removeFirst()
@@ -290,16 +271,13 @@ class ViewProfileVC: UIViewController {
         
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.profileImg.image = image
             } else {
-                print("not in cache")
                 if user.id != "a" {
                     let profileUrl = URL(string: user.profilePicUrl)
                     let data = try? Data(contentsOf: profileUrl!)
                     if let profileImage = UIImage(data: data!) {
                         self.profileImg.image = profileImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                     }
                     
@@ -307,13 +285,11 @@ class ViewProfileVC: UIViewController {
                     let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let profileImage = UIImage(data: imageData) {
                                     self.profileImg.image = profileImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                                 }
                             }
@@ -322,63 +298,19 @@ class ViewProfileVC: UIViewController {
                 }
             }
         }
-        
-        
-        
-        //print("JAKE: going in to else")
-        //        if user.id != "a" {
-        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-        //                profileImg.image = image
-        //                //print("JAKE: Cache working")
-        //            } else {
-        //                let profileUrl = URL(string: user.profilePicUrl)
-        //                let data = try? Data(contentsOf: profileUrl!)
-        //                if let profileImage = UIImage(data: data!) {
-        //                    self.profileImg.image = profileImage
-        //                    ActivityFeedVC.imageCache.setObject(profileImage, forKey: user.profilePicUrl as NSString)
-        //                }
-        //            }
-        //
-        //        } else {
-        //            if let image = ActivityFeedVC.imageCache.object(forKey: user.profilePicUrl as NSString) {
-        //                profileImg.image = image
-        //                //print("JAKE: Cache working")
-        //            } else {
-        //                let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
-        //                profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-        //                    if error != nil {
-        //                        //print("JAKE: unable to download image from storage")
-        //                    } else {
-        //                        //print("JAKE: image downloaded from storage")
-        //                        if let imageData = data {
-        //                            if let image = UIImage(data: imageData) {
-        //                                self.profileImg.image = image
-        //                                ActivityFeedVC.imageCache.setObject(image, forKey: user.profilePicUrl as NSString)
-        //                                //self.postImg.image = image
-        //                                //FeedVC.imageCache.setObject(image, forKey: post.imageUrl as NSString)
-        //                            }
-        //                        }
-        //                    }
-        //                })
-        //            }
-        //
-        //        }
     }
     
     func populateCoverPicture(user: Users) {
         
         ImageCache.default.retrieveImage(forKey: user.cover["source"] as! String, options: nil) { (coverImage, cacheType) in
             if let image = coverImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.coverImg.image = image
             } else {
-                //print("not in cache")
                 if user.id != "a" {
                     let coverUrl = URL(string: user.cover["source"] as! String)
                     let data = try? Data(contentsOf: coverUrl!)
                     if let coverImage = UIImage(data: data!) {
                         self.coverImg.image = coverImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                     }
                     
@@ -386,13 +318,11 @@ class ViewProfileVC: UIViewController {
                     let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
                     coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let coverImage = UIImage(data: imageData) {
                                     self.coverImg.image = coverImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
                                 }
                             }
@@ -402,53 +332,6 @@ class ViewProfileVC: UIViewController {
             }
         }
         
-        
-        
-        //        if user.id != "a" {
-        //
-        //            if let coverStorageUrl = user.cover["source"] as? String {
-        //
-        //                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-        //                    //print("using cache")
-        //                    coverImg.image = image
-        //                }
-        //                else {
-        //                    //print("downloading")
-        //                    let coverUrl = URL(string: user.cover["source"] as! String)
-        //                    let data = try? Data(contentsOf: coverUrl!)
-        //                    if let coverImage = UIImage(data: data!) {
-        //                        self.coverImg.image = coverImage
-        //                        ActivityFeedVC.imageCache.setObject(coverImage, forKey: coverStorageUrl as NSString)
-        //                    }
-        //                }
-        //            }
-        //
-        //        } else {
-        //            if let coverStorageUrl = user.cover["source"] as? String {
-        //
-        //                if let image = ActivityFeedVC.imageCache.object(forKey: coverStorageUrl as NSString) {
-        //                    //print("using cache")
-        //                    coverImg.image = image
-        //                } else {
-        //                    //print("downloading")
-        //                    let coverPicRef = Storage.storage().reference(forURL: user.cover["source"] as! String)
-        //                    coverPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
-        //                        if error != nil {
-        //                            //print("JAKE: unable to download image from storage")
-        //                        } else {
-        //                            //print("JAKE: image downloaded from storage")
-        //                            if let imageData = data {
-        //                                if let image = UIImage(data: imageData) {
-        //                                    self.coverImg.image = image
-        //                                    ActivityFeedVC.imageCache.setObject(image, forKey: coverStorageUrl as NSString)
-        //
-        //                                }
-        //                            }
-        //                        }
-        //                    })
-        //                }
-        //            }
-        //        }
     }
     
     func currentUserStatusArr(array: [Status]) {
@@ -460,10 +343,6 @@ class ViewProfileVC: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        //        if let currentUser = Auth.auth().currentUser?.uid {
-        //            let currentProfile = usersArr
-        //        }
         
         if segue.identifier == "viewProfileToPastStatuses" {
             if let nextVC = segue.destination as? PastStatusesVC {
@@ -537,9 +416,8 @@ class ViewProfileVC: UIViewController {
                 performSegue(withIdentifier: "viewProfileToConversation", sender: selectedConversation)
                 return
             }
-            //print("hi")
         }
-        //print("out")
+
         if let user = Auth.auth().currentUser {
             let userId = user.uid
             let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
@@ -554,30 +432,18 @@ class ViewProfileVC: UIViewController {
             performSegue(withIdentifier: "viewProfileToConversation", sender: key)
         }
         
-        //performSegue(withIdentifier: "viewProfileToConversation", sender: nil)//selectedConversation)
     }
+    
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
         
         opaqueBackground.isHidden = false
+        removeFriendView.frame.origin.y += 1000
         removeFriendView.isHidden = false
+        opaqueBackground.isHidden = false
         
-        //        let alert = UIAlertController(title: "Remove Friend", message: "Are you sure you would like to remove this friend from your list?", preferredStyle: UIAlertControllerStyle.alert)
-        //
-        //        // add the actions (buttons)
-        //        alert.addAction(UIAlertAction(title: "Remove", style: UIAlertActionStyle.destructive, handler: { action in
-        //            let friendKey = self.selectedProfile.usersKey
-        //            if let currentUser = Auth.auth().currentUser?.uid {
-        //                DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
-        //                DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-        //                self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
-        //            }
-        //
-        //        }))
-        //
-        //        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        //
-        //        // show the alert
-        //        present(alert, animated: true, completion: nil)
+        UIView.animate(withDuration: 0.25) {
+            self.removeFriendView.frame.origin.y -= 1000
+        }
         
     }
     
@@ -633,7 +499,7 @@ class ViewProfileVC: UIViewController {
         
     }
     @IBAction func backBtnPressed(_ sender: Any) {
-        //performSegue(withIdentifier: "feedToViewProfile", sender: nil)
+        
         if originController == "feedToViewProfile" {
             performSegue(withIdentifier: "viewProfileToFeed", sender: nil)
         } else if
@@ -641,33 +507,45 @@ class ViewProfileVC: UIViewController {
             performSegue(withIdentifier: "viewProfileToJoinedFriends", sender: nil)
         } else if originController == "searchToViewProfile" {
             performSegue(withIdentifier: "viewProfileToSearch", sender: nil)
-        }
-            
-            //        else if originController == "joinedListToViewProfile" {
-            //            performSegue(withIdentifier: "viewProfileToJoinedList", sender: nil)
-            //        }
-        else {
+        } else {
             performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
         }
     }
     
     @IBAction func cancelRemoveFriendBtnPressed(_ sender: Any) {
         opaqueBackground.isHidden = true
-        removeFriendView.isHidden = true
+
+        UIView.animate(withDuration: 0.25) {
+            self.removeFriendView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.removeFriendView.isHidden = true
+            self.removeFriendView.frame.origin.y -= 1000
+        }
     }
     
     @IBAction func finalRemoveFriendBtnPressed(_ sender: Any) {
-        //remove friend
         
         let friendKey = self.selectedProfile.usersKey
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-            self.performSegue(withIdentifier: "viewProfileToFriendsList", sender: nil)
+            self.performSegue(withIdentifier: "viewProfileToHome", sender: nil)
         }
         
         opaqueBackground.isHidden = true
-        removeFriendView.isHidden = true
+        
+        UIView.animate(withDuration: 0.25) {
+            self.removeFriendView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.removeFriendView.isHidden = true
+            self.removeFriendView.frame.origin.y -= 1000
+        }
     }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
