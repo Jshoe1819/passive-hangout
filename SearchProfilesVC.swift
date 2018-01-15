@@ -448,18 +448,35 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         } else if citiesIndicatorView.isHidden == false {
             
-            statusSearchResults = statusArr.filter({ (status) -> Bool in
+            
+                DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(searchText)").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    self.statusSearchResults = []
+                    
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                        for snap in snapshot {
+                            //print("STATUS: \(snap)")
+                            if let statusDict = snap.value as? Dictionary<String, Any> {
+                                let key = snap.key
+                                let status = Status(statusKey: key, statusData: statusDict)
+                                //print(status.joinedNumber)
+                                if !self.privateArrIds.contains(status.userId) {
+                                    //print(status.userId)
+                                    //print("here: \(self.privateArrIds)")
+                                    //self.statusArr.append(status)
+                                    self.statusSearchResults.insert(status, at: 0)
+                                }
+                                //print(status.content)
+                            }
+                        }
+                    }
+                    
+                    //self.shuffledStatusArr = self.statusArr.shuffled()
+                    //self.statusSearchResults = self.statusArr
+                    //change to explore.reload
+                    self.statusesTableView.reloadData()
+                })
                 
-                if searchText == "" {
-                    return false
-                }
-                
-                let cityCheck = status.city as NSString
-                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                
-                return cityRange.location != NSNotFound
-                
-            })
             
             if statusSearchResults.count == 0 && searchText != "" {
                 noResultsLbl.isHidden = false
@@ -479,7 +496,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive == false {
-            print("hmmmmmmm \(shuffledStatusArr.count)")
+            //print("hmmmmmmm \(shuffledStatusArr.count)")
             
             if shuffledStatusArr.count == 0 {
                 self.refresh(sender: self)
@@ -926,6 +943,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 if searchText == "" {
                     return false
                 }
+                
                 
                 let contentCheck = status.content as NSString
                 let contentRange = contentCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
