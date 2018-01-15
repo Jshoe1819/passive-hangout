@@ -22,8 +22,6 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     var statusArr = [Status]()
     var usersArr = [Users]()
     var originController = ""
-    //var currentUser: Users!
-    //var joinedList = [Status]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +43,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
+
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -61,6 +59,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     }
                 }
             }
+            
             if self.statusArr.count == 0 {
                 self.isEmptyImg.isHidden = false
             } else {
@@ -76,7 +75,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -145,11 +144,6 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let status = statusArr[indexPath.row]
         let users = usersArr
         
-        //        if joinedList.count ==  1 {
-        //            //create a promt for empty, do same for all other tableviews
-        //            return JoinedListCell()
-        //        }
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
             cell.alreadyJoinedBtn.isHidden = false
             cell.cellDelegate = self
@@ -161,12 +155,6 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "joinedListToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
@@ -174,13 +162,9 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 nextVC.originController = "joinedListToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-                //only use back button on non main buttons
-                //have data loaders on main buttons
-                //instant loads on main btns
-                //hide notification on first press, add seen property?
-                //can initialize user with seen: true for friends list and joined list(?)
-                //   can manipulate fonts
+
             }
+            
         } else if segue.identifier == "joinedListToHome" {
             if let nextVC = segue.destination as? ActivityFeedVC {
                 nextVC.originController = "joinedListToHome"
@@ -205,7 +189,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
-            //tableView.reloadData()
+
         }
         
     }
@@ -216,7 +200,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count - 1])
-            //tableView.reloadData()
+
         }
     }
     
@@ -230,26 +214,14 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-//    func didPressStatusContentLbl(_ tag: Int) {
-//        print(tag)
-//        //        let usersKey = statusArr[tag].userId
-//        //        for index in 0..<usersArr.count {
-//        //           if usersArr[index].usersKey == usersKey {
-//        //                print(usersArr[index].cover["source"])
-//        //                //send to conversation
-//        //            }
-//        //        }
-//    }
-    
-    
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToHome", sender: nil)
     }
-    @IBAction func joinedBtnPressed(_ sender: Any) {
-    }
+
     @IBAction func searchBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToSearch", sender: nil)
     }
+    
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToMyProfile", sender: nil)
         footerNewFriendIndicator.isHidden = true
@@ -263,7 +235,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
+
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -294,7 +266,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -315,14 +287,10 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             self.tableView.reloadData()
         })
         
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
-            // Your code with delay
             self.refreshControl.endRefreshing()
         }
-        
-        
     }
-    
     
 }
