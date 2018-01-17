@@ -67,40 +67,33 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func registerBtnPressed(_ sender: Any) {
         
-        //username logic needed, will tackle after sign in and sign up functional (database concern)
-        
-        if let email = emailField.text {
-            if email == "" {
-                errorAlert.text = "Please enter an email address"
+        if let name = nameField.text {
+            if name == "" {
+                errorAlert.text = "Please enter your name"
             } else {
-                if let password = passwordField.text {
-                    if password == "" {
-                        errorAlert.text = "Please enter a password"
+                if let email = emailField.text {
+                    if email == "" {
+                        errorAlert.text = "Please enter an email address"
                     } else {
-                        if password.characters.count < 6 {
-                            errorAlert.text = "Password must be at least six characters"
-                        } else {
-                            if let passwordConfirm = confirmPasswordField.text {
-                                if passwordConfirm.characters.count == 0 {
-                                    errorAlert.text = "Please confirm password"
-                                } else if password == passwordConfirm {
-                                    Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
-                                        if error != nil {
-                                            if let errCode = AuthErrorCode(rawValue: error!._code) {
-                                                switch errCode {
-                                                case .invalidEmail:
-                                                    self.errorAlert.text = "Invalid email format"
-                                                case .emailAlreadyInUse:
-                                                    self.errorAlert.text = "Account already exists with this email"
-                                                default:
-                                                    print("Create user error: \(error!)")
-                                                }
-                                            }
+                        if let password = passwordField.text {
+                            if password == "" {
+                                errorAlert.text = "Please enter a password"
+                            } else {
+                                if password.characters.count < 6 {
+                                    errorAlert.text = "Password must be at least six characters"
+                                } else {
+                                    if let passwordConfirm = confirmPasswordField.text {
+                                        if passwordConfirm.characters.count == 0 {
+                                            errorAlert.text = "Please confirm password"
+                                        } else if password != passwordConfirm {
+                                            errorAlert.text = "Passwords do not match"
                                         } else {
-                                            print("JAKE: New User Created")
-                                            self.errorAlert.text = " "
-                                            if let user = user {
-                                            let userData = ["name":"\(self.nameField.text!)",
+                                            
+                                            AuthService.aus.createUser(email: email, password: password, onComplete: { (errMsg, uid) in
+                                                if errMsg == "All Good" {
+                                                    
+                                                    if let uid = uid {
+                                                        let userData = ["name":"\(self.nameField.text!)",
                                                             "email":"\(self.emailField.text!)",
                                                             "statusId": ["a":true],
                                                             "friendsList": ["seen": true],
@@ -114,13 +107,17 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                             "employer":"",
                                                             "currentCity":"",
                                                             "school":""] as [String : Any]
-                                            self.completeSignIn(uid: user.uid)
-                                            DataService.ds.createFirebaseDBUser(uid: user.uid, userData: userData)
-                                                
-                                            }
-                                        }})
-                                } else {
-                                    errorAlert.text = "Passwords do not match"
+                                                        self.completeSignIn(uid: uid as! String)
+                                                        DataService.ds.createFirebaseDBUser(uid: uid as! String, userData: userData)
+                                                        
+                                                    }
+                                                    
+                                                } else {
+                                                    self.errorAlert.text = errMsg
+                                                }
+                                            })
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -130,40 +127,13 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //                        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-    //                            if error != nil {
-    //                                if let errCode = AuthErrorCode(rawValue: error!._code) {
-    //                                    switch errCode {
-    //                                    case .userNotFound:
-    //                                        self.errorAlert.text = "No account found with this email"
-    //                                    case .tooManyRequests:
-    //                                        self.errorAlert.text = "Too many login attempts, please try again later"
-    //                                    case .invalidEmail:
-    //                                        self.errorAlert.text = "Invalid email format"
-    //                                    case .userDisabled:
-    //                                        self.errorAlert.text = "Account has been disabled"
-    //                                    case .wrongPassword:
-    //                                        self.errorAlert.text = "Wrong password"
-    //                                    default:
-    //                                        print("Login user error: \(error!)")
-    //                                    }
-    //                                }
-    //                            } else {
-    //                                print("Successful login")
-    //                                self.errorAlert.text = " "
-    //                                if let user = user {
-    //                                    self.completeSignIn(uid: user.uid)
-    //                                }
-    //                            }})
-
-    
     @IBAction func signUpWithFacebookBtnPressed(_ sender: Any) {
         
         let facebookLogin = FBSDKLoginManager()
         
         facebookLogin.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
             if error != nil {
-                print("JAKE: Can't auth with facebook - \(error!)")
+                //Handle error?
             } else if result?.isCancelled == true {
                 self.errorAlert.text = "Facebook sign up cancelled"
             } else {
@@ -173,7 +143,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                 if let userData = userData {
                     userData.start(completionHandler: { (connection, result, error) -> Void in
                         if error != nil {
-                            print("error: \(error!)")
+                            //Handle error?
                         } else {
                             let data: [String: Any] = result as! [String: Any]
                             self.firebaseCredentialAuth(credential, userData: data)
@@ -183,31 +153,12 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //                        let userData = ["name":"\(self.nameField.text!)",
-    //                            "email":"\(self.emailField.text!)",
-    //                            "statusId": ["a":true],
-    //                            "friendsList": ["seen": true],
-    //                            "joinedList": ["seen": true],
-    //                            "id": "a",
-    //                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
-    //                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
-    //                            "hasNewMsg":false,
-    //                            "isPrivate":false,
-    //                            "occupation":"",
-    //                            "employer":"",
-    //                            "currentCity":"",
-    //                            "school":""] as [String : Any]
-    
-    
-    //print(data)
-
-    
     func firebaseCredentialAuth(_ credential: AuthCredential, userData: Dictionary<String, Any>) {
         Auth.auth().signIn(with: credential) { (user, error) in
             if error != nil {
-                print("JAKE: Can't auth with credential passed to firebase - \(error!)")
+                //Handle error?
             } else {
-                print("JAKE: Successfull passed credential for firebase auth")
+
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
                     
@@ -222,15 +173,11 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                     data["currentCity"] = ""
                     data["school"] = ""
                     
-                    //restricts to one data load or cicumvents creating user altogether?
                     if let currentUser = Auth.auth().currentUser?.uid {
-                        //print("JAKE \(currentUser)")
                         if self.userKeys.contains(currentUser) {
-                            //print(currentUser)
                             return
                         }
                     }
-                    
                     
                     DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
                 }
@@ -241,7 +188,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     func completeSignIn(uid: String) {
         KeychainWrapper.standard.set(uid, forKey: KEY_UID)
         self.performSegue(withIdentifier: "signUpToEditProfile", sender: nil)
-
     }
     
 }

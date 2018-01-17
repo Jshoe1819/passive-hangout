@@ -372,6 +372,7 @@
                         <outlet property="passwordField" destination="Zce-aV-0CU" id="V17-QN-xgt"/>
                         <segue destination="Mb2-IP-nzO" kind="custom" identifier="createAccount" customClass="SegueFromRightToLeft" customModule="passive_hangout" customModuleProvider="target" id="gWQ-hr-EX4"/>
                         <segue destination="BFj-D2-PmI" kind="show" identifier="loginToActivityFeed" id="qPi-bu-ONI"/>
+                        <segue destination="BFj-D2-PmI" kind="show" identifier="loginToEditProfile" id="piO-Ta-g4H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -5736,17 +5737,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="adL-Uz-ymj"/>
-        <segue reference="Zl1-hz-g1g"/>
-        <segue reference="250-dH-rGj"/>
         <segue reference="nN3-Bv-6hq"/>
+        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="adL-Uz-ymj"/>
+        <segue reference="250-dH-rGj"/>
         <segue reference="pdT-dH-DV6"/>
-        <segue reference="Fz5-tL-9gQ"/>
         <segue reference="tvf-Vx-V8c"/>
+        <segue reference="Fz5-tL-9gQ"/>
+        <segue reference="agh-4t-wA8"/>
+        <segue reference="piO-Ta-g4H"/>
+        <segue reference="2n0-8E-ntV"/>
         <segue reference="mAZ-fl-5u8"/>
         <segue reference="DzP-9T-IMk"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="agh-4t-wA8"/>
-        <segue reference="qPi-bu-ONI"/>
     </inferredMetricsTieBreakers>
 </document>

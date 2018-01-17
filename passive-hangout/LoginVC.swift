@@ -185,7 +185,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
         facebookLogin.logIn(withReadPermissions: ["public_profile", "email", "user_friends"], from: self) { (result, error) in
             if error != nil {
-                print("JAKE: Can't auth with facebook - \(error!)")
+                //Handle error?
             } else if result?.isCancelled == true {
                 self.errorAlert.text = "Facebook login cancelled"
             } else {
@@ -195,7 +195,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 if let userData = userData {
                     userData.start(completionHandler: { (connection, result, error) -> Void in
                         if error != nil {
-                            print("error: \(error!)")
+                            //Handle error?
                         } else {
                             let data: [String: Any] = result as! [String: Any]
                             self.firebaseCredentialAuth(credential, userData: data)
@@ -208,9 +208,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func firebaseCredentialAuth(_ credential: AuthCredential, userData: Dictionary<String, Any>) {
         Auth.auth().signIn(with: credential) { (user, error) in
             if error != nil {
-                print("JAKE: Can't auth with credential passed to firebase - \(error!)")
+                //Handle error?
             } else {
-
+                
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
                     

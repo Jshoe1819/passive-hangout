@@ -45,28 +45,36 @@ class AuthService {
         }
     }
     
+    func createUser(email: String, password: String, onComplete: Completion?) {
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if error != nil {
+                self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
+            } else {
+                if let user = user {
+                    onComplete?("All Good", user.uid)
+                }
+            }
+        }
+    }
+    
     func handleFirebaseError(error: NSError, onComplete: Completion?) {
-        //print(error.debugDescription)
+
         if let errCode = AuthErrorCode(rawValue: error.code) {
             switch errCode {
             case .userNotFound:
                 onComplete?("No account found with this email", nil)
-            //self.errorAlert.text = "No account found with this email"
             case .tooManyRequests:
                 onComplete?("Too many login attempts, please try again later", nil)
-            //self.errorAlert.text = "Too many login attempts, please try again later"
             case .invalidEmail:
                 onComplete?("Invalid email format", nil)
-            //self.errorAlert.text = "Invalid email format"
             case .userDisabled:
                 onComplete?("Account has been disabled", nil)
-            //self.errorAlert.text = "Account has been disabled"
             case .wrongPassword:
                 onComplete?("Wrong password", nil)
-            //self.errorAlert.text = "Wrong password"
+            case .emailAlreadyInUse:
+                onComplete?("Account already exists with this email", nil)
             default:
                 onComplete?("Error: \(error)", nil)
-                //print("Login user error: \(error!)")
             }
         }
     }
