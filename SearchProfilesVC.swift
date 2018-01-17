@@ -359,6 +359,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             statusesTableView.reloadData()
         }
         
+        self.refresh(sender: self)
+        
     }
     
     //only show stack if search pressed

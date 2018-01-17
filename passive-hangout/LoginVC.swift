@@ -34,22 +34,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         self.emailResetTextField.delegate = self
         self.confirmEmailResetTextfield.delegate = self
         
-        //press forgot password brings up prompt for email and send, call function
         forgotPasswordLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showForgotPasswordView)))
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("JAKE: \(snap.key)")
                     let key = snap.key
-                    //print("JAKE: \(snap.key)")
                     self.userKeys.append(key)
-                    //print("JAKES: \(self.userKeys)")
                 }
             }
         })
-        //print("JAKES: \(userKeys)")
         
     }
     
@@ -58,13 +53,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
         }
         
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -97,9 +85,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.5) {
             self.forgotPasswordView.frame.origin.x = 38.5
         }
-    
+        
     }
-
+    
     @IBAction func sendResetBtnPressed(_ sender: Any) {
         
         if let resetEmail = emailResetTextField.text {
@@ -117,58 +105,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             
                             if errMsg == "All Good" {
                                 
-                                self.resignFirstResponder()
-                                
                                 UIView.animate(withDuration: 0.5) {
                                     self.forgotPasswordView.frame.origin.x += 500
                                 }
                                 
-                                let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+                                let when = DispatchTime.now() + 0.5
                                 DispatchQueue.main.asyncAfter(deadline: when) {
-                                    // Your code with delay
                                     self.forgotPasswordView.isHidden = true
                                     self.forgotPasswordBackgroundBtn.isHidden = true
+                                    self.emailResetTextField.resignFirstResponder()
+                                    self.confirmEmailResetTextfield.resignFirstResponder()
                                 }
                                 
                             } else {
                                 self.confirmEmailErrorLbl.text = errMsg
                             }
                         })
-//                        Auth.auth().sendPasswordReset(withEmail: confirmEmail) { (error) in
-//
-//                            if error != nil {
-//                                if let errCode = AuthErrorCode(rawValue: error!._code) {
-//                                    switch errCode {
-//                                    case .userNotFound:
-//                                        self.confirmEmailErrorLbl.text = "No account found with this email"
-//                                    case .invalidEmail:
-//                                        self.confirmEmailErrorLbl.text = "Invalid email format"
-//                                    case .userDisabled:
-//                                        self.errorAlert.text = "Account has been disabled"
-//                                    default:
-//                                        print("Login user error: \(error!)")
-//                                    }
-//                                }
-//                            } else {
-//                                
-//                                self.resignFirstResponder()
-//                                
-//                                UIView.animate(withDuration: 0.5) {
-//                                    self.forgotPasswordView.frame.origin.x += 500
-//                                }
-//                                let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
-//                                DispatchQueue.main.asyncAfter(deadline: when) {
-//                                    // Your code with delay
-//                                    self.forgotPasswordView.isHidden = true
-//                                    self.forgotPasswordBackgroundBtn.isHidden = true
-//                                }
-//
-//                                self.emailResetTextField.text = ""
-//                                self.confirmEmailResetTextfield.text = ""
-//                                self.confirmEmailErrorLbl.text = ""
-//                                
-//                            }
-//                        }
                     }
                     
                 }
@@ -177,18 +129,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             
         }
         
-//        Auth.auth().sendPasswordReset(withEmail: "") { (error) in
-//            
-//            if error != nil {
-//                if let errCode = AuthErrorCode(rawValue: error!._code) {
-//                    print(errCode)
-//                    //                    switch errCode {
-//                    //                        //pick from below
-//                    //
-//                    //                    }
-//                }
-//            }
-//        }
     }
     @IBAction func cancelResetBtnPressed(_ sender: Any) {
         
@@ -198,17 +138,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             self.forgotPasswordView.frame.origin.x += 500
         }
         
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
-            // Your code with delay
             self.forgotPasswordView.isHidden = true
             self.forgotPasswordBackgroundBtn.isHidden = true
         }
-
+        
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) {
-        //login logic - firebase
+        
         if let email = emailField.text {
             if email == "" {
                 errorAlert.text = "Please enter an email address"
@@ -226,31 +165,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             }
                         })
                         
-//                        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-//                            if error != nil {
-//                                if let errCode = AuthErrorCode(rawValue: error!._code) {
-//                                    switch errCode {
-//                                    case .userNotFound:
-//                                        self.errorAlert.text = "No account found with this email"
-//                                    case .tooManyRequests:
-//                                        self.errorAlert.text = "Too many login attempts, please try again later"
-//                                    case .invalidEmail:
-//                                        self.errorAlert.text = "Invalid email format"
-//                                    case .userDisabled:
-//                                        self.errorAlert.text = "Account has been disabled"
-//                                    case .wrongPassword:
-//                                        self.errorAlert.text = "Wrong password"
-//                                    default:
-//                                        print("Login user error: \(error!)")
-//                                    }
-//                                }
-//                            } else {
-//                                print("Successful login")
-//                                self.errorAlert.text = " "
-//                                if let user = user {
-//                                    self.completeSignIn(uid: user.uid)
-//                                }
-//                            }})
                     }
                     
                 }
@@ -283,27 +197,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         if error != nil {
                             print("error: \(error!)")
                         } else {
-                            //add other data to data where result is?
                             let data: [String: Any] = result as! [String: Any]
-                            //data["school"] = "yo"
-                            
-                            //                        let userData = ["name":"\(self.nameField.text!)",
-                            //                            "email":"\(self.emailField.text!)",
-                            //                            "statusId": ["a":true],
-                            //                            "friendsList": ["seen": true],
-                            //                            "joinedList": ["seen": true],
-                            //                            "id": "a",
-                            //                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
-                            //                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
-                            //                            "hasNewMsg":false,
-                            //                            "isPrivate":false,
-                            //                            "occupation":"",
-                            //                            "employer":"",
-                            //                            "currentCity":"",
-                            //                            "school":""] as [String : Any]
-                            
-                            
-                            //print(data)
                             self.firebaseCredentialAuth(credential, userData: data)
                         }
                     })}
@@ -316,7 +210,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             if error != nil {
                 print("JAKE: Can't auth with credential passed to firebase - \(error!)")
             } else {
-                print("JAKE: Successfull passed credential for firebase auth")
+
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
                     
@@ -331,17 +225,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     data["currentCity"] = ""
                     data["school"] = ""
                     
-                    //restricts to one data load or cicumvents creating user altogether?
                     if let currentUser = Auth.auth().currentUser?.uid {
                         if self.userKeys.contains(currentUser) {
                             return
                         }
                     }
-                    
-                    //print(data)
-                    //                    var data = userData
-                    //                    data["school"] = "yo"
-                    //                    print(data)
                     DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)
                 }
             }
@@ -351,6 +239,5 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func completeSignIn(uid: String) {
         KeychainWrapper.standard.set(uid, forKey: KEY_UID)
         self.performSegue(withIdentifier: "loginToActivityFeed", sender: self)
-        print("JAKE: keychain saved")
     }
 }

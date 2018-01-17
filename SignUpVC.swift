@@ -130,6 +130,32 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //                        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+    //                            if error != nil {
+    //                                if let errCode = AuthErrorCode(rawValue: error!._code) {
+    //                                    switch errCode {
+    //                                    case .userNotFound:
+    //                                        self.errorAlert.text = "No account found with this email"
+    //                                    case .tooManyRequests:
+    //                                        self.errorAlert.text = "Too many login attempts, please try again later"
+    //                                    case .invalidEmail:
+    //                                        self.errorAlert.text = "Invalid email format"
+    //                                    case .userDisabled:
+    //                                        self.errorAlert.text = "Account has been disabled"
+    //                                    case .wrongPassword:
+    //                                        self.errorAlert.text = "Wrong password"
+    //                                    default:
+    //                                        print("Login user error: \(error!)")
+    //                                    }
+    //                                }
+    //                            } else {
+    //                                print("Successful login")
+    //                                self.errorAlert.text = " "
+    //                                if let user = user {
+    //                                    self.completeSignIn(uid: user.uid)
+    //                                }
+    //                            }})
+
     
     @IBAction func signUpWithFacebookBtnPressed(_ sender: Any) {
         
@@ -156,6 +182,25 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+    //                        let userData = ["name":"\(self.nameField.text!)",
+    //                            "email":"\(self.emailField.text!)",
+    //                            "statusId": ["a":true],
+    //                            "friendsList": ["seen": true],
+    //                            "joinedList": ["seen": true],
+    //                            "id": "a",
+    //                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
+    //                            "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
+    //                            "hasNewMsg":false,
+    //                            "isPrivate":false,
+    //                            "occupation":"",
+    //                            "employer":"",
+    //                            "currentCity":"",
+    //                            "school":""] as [String : Any]
+    
+    
+    //print(data)
+
     
     func firebaseCredentialAuth(_ credential: AuthCredential, userData: Dictionary<String, Any>) {
         Auth.auth().signIn(with: credential) { (user, error) in
