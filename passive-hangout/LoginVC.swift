@@ -130,6 +130,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
         
     }
+    
     @IBAction func cancelResetBtnPressed(_ sender: Any) {
         
         resignFirstResponder()

@@ -16,17 +16,6 @@ import FBSDKCoreKit
 
 class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, FeedCellDelegate {
     
-    var statusArr = [Status]()
-    var usersArr = [Users]()
-    var userFriendsList = Dictionary<String, Any>()
-    var userCity = ""
-    var placeholderLabel : UILabel!
-    var refreshControl: UIRefreshControl!
-    var friendPostArr = [String]()
-    var friendPostCount = 0
-    var numberLoadMores = 1
-    var originController = ""
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var isEmptyImg: UIImageView!
     @IBOutlet weak var textView: NewStatusTextView!
@@ -39,6 +28,19 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var newMsgChatIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
+    
+    var statusArr = [Status]()
+    var usersArr = [Users]()
+    var userFriendsList = Dictionary<String, Any>()
+    var placeholderLabel : UILabel!
+    var refreshControl: UIRefreshControl!
+    var friendPostArr = [String]()
+    
+    var userCity = ""
+    var originController = ""
+    var friendPostCount = 0
+    var numberLoadMores = 1
+    var refreshCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +112,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             tableView.isHidden = false
             return
         }
+        
         if originController != "messagesToFeed" && originController != "conversationToFeed" {
 
             tableView.frame.origin.x -= 500
@@ -132,8 +135,16 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if friendPostCount == 0 {
+        if friendPostCount == 0 && refreshCount < 8 {
             self.refresh(sender: self)
+        } else if friendPostCount == 0 && refreshCount >= 8 {
+            self.isEmptyImg.isHidden = false
+            UIView.animate(withDuration: 0.75) {
+                self.isEmptyImg.alpha = 1.0
+            }
+        } else {
+            self.isEmptyImg.isHidden = true
+            self.isEmptyImg.alpha = 0
         }
         return statusArr.count
     }
@@ -342,8 +353,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func loadMore() {
         
-        self.isEmptyImg.isHidden = true
-        
         if friendPostArr != [] && friendPostArr.count < (numberLoadMores + 1) * 10 {
             friendPostCount = friendPostArr.count
             
@@ -385,14 +394,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
         } else if friendPostArr.count == 0 {
-            
             friendPostCount = friendPostArr.count
-            self.isEmptyImg.isHidden = false
-            
-            UIView.animate(withDuration: 0.75) {
-                self.isEmptyImg.alpha = 1.0
-            }
-            
         }
     }
     
@@ -400,7 +402,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         statusArr = []
         self.isEmptyImg.isHidden = true
+        self.isEmptyImg.alpha = 0.0
         numberLoadMores = 1
+        refreshCount += 1
         
         if friendPostArr != [] && friendPostArr.count < 10 {
             friendPostCount = friendPostArr.count
@@ -439,7 +443,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         } else if friendPostArr.count == 0 {
             friendPostCount = friendPostArr.count
-            self.isEmptyImg.isHidden = false
         }
 
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
