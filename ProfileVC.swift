@@ -34,6 +34,7 @@ class ProfileVC: UIViewController{
     @IBOutlet weak var opaqueBackground: UIButton!
     @IBOutlet weak var signOutView: RoundedPopUp!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
+    @IBOutlet weak var profileOptionsView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,12 +104,20 @@ class ProfileVC: UIViewController{
             scrollView.isHidden = false
             return
 
-        } else if originController == "pastStatusesToMyProfile" || originController == "editProfileToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" {
+        } else if originController == "pastStatusesToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
             
             UIView.animate(withDuration: 0.25) {
                 self.scrollView.frame.origin.x += 500
+            }
+            
+        } else if originController == "editProfileToMyProfile" {
+            scrollView.isHidden = false
+            profileOptionsView.frame.origin.x -= 500
+            
+            UIView.animate(withDuration: 0.25) {
+                self.profileOptionsView.frame.origin.x += 500
             }
         }
     }
