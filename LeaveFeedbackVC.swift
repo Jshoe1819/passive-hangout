@@ -16,6 +16,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     var showMsgFooter = false
     let choiceArray = ["Positive", "Negative", "Suggestion", "Inquiry", "Other"]
     let characterLimit = 240
+    var placeholderLabel : UILabel!
     
     @IBOutlet weak var selectCategoryBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -27,7 +28,8 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var hideTableBtn: UIButton!
-    var placeholderLabel : UILabel!
+    @IBOutlet weak var opaqueBackground: UIButton!
+    @IBOutlet weak var feedbackNotSentView: RoundedPopUp!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -191,16 +193,16 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     @IBAction func cancelBtnPressed(_ sender: Any) {
         
         if !textView.text.isEmpty {
-            let alert = UIAlertController(title: "Feedback Not Sent", message: "Are you sure you would like to continue?", preferredStyle: UIAlertControllerStyle.alert)
             
-            alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: { action in
-                self.textView.resignFirstResponder()
-                self.performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
-            }))
+            textView.resignFirstResponder()
+            opaqueBackground.isHidden = false
+            feedbackNotSentView.frame.origin.y += 1000
+            feedbackNotSentView.isHidden = false
             
-            alert.addAction(UIAlertAction(title: "Stay", style: UIAlertActionStyle.cancel, handler: nil))
+            UIView.animate(withDuration: 0.25) {
+                self.feedbackNotSentView.frame.origin.y -= 1000
+            }
             
-            self.present(alert, animated: true, completion: nil)
         } else {
             textView.resignFirstResponder()
             performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
@@ -226,6 +228,27 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
                 nextVC.originController = "leaveFeedbackToSearch"
             }
         }
+    }
+    
+    @IBAction func stayBtnPressed(_ sender: Any) {
+        
+        opaqueBackground.isHidden = true
+        
+        UIView.animate(withDuration: 0.25) {
+            self.feedbackNotSentView.frame.origin.y += 1000
+        }
+        
+        let when = DispatchTime.now() + 0.25
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.textView.becomeFirstResponder()
+            self.feedbackNotSentView.isHidden = true
+            self.feedbackNotSentView.frame.origin.y -= 1000
+        }
+    }
+    
+    @IBAction func continueBtnPressed(_ sender: Any) {
+        self.textView.resignFirstResponder()
+        self.performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
     }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
