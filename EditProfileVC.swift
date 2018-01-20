@@ -19,23 +19,20 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     var imagePicked = 0
     var toBeDeletedProfRef = ""
     var toBeDeletedCoverRef = ""
+    var loadOnce = false
     
     @IBOutlet weak var coverImg: UIImageView!
     @IBOutlet weak var profileImg: FeedProfilePic!
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var currentCityTextField: UITextField!
-    @IBOutlet weak var cityView: UIView!
     @IBOutlet weak var schoolTextField: UITextField!
-    @IBOutlet weak var schoolView: UIView!
     @IBOutlet weak var employerTextField: UITextField!
-    @IBOutlet weak var employerView: UIView!
     @IBOutlet weak var occupationTextField: UITextField!
-    @IBOutlet weak var occupationView: UIView!
     @IBOutlet weak var privateProfileSwitch: UISwitch!
     @IBOutlet weak var profileImgPicker: UIButton!
     @IBOutlet weak var coverImgPicker: UIButton!
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     
@@ -87,52 +84,28 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     
     override func viewDidAppear(_ animated: Bool) {
         
-        nameTextField.frame.origin.x += 500
-        nameTextField.isHidden = false
-        nameView.frame.origin.x += 500
-        nameView.isHidden = false
-        currentCityTextField.frame.origin.x += 500
-        currentCityTextField.isHidden = false
-        cityView.frame.origin.x += 500
-        cityView.isHidden = false
-        schoolTextField.frame.origin.x += 500
-        schoolTextField.isHidden = false
-        schoolView.frame.origin.x += 500
-        schoolView.isHidden = false
-        employerTextField.frame.origin.x += 500
-        employerTextField.isHidden = false
-        employerView.frame.origin.x += 500
-        employerView.isHidden = false
-        occupationTextField.frame.origin.x += 500
-        occupationTextField.isHidden = false
-        occupationView.frame.origin.x += 500
-        occupationView.isHidden = false
-        privateProfileSwitch.frame.origin.x += 500
-        privateProfileSwitch.isHidden = false
-        profileImgPicker.frame.origin.x += 500
-        coverImgPicker.frame.origin.x += 500
-        stackView.frame.origin.x += 500
-        stackView.isHidden = false
-        
-        UIView.animate(withDuration: 0.25) {
-            self.nameTextField.frame.origin.x -= 500
-            self.nameView.frame.origin.x -= 500
-            self.currentCityTextField.frame.origin.x -= 500
-            self.cityView.frame.origin.x -= 500
-            self.schoolTextField.frame.origin.x -= 500
-            self.schoolView.frame.origin.x -= 500
-            self.employerTextField.frame.origin.x -= 500
-            self.employerView.frame.origin.x -= 500
-            self.occupationTextField.frame.origin.x -= 500
-            self.occupationView.frame.origin.x -= 500
-            self.privateProfileSwitch.frame.origin.x -= 500
-            self.profileImgPicker.frame.origin.x -= 500
-            self.coverImgPicker.frame.origin.x -= 500
-            self.stackView.frame.origin.x -= 500
+        if !loadOnce {
+            
+            loadOnce = true
+            
+            infoView.frame.origin.x += 500
+            infoView.isHidden = false
+            profileImgPicker.frame.origin.x += 500
+            coverImgPicker.frame.origin.x += 500
+            stackView.frame.origin.x += 500
+            stackView.isHidden = false
+            
+            UIView.animate(withDuration: 0.25) {
+                self.infoView.frame.origin.x -= 500
+                self.profileImgPicker.frame.origin.x -= 500
+                self.coverImgPicker.frame.origin.x -= 500
+                self.stackView.frame.origin.x -= 500
+            }
         }
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             
             if imagePicked == 1 {
@@ -157,6 +130,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
                                     DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
+                                    
+                                    if self.toBeDeletedProfRef == "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png" {
+                                        return
+                                    }
+                                    
                                     let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedProfRef)
                                     deletedImgRef.delete(completion: { (error) in
                                         if error != nil {
@@ -196,6 +174,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                             if let url = downloadUrl {
                                 if let currentUser = Auth.auth().currentUser?.uid {
                                     DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
+                                    
+                                    if self.toBeDeletedCoverRef == "gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg" {
+                                        return
+                                    }
+                                    
                                     let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedCoverRef)
                                     deletedImgRef.delete(completion: { (error) in
                                         if error != nil {
@@ -216,7 +199,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         } else {
             //Handle error?
         }
-        imagePicker.dismiss(animated: true, completion: nil)
+        imagePicker.dismiss(animated: false, completion: nil)
     }
     
     func populateProfilePicture(user: Users) {
@@ -229,7 +212,6 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             if let image = profileImage {
                 self.profileImg.image = image
             } else {
-                print("not in cache")
                 if user.id != "a" {
                     let profileUrl = URL(string: user.profilePicUrl)
                     let data = try? Data(contentsOf: profileUrl!)
