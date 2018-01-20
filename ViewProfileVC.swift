@@ -346,12 +346,11 @@ class ViewProfileVC: UIViewController {
         
         if segue.identifier == "viewProfileToPastStatuses" {
             if let nextVC = segue.destination as? PastStatusesVC {
-                nextVC.selectedUserStatuses = sender as! [Status]
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
-                    nextVC.selectedStatus = selectedStatus
+                    //nextVC.selectedStatus = selectedStatus
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.searchText = searchText
