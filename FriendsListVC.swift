@@ -25,8 +25,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     var conversationArr = [Conversation]()
     var currentFriendsList = Dictionary<String, Any>()
     var selectedProfile: Int!
-    var tappedBtnTags = [Int]()
-    var deleted = [Int]()
     var filtered = [Users]()
     var originController = ""
     var refreshControl: UIRefreshControl!
@@ -183,7 +181,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return filtered.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -194,13 +191,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.selectionStyle = .none
-            
-            if deleted.contains(indexPath.row) {
-                cell.isHidden = true
-            } else {
-                cell.isHidden = false
-            }
-            
+
             cell.configureCell(friendsList: currentFriendsList, users: users)
             
             return cell
@@ -320,18 +311,13 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").updateChildValues([friendKey: "friends"])
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUser: "friends"])
-            self.refresh(sender: self)
-            
         }
+        self.refresh(sender: self)
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if deleted.contains(indexPath.row) {
-            return 0
-        } else {
-            return 84
-        }
+        return 84
     }
     
     
@@ -341,9 +327,8 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-            deleted.append(tag)
-            tableView.reloadData()
         }
+        self.refresh(sender: self)
     }
     @IBAction func removeFriendBtnPressed(_ sender: Any) {
         
@@ -351,7 +336,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").child(friendKey).removeValue()
             DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUser).removeValue()
-            self.deleted.append(selectedProfile)
         }
         
         opaqueBackground.isHidden = true
@@ -406,9 +390,8 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     
     func refresh(sender: Any) {
         
-        self.usersArr = []
+        self.currentFriendsList.removeAll()
         self.filtered = []
-        deleted.removeAll()
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
@@ -416,7 +399,6 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     for snap in snapshot {
                         if let value = snap.value {
                             self.currentFriendsList.updateValue(value, forKey: snap.key)
-                            
                         }
                     }
                 }

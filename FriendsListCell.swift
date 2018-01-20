@@ -29,6 +29,9 @@ class FriendsListCell: UITableViewCell {
     
     func configureCell(friendsList: Dictionary<String, Any>, users: Users) {
         
+        approveBtn.isHidden = true
+        ignoreBtn.isHidden = true
+        
         ImageCache.default.retrieveImage(forKey: users.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
                 self.profilePic.image = image

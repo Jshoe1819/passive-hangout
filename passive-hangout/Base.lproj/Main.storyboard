@@ -1934,7 +1934,7 @@
                                         <rect key="frame" x="0.0" y="28" width="153" height="30"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cPZ-1M-Mba" id="6Br-As-en8">
-                                            <rect key="frame" x="0.0" y="0.0" width="153" height="29.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="153" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -5861,17 +5861,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PqB-AM-vXR"/>
+        <segue reference="O4J-wM-hDT"/>
         <segue reference="5Tl-Jg-UAb"/>
+        <segue reference="y1D-2v-C8P"/>
+        <segue reference="gch-s9-LIa"/>
+        <segue reference="BJa-L8-pjS"/>
+        <segue reference="mIA-N4-PrF"/>
+        <segue reference="vOi-0M-dkj"/>
+        <segue reference="W4L-ij-kOw"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="Q2u-Op-EZN"/>
         <segue reference="agh-4t-wA8"/>
         <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="PTq-OX-4io"/>
-        <segue reference="1oa-5w-smP"/>
-        <segue reference="EqC-GO-pSd"/>
-        <segue reference="wOn-Aq-wHf"/>
-        <segue reference="W4L-ij-kOw"/>
-        <segue reference="Zl1-hz-g1g"/>
     </inferredMetricsTieBreakers>
 </document>
