@@ -32,6 +32,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var usersArr = [Users]()
     var hangoutContentArr = Dictionary<Int, String>()
     var hangoutCityArr = Dictionary<Int, String>()
+    var userStatusKeys = [String]()
     var selectedHangout: Int!
     var originController = ""
     var selectedUserStatuses = [Status]()
@@ -41,9 +42,15 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var searchText = ""
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
+    var numberLoadMores = 1
+    var refreshCount = 0
+    var count = 1
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userStatusKeys = []
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -68,72 +75,40 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
-        
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                self.statusArr.insert(status, at: 0)
+                
+        if originController == "myProfileToPastStatuses" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                DataService.ds.REF_USERS.child(currentUser).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                        for snap in snapshot {
+                            if snap.key != "a" {
+                                self.userStatusKeys.append(snap.key)
                             }
                         }
-                        
                     }
-                }
-            }
-            if self.statusArr.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
+                    self.tableView.reloadData()
+                })
             }
             
-            self.tableView.reloadData()
-        })
-        
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.usersArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let usersDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let users = Users(usersKey: key, usersData: usersDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if currentUser == users.usersKey {
-                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                                    value as? String == "received"
-                                }
-                                if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-                                    value as? String == "false"
-                                }
-                                if newJoin {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
-                            }
+        } else {
+            DataService.ds.REF_USERS.child(viewedProfile.usersKey).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if snap.key != "a" {
+                            self.userStatusKeys.append(snap.key)
                         }
-                        self.usersArr.append(users)
                     }
                 }
-            }
-            self.tableView.reloadData()
-        })
+                self.tableView.reloadData()
+            })
+        }
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+        if originController != "myProfileToPastStatuses" {
             profilePicImg.isHidden = false
             populateProfilePicture(user: viewedProfile)
             nameLbl.text = viewedProfile.name
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -193,28 +168,29 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
+            loadMore()
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-            return selectedUserStatuses.count
+        
+        if statusArr.count == 0 {
+            self.refresh(sender: self)
         }
+        
         return statusArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-            status = selectedUserStatuses[indexPath.row]
-            isEmptyImg.isHidden = (selectedUserStatuses.count == 0) ? false : true
-            
-        } else {
-            status = statusArr[indexPath.row]
-            isEmptyImg.isHidden = (statusArr.count == 0) ? false : true
-        }
-        
+
+        status = statusArr[indexPath.row]
+
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PastStatusesCell") as? PastStatusesCell {
             
             cell.cellDelegate = self
@@ -223,7 +199,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.contentLbl.isHidden = false
             cell.configureCell(status: status, users: usersArr)
             
-            if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+            if originController != "myProfileToPastStatuses" {
                 if let currentUser = Auth.auth().currentUser?.uid {
                     let join = status.joinedList.keys.contains { (key) -> Bool in
                         key == currentUser
@@ -249,7 +225,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             if !hangoutCityArr.keys.contains(indexPath.row) {
                 hangoutCityArr[indexPath.row] = cell.cityLbl.text
             }
-            
             return cell
         } else {
             return PastStatusesCell()
@@ -258,7 +233,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
-        if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
+        if originController != "myProfileToPastStatuses" {
             return false
         }
         
@@ -308,7 +283,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableViewAutomaticDimension
+        return UITableViewAutomaticDimension
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -431,7 +406,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     @IBAction func cancelEditBtnPressed(_ sender: Any) {
-
+        
         editHangoutView.isHidden = true
         opaqueStatusBackground.isHidden = true
         editHangoutTextview.resignFirstResponder()
@@ -442,7 +417,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     @IBAction func deleteHangoutBtnPressed(_ sender: Any) {
-
+        
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_STATUS.child(self.statusArr[selectedHangout].statusKey).removeValue()
             DataService.ds.REF_USERS.child(currentUser).child("statusId").child(self.statusArr[selectedHangout].statusKey).removeValue()
@@ -503,41 +478,142 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     @IBAction func profileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
-        //footerNewFriendIndicator.isHidden = true
+    }
+    
+    func loadMore() {
+
+        if userStatusKeys != [] && userStatusKeys.count < (numberLoadMores + 1) * 10 {
+
+            for index in numberLoadMores * 10..<userStatusKeys.count {
+                
+                DataService.ds.REF_STATUS.child(userStatusKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                })
+                
+                numberLoadMores += 1
+            }
+            
+        } else if userStatusKeys != [] && userStatusKeys.count >= numberLoadMores * 10 {
+            
+            for index in numberLoadMores * 10..<(numberLoadMores + 1) * 10 {
+                
+                DataService.ds.REF_STATUS.child(userStatusKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                })
+                numberLoadMores += 1
+            }
+            
+        } 
     }
     
     func refresh(sender: Any) {
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.statusArr = []
+        self.isEmptyImg.isHidden = true
+        self.isEmptyImg.alpha = 0.0
+        numberLoadMores = 1
+        
+        let when = DispatchTime.now() + 0.5
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.refreshControl.endRefreshing()
+        }
+        
+        if refreshCount >= 8 {
+            return
+        }
+        
+        if userStatusKeys != [] && userStatusKeys.count < 10 {
+
+            for index in 0..<userStatusKeys.count {
+
+                DataService.ds.REF_STATUS.child(userStatusKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+
+                    self.tableView.reloadData()
+                    
+                })
+            }
             
-            self.statusArr = []
+        } else if userStatusKeys != [] && userStatusKeys.count >= 10 {
+
+            for index in 0..<10 {
+
+                DataService.ds.REF_STATUS.child(userStatusKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                    }
+
+                    self.tableView.reloadData()
+                    
+                })
+            }
+            
+        } else if userStatusKeys.count == 0 {
+
+            refreshCount += 1
+            
+        }
+        
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.usersArr = []
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                    
+                    if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
+                        let users = Users(usersKey: key, usersData: usersDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
-                            if status.userId == currentUser {
-                                self.statusArr.insert(status, at: 0)
+                            if currentUser == users.usersKey {
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                    value as? String == "received"
+                                }
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                                
                             }
                         }
-                        
+                        self.usersArr.append(users)
                     }
                 }
             }
             self.tableView.reloadData()
         })
         
-        if originController == "viewProfileToPastStatuses" || originController == "joinedListToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" {
-            profilePicImg.isHidden = false
-            populateProfilePicture(user: viewedProfile)
-        }
-        
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            self.refreshControl.endRefreshing()
-        }
         
     }
     
