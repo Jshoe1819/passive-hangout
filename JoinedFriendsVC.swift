@@ -204,9 +204,6 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
-//        if originController == "myProfileToJoinedFriends" {
-//            performSegue(withIdentifier: "joinedFriendsToMyProfile", sender: nil)
-//        }
         performSegue(withIdentifier: "joinedFriendsToPastStatuses", sender: nil)
     }
     

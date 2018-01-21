@@ -35,6 +35,9 @@ class JoinedProfilesListCell: UITableViewCell {
     
     func configureCell(users: Users, currentUser: Users) {
         
+        addFriendBtn.isHidden = true
+        requestSentBtn.isHidden = true
+        
         ImageCache.default.retrieveImage(forKey: users.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
                 self.profilePicImg.image = image
@@ -70,6 +73,7 @@ class JoinedProfilesListCell: UITableViewCell {
                 primaryLbl.text = users.currentCity
                 nameLbl.text = users.name
             } else if friendKey == "sent" {
+                requestSentBtn.isHidden = false
                 primaryLbl.text = users.currentCity
                 nameLbl.text = users.name
             } else if friendKey == "received" {
