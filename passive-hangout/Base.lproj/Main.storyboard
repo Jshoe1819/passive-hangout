@@ -4141,7 +4141,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joined-list-isEmpty-image" translatesAutoresizingMaskIntoConstraints="NO" id="WAf-8i-6Zv">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="joined-list-isEmpty-image" translatesAutoresizingMaskIntoConstraints="NO" id="WAf-8i-6Zv">
                                 <rect key="frame" x="0.0" y="67" width="375" height="660"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
@@ -5861,17 +5861,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Q2u-Op-EZN"/>
-        <segue reference="Cvi-3u-GSf"/>
+        <segue reference="DzP-9T-IMk"/>
         <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="agh-4t-wA8"/>
         <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="cdL-qi-TmD"/>
-        <segue reference="gch-s9-LIa"/>
-        <segue reference="W4L-ij-kOw"/>
-        <segue reference="h9M-nc-TZC"/>
+        <segue reference="zZq-vH-goe"/>
         <segue reference="LO5-wp-VUO"/>
         <segue reference="fJQ-dC-hyU"/>
+        <segue reference="h9M-nc-TZC"/>
         <segue reference="gCg-Ub-8sY"/>
+        <segue reference="W4L-ij-kOw"/>
+        <segue reference="agh-4t-wA8"/>
+        <segue reference="cdL-qi-TmD"/>
+        <segue reference="gch-s9-LIa"/>
     </inferredMetricsTieBreakers>
 </document>

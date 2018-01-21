@@ -20,8 +20,10 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     
     var statusArr = [Status]()
+    var joinedKeys = [String]()
     var usersArr = [Users]()
     var originController = ""
+    var numberLoadMores = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,71 +39,86 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            let join = status.joinedList.keys.contains { (key) -> Bool in
-                                key == currentUser
-                            }
-                            if join {
-                                self.statusArr.insert(status, at: 0)
-                            }
-                            
-                        }
-                    }
-                }
-            }
-            
-            if self.statusArr.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
-            }
-            self.tableView.reloadData()
-            
-        })
+        //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.statusArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //
+        //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let status = Status(statusKey: key, statusData: statusDict)
+        //                        if let currentUser = Auth.auth().currentUser?.uid {
+        //                            let join = status.joinedList.keys.contains { (key) -> Bool in
+        //                                key == currentUser
+        //                            }
+        //                            if join {
+        //                                self.statusArr.insert(status, at: 0)
+        //                            }
+        //
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //
+        //            if self.statusArr.count == 0 {
+        //                self.isEmptyImg.isHidden = false
+        //            } else {
+        //                self.isEmptyImg.isHidden = true
+        //            }
+        //            self.tableView.reloadData()
+        //
+        //        })
         
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.usersArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-
-                    if let usersDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let users = Users(usersKey: key, usersData: usersDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if currentUser == users.usersKey {
-                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                                    value as? String == "received"
-                                }
-                                if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-                                    value as? String == "false"
-                                }
-                                if newJoin {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
-                            }
+        if let currentUser = Auth.auth().currentUser?.uid {
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if snap.key != "seen" {
+                            self.joinedKeys.append(snap.key)
+                            print(self.joinedKeys.count)
                         }
-                        self.usersArr.append(users)
                     }
                 }
-            }
-            self.tableView.reloadData()
-        })
+                
+                self.refresh(sender: self)
+            })
+        }
+        
+        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.usersArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //
+        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let users = Users(usersKey: key, usersData: usersDict)
+        //                        if let currentUser = Auth.auth().currentUser?.uid {
+        //                            if currentUser == users.usersKey {
+        //                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
+        //                                    value as? String == "received"
+        //                                }
+        //                                if newFriend && users.friendsList["seen"] as? String == "false" {
+        //                                    self.footerNewFriendIndicator.isHidden = false
+        //                                }
+        //                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+        //                                    value as? String == "false"
+        //                                }
+        //                                if newJoin {
+        //                                    self.footerNewFriendIndicator.isHidden = false
+        //                                }
+        //                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+        //                            }
+        //                        }
+        //                        self.usersArr.append(users)
+        //                    }
+        //                }
+        //            }
+        //            self.tableView.reloadData()
+        //        })
         
     }
     
@@ -114,6 +131,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             UIView.animate(withDuration: 0.25) {
                 self.tableView.frame.origin.x -= 500
+                self.isEmptyImg.frame.origin.x -= 500
             }
         } else if originController == "myProfileToJoinedList" || originController == "pastStatusesToJoinedList" || originController == "editProfileToJoinedList" || originController == "leaveFeedbackToJoinedList" || originController == "friendsListToJoinedList" || originController == "viewProfileToJoinedList" || originController == "joinedFriendsToJoinedList" || originController == "searchToJoinedList" {
             tableView.frame.origin.x -= 500
@@ -122,11 +140,12 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             UIView.animate(withDuration: 0.25) {
                 self.tableView.frame.origin.x += 500
+                self.isEmptyImg.frame.origin.x += 500
             }
         } else if originController == "" {
             tableView.isHidden = false
             return
-
+            
         }
         
     }
@@ -145,7 +164,20 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let users = usersArr
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "JoinedListCell") as? JoinedListCell {
-            cell.alreadyJoinedBtn.isHidden = false
+            
+            if let currentUser = Auth.auth().currentUser?.uid {
+                let join = status.joinedList.keys.contains { (key) -> Bool in
+                    key == currentUser
+                }
+                if join {
+                    cell.joinBtn.isHidden = true
+                    cell.alreadyJoinedBtn.isHidden = false
+                } else{
+                    cell.joinBtn.isHidden = false
+                    cell.alreadyJoinedBtn.isHidden = true
+                }
+            }
+            
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.configureCell(status: status, users: users)
@@ -162,7 +194,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 nextVC.originController = "joinedListToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-
+                
             }
             
         } else if segue.identifier == "joinedListToHome" {
@@ -189,7 +221,8 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
-
+            //joinedKeys.append(statusKey)
+            
         }
         
     }
@@ -200,7 +233,13 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count - 1])
-
+//            for index in 0..<joinedKeys.count {
+//                if joinedKeys[index] == statusKey {
+//                    joinedKeys.remove(at: index)
+//                    break
+//                }
+//            }
+            
         }
     }
     
@@ -217,7 +256,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func homeBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToHome", sender: nil)
     }
-
+    
     @IBAction func searchBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "joinedListToSearch", sender: nil)
     }
@@ -227,38 +266,129 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         footerNewFriendIndicator.isHidden = true
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
+            loadMore()
+        }
+    }
+    
+    func loadMore() {
+        
+        if joinedKeys != [] && joinedKeys.count < (numberLoadMores + 1) * 10 {
+            
+            for index in numberLoadMores * 10..<joinedKeys.count {
+                
+                DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                })
+                
+                numberLoadMores += 1
+            }
+            
+        } else if joinedKeys != [] && joinedKeys.count >= numberLoadMores * 10 {
+            
+            for index in numberLoadMores * 10..<(numberLoadMores + 1) * 10 {
+                
+                DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                })
+                numberLoadMores += 1
+            }
+            
+        } else if joinedKeys.count == 0 {
+            return
+        }
+    }
+    
     func refresh(sender: Any) {
         
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.statusArr = []
+        numberLoadMores = 1
+        
+        if joinedKeys != [] && joinedKeys.count < 10 {
+            
+            self.isEmptyImg.isHidden = true
+            self.isEmptyImg.alpha = 0.0
+
+            for index in 0..<joinedKeys.count {
+                
+                DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    guard snapshot.exists() else {
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(self.joinedKeys.sorted().reversed()[index]).removeValue()
+                        }
+                        return
+                    }
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        self.statusArr.append(status)
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                })
+            }
+            
+        } else if joinedKeys != [] && joinedKeys.count >= 10 {
+            
+            self.isEmptyImg.isHidden = true
+            self.isEmptyImg.alpha = 0.0
+            
+            for index in 0..<10 {
+                
+                DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    guard snapshot.exists() else {
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(self.joinedKeys.sorted().reversed()[index]).removeValue()
+                        }
+                        return
+                    }
+                    
+                    if let statusDict = snapshot.value as? Dictionary<String, Any> {
+                        let key = snapshot.key
+                        if statusDict.isEmpty == false {
+                            let status = Status(statusKey: key, statusData: statusDict)
+                            self.statusArr.append(status)
+                        }
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                })
+            }
+            
+        } else if joinedKeys.count == 0 {
             
             self.statusArr = []
             
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            let join = status.joinedList.keys.contains { (key) -> Bool in
-                                key == currentUser
-                            }
-                            if join {
-                                self.statusArr.insert(status, at: 0)
-                            }
-                            
-                        }
-                    }
-                }
+            self.isEmptyImg.isHidden = false
+            UIView.animate(withDuration: 0.75) {
+                self.isEmptyImg.alpha = 1.0
             }
-            if self.statusArr.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
-            }
-            self.tableView.reloadData()
             
-        })
+        }
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -266,18 +396,26 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
                             if currentUser == users.usersKey {
-                                let answer = users.friendsList.values.contains { (value) -> Bool in
+                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
                                     value as? String == "received"
                                 }
-                                if answer && users.friendsList["seen"] as? String == "false" {
+                                if newFriend && users.friendsList["seen"] as? String == "false" {
                                     self.footerNewFriendIndicator.isHidden = false
                                 }
+                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                    value as? String == "false"
+                                }
+                                if newJoin {
+                                    self.footerNewFriendIndicator.isHidden = false
+                                }
+                                self.footerNewMsgIndicator.isHidden = !users.hasNewMsg
+                                
                             }
                         }
                         self.usersArr.append(users)
@@ -291,6 +429,69 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.refreshControl.endRefreshing()
         }
+        
+        //        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.statusArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //
+        //                    if let statusDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let status = Status(statusKey: key, statusData: statusDict)
+        //                        if let currentUser = Auth.auth().currentUser?.uid {
+        //                            let join = status.joinedList.keys.contains { (key) -> Bool in
+        //                                key == currentUser
+        //                            }
+        //                            if join {
+        //                                self.statusArr.insert(status, at: 0)
+        //                            }
+        //
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            if self.statusArr.count == 0 {
+        //                self.isEmptyImg.isHidden = false
+        //            } else {
+        //                self.isEmptyImg.isHidden = true
+        //            }
+        //            self.tableView.reloadData()
+        //
+        //        })
+        //
+        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            self.usersArr = []
+        //
+        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+        //                for snap in snapshot {
+        //
+        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
+        //                        let key = snap.key
+        //                        let users = Users(usersKey: key, usersData: usersDict)
+        //                        if let currentUser = Auth.auth().currentUser?.uid {
+        //                            if currentUser == users.usersKey {
+        //                                let answer = users.friendsList.values.contains { (value) -> Bool in
+        //                                    value as? String == "received"
+        //                                }
+        //                                if answer && users.friendsList["seen"] as? String == "false" {
+        //                                    self.footerNewFriendIndicator.isHidden = false
+        //                                }
+        //                            }
+        //                        }
+        //                        self.usersArr.append(users)
+        //                    }
+        //                }
+        //            }
+        //            self.tableView.reloadData()
+        //        })
+        //        
+        //        let when = DispatchTime.now() + 0.5
+        //        DispatchQueue.main.asyncAfter(deadline: when) {
+        //            self.refreshControl.endRefreshing()
+        //        }
     }
     
 }
