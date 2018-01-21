@@ -14,11 +14,8 @@ import FirebaseStorage
 
 class SearchCityCell: UITableViewCell {
     
-    var isPrivate = false
-    
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
-    @IBOutlet weak var numberJoinedLbl: UILabel!
     @IBOutlet weak var statusAgeLbl: UILabel!
     @IBOutlet weak var statusLbl: UILabel!
     @IBOutlet weak var cityLbl: UILabel!
@@ -33,12 +30,9 @@ class SearchCityCell: UITableViewCell {
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
-                if users[index].isPrivate == true {
-                    isPrivate = true
-                }
+
                 self.nameLbl.text = users[index].name
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
-                self.numberJoinedLbl.text = ("\(status.joinedNumber) Joined")
                 self.cityLbl.text = status.city
                 
                 ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in

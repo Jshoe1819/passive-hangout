@@ -10,17 +10,15 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ExploreHangoutsDelegate, SearchHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
+class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ExploreHangoutsDelegate, SearchProfilesDelegate, SearchCitiesDelegate {
     
     var usersArr = [Users]()
     var statusArr = [Status]()
-    var shuffledStatusArr = [Status]()
     var currentUserInfo: Users!
     var searchActive = false
-    var hangoutsSearchResults = [Status]()
     var profileSearchResults = [Users]()
-    var statusSearchResults = [Status]()
-    var privateArr = [Int]()
+    var citySearchResults = [Status]()
+    var privateArr = [String]()
     var privateArrIds = [String]()
     var numberLoadMores = 1
     var searchText = ""
@@ -28,164 +26,45 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var originController = ""
     
     @IBOutlet weak var exploreTableView: UITableView!
-    @IBOutlet weak var hangoutsTableView: UITableView!
     @IBOutlet weak var profilesTableView: UITableView!
-    @IBOutlet weak var statusesTableView: UITableView!
+    @IBOutlet weak var cityTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var segmentChoice: UISegmentedControl!
     @IBOutlet weak var bottomSeparatorView: UIView!
     @IBOutlet weak var searchOptionsStackView: UIStackView!
-    @IBOutlet weak var topChoiceBtn: UIButton!
     @IBOutlet weak var profilesChoiceBtn: UIButton!
     @IBOutlet weak var citiesChoiceBtn: UIButton!
-    @IBOutlet weak var topIndicatorView: UIView!
     @IBOutlet weak var profilesIndicatorView: UIView!
     @IBOutlet weak var citiesIndicatorView: UIView!
     @IBOutlet weak var noResultsLbl: UILabel!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        if originController == "homeToSearch" || originController == "joinedListToSearch" {
-            exploreTableView.frame.origin.x += 500
-            exploreTableView.isHidden = false
-            searchBar.frame.origin.x += 500
-            searchBar.isHidden = false
-            UIView.animate(withDuration: 0.25) {
-                self.exploreTableView.frame.origin.x -= 500
-                self.searchBar.frame.origin.x -= 500
-            }
-        } else if originController == "myProfileToSearch" || originController == "pastStatusesToSearch" || originController == "editProfileToSearch" || originController == "leaveFeedbackToSearch" || originController == "friendsListToSearch" || originController == "viewProfileToSearch" || originController == "joinedFriendsToSearch" {
-            exploreTableView.frame.origin.x -= 500
-            exploreTableView.isHidden = false
-            searchBar.frame.origin.x -= 500
-            searchBar.isHidden = false
-            UIView.animate(withDuration: 0.25) {
-                self.exploreTableView.frame.origin.x += 500
-                self.searchBar.frame.origin.x += 500
-            }
-        } else {
-            exploreTableView.isHidden = false
-            searchBar.isHidden = false
-            return
-        }
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.segmentChoice.selectedSegmentIndex = 0
-        
         refreshControl = UIRefreshControl()
-        //        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.tintColor = UIColor.purple
         refreshControl.addTarget(self, action: #selector(SearchProfilesVC.refresh(sender:)), for: .valueChanged)
         exploreTableView.addSubview(refreshControl)
         
         exploreTableView.delegate = self
         exploreTableView.dataSource = self
-        hangoutsTableView.delegate = self
-        hangoutsTableView.dataSource = self
         profilesTableView.delegate = self
         profilesTableView.dataSource = self
-        statusesTableView.delegate = self
-        statusesTableView.dataSource = self
+        cityTableView.delegate = self
+        cityTableView.dataSource = self
+        
         searchBar.delegate = self
         
         searchBar.keyboardAppearance = .dark
         searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         
-        hangoutsTableView.keyboardDismissMode = .onDrag
         profilesTableView.keyboardDismissMode = .onDrag
-        statusesTableView.keyboardDismissMode = .onDrag
+        cityTableView.keyboardDismissMode = .onDrag
         
         noResultsLbl.isHidden = true
         
-        //searchBar.backgroundImage = UIImage()
-        //searchBar.layer.borderWidth = 1.0
-        //searchBar.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
-        
-        //segmentChoice.layer.borderWidth = 1.5
-        //segmentChoice.layer.borderColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1).cgColor
-        
         searchBar.text = searchText
-        
-        //use search text change to search query?
-        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-        //
-        //            self.usersArr = []
-        //
-        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                for snap in snapshot {
-        //                    //print("USERS: \(snap)")
-        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
-        //                        let key = snap.key
-        //                        let users = Users(usersKey: key, usersData: usersDict)
-        //                        if let currentUser = Auth.auth().currentUser?.uid {
-        //                            if currentUser == users.usersKey {
-        //                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-        //                                    value as? String == "received"
-        //                                }
-        //                                if newFriend && users.friendsList["seen"] as? String == "false" {
-        //                                    //self.footerNewFriendIndicator.isHidden = false
-        //                                }
-        //                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-        //                                    value as? String == "false"
-        //                                }
-        //                                if newJoin {
-        //                                    //self.footerNewFriendIndicator.isHidden = false
-        //                                }
-        //                                self.currentUserInfo = users
-        //
-        //                            }
-        //                        }
-        //
-        //                        self.usersArr.append(users)
-        //
-        //                        if let currentUser = Auth.auth().currentUser?.uid {
-        //                            if users.usersKey == currentUser {
-        //                                self.usersArr.removeLast()
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            self.profilesTableView.reloadData()
-        //
-        //        })
-        
-        
-        
-        
-//        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").observeSingleEvent(of: .value, with: { (snapshot) in
-//            
-//            self.statusArr = []
-//            
-//            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-//                for snap in snapshot {
-//                    //print("STATUS: \(snap)")
-//                    if let statusDict = snap.value as? Dictionary<String, Any> {
-//                        let key = snap.key
-//                        let status = Status(statusKey: key, statusData: statusDict)
-//                        //print(status.joinedNumber)
-//                        if !self.privateArrIds.contains(status.userId) {
-//                            //print(status.userId)
-//                            //print("here: \(self.privateArrIds)")
-//                            //self.statusArr.append(status)
-//                            self.statusArr.insert(status, at: 0)
-//                        }
-//                        //print(status.content)
-//                    }
-//                }
-//            }
-//            
-//            //self.shuffledStatusArr = self.statusArr.shuffled()
-//            self.shuffledStatusArr = self.statusArr
-//            //change to explore.reload
-//            self.exploreTableView.reloadData()
-//        })
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -193,13 +72,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
                         
                         if users.isPrivate == true {
-                            //print(users.usersKey)
                             self.privateArrIds.append(users.usersKey)
                         }
                         
@@ -230,7 +107,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
             }
-            //change to explire.reload
             self.exploreTableView.reloadData()
         })
         
@@ -238,29 +114,44 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
-        // UITableView only moves in one direction, y axis
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        if originController == "homeToSearch" || originController == "joinedListToSearch" {
+            exploreTableView.frame.origin.x += 500
+            exploreTableView.isHidden = false
+            searchBar.frame.origin.x += 500
+            searchBar.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.exploreTableView.frame.origin.x -= 500
+                self.searchBar.frame.origin.x -= 500
+            }
+            
+        } else if originController == "myProfileToSearch" || originController == "pastStatusesToSearch" || originController == "editProfileToSearch" || originController == "leaveFeedbackToSearch" || originController == "friendsListToSearch" || originController == "viewProfileToSearch" || originController == "joinedFriendsToSearch" {
+            exploreTableView.frame.origin.x -= 500
+            exploreTableView.isHidden = false
+            searchBar.frame.origin.x -= 500
+            searchBar.isHidden = false
+            UIView.animate(withDuration: 0.25) {
+                self.exploreTableView.frame.origin.x += 500
+                self.searchBar.frame.origin.x += 500
+            }
+            
+        } else {
+            exploreTableView.isHidden = false
+            searchBar.isHidden = false
+            return
+        }
         
-        // Change 10.0 to adjust the distance from bottom
-        if maximumOffset - currentOffset <= 10.0 {
-            self.loadMore()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == statusArr.count && (statusArr.count + privateArr.count) >= 10 * numberLoadMores {
+            loadMore()
         }
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if indexPath.row + 1 == statusArr.count && statusArr.count >= 10 * numberLoadMores {
-//                        print("do something")
-//                        print(statusArr.count)
-//            //            print(friendPostCount)
-//            loadMore()
-//        }
-//    }
-    
     func loadMore() {
-        //print("hey")
+        
         self.numberLoadMores += 1
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: UInt(10 * numberLoadMores)).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -269,25 +160,20 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
+                    
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        //print(status.joinedNumber)
+                        
                         if !self.privateArrIds.contains(status.userId) {
-                            //print(status.userId)
-                            //print("here: \(self.privateArrIds)")
-                            //self.statusArr.append(status)
                             self.statusArr.insert(status, at: 0)
+                        } else {
+                            self.privateArr.append(status.statusKey)
                         }
-                        //print(status.content)
                     }
                 }
             }
             
-            //self.shuffledStatusArr = self.statusArr.shuffled()
-            self.shuffledStatusArr = self.statusArr
-            //change to explore.reload
             self.exploreTableView.reloadData()
         })
         
@@ -302,17 +188,14 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         searchOptionsStackView.isHidden = false
         bottomSeparatorView.isHidden = false
-        if topChoiceBtn.isEnabled == false {
-            hangoutsTableView.isHidden = false
-            topIndicatorView.isHidden = false
-        } else if profilesChoiceBtn.isEnabled == false {
+        
+        if profilesChoiceBtn.isEnabled == false {
             profilesTableView.isHidden = false
             profilesIndicatorView.isHidden = false
         } else if citiesChoiceBtn.isEnabled == false {
-            statusesTableView.isHidden = false
+            cityTableView.isHidden = false
             citiesIndicatorView.isHidden = false
         }
-        //        topIndicatorView.isHidden = false
         //        profilesIndicatorView.isHidden = true
         //        citiesIndicatorView.isHidden = true
         searchBar.setShowsCancelButton(true, animated: true)
@@ -324,52 +207,37 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         searchActive = false
         
         exploreTableView.isHidden = false
-        hangoutsTableView.isHidden = true
         profilesTableView.isHidden = true
-        statusesTableView.isHidden = true
+        cityTableView.isHidden = true
         
         searchOptionsStackView.isHidden = true
         bottomSeparatorView.isHidden = true
-        topIndicatorView.isHidden = true
         profilesIndicatorView.isHidden = true
         citiesIndicatorView.isHidden = true
         
         noResultsLbl.isHidden = true
         
-        hangoutsSearchResults.removeAll()
         profileSearchResults.removeAll()
-        statusSearchResults.removeAll()
+        citySearchResults.removeAll()
         
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.text = ""
         searchBar.resignFirstResponder()
         
-        hangoutsTableView.reloadData()
         profilesTableView.reloadData()
-        statusesTableView.reloadData()
+        cityTableView.reloadData()
         
-        if topIndicatorView.isHidden == false {
-            hangoutsSearchResults.removeAll()
-            hangoutsTableView.reloadData()
-        } else if profilesIndicatorView.isHidden == false {
+        if profilesIndicatorView.isHidden == false {
             profileSearchResults.removeAll()
             profilesTableView.reloadData()
         } else if citiesIndicatorView.isHidden == false {
-            statusSearchResults.removeAll()
-            statusesTableView.reloadData()
+            citySearchResults.removeAll()
+            cityTableView.reloadData()
         }
         
         self.refresh(sender: self)
         
     }
-    
-    //only show stack if search pressed
-    //otherwise show top hangouts all time? dont show number, some kind of explore criteria?
-    
-    //hangouts - search by city, user, content? (if content use joined number?)
-    //profiles - search by user and city, add mutual friends
-    //cities - show available list , when clicked show hangouts in that area sorted by number joined
-    //if empty use suggestions?
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
@@ -377,34 +245,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if topIndicatorView.isHidden == false {
-            
-            //change top to hangout
-            //            let rand = arc4random_uniform(25)
-            //            print(rand)
-            
-            hangoutsSearchResults = statusArr.filter({ (status) -> Bool in
-                
-                if searchText == "" {
-                    return false
-                }
-                
-                let contentCheck = status.content as NSString
-                let contentRange = contentCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                
-                return contentRange.location != NSNotFound
-                
-            })
-            
-            if hangoutsSearchResults.count == 0 && searchText != ""{
-                noResultsLbl.isHidden = false
-            } else {
-                noResultsLbl.isHidden = true
-            }
-            
-            self.hangoutsTableView.reloadData()
-            
-        } else if profilesIndicatorView.isHidden == false {
+        if profilesIndicatorView.isHidden == false {
             
             profileSearchResults = usersArr.filter({ (user) -> Bool in
                 
@@ -451,42 +292,38 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         } else if citiesIndicatorView.isHidden == false {
             
             
-                DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(searchText)").observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    self.statusSearchResults = []
-                    
-                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                        for snap in snapshot {
-                            //print("STATUS: \(snap)")
-                            if let statusDict = snap.value as? Dictionary<String, Any> {
-                                let key = snap.key
-                                let status = Status(statusKey: key, statusData: statusDict)
-                                //print(status.joinedNumber)
-                                if !self.privateArrIds.contains(status.userId) {
-                                    //print(status.userId)
-                                    //print("here: \(self.privateArrIds)")
-                                    //self.statusArr.append(status)
-                                    self.statusSearchResults.insert(status, at: 0)
-                                }
-                                //print(status.content)
+            DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(searchText)").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                self.citySearchResults = []
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        //print("STATUS: \(snap)")
+                        if let statusDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let status = Status(statusKey: key, statusData: statusDict)
+                            //print(status.joinedNumber)
+                            if !self.privateArrIds.contains(status.userId) {
+                                //print(status.userId)
+                                //print("here: \(self.privateArrIds)")
+                                //self.statusArr.append(status)
+                                self.citySearchResults.insert(status, at: 0)
                             }
                         }
                     }
-                    
-                    //self.shuffledStatusArr = self.statusArr.shuffled()
-                    //self.statusSearchResults = self.statusArr
-                    //change to explore.reload
-                    self.statusesTableView.reloadData()
-                })
+                }
                 
+                self.cityTableView.reloadData()
+            })
             
-            if statusSearchResults.count == 0 && searchText != "" {
+            
+            if citySearchResults.count == 0 && searchText != "" {
                 noResultsLbl.isHidden = false
             } else {
                 noResultsLbl.isHidden = true
             }
             
-            self.statusesTableView.reloadData()
+            self.cityTableView.reloadData()
             
         }
         
@@ -498,34 +335,28 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive == false {
-            //print("hmmmmmmm \(shuffledStatusArr.count)")
             
-            if shuffledStatusArr.count == 0 {
+            if statusArr.count == 0 {
                 self.refresh(sender: self)
             }
             
-            return shuffledStatusArr.count
-        } else if topIndicatorView.isHidden == false {
-            return hangoutsSearchResults.count
+            return statusArr.count
+            
         } else if profilesIndicatorView.isHidden == false {
             return profileSearchResults.count
         }
-        //print(statusSearchResults.count)
-        return statusSearchResults.count
+        return citySearchResults.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //let user = searchResults[indexPath.row]
-        //let status = statusArr[indexPath.row]
         if searchActive == false {
+            
             noResultsLbl.isHidden = true
-            //let shuffled = statusArr[indexPath.row]
-            //print(shuffled.content)
-            //let status = statusArr.shuffled()[indexPath.row]
-            let status = shuffledStatusArr[indexPath.row]
-            //print(status.content)
+            
+            let status = statusArr[indexPath.row]
+            
             if let cell = tableView.dequeueReusableCell(withIdentifier: "exploreHangouts") as? ExploreHangoutCell {
                 
                 if let currentUser = Auth.auth().currentUser?.uid {
@@ -556,66 +387,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
                 
-                //                if cell.isPrivate == true {
-                //                    cell.isHidden = true
-                //                    privateArr.append(indexPath.row)
-                //                }
-                
-                return cell
-            }
-            
-        } else if topIndicatorView.isHidden == false {
-            
-            if hangoutsSearchResults.isEmpty {
-                noResultsLbl.isHidden = false
-            } else {
-                noResultsLbl.isHidden = true
-            }
-            
-            let status = hangoutsSearchResults[indexPath.row]
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "searchByHangout") as? SearchHangoutCell {
-                
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    
-                    if status.userId == currentUser {
-                        cell.joinBtn.isHidden = true
-                        cell.alreadyJoinedBtn.isHidden = true
-                    } else {
-                        
-                        let join = status.joinedList.keys.contains { (key) -> Bool in
-                            key == currentUser
-                        }
-                        if join {
-                            cell.joinBtn.isHidden = true
-                            cell.alreadyJoinedBtn.isHidden = false
-                        } else{
-                            cell.joinBtn.isHidden = false
-                            cell.alreadyJoinedBtn.isHidden = true
-                        }
-                    }
-                }
-                
-                hangoutsTableView.rowHeight = UITableViewAutomaticDimension
-                hangoutsTableView.estimatedRowHeight = 120
-                
-                cell.cellDelegate = self
-                cell.selectionStyle = .none
-                cell.tag = indexPath.row
-                cell.configureCell(status: status, users: usersArr)
-                
-                if cell.isPrivate == true {
-                    cell.isHidden = true
-                    privateArr.append(indexPath.row)
-                }
-                
                 return cell
             }
             
         }
+        
         if profilesIndicatorView.isHidden == false {
-            //if results is empty disable scrolling
-            //sort
             
             if profileSearchResults.isEmpty {
                 noResultsLbl.isHidden = false
@@ -626,10 +403,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
-                
-                //                profilesTableView.rowHeight = UITableViewAutomaticDimension
-                //                profilesTableView.estimatedRowHeight = 120
-                
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
@@ -641,13 +414,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         } else if citiesIndicatorView.isHidden == false {
             
-            if statusSearchResults.isEmpty {
+            if citySearchResults.isEmpty {
                 noResultsLbl.isHidden = false
             } else {
                 noResultsLbl.isHidden = true
             }
             
-            let status = statusSearchResults[indexPath.row]
+            let status = citySearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchCityCell") as? SearchCityCell {
                 
@@ -671,18 +444,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
                 
-                statusesTableView.rowHeight = UITableViewAutomaticDimension
-                statusesTableView.estimatedRowHeight = 120
+                cityTableView.rowHeight = UITableViewAutomaticDimension
+                cityTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
                 cell.selectionStyle = .none
                 cell.tag = indexPath.row
                 cell.configureCell(status: status, users: usersArr)
-                
-                if cell.isPrivate == true {
-                    cell.isHidden = true
-                    privateArr.append(indexPath.row)
-                }
                 
                 return cell
             }
@@ -692,9 +460,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if privateArr.contains(indexPath.row) {
-            return 0
-        } else if profilesIndicatorView.isHidden == false {
+        
+        if profilesIndicatorView.isHidden == false {
             return 84
         } else {
             return UITableViewAutomaticDimension
@@ -726,11 +493,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         searchBar.resignFirstResponder()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "searchToViewProfile" {
@@ -755,46 +517,16 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "searchToJoinedList"
             }
-        } 
+        }
     }
-    //    func didPressJoinBtn(_ tag: Int) {
-    //        let statusKey = statusArr[tag].statusKey
-    //        let userKey = statusArr[tag].userId
-    //        if let currentUser = Auth.auth().currentUser?.uid {
-    //            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
-    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
-    //            DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
-    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
-    //        }
-    //
-    //    }
-    //
-    //    func didPressAlreadyJoinedBtn(_ tag: Int) {
-    //        let statusKey = statusArr[tag].statusKey
-    //        if let currentUser = Auth.auth().currentUser?.uid {
-    //            DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
-    //            DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
-    //        }
-    //    }
     
     func didPressProfilePic(_ tag: Int) {
         if let currentUser = Auth.auth().currentUser?.uid {
             
             if searchActive == false {
-                let userKey = shuffledStatusArr[tag].userId
-                if userKey == currentUser {
-                    return
-                }
                 
-                for index in 0..<usersArr.count {
-                    if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                    }
-                }
+                let userKey = statusArr[tag].userId
                 
-            } else if topIndicatorView.isHidden == false {
-                let userKey = hangoutsSearchResults[tag].userId
                 if userKey == currentUser {
                     return
                 }
@@ -807,13 +539,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 }
                 
             }
-                //            else if profilesIndicatorView.isHidden == false {
-                //                let selectedProfile = profileSearchResults[tag]
-                //                performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
-                //
-                //            }
+                
             else if citiesIndicatorView.isHidden == false {
-                let userKey = statusSearchResults[tag].userId
+                let userKey = citySearchResults[tag].userId
                 if userKey == currentUser {
                     return
                 }
@@ -833,33 +561,25 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if searchActive == false {
                 
-                let statusKey = shuffledStatusArr[tag].statusKey
-                let userKey = shuffledStatusArr[tag].userId
+                let statusKey = statusArr[tag].statusKey
+                let userKey = statusArr[tag].userId
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : shuffledStatusArr[tag].joinedList.count])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
                 
-            } else if topIndicatorView.isHidden == false {
+            }
                 
-                let statusKey = hangoutsSearchResults[tag].statusKey
-                let userKey = hangoutsSearchResults[tag].userId
+            else if citiesIndicatorView.isHidden == false {
+                
+                let statusKey = citySearchResults[tag].statusKey
+                let userKey = citySearchResults[tag].userId
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : hangoutsSearchResults[tag].joinedList.count])
-                
-            } else if citiesIndicatorView.isHidden == false {
-                
-                let statusKey = statusSearchResults[tag].statusKey
-                let userKey = statusSearchResults[tag].userId
-                DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues([statusKey: "true" ])
-                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
-                DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
-                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusSearchResults[tag].joinedList.count])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : citySearchResults[tag].joinedList.count])
                 
             }
         }
@@ -870,109 +590,43 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if searchActive == false {
                 
-                let statusKey = shuffledStatusArr[tag].statusKey
+                let statusKey = statusArr[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : shuffledStatusArr[tag].joinedList.count-1])
-                
-            } else if topIndicatorView.isHidden == false {
-                
-                let statusKey = hangoutsSearchResults[tag].statusKey
-                DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
-                DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : hangoutsSearchResults[tag].joinedList.count-1])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count-1])
                 
             } else if citiesIndicatorView.isHidden == false {
                 
-                let statusKey = statusSearchResults[tag].statusKey
+                let statusKey = citySearchResults[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
-                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusSearchResults[tag].joinedList.count-1])
+                DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : citySearchResults[tag].joinedList.count-1])
                 
             }
         }
     }
     
     func didPressAddFriendBtn(_ tag: Int) {
-        //print(tag)
+        
         let friendKey = profileSearchResults[tag].usersKey
+        
         DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues(["seen": "false"])
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
-        //print(tag)
+        
         let friendKey = profileSearchResults[tag].usersKey
+        
         DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
     }
     
-    @IBAction func didPressTopChoiceBtn(_ sender: UIButton) {
-        
-        //if topIndicatorView.isHidden == false {
-        topChoiceBtn.isEnabled = false
-        profilesChoiceBtn.isEnabled = true
-        citiesChoiceBtn.isEnabled = true
-        
-        //}
-        
-        topChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
-        topChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 17)
-        
-        profilesChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
-        profilesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
-        
-        citiesChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
-        citiesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
-        
-        topIndicatorView.isHidden = false
-        profilesIndicatorView.isHidden = true
-        citiesIndicatorView.isHidden = true
-        
-        hangoutsTableView.isHidden = false
-        profilesTableView.isHidden = true
-        statusesTableView.isHidden = true
-        
-        hangoutsSearchResults.removeAll()
-        privateArr = []
-        usersArr.append(currentUserInfo)
-        
-        if let searchText = searchBar.text {
-            
-            hangoutsSearchResults = statusArr.filter({ (status) -> Bool in
-                
-                if searchText == "" {
-                    return false
-                }
-                
-                
-                let contentCheck = status.content as NSString
-                let contentRange = contentCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                
-                return contentRange.location != NSNotFound
-                
-            })
-            
-            self.hangoutsTableView.reloadData()
-            
-        }
-        
-        
-        hangoutsTableView.rowHeight = UITableViewAutomaticDimension
-        hangoutsTableView.estimatedRowHeight = 90
-        
-    }
     @IBAction func didPressProfilesChoiceBtn(_ sender: UIButton) {
         
-        //if profilesIndicatorView.isHidden == false {
-        topChoiceBtn.isEnabled = true
         profilesChoiceBtn.isEnabled = false
         citiesChoiceBtn.isEnabled = true
-        //}
-        
-        topChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
-        topChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
         
         profilesChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
         profilesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 17)
@@ -980,13 +634,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         citiesChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
         citiesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
         
-        topIndicatorView.isHidden = true
         profilesIndicatorView.isHidden = false
         citiesIndicatorView.isHidden = true
         
-        hangoutsTableView.isHidden = true
         profilesTableView.isHidden = false
-        statusesTableView.isHidden = true
+        cityTableView.isHidden = true
         
         for index in 0..<usersArr.count {
             if usersArr[index].usersKey == currentUserInfo.usersKey {
@@ -998,13 +650,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         profileSearchResults.removeAll()
         privateArr = []
         mutualFriendsSort(usersArr: usersArr)
-        
-        //        segmentChoice.tintColor = UIColor.white
-        //        let segAttributes: NSDictionary = [
-        //            NSForegroundColorAttributeName: UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)//,
-        //            //NSFontAttributeName: UIFont(name: "Avenir-MediumOblique", size: 20)!
-        //        ]
-        //        segmentChoice.setTitleTextAttributes(segAttributes as? [AnyHashable : Any], for: .selected)
         
         if let searchText = searchBar.text {
             profileSearchResults = usersArr.filter({ (user) -> Bool in
@@ -1025,63 +670,14 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         }
         
-        hangoutsTableView.isHidden = true
         profilesTableView.isHidden = false
-        statusesTableView.isHidden = true
-        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-        //
-        //            self.usersArr = []
-        //
-        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                for snap in snapshot {
-        //                    //print("USERS: \(snap)")
-        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
-        //                        let key = snap.key
-        //                        let users = Users(usersKey: key, usersData: usersDict)
-        //                        if let currentUser = Auth.auth().currentUser?.uid {
-        //                            if currentUser == users.usersKey {
-        //                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-        //                                    value as? String == "received"
-        //                                }
-        //                                if newFriend && users.friendsList["seen"] as? String == "false" {
-        //                                    //self.footerNewFriendIndicator.isHidden = false
-        //                                }
-        //                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-        //                                    value as? String == "false"
-        //                                }
-        //                                if newJoin {
-        //                                    //self.footerNewFriendIndicator.isHidden = false
-        //                                }
-        //                                self.currentUserInfo = users
-        //
-        //                            }
-        //                        }
-        //
-        //                        self.usersArr.append(users)
-        //
-        //                        if let currentUser = Auth.auth().currentUser?.uid {
-        //                            if users.usersKey == currentUser {
-        //                                self.usersArr.removeLast()
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            self.profilesTableView.reloadData()
-        //
-        //        })
+        cityTableView.isHidden = true
         
     }
     @IBAction func didPressCitiesChoiceBtn(_ sender: UIButton) {
         
-        //if citiesIndicatorView.isHidden == false {
-        topChoiceBtn.isEnabled = true
         profilesChoiceBtn.isEnabled = true
         citiesChoiceBtn.isEnabled = false
-        //}
-        
-        topChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
-        topChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
         
         profilesChoiceBtn.setTitleColor(UIColor.lightGray, for: .normal)
         profilesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 17)
@@ -1089,23 +685,19 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         citiesChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
         citiesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 17)
         
-        topIndicatorView.isHidden = true
         profilesIndicatorView.isHidden = true
         citiesIndicatorView.isHidden = false
         
-        hangoutsTableView.isHidden = true
         profilesTableView.isHidden = true
-        statusesTableView.isHidden = false
+        cityTableView.isHidden = false
         
-        //noResultsLbl.isHidden = true
-        
-        statusSearchResults.removeAll()
+        citySearchResults.removeAll()
         privateArr = []
         usersArr.append(currentUserInfo)
         
         if let searchText = searchBar.text {
             
-            statusSearchResults = statusArr.filter({ (status) -> Bool in
+            citySearchResults = statusArr.filter({ (status) -> Bool in
                 
                 if searchText == "" {
                     //statusesTableView.isScrollEnabled = false
@@ -1118,49 +710,17 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 
             })
             
-            self.statusesTableView.reloadData()
+            self.cityTableView.reloadData()
             
         }
         
         
-        statusesTableView.rowHeight = UITableViewAutomaticDimension
-        statusesTableView.estimatedRowHeight = 90
+        cityTableView.rowHeight = UITableViewAutomaticDimension
+        cityTableView.estimatedRowHeight = 90
         
-        hangoutsTableView.isHidden = true
         profilesTableView.isHidden = true
-        statusesTableView.isHidden = false
+        cityTableView.isHidden = false
         
-        //        DataService.ds.REF_STATUS.queryOrdered(byChild: "joinedNumber").observeSingleEvent(of: .value, with: { (snapshot) in
-        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                for snap in snapshot {
-        //                    //print("STATUS: \(snap)")
-        //                    if let statusDict = snap.value as? Dictionary<String, Any> {
-        //                        let key = snap.key
-        //                        let status = Status(statusKey: key, statusData: statusDict)
-        //                        self.statusArr.insert(status, at: 0)
-        //
-        //                    }
-        //                }
-        //            }
-        //            self.statusesTableView.reloadData()
-        //        })
-        //
-        //        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-        //
-        //            self.usersArr = []
-        //
-        //            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-        //                for snap in snapshot {
-        //                    //print("USERS: \(snap)")
-        //                    if let usersDict = snap.value as? Dictionary<String, Any> {
-        //                        let key = snap.key
-        //                        let users = Users(usersKey: key, usersData: usersDict)
-        //                        self.usersArr.append(users)
-        //                    }
-        //                }
-        //            }
-        //            self.statusesTableView.reloadData()
-        //        })
     }
     
     @IBAction func homeBtnPressed(_ sender: Any) {
@@ -1172,13 +732,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "searchToMyProfile", sender: nil)
     }
-    @IBAction func segmentChoiceBtnPressed(_ sender: Any) {
-        //delete
-    }
     
     func refresh(sender: Any) {
-        
-        //privateArr = []
         
         numberLoadMores = 1
         
@@ -1188,35 +743,29 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("STATUS: \(snap)")
+                    
                     if let statusDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let status = Status(statusKey: key, statusData: statusDict)
-                        //print(status.joinedNumber)
                         if !self.privateArrIds.contains(status.userId) {
-                            //print(status.userId)
-                            //print("here: \(self.privateArrIds)")
-                            //self.statusArr.append(status)
                             self.statusArr.insert(status, at: 0)
+                        } else {
+                            self.privateArr.append(status.statusKey)
                         }
-                        //print(status.content)
                     }
                 }
             }
             
-            //self.shuffledStatusArr = self.statusArr.shuffled()
-            self.shuffledStatusArr = self.statusArr
-            //change to explore.reload
             self.exploreTableView.reloadData()
         })
         
-        DataService.ds.REF_USERS.observe( .value, with: { (snapshot) in
+        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.usersArr = []
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -1226,13 +775,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                                     value as? String == "received"
                                 }
                                 if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 let newJoin = users.joinedList.values.contains { (value) -> Bool in
                                     value as? String == "false"
                                 }
                                 if newJoin {
-                                    //self.footerNewFriendIndicator.isHidden = false
+                                    self.footerNewFriendIndicator.isHidden = false
                                 }
                                 self.currentUserInfo = users
                                 
@@ -1242,18 +791,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
             }
-            //change to explire.reload
             self.exploreTableView.reloadData()
         })
         
-        let when = DispatchTime.now() + 0.5 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
-            //            if self.statusArr.count == 0 {
-            //                self.isEmptyImg.isHidden = false
-            //            } else {
-            //                self.isEmptyImg.isHidden = true
-            //            }
-            // Your code with delay
             self.refreshControl.endRefreshing()
         }
     }

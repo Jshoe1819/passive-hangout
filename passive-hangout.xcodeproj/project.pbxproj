@@ -65,8 +65,6 @@
 		16FA95391F8C413300E7588B /* SearchProfilesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA95381F8C413300E7588B /* SearchProfilesCell.swift */; };
 		16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */; };
 		16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */; };
-		16FF566F1F9FF760008C4257 /* SearchHangoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */; };
-		16FF56711F9FF781008C4257 /* SearchHangoutsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */; };
 		16FF56731F9FFE90008C4257 /* SearchCitiesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */; };
 		16FF56751FA00A4F008C4257 /* ExploreHangoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56741FA00A4F008C4257 /* ExploreHangoutCell.swift */; };
 		16FF56771FA00A6E008C4257 /* ExploreHangoutsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF56761FA00A6E008C4257 /* ExploreHangoutsDelegate.swift */; };
@@ -156,8 +154,6 @@
 		16FA95381F8C413300E7588B /* SearchProfilesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesCell.swift; sourceTree = "<group>"; };
 		16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProfilesDelegate.swift; sourceTree = "<group>"; };
 		16FE2ED91F71E01500A24B7D /* PastStatusCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastStatusCellDelegate.swift; sourceTree = "<group>"; };
-		16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHangoutCell.swift; sourceTree = "<group>"; };
-		16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHangoutsDelegate.swift; sourceTree = "<group>"; };
 		16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCitiesDelegate.swift; sourceTree = "<group>"; };
 		16FF56741FA00A4F008C4257 /* ExploreHangoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreHangoutCell.swift; sourceTree = "<group>"; };
 		16FF56761FA00A6E008C4257 /* ExploreHangoutsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreHangoutsDelegate.swift; sourceTree = "<group>"; };
@@ -306,8 +302,6 @@
 				162FF0451F896E5E00A29D7D /* JoinedProfilesListCellDelegate.swift */,
 				16FF56741FA00A4F008C4257 /* ExploreHangoutCell.swift */,
 				16FF56761FA00A6E008C4257 /* ExploreHangoutsDelegate.swift */,
-				16FF566E1F9FF760008C4257 /* SearchHangoutCell.swift */,
-				16FF56701F9FF781008C4257 /* SearchHangoutsDelegate.swift */,
 				16FA95381F8C413300E7588B /* SearchProfilesCell.swift */,
 				16FA953A1F8C461900E7588B /* SearchProfilesDelegate.swift */,
 				161D9D3F1F8EE5C400392A67 /* SearchCityCell.swift */,
@@ -707,7 +701,6 @@
 				16FA953B1F8C461900E7588B /* SearchProfilesDelegate.swift in Sources */,
 				16D7AFBE1F7C18FF009F317B /* FriendsListVC.swift in Sources */,
 				161D9D401F8EE5C400392A67 /* SearchCityCell.swift in Sources */,
-				16FF566F1F9FF760008C4257 /* SearchHangoutCell.swift in Sources */,
 				160FEC501F40DDC4001799D0 /* FeedProfilePic.swift in Sources */,
 				1615C1671F658BAB00D3DC01 /* ProfileVC.swift in Sources */,
 				16EC5C651F413D4C0011BDF5 /* DataService.swift in Sources */,
@@ -735,7 +728,6 @@
 				168A326E1F3AAEB500216FF1 /* RoundedButton.swift in Sources */,
 				167540171F3E7F0C00E86A32 /* SignUpVC.swift in Sources */,
 				167686331F4261D70029595A /* Status.swift in Sources */,
-				16FF56711F9FF781008C4257 /* SearchHangoutsDelegate.swift in Sources */,
 				16D7AFC21F7C2312009F317B /* FriendsListCell.swift in Sources */,
 				168D6BEA1F4CEA8200D29DCA /* CircleButton.swift in Sources */,
 				16D815201F69F80F00934516 /* PastStatusesCell.swift in Sources */,
