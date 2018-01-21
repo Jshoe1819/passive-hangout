@@ -91,8 +91,12 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             
             if self.usersArr.count == 0 {
                 self.isEmptyImg.isHidden = false
+                UIView.animate(withDuration: 0.75) {
+                    self.isEmptyImg.alpha = 1.0
+                }
             } else {
                 self.isEmptyImg.isHidden = true
+                self.isEmptyImg.alpha = 0.0
             }
             
             self.tableView.reloadData()
@@ -390,6 +394,9 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     
     func refresh(sender: Any) {
         
+        self.isEmptyImg.isHidden = true
+        self.isEmptyImg.alpha = 0.0
+        
         self.currentFriendsList.removeAll()
         self.filtered = []
         
@@ -403,6 +410,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     }
                 }
             })
+
         }
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -430,13 +438,19 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             self.tableView.reloadData()
         })
         
+        if self.usersArr.count == 0 {
+            self.isEmptyImg.isHidden = false
+            UIView.animate(withDuration: 0.75) {
+                self.isEmptyImg.alpha = 1.0
+            }
+        } else {
+            self.isEmptyImg.isHidden = true
+            self.isEmptyImg.alpha = 0.0
+        }
+        
         let when = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: when) {
-            if self.currentFriendsList.count == 0 {
-                self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
-            }
+            
             self.refreshControl.endRefreshing()
         }
     }

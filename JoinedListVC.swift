@@ -264,14 +264,14 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func refresh(sender: Any) {
 
+        self.isEmptyImg.isHidden = true
+        self.isEmptyImg.alpha = 0.0
+        
         self.statusArr = []
         numberLoadMores = 1
         
         if joinedKeys != [] && (joinedKeys.count - unjoinedArr.count) < 10 {
             
-            self.isEmptyImg.isHidden = true
-            self.isEmptyImg.alpha = 0.0
-
             for index in 0..<joinedKeys.count {
                 
                 DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -296,9 +296,6 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
             
         } else if joinedKeys != [] && (joinedKeys.count - unjoinedArr.count) >= 10 {
-            
-            self.isEmptyImg.isHidden = true
-            self.isEmptyImg.alpha = 0.0
             
             for index in 0..<10 {
                 
