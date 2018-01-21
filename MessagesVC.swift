@@ -132,7 +132,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let conversation = conversationArr[indexPath.row]
-        print(filtered)
+        //print(filtered)
         let users = filtered
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {

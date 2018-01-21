@@ -41,9 +41,9 @@ class ViewProfileVC: UIViewController {
     
     var selectedProfile: Users!
     var statusArr = [Status]()
-    var selectedStatusArr = [Status]()
     var conversationArr = [Conversation]()
     var selectedStatus: Status!
+    var selectedConversation = ""
     var originController = ""
     var searchText = ""
     var showFooterIndicator = false
@@ -89,12 +89,10 @@ class ViewProfileVC: UIViewController {
                     }
                 }
             }
-            self.currentUserStatusArr(array: self.statusArr)
         })
         
-        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.conversationArr = []
+
+        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "users/\(selectedProfile.usersKey)").observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -102,17 +100,15 @@ class ViewProfileVC: UIViewController {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
-                            let userConversation = conversation.users.keys.contains(currentUser)
+                            let userConversation = conversation.users.keys.contains(currentUser) && conversation.users.keys.contains(self.selectedProfile.usersKey)
                             if userConversation {
-                                self.conversationArr.insert(conversation, at: 0)
+                                self.selectedConversation = conversation.conversationKey
                             }
                         }
                     }
                 }
             }
         })
-        
-        currentUserStatusArr(array: statusArr)
         
         nameLbl.text = selectedProfile.name
         populateCoverPicture(user: selectedProfile)
@@ -334,14 +330,6 @@ class ViewProfileVC: UIViewController {
         
     }
     
-    func currentUserStatusArr(array: [Status]) {
-        for status in array {
-            if status.userId == selectedProfile.usersKey {
-                selectedStatusArr.append(status)
-            }
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "viewProfileToPastStatuses" {
@@ -350,7 +338,7 @@ class ViewProfileVC: UIViewController {
                     nextVC.originController = "feedToViewProfile"
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
-                    //nextVC.selectedStatus = selectedStatus
+                    nextVC.selectedStatus = selectedStatus
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
                     nextVC.searchText = searchText
@@ -373,7 +361,6 @@ class ViewProfileVC: UIViewController {
             }
         } else if segue.identifier == "viewProfileToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
-                //perhaps follow view to join chain for segue hints
                 nextVC.conversationUid = sender as! String
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
@@ -381,6 +368,9 @@ class ViewProfileVC: UIViewController {
                     nextVC.originController = "searchToViewProfile"
                 } else if originController == "joinedListToViewProfile" {
                     nextVC.originController = "joinedListToViewProfile"
+                } else if originController == "joinedFriendsToViewProfile" {
+                    nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.selectedStatus = selectedStatus
                 } else {
                     nextVC.originController = "viewProfileToConversation"
                 }
@@ -401,20 +391,17 @@ class ViewProfileVC: UIViewController {
             if let nextVC = segue.destination as? JoinedListVC {
                 nextVC.originController = "viewProfileToJoinedList"
             }
-        } 
+        }
     }
     
     @IBAction func seePastStatusesBtnPressed(_ sender: Any) {
-        performSegue(withIdentifier: "viewProfileToPastStatuses", sender: selectedStatusArr)
+        performSegue(withIdentifier: "viewProfileToPastStatuses", sender: nil)
     }
     @IBAction func sendMessageBtnPressed(_ sender: Any) {
         
-        for index in 0..<conversationArr.count {
-            if conversationArr[index].users.keys.contains(selectedProfile.usersKey) {
-                let selectedConversation = conversationArr[index].conversationKey
-                performSegue(withIdentifier: "viewProfileToConversation", sender: selectedConversation)
-                return
-            }
+        if selectedConversation != "" {
+            performSegue(withIdentifier: "viewProfileToConversation", sender: selectedConversation)
+            return
         }
 
         if let user = Auth.auth().currentUser {

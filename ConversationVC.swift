@@ -17,6 +17,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var conversationUid = ""
     var originController = ""
     var selectedProfile: Users!
+    var selectedStatus: Status!
     var keyboardHeight: CGFloat!
     var cellHeights = Dictionary<Int,CGFloat>()
     var messagesArr = [Messages]()
@@ -446,6 +447,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     nextVC.originController = "joinedListToViewProfile"
                     nextVC.selectedProfile = sender as? Users
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                } else if originController == "joinedFriendsToViewProfile" {
+                    nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.selectedStatus = selectedStatus
+                    nextVC.selectedProfile = sender as? Users
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 }
                 nextVC.selectedProfile = sender as? Users
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
@@ -550,7 +556,23 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             performSegue(withIdentifier: "conversationToFriendsList", sender: nil)
             
-        } else {
+        } else if originController == "joinedFriendsToViewProfile" {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                //print(currentConversation)
+                //print(currentConversation.details["lastMsgDate"])
+                //if let lastMsgDate = currentConversation.details["lastMsgDate"] as? String {
+                //if lastMsgDate == "" {
+                if messagesArr.count == 0 {
+                    DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
+                    DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
+                }
+            }
+            
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfile)
+            
+        }
+            
+        else {
             if let currentUser = Auth.auth().currentUser?.uid {
                 //print(currentConversation)
                 //print(messagesArr.count)

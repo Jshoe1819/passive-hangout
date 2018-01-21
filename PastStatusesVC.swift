@@ -41,7 +41,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var searchText = ""
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
-    var numberLoadMores = 1    
+    var numberLoadMores = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,8 +72,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
-        if originController == "myProfileToPastStatuses" {
-            
+        if originController == "myProfileToPastStatuses" || originController == "joinedFriendsToPastStatuses" {
+
             isEmptyImg.image = UIImage(named: "my-past-hangouts-isEmpty-image")
             
             if let currentUser = Auth.auth().currentUser?.uid {
@@ -106,9 +106,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
         
         if originController != "myProfileToPastStatuses" {
-            profilePicImg.isHidden = false
-            populateProfilePicture(user: viewedProfile)
-            nameLbl.text = viewedProfile.name
+            if originController != "joinedFriendsToPastStatuses" {
+                profilePicImg.isHidden = false
+                populateProfilePicture(user: viewedProfile)
+                nameLbl.text = viewedProfile.name
+            }
         }
         
     }
@@ -182,12 +184,6 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        //        if statusArr.count != userStatusKeys.count {
-        //            self.refresh(sender: self)
-        //        }
-        
-        
-        
         return statusArr.count
     }
     
@@ -204,20 +200,22 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             cell.configureCell(status: status, users: usersArr)
             
             if originController != "myProfileToPastStatuses" {
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    let join = status.joinedList.keys.contains { (key) -> Bool in
-                        key == currentUser
+                if originController != "joinedFriendsToPastStatuses" {
+                    if let currentUser = Auth.auth().currentUser?.uid {
+                        let join = status.joinedList.keys.contains { (key) -> Bool in
+                            key == currentUser
+                        }
+                        if join {
+                            cell.joinBtn.isHidden = true
+                            cell.alreadyJoinedBtn.isHidden = false
+                        } else{
+                            cell.joinBtn.isHidden = false
+                            cell.alreadyJoinedBtn.isHidden = true
+                        }
+                        cell.profilePicsView.isHidden = true
+                        cell.numberJoinedLbl.isHidden = true
+                        cell.newJoinIndicator.isHidden = true
                     }
-                    if join {
-                        cell.joinBtn.isHidden = true
-                        cell.alreadyJoinedBtn.isHidden = false
-                    } else{
-                        cell.joinBtn.isHidden = false
-                        cell.alreadyJoinedBtn.isHidden = true
-                    }
-                    cell.profilePicsView.isHidden = true
-                    cell.numberJoinedLbl.isHidden = true
-                    cell.newJoinIndicator.isHidden = true
                     
                 }
             }
@@ -238,7 +236,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
         if originController != "myProfileToPastStatuses" {
-            return false
+            if originController != "joinedFriendsToPastStatuses" {
+                return false
+            }
         }
         
         return true
@@ -326,65 +326,11 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
         
     }
-    //
+
     func didPressJoinedList(_ tag: Int) {
         let statusKey = statusArr[tag].statusKey
         DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
         performSegue(withIdentifier: "pastStatusesToJoinedFriends", sender: statusArr[tag])
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "pastStatusesToViewProfile" {
-            if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
-                if originController == "feedToViewProfile" {
-                    nextVC.originController = "feedToViewProfile"
-                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
-                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-                } else if originController == "searchToViewProfile" {
-                    nextVC.originController = "searchToViewProfile"
-                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
-                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-                    nextVC.searchText = searchText
-                } else if originController == "joinedFriendsToViewProfile" {
-                    nextVC.originController = "joinedFriendsToViewProfile"
-                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
-                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-                    nextVC.selectedStatus = selectedStatus
-                    nextVC.selectedProfile = viewedProfile
-                } else if originController == "joinedListToViewProfile" {
-                    nextVC.originController = "joinedListToViewProfile"
-                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
-                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
-                }
-            }
-        }
-        if segue.identifier == "pastStatusesToJoinedFriends" {
-            if let nextVC = segue.destination as? JoinedFriendsVC {
-                nextVC.selectedStatus = sender as? Status
-            }
-        } else if segue.identifier == "pastStatusesToActivityFeed" {
-            if let nextVC = segue.destination as? ActivityFeedVC {
-                nextVC.originController = "pastStatusesToActivityFeed"
-            }
-        } else if segue.identifier == "pastStatusesToMyProfile" {
-            if let nextVC = segue.destination as? ProfileVC {
-                nextVC.originController = "pastStatusesToMyProfile"
-            }
-        } else if segue.identifier == "pastStatusesToJoinedList" {
-            if let nextVC = segue.destination as? JoinedListVC {
-                nextVC.originController = "pastStatusesToJoinedList"
-            }
-        } else if segue.identifier == "pastStatusesToViewProfile" {
-            if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.originController = "pastStatusesToViewProfile"
-            }
-        } else if segue.identifier == "pastStatusesToSearch" {
-            if let nextVC = segue.destination as? SearchProfilesVC {
-                nextVC.originController = "pastStatusesToSearch"
-            }
-        }
     }
     
     @IBAction func saveEditBtnPressed(_ sender: Any) {
@@ -472,10 +418,60 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "pastStatusesToViewProfile" {
+            if let nextVC = segue.destination as? ViewProfileVC {
+                nextVC.selectedProfile = viewedProfile
+                if originController == "feedToViewProfile" {
+                    nextVC.originController = "feedToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
+                } else if originController == "searchToViewProfile" {
+                    nextVC.originController = "searchToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
+                    nextVC.searchText = searchText
+                } else if originController == "joinedFriendsToViewProfile" {
+                    nextVC.originController = "joinedFriendsToViewProfile"
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
+                    nextVC.selectedStatus = selectedStatus
+                } else if originController == "joinedListToViewProfile" {
+                    nextVC.originController = "joinedListToViewProfile"
+                    nextVC.selectedStatus = selectedStatus
+                    nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
+                    nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
+                }
+            }
+        }
+        if segue.identifier == "pastStatusesToJoinedFriends" {
+            if let nextVC = segue.destination as? JoinedFriendsVC {
+                nextVC.selectedStatus = sender as? Status
+            }
+        } else if segue.identifier == "pastStatusesToActivityFeed" {
+            if let nextVC = segue.destination as? ActivityFeedVC {
+                nextVC.originController = "pastStatusesToActivityFeed"
+            }
+        } else if segue.identifier == "pastStatusesToMyProfile" {
+            if let nextVC = segue.destination as? ProfileVC {
+                nextVC.originController = "pastStatusesToMyProfile"
+            }
+        } else if segue.identifier == "pastStatusesToJoinedList" {
+            if let nextVC = segue.destination as? JoinedListVC {
+                nextVC.originController = "pastStatusesToJoinedList"
+            }
+        } else if segue.identifier == "pastStatusesToSearch" {
+            if let nextVC = segue.destination as? SearchProfilesVC {
+                nextVC.originController = "pastStatusesToSearch"
+            }
+        }
+    }
+    
     @IBAction func backBtnPressed(_ sender: Any) {
         
         if originController == "viewProfileToPastStatuses" || originController == "feedToViewProfile" || originController == "feedToViewProfile" || originController == "joinedFriendsToViewProfile" || originController == "searchToViewProfile" || originController == "joinedListToViewProfile" {
-            performSegue(withIdentifier: "pastStatusesToViewProfile", sender: viewedProfile)
+            performSegue(withIdentifier: "pastStatusesToViewProfile", sender: nil)
         } else {
             performSegue(withIdentifier: "pastStatusesToMyProfile", sender: nil)
         }
