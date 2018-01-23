@@ -441,8 +441,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         } else if citiesIndicatorView.isHidden == false {
             
             cityTableView.isHidden = false
-            //write as all lowercase, search as all lowercase, display as capword: done in search. needs done EVERYWHERE else, roll into keyboard tint update at end
-            //tackle button press searching
+
             let possibleCities = cityArr.filter { $0.contains("\(searchText.lowercased())") }
             
             self.citySearchResults = []

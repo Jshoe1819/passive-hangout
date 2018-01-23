@@ -342,7 +342,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if let newCity = editCityTextfield.text {
             
             DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[selectedHangout].statusKey)/content": statusContent])
-            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[selectedHangout].statusKey)/city": newCity])
+            DataService.ds.REF_STATUS.updateChildValues(["/\(statusArr[selectedHangout].statusKey)/city": newCity.lowercased()])
             
             opaqueStatusBackground.isHidden = true
             editHangoutView.isHidden = true

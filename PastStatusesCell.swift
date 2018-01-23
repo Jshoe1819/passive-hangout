@@ -62,7 +62,7 @@ class PastStatusesCell: UITableViewCell {
         
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         contentLbl.text = status.content
-        cityLbl.text = status.city
+        cityLbl.text = status.city.localizedCapitalized
         numberJoinedLbl.text = "\(status.joinedList.count - 1) Joined"
         if status.joinedList["seen"] as? String == "false" {
             newJoinIndicator.isHidden = false

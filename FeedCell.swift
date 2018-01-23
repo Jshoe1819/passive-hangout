@@ -33,7 +33,7 @@ class FeedCell: UITableViewCell {
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
                 self.displayNameLbl.text = users[index].name
-                self.cityLbl.text = status.city
+                self.cityLbl.text = status.city.localizedCapitalized
                 self.statusLbl.text = status.content
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                 

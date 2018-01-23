@@ -28,7 +28,7 @@ class JoinedListCell: UITableViewCell {
         
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         contentLbl.text = status.content
-        cityLbl.text = status.city
+        cityLbl.text = status.city.localizedCapitalized
         statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
         
         for index in 0..<users.count {

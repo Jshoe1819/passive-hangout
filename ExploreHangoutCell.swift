@@ -33,7 +33,7 @@ class ExploreHangoutCell: UITableViewCell {
 
                 self.nameLbl.text = users[index].name
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
-                self.cityLbl.text = status.city
+                self.cityLbl.text = status.city.localizedCapitalized
                 
                 ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
                     if let image = profileImage {
