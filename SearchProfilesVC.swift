@@ -20,6 +20,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var citySearchResults = [Status]()
     var privateArr = [String]()
     var privateArrIds = [String]()
+    var cityArr = [String]()
     var numberLoadMores = 1
     var searchText = ""
     var refreshControl: UIRefreshControl!
@@ -63,6 +64,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         cityTableView.keyboardDismissMode = .onDrag
         
         noResultsLbl.isHidden = true
+        noResultsLbl.alpha = 0.0
         
         searchBar.text = searchText
         
@@ -110,6 +112,24 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.exploreTableView.reloadData()
         })
         
+        DataService.ds.REF_STATUS.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.cityArr = []
+
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let dict = snap.value as? Dictionary<String, Any> {
+                        if let city = dict["city"] as? String {
+                            if !self.cityArr.contains(city) {
+                                self.cityArr.append(city)
+                            }
+                        }
+                    }
+                }
+            }
+            
+        })
+        
         
         
     }
@@ -144,202 +164,15 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == statusArr.count && (statusArr.count + privateArr.count) >= 10 * numberLoadMores {
-            loadMore()
-        }
-    }
-    
-    func loadMore() {
-        
-        self.numberLoadMores += 1
-        
-        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: UInt(10 * numberLoadMores)).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.statusArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    
-                    if let statusDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let status = Status(statusKey: key, statusData: statusDict)
-                        
-                        if !self.privateArrIds.contains(status.userId) {
-                            self.statusArr.insert(status, at: 0)
-                        } else {
-                            self.privateArr.append(status.statusKey)
-                        }
-                    }
-                }
-            }
-            
-            self.exploreTableView.reloadData()
-        })
-        
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        //hide explore
-        searchActive = true
-        exploreTableView.isHidden = true
-        
-        privateArr = []
-        
-        searchOptionsStackView.isHidden = false
-        bottomSeparatorView.isHidden = false
-        
-        if profilesChoiceBtn.isEnabled == false {
-            profilesTableView.isHidden = false
-            profilesIndicatorView.isHidden = false
-        } else if citiesChoiceBtn.isEnabled == false {
-            cityTableView.isHidden = false
-            citiesIndicatorView.isHidden = false
-        }
-        //        profilesIndicatorView.isHidden = true
-        //        citiesIndicatorView.isHidden = true
-        searchBar.setShowsCancelButton(true, animated: true)
-        searchBar.becomeFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        //hide all tables, show explore
-        searchActive = false
-        
-        exploreTableView.isHidden = false
-        profilesTableView.isHidden = true
-        cityTableView.isHidden = true
-        
-        searchOptionsStackView.isHidden = true
-        bottomSeparatorView.isHidden = true
-        profilesIndicatorView.isHidden = true
-        citiesIndicatorView.isHidden = true
-        
-        noResultsLbl.isHidden = true
-        
-        profileSearchResults.removeAll()
-        citySearchResults.removeAll()
-        
-        searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-        
-        profilesTableView.reloadData()
-        cityTableView.reloadData()
-        
-        if profilesIndicatorView.isHidden == false {
-            profileSearchResults.removeAll()
-            profilesTableView.reloadData()
-        } else if citiesIndicatorView.isHidden == false {
-            citySearchResults.removeAll()
-            cityTableView.reloadData()
-        }
-        
-        self.refresh(sender: self)
-        
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        if profilesIndicatorView.isHidden == false {
-            
-            profileSearchResults = usersArr.filter({ (user) -> Bool in
-                
-                if searchText == "" {
-                    return false
-                }
-                
-                let nameCheck = user.name as NSString
-                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                let cityCheck = user.currentCity as NSString
-                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                
-                //                let mutualFriend = user.friendsList.keys.contains { (key) -> Bool in
-                //                    for index in 0..<currentUserInfo.friendsList.count {
-                //                        if Array(currentUserInfo.friendsList)[index].key == key {
-                //                            return true
-                //                        }
-                //                    }
-                //                    return false
-                //                }
-                //                if mutualFriend {
-                //                    print("hey")
-                //                }
-                
-                return nameRange.location != NSNotFound || cityRange.location != NSNotFound
-                
-                //                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                //                    value as? String == "received"
-                //                }
-                
-                
-                
-                
-            })
-            
-            if profileSearchResults.count == 0 && searchText != "" {
-                noResultsLbl.isHidden = false
-            } else {
-                noResultsLbl.isHidden = true
-            }
-            
-            self.profilesTableView.reloadData()
-            
-        } else if citiesIndicatorView.isHidden == false {
-            
-            
-            DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(searchText)").observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                self.citySearchResults = []
-                
-                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        //print("STATUS: \(snap)")
-                        if let statusDict = snap.value as? Dictionary<String, Any> {
-                            let key = snap.key
-                            let status = Status(statusKey: key, statusData: statusDict)
-                            //print(status.joinedNumber)
-                            if !self.privateArrIds.contains(status.userId) {
-                                //print(status.userId)
-                                //print("here: \(self.privateArrIds)")
-                                //self.statusArr.append(status)
-                                self.citySearchResults.insert(status, at: 0)
-                            }
-                        }
-                    }
-                }
-                
-                self.cityTableView.reloadData()
-            })
-            
-            
-            if citySearchResults.count == 0 && searchText != "" {
-                noResultsLbl.isHidden = false
-            } else {
-                noResultsLbl.isHidden = true
-            }
-            
-            self.cityTableView.reloadData()
-            
-        }
-        
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive == false {
-            
             if statusArr.count == 0 {
                 self.refresh(sender: self)
             }
-            
             return statusArr.count
             
         } else if profilesIndicatorView.isHidden == false {
@@ -350,10 +183,11 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         if searchActive == false {
-            
+
             noResultsLbl.isHidden = true
+            noResultsLbl.alpha = 0.0
             
             let status = statusArr[indexPath.row]
             
@@ -393,13 +227,18 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         if profilesIndicatorView.isHidden == false {
-            
+
             if profileSearchResults.isEmpty {
                 noResultsLbl.isHidden = false
+                noResultsLbl.alpha = 1.0
+                profilesTableView.isScrollEnabled = false
+                return SearchProfilesCell() 
             } else {
                 noResultsLbl.isHidden = true
+                noResultsLbl.alpha = 0.0
+                profilesTableView.isScrollEnabled = true
             }
-            
+
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
@@ -416,8 +255,12 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
             
             if citySearchResults.isEmpty {
                 noResultsLbl.isHidden = false
+                noResultsLbl.alpha = 1.0
+                cityTableView.isScrollEnabled = false
             } else {
                 noResultsLbl.isHidden = true
+                noResultsLbl.alpha = 0.0
+                cityTableView.isScrollEnabled = true
             }
             
             let status = citySearchResults[indexPath.row]
@@ -491,6 +334,157 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
+        searchActive = true
+        exploreTableView.isHidden = true
+        
+        privateArr = []
+        
+        searchOptionsStackView.isHidden = false
+        bottomSeparatorView.isHidden = false
+        
+        if profilesChoiceBtn.isEnabled == false {
+            
+            profilesIndicatorView.isHidden = false
+            profilesChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
+            profilesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 17)
+            
+        } else if citiesChoiceBtn.isEnabled == false {
+            
+            citiesIndicatorView.isHidden = false
+            citiesChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
+            citiesChoiceBtn.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 17)
+            
+        }
+        
+        searchBar.setShowsCancelButton(true, animated: true)
+        searchBar.becomeFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchActive = false
+        
+        exploreTableView.isHidden = false
+        profilesTableView.isHidden = true
+        cityTableView.isHidden = true
+        
+        searchOptionsStackView.isHidden = true
+        bottomSeparatorView.isHidden = true
+        profilesIndicatorView.isHidden = true
+        citiesIndicatorView.isHidden = true
+        
+        noResultsLbl.isHidden = true
+        noResultsLbl.alpha = 0.0
+        
+        profileSearchResults.removeAll()
+        citySearchResults.removeAll()
+        
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        
+        profilesTableView.reloadData()
+        cityTableView.reloadData()
+        
+        if profilesIndicatorView.isHidden == false {
+            profileSearchResults.removeAll()
+            profilesTableView.reloadData()
+        } else if citiesIndicatorView.isHidden == false {
+            citySearchResults.removeAll()
+            cityTableView.reloadData()
+        }
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if profilesIndicatorView.isHidden == false {
+            
+            profilesTableView.isHidden = false
+
+            profileSearchResults = usersArr.filter({ (user) -> Bool in
+                
+                if searchText == "" {
+                    return false
+                }
+                
+                let nameCheck = user.name as NSString
+                let nameRange = nameCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                let cityCheck = user.currentCity as NSString
+                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
+                
+                return nameRange.location != NSNotFound || cityRange.location != NSNotFound
+                
+            })
+            
+            if profileSearchResults.count == 0 && searchText != "" {
+                noResultsLbl.isHidden = false
+                UIView.animate(withDuration: 0.75) {
+                    self.noResultsLbl.alpha = 1.0
+                    self.noResultsLbl.isHidden = false
+                }
+            } else {
+                noResultsLbl.isHidden = true
+                noResultsLbl.alpha = 0.0
+            }
+            
+            self.profilesTableView.reloadData()
+            
+        } else if citiesIndicatorView.isHidden == false {
+            
+            cityTableView.isHidden = false
+            //write as all lowercase, search as all lowercase, display as capword: done in search. needs done EVERYWHERE else, roll into keyboard tint update at end
+            //tackle button press searching
+            let possibleCities = cityArr.filter { $0.contains("\(searchText.lowercased())") }
+            
+            self.citySearchResults = []
+            
+            for city in possibleCities {
+                
+                DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(city)").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                        for snap in snapshot {
+                            
+                            if let statusDict = snap.value as? Dictionary<String, Any> {
+                                let key = snap.key
+                                let status = Status(statusKey: key, statusData: statusDict)
+
+                                if !self.privateArrIds.contains(status.userId) {
+                                    self.citySearchResults.insert(status, at: 0)
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.cityTableView.reloadData()
+                })
+            }
+            
+            
+            if citySearchResults.count == 0 && searchText != "" {
+                noResultsLbl.isHidden = false
+                UIView.animate(withDuration: 0.75) {
+                    self.noResultsLbl.alpha = 1.0
+                    self.noResultsLbl.isHidden = false
+                }
+            } else {
+                noResultsLbl.isHidden = true
+                noResultsLbl.alpha = 0.0
+            }
+            
+            self.cityTableView.reloadData()
+            
+        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -624,7 +618,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     @IBAction func didPressProfilesChoiceBtn(_ sender: UIButton) {
-        
+
         profilesChoiceBtn.isEnabled = false
         citiesChoiceBtn.isEnabled = true
         
@@ -675,7 +669,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     @IBAction func didPressCitiesChoiceBtn(_ sender: UIButton) {
-        
+
         profilesChoiceBtn.isEnabled = true
         citiesChoiceBtn.isEnabled = false
         
@@ -697,21 +691,43 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         if let searchText = searchBar.text {
             
-            citySearchResults = statusArr.filter({ (status) -> Bool in
+            let possibleCities = cityArr.filter { $0.contains("\(searchText.lowercased())") }
+            
+            self.citySearchResults = []
+            
+            for city in possibleCities {
                 
-                if searchText == "" {
-                    //statusesTableView.isScrollEnabled = false
-                    return false
+                DataService.ds.REF_STATUS.queryOrdered(byChild: "city").queryEqual(toValue: "\(city)").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                        for snap in snapshot {
+                            
+                            if let statusDict = snap.value as? Dictionary<String, Any> {
+                                let key = snap.key
+                                let status = Status(statusKey: key, statusData: statusDict)
+                                
+                                if !self.privateArrIds.contains(status.userId) {
+                                    self.citySearchResults.insert(status, at: 0)
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.cityTableView.reloadData()
+                })
+            }
+            
+            
+            if citySearchResults.count == 0 && searchText != "" {
+                noResultsLbl.isHidden = false
+                UIView.animate(withDuration: 0.75) {
+                    self.noResultsLbl.alpha = 1.0
+                    self.noResultsLbl.isHidden = false
                 }
-                
-                let cityCheck = status.city as NSString
-                let cityRange = cityCheck.range(of: searchText, options: NSString.CompareOptions.caseInsensitive)
-                return cityRange.location != NSNotFound
-                
-            })
-            
-            self.cityTableView.reloadData()
-            
+            } else {
+                noResultsLbl.isHidden = true
+                noResultsLbl.alpha = 0.0
+            }
         }
         
         
@@ -733,8 +749,42 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         performSegue(withIdentifier: "searchToMyProfile", sender: nil)
     }
     
-    func refresh(sender: Any) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == statusArr.count && (statusArr.count + privateArr.count) >= 10 * numberLoadMores {
+            loadMore()
+        }
+    }
+    
+    func loadMore() {
+        self.numberLoadMores += 1
+
+        DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: UInt(10 * numberLoadMores)).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.statusArr = []
+            
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    
+                    if let statusDict = snap.value as? Dictionary<String, Any> {
+                        let key = snap.key
+                        let status = Status(statusKey: key, statusData: statusDict)
+                        
+                        if !self.privateArrIds.contains(status.userId) {
+                            self.statusArr.insert(status, at: 0)
+                        } else {
+                            self.privateArr.append(status.statusKey)
+                        }
+                    }
+                }
+            }
+            
+            self.exploreTableView.reloadData()
+        })
         
+    }
+    
+    func refresh(sender: Any) {
+
         numberLoadMores = 1
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: 10).observeSingleEvent(of: .value, with: { (snapshot) in

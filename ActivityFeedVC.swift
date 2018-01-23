@@ -243,7 +243,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         "content": statusContent,
                         "joinedList": ["seen": true],
                         "joinedNumber": 0,
-                        "city": city,
+                        "city": city.lowercased(),
                         "postedDate": ServerValue.timestamp(),
                         "userId": currentUser] as [String : Any]
                     let childUpdates = ["/status/\(key)": status,
