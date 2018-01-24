@@ -20,6 +20,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     
     var usersArr = [Users]()
+    var userKeys = [String]()
     var conversationArr = [Conversation]()
     var newMsgKeyArr = [String]()
     var filtered = [Users]()
@@ -40,17 +41,29 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "/details/lastMsgDate").observe(.value, with: { (snapshot) in
             
             self.conversationArr = []
+            self.filtered = []
+            self.usersArr = []
+            self.userKeys = []
             
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-
-                    if let conversationDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
+            if let currentUser = Auth.auth().currentUser?.uid {
+                
+                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        
+                        if let conversationDict = snap.value as? Dictionary<String, Any> {
+                            let key = snap.key
+                            let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
+                            
                             let userConversation = conversation.users.keys.contains(currentUser)
+                            
                             if userConversation && conversation.users[currentUser] as? Bool == true {
+                                for users in conversation.users {
+                                    if users.key != currentUser {
+                                        self.userKeys.insert(users.key, at: 0)
+                                    }
+                                }
                                 self.conversationArr.insert(conversation, at: 0)
+                                
                                 if let unread = conversation.messages[currentUser] as? Bool {
                                     if unread == false {
                                         self.newMsgKeyArr.insert(conversation.conversationKey, at: 0)
@@ -61,45 +74,11 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     }
                 }
             }
-
-            self.tableView.reloadData()
-        })
-        
-        DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            self.usersArr = []
-            
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-
-                    if let usersDict = snap.value as? Dictionary<String, Any> {
-                        let key = snap.key
-                        let users = Users(usersKey: key, usersData: usersDict)
-                        if let currentUser = Auth.auth().currentUser?.uid {
-                            if currentUser == users.usersKey {
-                                let newFriend = users.friendsList.values.contains { (value) -> Bool in
-                                    value as? String == "received"
-                                }
-                                if newFriend && users.friendsList["seen"] as? String == "false" {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-                                let newJoin = users.joinedList.values.contains { (value) -> Bool in
-                                    value as? String == "false"
-                                }
-                                if newJoin {
-                                    self.footerNewFriendIndicator.isHidden = false
-                                }
-
-                            }
-                        }
-                        self.usersArr.append(users)
-                    }
-                }
-                self.filtered = self.usersArr
+            if self.conversationArr.count == 0 {
+                self.tableView.reloadData()
             }
-            self.tableView.reloadData()
+            self.loadUsers()
         })
-        
         
     }
     
@@ -126,14 +105,13 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversationArr.count
+        return filtered.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let conversation = conversationArr[indexPath.row]
-        //print(filtered)
-        let users = filtered
+        let conversation = conversationArr
+        let users = filtered[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "messagesCell") as? MessagesCell {
             
@@ -147,6 +125,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //need correct selection
         DataService.ds.REF_CONVERSATION.child("\(conversationArr[indexPath.row].conversationKey)/messages").updateChildValues(["read" : true])
         let selectedConversation = conversationArr[indexPath.row].conversationKey
         if newMsgKeyArr.count == 1 {
@@ -163,24 +142,30 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
-
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let muteAction = UITableViewRowAction(style: .normal, title: " Mute  ") { (rowAction, indexPath) in
+            
             if let currentUser = Auth.auth().currentUser?.uid {
-                DataService.ds.REF_CONVERSATION.child(conversationArr[indexPath.row].conversationKey).child("users").updateChildValues([currentUser : false])
+                
+                let mutedUserKey = self.filtered[indexPath.row].usersKey
+                for convo in self.conversationArr {
+                    if convo.users.keys.contains(mutedUserKey) {
+                        DataService.ds.REF_CONVERSATION.child(convo.conversationKey).child("users").updateChildValues([currentUser : false])
+                        break
+                    }
+                }
+                
             }
+            
         }
+        muteAction.backgroundColor = UIColor.red
+        
+        return [muteAction]
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.becomeFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -198,8 +183,8 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 return nameRange.location != NSNotFound
             }
             
+            
         })
-        
         self.tableView.reloadData()
     }
     
@@ -278,5 +263,43 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         DispatchQueue.main.asyncAfter(deadline: when) {
             self.performSegue(withIdentifier: "messagesToMyProfile", sender: nil)
         }
+    }
+    
+    func loadUsers() {
+        
+        self.usersArr = []
+        
+        for userKey in userKeys {
+            
+            DataService.ds.REF_USERS.child(userKey).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let usersDict = snapshot.value as? Dictionary<String, Any> {
+                    let key = snapshot.key
+                    let users = Users(usersKey: key, usersData: usersDict)
+                    if let currentUser = Auth.auth().currentUser?.uid {
+                        if currentUser == users.usersKey {
+                            let newFriend = users.friendsList.values.contains { (value) -> Bool in
+                                value as? String == "received"
+                            }
+                            if newFriend && users.friendsList["seen"] as? String == "false" {
+                                self.footerNewFriendIndicator.isHidden = false
+                            }
+                            let newJoin = users.joinedList.values.contains { (value) -> Bool in
+                                value as? String == "false"
+                            }
+                            if newJoin {
+                                self.footerNewFriendIndicator.isHidden = false
+                            }
+                            
+                        }
+                    }
+                    self.usersArr.append(users)
+                    
+                }
+                self.filtered = self.usersArr
+                self.tableView.reloadData()
+            })
+        }
+        
     }
 }

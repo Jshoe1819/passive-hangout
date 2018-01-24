@@ -14,50 +14,50 @@ import FirebaseStorage
 
 class MessagesCell: UITableViewCell {
     
-    var hideCell = false
-    
     @IBOutlet weak var profilePicImg: FeedProfilePic!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var messageAgeLbl: UILabel!
     @IBOutlet weak var lastMessageLbl: UILabel!
     @IBOutlet weak var newMessageView: UIView!
     
-    func configureCell(conversation: Conversation, users: [Users]) {
+    func configureCell(conversation: [Conversation], users: Users) {
         
         newMessageView.isHidden = true
         
-        for index in 0..<users.count {
+        for index in 0..<conversation.count {
+
             if let currentUser = Auth.auth().currentUser?.uid {
-                let containsUser = conversation.users.keys.contains(users[index].usersKey) && users[index].usersKey != currentUser
+                let containsUser = conversation[index].users.keys.contains(users.usersKey) && users.usersKey != currentUser
                 if containsUser {
-                    self.nameLbl.text = users[index].name
-                    if let lastMsgDate = conversation.details["lastMsgDate"] as? Double {
+
+                    self.nameLbl.text = users.name
+                    if let lastMsgDate = conversation[index].details["lastMsgDate"] as? Double {
                         self.messageAgeLbl.text = configureTimeAgo(unixTimestamp: lastMsgDate)
                     }
-                    if let lastMsgContent = conversation.details["lastMsgContent"] as? String {
+                    if let lastMsgContent = conversation[index].details["lastMsgContent"] as? String {
                         self.lastMessageLbl.text = lastMsgContent
                     }
-                    if let read = conversation.messages["\(currentUser)"] as? Bool {
+                    if let read = conversation[index].messages["\(currentUser)"] as? Bool {
                         if !read {
                             newMessageView.isHidden = false
                             self.lastMessageLbl.font = UIFont(name: "AvenirNext-Medium", size: 14)
                         }
                     }
                     
-                    ImageCache.default.retrieveImage(forKey: users[index].profilePicUrl, options: nil) { (profileImage, cacheType) in
+                    ImageCache.default.retrieveImage(forKey: users.profilePicUrl, options: nil) { (profileImage, cacheType) in
                         if let image = profileImage {
                             self.profilePicImg.image = image
                         } else {
-                            if users[index].id != "a" {
-                                let profileUrl = URL(string: users[index].profilePicUrl)
+                            if users.id != "a" {
+                                let profileUrl = URL(string: users.profilePicUrl)
                                 let data = try? Data(contentsOf: profileUrl!)
                                 if let profileImage = UIImage(data: data!) {
                                     self.profilePicImg.image = profileImage
-                                    ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
+                                    ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
                                 }
                                 
                             } else {
-                                let profPicRef = Storage.storage().reference(forURL: users[index].profilePicUrl)
+                                let profPicRef = Storage.storage().reference(forURL: users.profilePicUrl)
                                 profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                                     if error != nil {
                                         //Handle error?
@@ -65,7 +65,7 @@ class MessagesCell: UITableViewCell {
                                         if let imageData = data {
                                             if let profileImage = UIImage(data: imageData) {
                                                 self.profilePicImg.image = profileImage
-                                                ImageCache.default.store(profileImage, forKey: users[index].profilePicUrl)
+                                                ImageCache.default.store(profileImage, forKey: users.profilePicUrl)
                                             }
                                         }
                                     }
