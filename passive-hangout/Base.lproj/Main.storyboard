@@ -1934,7 +1934,7 @@
                                         <rect key="frame" x="0.0" y="28" width="153" height="30"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cPZ-1M-Mba" id="6Br-As-en8">
-                                            <rect key="frame" x="0.0" y="0.0" width="153" height="29.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="153" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -5230,13 +5230,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeQ-5p-3kk" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
-                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="0yU-6B-Gpc"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gi5-Um-M79" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                 <subviews>
@@ -5284,19 +5277,15 @@
                             <constraint firstItem="YZO-KJ-Zzi" firstAttribute="top" secondItem="e5D-ID-OKV" secondAttribute="bottom" id="5fn-qz-gNX"/>
                             <constraint firstItem="c51-dM-byq" firstAttribute="top" secondItem="Gi5-Um-M79" secondAttribute="bottom" constant="2" id="7Yy-2j-9yc"/>
                             <constraint firstItem="YZO-KJ-Zzi" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="Cth-tz-9JA"/>
-                            <constraint firstItem="UeQ-5p-3kk" firstAttribute="trailing" secondItem="Gi5-Um-M79" secondAttribute="trailing" id="IFk-vN-9W0"/>
                             <constraint firstItem="zB2-cS-kbK" firstAttribute="top" secondItem="YZO-KJ-Zzi" secondAttribute="bottom" id="Svf-vZ-uaD"/>
                             <constraint firstAttribute="trailing" secondItem="c51-dM-byq" secondAttribute="trailing" id="UtQ-WY-5l6"/>
                             <constraint firstItem="e5D-ID-OKV" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="VSc-Xb-d1z"/>
-                            <constraint firstItem="UeQ-5p-3kk" firstAttribute="leading" secondItem="Gi5-Um-M79" secondAttribute="leading" id="WMC-qA-Guk"/>
                             <constraint firstItem="e5D-ID-OKV" firstAttribute="top" secondItem="c51-dM-byq" secondAttribute="bottom" id="ZMU-fM-pML"/>
                             <constraint firstItem="c51-dM-byq" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="cBI-Py-UVh"/>
-                            <constraint firstItem="UeQ-5p-3kk" firstAttribute="top" secondItem="Gi5-Um-M79" secondAttribute="top" id="eo6-Cr-aNr"/>
                             <constraint firstAttribute="trailing" secondItem="Gi5-Um-M79" secondAttribute="trailing" id="j8g-1k-heZ"/>
                             <constraint firstItem="Gi5-Um-M79" firstAttribute="top" secondItem="EaO-7W-Etu" secondAttribute="top" id="rW4-5l-ESg"/>
                             <constraint firstItem="Gi5-Um-M79" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="rj7-wq-Dnx"/>
                             <constraint firstAttribute="trailing" secondItem="e5D-ID-OKV" secondAttribute="trailing" id="wHS-XU-P5K"/>
-                            <constraint firstItem="UeQ-5p-3kk" firstAttribute="bottom" secondItem="Gi5-Um-M79" secondAttribute="bottom" id="x0X-u6-pSD"/>
                         </constraints>
                     </view>
                     <connections>
@@ -5662,17 +5651,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Tl-Jg-UAb"/>
-        <segue reference="tvf-Vx-V8c"/>
-        <segue reference="gCg-Ub-8sY"/>
-        <segue reference="pdT-dH-DV6"/>
-        <segue reference="Fz5-tL-9gQ"/>
-        <segue reference="DY3-QO-UuQ"/>
-        <segue reference="W4L-ij-kOw"/>
-        <segue reference="agh-4t-wA8"/>
         <segue reference="cdL-qi-TmD"/>
-        <segue reference="gch-s9-LIa"/>
-        <segue reference="DzP-9T-IMk"/>
+        <segue reference="v6I-qg-3qN"/>
+        <segue reference="W4L-ij-kOw"/>
+        <segue reference="7ZA-73-jNd"/>
+        <segue reference="Zl1-hz-g1g"/>
+        <segue reference="hpM-YK-AX3"/>
+        <segue reference="10u-LX-lAE"/>
+        <segue reference="Fz5-tL-9gQ"/>
+        <segue reference="agh-4t-wA8"/>
+        <segue reference="5Tl-Jg-UAb"/>
         <segue reference="Yry-oZ-Wzs"/>
+        <segue reference="DzP-9T-IMk"/>
     </inferredMetricsTieBreakers>
 </document>
