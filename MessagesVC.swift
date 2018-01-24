@@ -125,17 +125,24 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //need correct selection
-        DataService.ds.REF_CONVERSATION.child("\(conversationArr[indexPath.row].conversationKey)/messages").updateChildValues(["read" : true])
-        let selectedConversation = conversationArr[indexPath.row].conversationKey
-        if newMsgKeyArr.count == 1 {
-            if newMsgKeyArr[0] == conversationArr[indexPath.row].conversationKey {
-                if let currentUser = Auth.auth().currentUser?.uid {
-                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(["hasNewMsg" : false])
+        
+        let userKey = self.filtered[indexPath.row].usersKey
+        for convo in self.conversationArr {
+            if convo.users.keys.contains(userKey) {
+                DataService.ds.REF_CONVERSATION.child("\(convo.conversationKey)/messages").updateChildValues(["read" : true])
+                let selectedConversation = convo.conversationKey
+                if newMsgKeyArr.count == 1 {
+                    if newMsgKeyArr[0] == convo.conversationKey {
+                        if let currentUser = Auth.auth().currentUser?.uid {
+                            DataService.ds.REF_USERS.child(currentUser).updateChildValues(["hasNewMsg" : false])
+                        }
+                    }
                 }
+                performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
+                break
             }
+            
         }
-        performSegue(withIdentifier: "messagesToConversation", sender: selectedConversation)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

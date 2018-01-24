@@ -409,6 +409,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // "/users/\(userId)/statusId/\(key)/": true] as Dictionary<String, Any>
                 //print("JAKE: \(childUpdates)")
                 //if user[selecteduser] = false messages/user = true
+                //store text if not sent in field
+                //read and typing
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, selectedProfile.usersKey : false, userId : true])
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/details").updateChildValues(["lastMsgContent" : messageContent, "lastMsgDate" : ServerValue.timestamp()])
                 //DataService.ds.REF_CONVERSATION.child("\(conversationUid)/users").updateChildValues([userId : true,selectedProfile.usersKey : true])
