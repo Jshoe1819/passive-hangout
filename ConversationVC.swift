@@ -38,9 +38,13 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var textViewContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textInputViewToHeader: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.transform = CGAffineTransform(rotationAngle: -(CGFloat)(Double.pi))
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,tableView.bounds.size.width-8.5)
         
         //print(textInputView.frame.origin)
         print(originController)
@@ -48,7 +52,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         textView.delegate = self
         
-        tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 10
         
@@ -66,17 +70,18 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //self.conversationUid = "uid3"
         
+        //load x amount, incorporate load more
         DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").queryOrdered(byChild: "timestamp").observe(.value, with: { (snapshot) in
             
             self.messagesArr = []
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("Messages: \(snap)")
+                    
                     if let messageDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let message = Messages(messageKey: key, messageData: messageDict)
-                        self.messagesArr.append(message)
+                        self.messagesArr.insert(message, at: 0)
                     }
                 }
             }
@@ -89,7 +94,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("Conversation: \(snap)")
+
                     if let conversationDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
@@ -116,7 +121,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    //print("USERS: \(snap)")
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -160,10 +165,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        if self.messagesArr.count > 0 {
-            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
-            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
-        }
+//        if self.messagesArr.count > 0 {
+//            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+//            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+//        }
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues(["\(currentUser)" : true])
         }
@@ -197,9 +202,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //            cell.sentMsgAgeLbl.frame.size.height = 0
             //            cell.frame.size.height = 0
             
+            cell.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+            
             cell.configureCell(message: message)
             
-            if messagesArr.endIndex - 1 == indexPath.row {
+            if indexPath.row == 0 {
                 if let currentUser = Auth.auth().currentUser?.uid {
                     if message.senderuid == currentUser {
                         cell.sentMsgAgeLbl.isHidden = false
@@ -218,39 +225,36 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !cellHeights.keys.contains(indexPath.row) {
-            cellHeights[indexPath.row] = cell.frame.height
-        }
-        //cellHeights.append(cell.frame.height)
-        //print("\(indexPath.row): \(cellHeights)")
-    }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if !cellHeights.keys.contains(indexPath.row) {
+//            cellHeights[indexPath.row] = cell.frame.height
+//        }
+//        //cellHeights.append(cell.frame.height)
+//        //print("\(indexPath.row): \(cellHeights)")
+//    }
     
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //print(cellHeights[indexPath.row])
-        if let height = cellHeights[indexPath.row] {
-            //print("AAAAAA: \(indexPath.row)")
-            return height
-        }
-        //print("WWWWWWWWW: \(indexPath.row)")
-        return UITableViewAutomaticDimension
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        //print(cellHeights[indexPath.row])
+//        if let height = cellHeights[indexPath.row] {
+//            //print("AAAAAA: \(indexPath.row)")
+//            return height
+//        }
+//        //print("WWWWWWWWW: \(indexPath.row)")
+//        return UITableViewAutomaticDimension
+//    }
     
     func populateProfilePicture(user: Users) {
         
         ImageCache.default.retrieveImage(forKey: user.profilePicUrl, options: nil) { (profileImage, cacheType) in
             if let image = profileImage {
-                //print("Get image \(image), cacheType: \(cacheType).")
                 self.profilePicImg.image = image
             } else {
-                //print("not in cache")
                 if user.id != "a" {
                     let profileUrl = URL(string: user.profilePicUrl)
                     let data = try? Data(contentsOf: profileUrl!)
                     if let profileImage = UIImage(data: data!) {
                         self.profilePicImg.image = profileImage
-                        //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                         ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                     }
                     
@@ -258,13 +262,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let profPicRef = Storage.storage().reference(forURL: user.profilePicUrl)
                     profPicRef.getData(maxSize: 2 * 1024 * 1024, completion: { (data, error) in
                         if error != nil {
-                            //print("JAKE: unable to download image from storage")
+                            //Handle error?
                         } else {
-                            //print("JAKE: image downloaded from storage")
                             if let imageData = data {
                                 if let profileImage = UIImage(data: imageData) {
                                     self.profilePicImg.image = profileImage
-                                    //ActivityFeedVC.imageCache.setObject(profileImage, forKey: users[index].profilePicUrl as NSString)
                                     ImageCache.default.store(profileImage, forKey: user.profilePicUrl)
                                 }
                             }
@@ -279,25 +281,51 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.isHidden = !textView.text.isEmpty
         textView.isScrollEnabled = false
         
-        
-        if let font = textView.font {
-            //            print(textView.contentSize.height)
-            //            print(font.lineHeight)
-            //            print(textView.contentSize.height / font.lineHeight)
+        if textInputView.frame.origin.y > headerView.frame.maxY + 25 {
+            //print("hi")
+            textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
+            self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight + textViewContainerHeightConstraint.constant, 0)
+        } else {
+            //print("bye")
             
-            if textView.contentSize.height / font.lineHeight >= 5 {
-                //print("yoooooo")
-                textView.isScrollEnabled = true
-                textView.showsVerticalScrollIndicator = false
-                return
+            if textView.intrinsicContentSize.height < textViewContainerHeightConstraint.constant {
+                //print("maybe")
+                textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height
             }
+            
+            //textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height
+            textView.isScrollEnabled = true
+            //textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height
         }
-        textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
         
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight + textViewContainerHeightConstraint.constant, 0)
-        print(keyboardHeight + textViewContainerHeightConstraint.constant)
+//        if textInputViewToHeader.constant + 10 < 100 {
+//            print("reached")
+//            return
+//            //textInputViewToHeader.constant = 5
+//            //textView.isScrollEnabled = true
+//        }
+        
+        //textView.sizeToFit()
+        
+        
+//        if let font = textView.font {
+//            //            print(textView.contentSize.height)
+//            //            print(font.lineHeight)
+//            //            print(textView.contentSize.height / font.lineHeight)
+//            
+//            if textView.contentSize.height / font.lineHeight >= 5 {
+//                //print("yoooooo")
+//                textView.isScrollEnabled = true
+//                textView.showsVerticalScrollIndicator = false
+//                return
+//            }
+//        }
+//        textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
+        
+        //self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight + textViewContainerHeightConstraint.constant, 0)
+        //print(keyboardHeight + textViewContainerHeightConstraint.constant)
         //self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.25) {
             //print("hey")
             self.view.layoutIfNeeded()
         }
@@ -317,6 +345,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.becomeFirstResponder()
         
+//        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+        
+//        let bottomOffset = CGPoint(x: 0, y: tableView.bounds.size.height - tableView.contentSize.height)
+//        tableView.setContentOffset(bottomOffset, animated: true)
+        
         //        if self.messagesArr.count > 0 {
         //            self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
         //            //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
@@ -328,42 +361,56 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //print("hi")
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
-            if tableView.visibleCells.isEmpty {
-                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
-                UIView.animate(withDuration: 1) {
-                    //print("hey")
-                    self.view.layoutIfNeeded()
-                }
-            } else if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
-                //print("hi")
-                if self.tableView.frame.origin.y == 65 {
-                    
-                    
-                    self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
-                    //self.tableViewBottomConstraint.constant = keyboardSize.height
-                    
-                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardSize.height - 50, 0)
-                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
-                    UIView.animate(withDuration: 1) {
-                        //print("hey")
-                        self.view.layoutIfNeeded()
-                    }
-                    
-                    //self.tableView.frame.origin.y -= keyboardSize.height - 50 - textInputView.frame.height
-                    //self.tableViewBottomConstraint.constant = 2
-                    //self.textInputView.frame.origin.y -= keyboardSize.height - 50
-                    //self.footerView.frame.origin.y -= keyboardSize.height - 50
-                    //print(textView.frame.origin)
-                }
-            } else {
-                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
-                UIView.animate(withDuration: 1) {
-                    //print("hey")
-                    self.view.layoutIfNeeded()
-                }
-                //self.textInputView.frame.origin.y -= keyboardSize.height - 50
-                //self.footerView.frame.origin.y -= keyboardSize.height - 50
+            
+            textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            
+            UIView.animate(withDuration: 1) {
+                //print("hey")
+                self.view.layoutIfNeeded()
             }
+            
+            return
+            
+//            if tableView.visibleCells.isEmpty {
+//                print("hi")
+//                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+//                UIView.animate(withDuration: 1) {
+//                    //print("hey")
+//                    self.view.layoutIfNeeded()
+//                }
+//            } else if (tableView.visibleCells.last?.frame.origin.y)! + (tableView.visibleCells.last?.frame.height)! > keyboardSize.origin.y - 50 {
+//                print("bye")
+//                //print("hi")
+//                if self.tableView.frame.origin.y == 65 {
+//                    
+//                    
+//                    self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+//                    //self.tableViewBottomConstraint.constant = keyboardSize.height
+//                    
+//                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardSize.height - 50, 0)
+//                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+//                    UIView.animate(withDuration: 1) {
+//                        //print("hey")
+//                        self.view.layoutIfNeeded()
+//                    }
+//                    
+//                    //self.tableView.frame.origin.y -= keyboardSize.height - 50 - textInputView.frame.height
+//                    //self.tableViewBottomConstraint.constant = 2
+//                    //self.textInputView.frame.origin.y -= keyboardSize.height - 50
+//                    //self.footerView.frame.origin.y -= keyboardSize.height - 50
+//                    //print(textView.frame.origin)
+//                }
+//            } else {
+//                print("last")
+//                self.textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+//                UIView.animate(withDuration: 1) {
+//                    //print("hey")
+//                    self.view.layoutIfNeeded()
+//                }
+//                //self.textInputView.frame.origin.y -= keyboardSize.height - 50
+//                //self.footerView.frame.origin.y -= keyboardSize.height - 50
+//            }
         }
     }
     
@@ -372,7 +419,12 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //print("bye")
         //self.tableView.frame.origin.y = 65
         self.textViewContainerBottomConstraint.constant = 0
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
+        
+        UIView.animate(withDuration: 1) {
+            //print("hey")
+            self.view.layoutIfNeeded()
+        }
         //self.textInputView.frame.origin.y = 569
         //self.footerView.frame.origin.y = 617
         //}
@@ -396,6 +448,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         
+        //keep text not sent, show typing, shrinks text box when sending large message
+        
         if let messageContent = textView.text {
             //print("JAKE: \(messageContent)")
             if let user = Auth.auth().currentUser {
@@ -416,18 +470,20 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //DataService.ds.REF_CONVERSATION.child("\(conversationUid)/users").updateChildValues([userId : true,selectedProfile.usersKey : true])
                 DataService.ds.REF_USERS.child(selectedProfile.usersKey).updateChildValues(["hasNewMsg" : true])
                 //DataService.ds.REF_BASE.updateChildValues(childUpdates)
-                if self.messagesArr.count > 0 {
-                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
-                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
-                    //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
-                }
                 textView.text = ""
                 placeholderLabel.isHidden = false
-                textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
-                if let lineHeight = textView.font?.lineHeight {
-                    //print(lineHeight)
-                    textView.contentSize.height = lineHeight
-                }
+//                if self.messagesArr.count > 0 {
+//                    self.tableView.scrollToRow(at: IndexPath(item:self.messagesArr.count-1, section: 0), at: .bottom, animated: true)
+//                    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+//                    //self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .bottom, animated: true)
+//                }
+//                textView.text = ""
+//                placeholderLabel.isHidden = false
+                textViewContainerHeightConstraint.constant = 48
+//                if let lineHeight = textView.font?.lineHeight {
+//                    //print(lineHeight)
+//                    textView.contentSize.height = lineHeight
+//                }
                 //print(messagesArr.count)
                 //set back to normal textview
                 //textView.frame.height = textView.intrinsicContentSize.height
@@ -642,7 +698,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        print("Remove NotificationCenter Deinit")
+        //print("Remove NotificationCenter Deinit")
         NotificationCenter.default.removeObserver(self)
     }
     
