@@ -18,8 +18,6 @@ class ConversationCell: UITableViewCell {
     @IBOutlet weak var sentMsgAgeLbl: UILabel!
     @IBOutlet weak var receiverMsgLbl: UILabel!
     @IBOutlet weak var receivedMsgAgeLbl: UILabel!
-//    @IBOutlet weak var senderHeightConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var receiverHeightConstraint: NSLayoutConstraint!
     
     func configureCell(message: Messages) {
         
@@ -30,17 +28,12 @@ class ConversationCell: UITableViewCell {
 
         receivedMsgAgeLbl.isHidden = true
         receiverMsgLbl.isHidden = true
-        //receiverHeightConstraint.constant = 0
         senderMsgLbl.isHidden = true
         sentMsgAgeLbl.isHidden = true
-        //senderHeightConstraint.constant = 0
         
         
         if let currentUser = Auth.auth().currentUser?.uid {
             if message.senderuid == currentUser {
-                //print(currentUser)
-                //print(message.senderuid)
-                //receiverHeightConstraint.constant = 0
                 senderMsgLbl.isHidden = false
                 senderMsgLbl.numberOfLines = 0
                 senderMsgLbl.lineBreakMode = .byWordWrapping
@@ -49,10 +42,6 @@ class ConversationCell: UITableViewCell {
                 senderMsgLbl.layoutIfNeeded()
 
             } else if message.senderuid != currentUser {
-                //print("not")
-                //print(currentUser)
-                //print(message.senderuid)
-                //senderHeightConstraint.constant = 0
                 receiverMsgLbl.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
                 receiverMsgLbl.isHidden = false
                 receiverMsgLbl.numberOfLines = 0

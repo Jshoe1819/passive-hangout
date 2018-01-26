@@ -22,6 +22,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var usersArr = [Users]()
     var userKeys = [String]()
     var conversationArr = [Conversation]()
+    var otherUserKey = ""
     var newMsgKeyArr = [String]()
     var filtered = [Users]()
     var originController = ""
@@ -127,6 +128,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let userKey = self.filtered[indexPath.row].usersKey
+        otherUserKey = userKey
         for convo in self.conversationArr {
             if convo.users.keys.contains(userKey) {
                 DataService.ds.REF_CONVERSATION.child("\(convo.conversationKey)/messages").updateChildValues(["read" : true])
@@ -199,6 +201,7 @@ class MessagesVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if segue.identifier == "messagesToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
                 nextVC.conversationUid = sender as! String
+                nextVC.otherUserKey = otherUserKey
             }
         } else if segue.identifier == "messagesToFeed" {
             if let nextVC = segue.destination as? ActivityFeedVC {
