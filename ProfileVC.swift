@@ -104,7 +104,7 @@ class ProfileVC: UIViewController{
             scrollView.isHidden = false
             return
 
-        } else if originController == "pastStatusesToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" {
+        } else if originController == "pastStatusesToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" || originController == "mutedConvosToMyProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
             
@@ -319,6 +319,11 @@ class ProfileVC: UIViewController{
             self.signOutView.frame.origin.y -= 1000
         }
     }
+    
+    @IBAction func mutedConversationsBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "myProfileToMutedConversations", sender: nil)
+    }
+    
     @IBAction func cancelSignOutBtnPressed(_ sender: Any) {
         opaqueBackground.isHidden = true
         

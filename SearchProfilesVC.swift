@@ -148,7 +148,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 self.searchBar.frame.origin.x -= 500
             }
             
-        } else if originController == "myProfileToSearch" || originController == "pastStatusesToSearch" || originController == "editProfileToSearch" || originController == "leaveFeedbackToSearch" || originController == "friendsListToSearch" || originController == "viewProfileToSearch" || originController == "joinedFriendsToSearch" {
+        } else if originController == "myProfileToSearch" || originController == "pastStatusesToSearch" || originController == "editProfileToSearch" || originController == "leaveFeedbackToSearch" || originController == "friendsListToSearch" || originController == "viewProfileToSearch" || originController == "joinedFriendsToSearch" || originController == "mutedConvosToSearch" {
             exploreTableView.frame.origin.x -= 500
             exploreTableView.isHidden = false
             searchBar.frame.origin.x -= 500
@@ -201,8 +201,6 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         cell.joinBtn.isHidden = true
                         cell.alreadyJoinedBtn.isHidden = true
                     } else {
-                        print(joinedKeys.count)
-                        print(unjoinedArr.count)
                         let join = status.joinedList.keys.contains { (key) -> Bool in
                             key == currentUser
                         }

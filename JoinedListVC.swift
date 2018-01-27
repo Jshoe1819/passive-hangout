@@ -67,7 +67,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 self.tableView.frame.origin.x -= 500
                 self.isEmptyImg.frame.origin.x -= 500
             }
-        } else if originController == "myProfileToJoinedList" || originController == "pastStatusesToJoinedList" || originController == "editProfileToJoinedList" || originController == "leaveFeedbackToJoinedList" || originController == "friendsListToJoinedList" || originController == "viewProfileToJoinedList" || originController == "joinedFriendsToJoinedList" || originController == "searchToJoinedList" {
+        } else if originController == "myProfileToJoinedList" || originController == "pastStatusesToJoinedList" || originController == "editProfileToJoinedList" || originController == "leaveFeedbackToJoinedList" || originController == "friendsListToJoinedList" || originController == "viewProfileToJoinedList" || originController == "joinedFriendsToJoinedList" || originController == "searchToJoinedList" || originController == "mutedConvosToJoinedList" {
             tableView.frame.origin.x -= 500
             tableView.isHidden = false
             isEmptyImg.frame.origin.x -= 500

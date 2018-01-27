@@ -49,6 +49,9 @@
 		168D6BEE1F4CF7C200D29DCA /* NewStatusTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6BED1F4CF7C200D29DCA /* NewStatusTextView.swift */; };
 		1694BFC71FAD211000887A1E /* MutableCollection+Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1694BFC61FAD211000887A1E /* MutableCollection+Shuffle.swift */; };
 		1694BFC91FAD220600887A1E /* Sequence+Shuffled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1694BFC81FAD220600887A1E /* Sequence+Shuffled.swift */; };
+		16D47C32201CC3DE00D55CED /* MutedConvosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D47C31201CC3DE00D55CED /* MutedConvosVC.swift */; };
+		16D47C34201CC41400D55CED /* MutedConvosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D47C33201CC41400D55CED /* MutedConvosCell.swift */; };
+		16D47C36201CEC4F00D55CED /* MutedConvosDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D47C35201CEC4F00D55CED /* MutedConvosDelegate.swift */; };
 		16D7AFBE1F7C18FF009F317B /* FriendsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D7AFBD1F7C18FF009F317B /* FriendsListVC.swift */; };
 		16D7AFC21F7C2312009F317B /* FriendsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D7AFC11F7C2312009F317B /* FriendsListCell.swift */; };
 		16D7AFC41F7C5D4E009F317B /* FriendsListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D7AFC31F7C5D4E009F317B /* FriendsListCellDelegate.swift */; };
@@ -138,6 +141,9 @@
 		168D6BED1F4CF7C200D29DCA /* NewStatusTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewStatusTextView.swift; sourceTree = "<group>"; };
 		1694BFC61FAD211000887A1E /* MutableCollection+Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MutableCollection+Shuffle.swift"; sourceTree = "<group>"; };
 		1694BFC81FAD220600887A1E /* Sequence+Shuffled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Shuffled.swift"; sourceTree = "<group>"; };
+		16D47C31201CC3DE00D55CED /* MutedConvosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutedConvosVC.swift; sourceTree = "<group>"; };
+		16D47C33201CC41400D55CED /* MutedConvosCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutedConvosCell.swift; sourceTree = "<group>"; };
+		16D47C35201CEC4F00D55CED /* MutedConvosDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutedConvosDelegate.swift; sourceTree = "<group>"; };
 		16D7AFBD1F7C18FF009F317B /* FriendsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListVC.swift; sourceTree = "<group>"; };
 		16D7AFC11F7C2312009F317B /* FriendsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCell.swift; sourceTree = "<group>"; };
 		16D7AFC31F7C5D4E009F317B /* FriendsListCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListCellDelegate.swift; sourceTree = "<group>"; };
@@ -308,6 +314,8 @@
 				16FF56721F9FFE90008C4257 /* SearchCitiesDelegate.swift */,
 				16213FDE1FA4BC4300456028 /* MessagesCell.swift */,
 				16213FE41FA4F3A100456028 /* ConversationCell.swift */,
+				16D47C33201CC41400D55CED /* MutedConvosCell.swift */,
+				16D47C35201CEC4F00D55CED /* MutedConvosDelegate.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -329,6 +337,7 @@
 				16FA95361F8C3E8100E7588B /* SearchProfilesVC.swift */,
 				16213FDA1FA4B67D00456028 /* MessagesVC.swift */,
 				16213FE21FA4F33E00456028 /* ConversationVC.swift */,
+				16D47C31201CC3DE00D55CED /* MutedConvosVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -695,6 +704,7 @@
 			files = (
 				16213FDF1FA4BC4300456028 /* MessagesCell.swift in Sources */,
 				16F3CC3E1F8137820095C210 /* FeedCellDelegate.swift in Sources */,
+				16D47C34201CC41400D55CED /* MutedConvosCell.swift in Sources */,
 				167540191F3E88F900E86A32 /* SegueFromLeftToRight.swift in Sources */,
 				167284361F3F760500F4D8D9 /* ActivityFeedVC.swift in Sources */,
 				16FA95391F8C413300E7588B /* SearchProfilesCell.swift in Sources */,
@@ -715,6 +725,7 @@
 				1694BFC71FAD211000887A1E /* MutableCollection+Shuffle.swift in Sources */,
 				16FA95371F8C3E8100E7588B /* SearchProfilesVC.swift in Sources */,
 				16FE2EDA1F71E01500A24B7D /* PastStatusCellDelegate.swift in Sources */,
+				16D47C32201CC3DE00D55CED /* MutedConvosVC.swift in Sources */,
 				160FEC521F40E9E0001799D0 /* FeedCell.swift in Sources */,
 				16FF56771FA00A6E008C4257 /* ExploreHangoutsDelegate.swift in Sources */,
 				162FF0421F893F7A00A29D7D /* JoinedFriendsVC.swift in Sources */,
@@ -745,6 +756,7 @@
 				16E578951F8084C3003B41FB /* JoinedListCell.swift in Sources */,
 				16213FDB1FA4B67D00456028 /* MessagesVC.swift in Sources */,
 				160FEC4E1F40DB5F001799D0 /* CustomHeader.swift in Sources */,
+				16D47C36201CEC4F00D55CED /* MutedConvosDelegate.swift in Sources */,
 				1613C5F11FBBDA2500BBE5B3 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
