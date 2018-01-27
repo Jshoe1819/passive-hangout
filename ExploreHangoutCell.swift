@@ -27,6 +27,7 @@ class ExploreHangoutCell: UITableViewCell {
     func configureCell(status: Status, users: [Users]) {
         
         profilePicImg.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        profilePicImg.image = nil
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {

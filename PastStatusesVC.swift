@@ -53,7 +53,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         editHangoutTextview.delegate = self
         
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.purple
+        refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
@@ -259,7 +259,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
         deleteAction.backgroundColor = UIColor.red
         
-        let editAction = UITableViewRowAction(style: .normal, title: " Edit ") { (rowAction, indexPath) in
+        let editAction = UITableViewRowAction(style: .normal, title: " Edit  ") { (rowAction, indexPath) in
             tableView.setEditing(true, animated: true)
             if tableView.isEditing == true {
                 

@@ -34,11 +34,12 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         searchBar.delegate = self
         
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.purple
+        refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
                 
         searchBar.keyboardAppearance = .dark
+        searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         tableView.keyboardDismissMode = .onDrag
         
         
@@ -84,8 +85,12 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             if self.usersArr.count == 0 {
                 self.isEmptyImg.isHidden = false
+                UIView.animate(withDuration: 0.75) {
+                    self.isEmptyImg.alpha = 1.0
+                }
             } else {
                 self.isEmptyImg.isHidden = true
+                self.isEmptyImg.alpha = 0.0
             }
             self.tableView.reloadData()
         })
@@ -225,6 +230,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func refresh(sender: Any) {
         
+        isEmptyImg.isHidden = true
+        isEmptyImg.alpha = 0.0
+        
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.usersArr = []
@@ -264,8 +272,9 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
             if self.usersArr.count == 0 {
                 self.isEmptyImg.isHidden = false
-            } else {
-                self.isEmptyImg.isHidden = true
+                UIView.animate(withDuration: 0.75) {
+                    self.isEmptyImg.alpha = 1.0
+                }
             }
             self.tableView.reloadData()
         })

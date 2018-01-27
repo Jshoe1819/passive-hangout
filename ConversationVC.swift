@@ -53,6 +53,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         textView.delegate = self
         
+        textView.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
+        
         tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 10

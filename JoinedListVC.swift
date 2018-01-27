@@ -30,7 +30,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         super.viewDidLoad()
         
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.purple
+        refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         refreshControl.addTarget(self, action: #selector(JoinedListVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         

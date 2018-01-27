@@ -99,7 +99,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                                                             "friendsList": ["seen": true],
                                                             "joinedList": ["seen": true],
                                                             "id": "a",
-                                                            "cover": ["source":"gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg"],
+                                                            "cover": ["source":"gs://passive-hangout.appspot.com/background-pictures/default-background.png"],
                                                             "profilePicUrl":"gs://passive-hangout.appspot.com/profile-pictures/default-profile.png",
                                                             "hasNewMsg":false,
                                                             "isPrivate":false,

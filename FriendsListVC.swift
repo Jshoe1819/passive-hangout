@@ -37,7 +37,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         searchBar.delegate = self
         
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.purple
+        refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
