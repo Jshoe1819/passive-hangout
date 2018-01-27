@@ -188,6 +188,9 @@ class MutedConvosVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     @IBAction func myProfileBtnPressed(_ sender: Any) {
         performSegue(withIdentifier: "mutedConvosToMyProfile", sender: nil)
     }
+    @IBAction func backBtnPressed(_ sender: Any) {
+        performSegue(withIdentifier: "mutedConvosToMyProfile", sender: nil)
+    }
     
     func refresh(sender: Any) {
         

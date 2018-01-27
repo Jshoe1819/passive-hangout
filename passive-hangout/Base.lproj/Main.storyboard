@@ -20,15 +20,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="co-background" translatesAutoresizingMaskIntoConstraints="NO" id="fgx-Rv-Dum">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.16582573784722221" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-effects" translatesAutoresizingMaskIntoConstraints="NO" id="lku-L6-XcF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passiveHangout-logo" translatesAutoresizingMaskIntoConstraints="NO" id="KVB-hZ-i0n">
                                 <rect key="frame" x="55" y="126" width="265.5" height="35"/>
@@ -37,7 +37,7 @@
                                 <rect key="frame" x="46" y="173" width="283.5" height="19"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xba-xg-t3S" customClass="RoundedView" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="35" y="485" width="304.5" height="41"/>
+                                <rect key="frame" x="35" y="302" width="304.5" height="41"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="envelope-icon" translatesAutoresizingMaskIntoConstraints="NO" id="J9O-5o-LAi">
                                         <rect key="frame" x="9" y="15" width="15" height="11"/>
@@ -67,7 +67,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xE6-JB-ZYO" customClass="RoundedView" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="35" y="536" width="304.5" height="41"/>
+                                <rect key="frame" x="35" y="353" width="304.5" height="41"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock-icon" translatesAutoresizingMaskIntoConstraints="NO" id="eAT-dZ-zVW">
                                         <rect key="frame" x="10" y="12" width="13" height="16"/>
@@ -97,7 +97,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qvE-ky-tzo" customClass="RoundedButton" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="35.5" y="626" width="304" height="41"/>
+                                <rect key="frame" x="35.5" y="443" width="304" height="41"/>
                                 <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="CZa-eg-feS"/>
@@ -112,7 +112,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sjS-JG-t4N" customClass="RoundedButton" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="36" y="676" width="303.5" height="41"/>
+                                <rect key="frame" x="36" y="493" width="303.5" height="41"/>
                                 <color key="backgroundColor" red="0.64313725489999995" green="0.83529411760000005" blue="0.63529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="TMK-VP-MTk"/>
@@ -127,7 +127,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="fdn-Xc-aqw">
-                                <rect key="frame" x="92" y="729" width="191" height="16"/>
+                                <rect key="frame" x="92" y="546" width="191" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="C16-yl-aaI"/>
                                 </constraints>
@@ -152,7 +152,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uad-cq-WTH" customClass="RoundedButton" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="35.5" y="784" width="304" height="41"/>
+                                <rect key="frame" x="35.5" y="601" width="304" height="41"/>
                                 <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="mFa-sH-gwz"/>
@@ -204,16 +204,16 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54v-pW-lYc">
-                                <rect key="frame" x="35.5" y="589" width="304" height="18"/>
+                                <rect key="frame" x="35.5" y="406" width="304" height="18"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ab8-cg-vbi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7As-cA-5Al">
-                                <rect key="frame" x="38.5" y="315" width="298" height="220"/>
+                                <rect key="frame" x="38.5" y="223.5" width="298" height="220"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9A9-DH-M7i">
                                         <rect key="frame" x="80.5" y="10" width="137" height="23.5"/>
@@ -1099,94 +1099,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsa-fI-MfH">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wy6-GS-E2O" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
-                                <rect key="frame" x="20" y="322.5" width="335" height="205.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qU-2z-iig">
-                                        <rect key="frame" x="130.5" y="5" width="73.5" height="25"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="BY4-Se-X56"/>
-                                            <constraint firstAttribute="height" constant="25" id="IJm-Bg-yRd"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you sure you would like to sign out of this profile?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tN6-em-6qS">
-                                        <rect key="frame" x="30" y="60" width="275" height="49.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="mPC-WD-zjN"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="nTS-6p-5Wa"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1M-R7-5rg">
-                                        <rect key="frame" x="205" y="139.5" width="100" height="36"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="36" id="VYM-BM-d3p"/>
-                                            <constraint firstAttribute="width" constant="100" id="uKM-sM-Tq2"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
-                                        <state key="normal" title="Sign Out">
-                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="finalSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="qnG-Hn-BuR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zk0-Zm-wgT">
-                                        <rect key="frame" x="30" y="139.5" width="100" height="36"/>
-                                        <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="36" id="JzE-Td-QcX"/>
-                                            <constraint firstAttribute="width" constant="100" id="wpI-vu-GdF"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="cancelSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="eYS-6n-8c9"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="s1M-R7-5rg" secondAttribute="bottom" constant="30" id="02W-NO-i7E"/>
-                                    <constraint firstAttribute="height" constant="205.5" id="9zs-fJ-MGh"/>
-                                    <constraint firstAttribute="trailing" secondItem="tN6-em-6qS" secondAttribute="trailing" constant="30" id="Mj5-DU-tJ6"/>
-                                    <constraint firstItem="zk0-Zm-wgT" firstAttribute="leading" secondItem="tN6-em-6qS" secondAttribute="leading" id="WQI-Yf-QBZ"/>
-                                    <constraint firstItem="4qU-2z-iig" firstAttribute="centerX" secondItem="Wy6-GS-E2O" secondAttribute="centerX" id="ZBN-YI-9mo"/>
-                                    <constraint firstItem="s1M-R7-5rg" firstAttribute="trailing" secondItem="tN6-em-6qS" secondAttribute="trailing" id="cER-mr-FPR"/>
-                                    <constraint firstAttribute="bottom" secondItem="zk0-Zm-wgT" secondAttribute="bottom" constant="30" id="ghH-z2-Z2A"/>
-                                    <constraint firstItem="4qU-2z-iig" firstAttribute="top" secondItem="Wy6-GS-E2O" secondAttribute="top" constant="5" id="iRO-qe-SCi"/>
-                                    <constraint firstItem="tN6-em-6qS" firstAttribute="leading" secondItem="Wy6-GS-E2O" secondAttribute="leading" constant="30" id="ubV-qG-hLn"/>
-                                    <constraint firstItem="tN6-em-6qS" firstAttribute="top" secondItem="4qU-2z-iig" secondAttribute="bottom" constant="30" id="umz-PS-gH2"/>
-                                    <constraint firstItem="tN6-em-6qS" firstAttribute="centerX" secondItem="Wy6-GS-E2O" secondAttribute="centerX" id="xCI-Gj-f3T"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r54-p5-UAD" customClass="CustomHeader" customModule="passive_hangout" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                                 <subviews>
@@ -1731,6 +1643,94 @@
                                     <constraint firstItem="3kz-tp-G2t" firstAttribute="top" secondItem="5nj-Vw-9DL" secondAttribute="bottom" constant="10" id="whk-g4-KrQ"/>
                                 </constraints>
                             </scrollView>
+                            <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsa-fI-MfH">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wy6-GS-E2O" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
+                                <rect key="frame" x="20" y="322" width="335" height="205.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qU-2z-iig">
+                                        <rect key="frame" x="130.5" y="5" width="73.5" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="BY4-Se-X56"/>
+                                            <constraint firstAttribute="height" constant="25" id="IJm-Bg-yRd"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you sure you would like to sign out of this profile?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tN6-em-6qS">
+                                        <rect key="frame" x="30" y="60" width="275" height="49.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="mPC-WD-zjN"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="nTS-6p-5Wa"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1M-R7-5rg">
+                                        <rect key="frame" x="205" y="139.5" width="100" height="36"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="VYM-BM-d3p"/>
+                                            <constraint firstAttribute="width" constant="100" id="uKM-sM-Tq2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
+                                        <state key="normal" title="Sign Out">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="finalSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="qnG-Hn-BuR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zk0-Zm-wgT">
+                                        <rect key="frame" x="30" y="139.5" width="100" height="36"/>
+                                        <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="JzE-Td-QcX"/>
+                                            <constraint firstAttribute="width" constant="100" id="wpI-vu-GdF"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="cancelSignOutBtnPressed:" destination="vee-CM-2bF" eventType="touchUpInside" id="eYS-6n-8c9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="s1M-R7-5rg" secondAttribute="bottom" constant="30" id="02W-NO-i7E"/>
+                                    <constraint firstAttribute="height" constant="205.5" id="9zs-fJ-MGh"/>
+                                    <constraint firstAttribute="trailing" secondItem="tN6-em-6qS" secondAttribute="trailing" constant="30" id="Mj5-DU-tJ6"/>
+                                    <constraint firstItem="zk0-Zm-wgT" firstAttribute="leading" secondItem="tN6-em-6qS" secondAttribute="leading" id="WQI-Yf-QBZ"/>
+                                    <constraint firstItem="4qU-2z-iig" firstAttribute="centerX" secondItem="Wy6-GS-E2O" secondAttribute="centerX" id="ZBN-YI-9mo"/>
+                                    <constraint firstItem="s1M-R7-5rg" firstAttribute="trailing" secondItem="tN6-em-6qS" secondAttribute="trailing" id="cER-mr-FPR"/>
+                                    <constraint firstAttribute="bottom" secondItem="zk0-Zm-wgT" secondAttribute="bottom" constant="30" id="ghH-z2-Z2A"/>
+                                    <constraint firstItem="4qU-2z-iig" firstAttribute="top" secondItem="Wy6-GS-E2O" secondAttribute="top" constant="5" id="iRO-qe-SCi"/>
+                                    <constraint firstItem="tN6-em-6qS" firstAttribute="leading" secondItem="Wy6-GS-E2O" secondAttribute="leading" constant="30" id="ubV-qG-hLn"/>
+                                    <constraint firstItem="tN6-em-6qS" firstAttribute="top" secondItem="4qU-2z-iig" secondAttribute="bottom" constant="30" id="umz-PS-gH2"/>
+                                    <constraint firstItem="tN6-em-6qS" firstAttribute="centerX" secondItem="Wy6-GS-E2O" secondAttribute="centerX" id="xCI-Gj-f3T"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -5848,7 +5848,7 @@
                                         </constraints>
                                         <state key="normal" image="chevron-left-white-button"/>
                                         <connections>
-                                            <action selector="backBtnPressed:" destination="mWX-cu-5KE" eventType="touchUpInside" id="jGI-Yc-AnO"/>
+                                            <action selector="backBtnPressed:" destination="mWX-cu-5KE" eventType="touchUpInside" id="zj6-hq-mwM"/>
                                         </connections>
                                     </button>
                                 </subviews>
