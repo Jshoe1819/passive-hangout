@@ -18,6 +18,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     var searchActive = false
     var profileSearchResults = [Users]()
     var citySearchResults = [Status]()
+    var joinedKeys = [String]()
+    var unjoinedArr = [String]()
     var privateArr = [String]()
     var privateArrIds = [String]()
     var cityArr = [String]()
@@ -199,14 +201,15 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         cell.joinBtn.isHidden = true
                         cell.alreadyJoinedBtn.isHidden = true
                     } else {
-                        
+                        print(joinedKeys.count)
+                        print(unjoinedArr.count)
                         let join = status.joinedList.keys.contains { (key) -> Bool in
                             key == currentUser
                         }
-                        if join {
+                        if (join && !unjoinedArr.contains(status.statusKey)) || joinedKeys.contains(status.statusKey) {
                             cell.joinBtn.isHidden = true
                             cell.alreadyJoinedBtn.isHidden = false
-                        } else{
+                        } else {
                             cell.joinBtn.isHidden = false
                             cell.alreadyJoinedBtn.isHidden = true
                         }
@@ -277,7 +280,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                         let join = status.joinedList.keys.contains { (key) -> Bool in
                             key == currentUser
                         }
-                        if join {
+                        if (join && !unjoinedArr.contains(status.statusKey)) || joinedKeys.contains(status.statusKey) {
                             cell.joinBtn.isHidden = true
                             cell.alreadyJoinedBtn.isHidden = false
                         } else{
@@ -327,8 +330,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if profilesIndicatorView.isHidden == false {
-            let selectedProfile = profileSearchResults[indexPath.row]
-            performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+            let selectedProfileKey = profileSearchResults[indexPath.row].usersKey
+            performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfileKey)
         }
     }
     
@@ -347,6 +350,13 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         bottomSeparatorView.isHidden = false
         
         if profilesChoiceBtn.isEnabled == false {
+            
+            for index in 0..<usersArr.count {
+                if usersArr[index].usersKey == currentUserInfo.usersKey {
+                    usersArr.remove(at: index)
+                    break
+                }
+            }
             
             profilesIndicatorView.isHidden = false
             profilesChoiceBtn.setTitleColor(UIColor(red:0.53, green:0.32, blue:0.58, alpha:1), for: .normal)
@@ -490,7 +500,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         if segue.identifier == "searchToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
                 nextVC.originController = "searchToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
@@ -526,8 +536,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 
                 for index in 0..<usersArr.count {
                     if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                        let selectedProfileKey = usersArr[index].usersKey
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfileKey)
                     }
                 }
                 
@@ -541,8 +551,8 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 
                 for index in 0..<usersArr.count {
                     if userKey == usersArr[index].usersKey {
-                        let selectedProfile = usersArr[index]
-                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfile)
+                        let selectedProfileKey = usersArr[index].usersKey
+                        performSegue(withIdentifier: "searchToViewProfile", sender: selectedProfileKey)
                     }
                 }
             }
@@ -562,6 +572,15 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
                 
+                joinedKeys.append(statusKey)
+                
+                for index in 0..<unjoinedArr.count {
+                    if unjoinedArr[index] == statusKey {
+                        unjoinedArr.remove(at: index)
+                        break
+                    }
+                }
+                
             }
                 
             else if citiesIndicatorView.isHidden == false {
@@ -573,6 +592,15 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_USERS.child(userKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
                 DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : citySearchResults[tag].joinedList.count])
+                
+                joinedKeys.append(statusKey)
+                
+                for index in 0..<unjoinedArr.count {
+                    if unjoinedArr[index] == statusKey {
+                        unjoinedArr.remove(at: index)
+                        break
+                    }
+                }
                 
             }
         }
@@ -588,12 +616,30 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count-1])
                 
+                unjoinedArr.append(statusKey)
+                
+                for index in 0..<joinedKeys.count {
+                    if joinedKeys[index] == statusKey {
+                        joinedKeys.remove(at: index)
+                        break
+                    }
+                }
+                
             } else if citiesIndicatorView.isHidden == false {
                 
                 let statusKey = citySearchResults[tag].statusKey
                 DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
                 DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : citySearchResults[tag].joinedList.count-1])
+                
+                unjoinedArr.append(statusKey)
+                
+                for index in 0..<joinedKeys.count {
+                    if joinedKeys[index] == statusKey {
+                        joinedKeys.remove(at: index)
+                        break
+                    }
+                }
                 
             }
         }
@@ -785,6 +831,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     func refresh(sender: Any) {
 
         numberLoadMores = 1
+        
+        unjoinedArr = []
+        joinedKeys = []
         
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: 10).observeSingleEvent(of: .value, with: { (snapshot) in
             

@@ -124,7 +124,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "joinedListToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
                 nextVC.originController = "joinedListToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
@@ -192,8 +192,8 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let userKey = statusArr[tag].userId
         for index in 0..<usersArr.count {
             if userKey == usersArr[index].usersKey {
-                let selectedProfile = usersArr[index]
-                performSegue(withIdentifier: "joinedListToViewProfile", sender: selectedProfile)
+                let selectedProfileKey = usersArr[index].usersKey
+                performSegue(withIdentifier: "joinedListToViewProfile", sender: selectedProfileKey)
             }
         }
     }

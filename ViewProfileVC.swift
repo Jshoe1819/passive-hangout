@@ -40,6 +40,7 @@ class ViewProfileVC: UIViewController {
     @IBOutlet weak var removeFriendView: RoundedPopUp!
     
     var selectedProfile: Users!
+    var selectedProfileKey = ""
     var statusArr = [Status]()
     var conversationArr = [Conversation]()
     var selectedStatus: Status!
@@ -78,7 +79,7 @@ class ViewProfileVC: UIViewController {
                         
                         for _ in self.statusArr {
                             for index in 0..<self.statusArr.count {
-                                if self.statusArr[index].userId == self.selectedProfile.usersKey {
+                                if self.statusArr[index].userId == self.selectedProfileKey {
                                     self.lastStatusLbl.text = self.statusArr[index].content
                                     self.statusAgeLbl.text = self.configureTimeAgo(unixTimestamp: self.statusArr[index].postedDate)
                                     break
@@ -91,8 +92,65 @@ class ViewProfileVC: UIViewController {
             }
         })
         
+        DataService.ds.REF_USERS.child(selectedProfileKey).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let currentUserData = snapshot.value as? Dictionary<String, Any> {
+                let user = Users(usersKey: self.selectedProfileKey, usersData: currentUserData)
+                self.selectedProfile = user
+                
+                self.nameLbl.text = self.selectedProfile.name
+                self.populateCoverPicture(user: self.selectedProfile)
+                self.populateProfilePicture(user: self.selectedProfile)
+                
+                if let currentUser = Auth.auth().currentUser?.uid {
+                    if let friendStatus = self.selectedProfile.friendsList[currentUser] as? String {
+                        if friendStatus == "received" {
+                            if self.selectedProfile.isPrivate {
+                                self.privateConfigure()
+                                self.privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+                                
+                            } else if !self.selectedProfile.isPrivate {
+                                self.publicConfigure()
+                                self.publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+                                
+                            }
+                            
+                        } else if friendStatus == "sent" {
+                            if self.selectedProfile.isPrivate {
+                                self.privateConfigure()
+                                self.privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
+                                
+                            } else if !self.selectedProfile.isPrivate {
+                                self.publicConfigure()
+                                self.publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
+                                
+                            }
+                            
+                        } else if friendStatus == "friends" {
+                            self.publicConfigure()
+                            self.removeFriendBtn.isHidden = false
+                            self.publicAddFriendBtn.isHidden = true
+                            
+                        }
+                        
+                    } else {
+                        if self.selectedProfile.isPrivate {
+                            self.privateConfigure()
+                            self.publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                        } else if !self.selectedProfile.isPrivate {
+                            self.publicConfigure()
+                            self.removeFriendBtn.isHidden = true
+                            self.publicAddFriendBtn.isHidden = false
+                            self.publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+                        }
+                    }
+                }
+                
+            }
+            
+        })
+        
 
-        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "users/\(selectedProfile.usersKey)").observeSingleEvent(of: .value, with: { (snapshot) in
+        DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "users/\(selectedProfileKey)").observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -100,7 +158,7 @@ class ViewProfileVC: UIViewController {
                         let key = snap.key
                         let conversation = Conversation(conversationKey: key, conversationData: conversationDict)
                         if let currentUser = Auth.auth().currentUser?.uid {
-                            let userConversation = conversation.users.keys.contains(currentUser) && conversation.users.keys.contains(self.selectedProfile.usersKey)
+                            let userConversation = conversation.users.keys.contains(currentUser) && conversation.users.keys.contains(self.selectedProfileKey)
                             if userConversation {
                                 self.selectedConversation = conversation.conversationKey
                             }
@@ -110,53 +168,53 @@ class ViewProfileVC: UIViewController {
             }
         })
         
-        nameLbl.text = selectedProfile.name
-        populateCoverPicture(user: selectedProfile)
-        populateProfilePicture(user: selectedProfile)
-        
-        if let currentUser = Auth.auth().currentUser?.uid {
-            if let friendStatus = selectedProfile.friendsList[currentUser] as? String {
-                if friendStatus == "received" {
-                    if selectedProfile.isPrivate {
-                        privateConfigure()
-                        privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
-                        
-                    } else if !selectedProfile.isPrivate {
-                        publicConfigure()
-                        publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
-                        
-                    }
-                    
-                } else if friendStatus == "sent" {
-                    if selectedProfile.isPrivate {
-                        privateConfigure()
-                        privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
-                        
-                    } else if !selectedProfile.isPrivate {
-                        publicConfigure()
-                        publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
-                        
-                    }
-                    
-                } else if friendStatus == "friends" {
-                    publicConfigure()
-                    removeFriendBtn.isHidden = false
-                    publicAddFriendBtn.isHidden = true
-                    
-                }
-                
-            } else {
-                if selectedProfile.isPrivate {
-                    privateConfigure()
-                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-                } else if !selectedProfile.isPrivate {
-                    publicConfigure()
-                    removeFriendBtn.isHidden = true
-                    publicAddFriendBtn.isHidden = false
-                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-                }
-            }
-        }
+//        nameLbl.text = selectedProfile.name
+//        populateCoverPicture(user: selectedProfile)
+//        populateProfilePicture(user: selectedProfile)
+//        
+//        if let currentUser = Auth.auth().currentUser?.uid {
+//            if let friendStatus = selectedProfile.friendsList[currentUser] as? String {
+//                if friendStatus == "received" {
+//                    if selectedProfile.isPrivate {
+//                        privateConfigure()
+//                        privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+//                        
+//                    } else if !selectedProfile.isPrivate {
+//                        publicConfigure()
+//                        publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
+//                        
+//                    }
+//                    
+//                } else if friendStatus == "sent" {
+//                    if selectedProfile.isPrivate {
+//                        privateConfigure()
+//                        privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
+//                        
+//                    } else if !selectedProfile.isPrivate {
+//                        publicConfigure()
+//                        publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
+//                        
+//                    }
+//                    
+//                } else if friendStatus == "friends" {
+//                    publicConfigure()
+//                    removeFriendBtn.isHidden = false
+//                    publicAddFriendBtn.isHidden = true
+//                    
+//                }
+//                
+//            } else {
+//                if selectedProfile.isPrivate {
+//                    privateConfigure()
+//                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+//                } else if !selectedProfile.isPrivate {
+//                    publicConfigure()
+//                    removeFriendBtn.isHidden = true
+//                    publicAddFriendBtn.isHidden = false
+//                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
+//                }
+//            }
+//        }
         
     }
     
@@ -347,7 +405,7 @@ class ViewProfileVC: UIViewController {
                 } else {
                     nextVC.originController = "viewProfileToPastStatuses"
                 }
-                nextVC.viewedProfile = selectedProfile
+                nextVC.selectedProfileKey = selectedProfile.usersKey
             }
         } else if segue.identifier == "viewProfileToJoinedFriends" {
             if let nextVC = segue.destination as? JoinedFriendsVC {
@@ -362,6 +420,7 @@ class ViewProfileVC: UIViewController {
         } else if segue.identifier == "viewProfileToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
                 nextVC.conversationUid = sender as! String
+                nextVC.selectedProfileKey = selectedProfileKey
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
                 } else if originController == "searchToViewProfile" {

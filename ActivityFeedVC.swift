@@ -35,6 +35,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var placeholderLabel : UILabel!
     var refreshControl: UIRefreshControl!
     var friendPostArr = [String]()
+    var unjoinedArr = [String]()
+    var joinedKeys = [String]()
     
     var userCity = ""
     var originController = ""
@@ -159,7 +161,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let join = status.joinedList.keys.contains { (key) -> Bool in
                     key == currentUser
                 }
-                if join {
+                if (join && !unjoinedArr.contains(status.statusKey)) || joinedKeys.contains(status.statusKey) {
                     cell.joinBtnOutlet.isHidden = true
                     cell.alreadyJoinedBtn.isHidden = false
                 } else{
@@ -283,7 +285,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if segue.identifier == "feedToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden
                 nextVC.originController = "feedToViewProfile"
@@ -320,6 +322,16 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
+            
+            joinedKeys.append(statusKey)
+            
+            for index in 0..<unjoinedArr.count {
+                if unjoinedArr[index] == statusKey {
+                    unjoinedArr.remove(at: index)
+                    break
+                }
+            }
+            
         }
     }
     
@@ -329,6 +341,15 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count-1])
+            
+            unjoinedArr.append(statusKey)
+            
+            for index in 0..<joinedKeys.count {
+                if joinedKeys[index] == statusKey {
+                    joinedKeys.remove(at: index)
+                    break
+                }
+            }
         }
     }
     
@@ -336,8 +357,8 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let userKey = statusArr[tag].userId
         for index in 0..<usersArr.count {
             if userKey == usersArr[index].usersKey {
-                let selectedProfile = usersArr[index]
-                performSegue(withIdentifier: "feedToViewProfile", sender: selectedProfile)
+                let selectedProfileKey = usersArr[index].usersKey
+                performSegue(withIdentifier: "feedToViewProfile", sender: selectedProfileKey)
             }
         }
     }

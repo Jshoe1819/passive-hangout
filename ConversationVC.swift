@@ -16,7 +16,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var conversationUid = ""
     var originController = ""
-    var otherUserKey = ""
+    var selectedProfileKey = ""
     var numberLoadMores = -1
     var messageList = [String]()
     var selectedProfile: Users!
@@ -132,19 +132,19 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 
                             }
                             
-                            if users.usersKey == self.otherUserKey {
+                            if users.usersKey == self.selectedProfileKey {
                                 self.nameLbl.text = users.name
                                 self.populateProfilePicture(user: users)
                                 self.selectedProfile = users
                             }
                             
                             
-                            let otherUser = self.currentConversation.users.keys.contains(users.usersKey) && users.usersKey != currentUser
-                            if otherUser {
-                                self.nameLbl.text = users.name
-                                self.populateProfilePicture(user: users)
-                                self.selectedProfile = users
-                            }
+//                            let otherUser = self.currentConversation.users.keys.contains(users.usersKey) && users.usersKey != currentUser
+//                            if otherUser {
+//                                self.nameLbl.text = users.name
+//                                self.populateProfilePicture(user: users)
+//                                self.selectedProfile = users
+//                            }
                         }
                     }
                 }
@@ -380,23 +380,23 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let nextVC = segue.destination as? ViewProfileVC {
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
-                    nextVC.selectedProfile = sender as? Users
+                    nextVC.selectedProfileKey = sender as! String
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 } else if originController == "searchToViewProfile" {
                     nextVC.originController = "searchToViewProfile"
-                    nextVC.selectedProfile = sender as? Users
+                    nextVC.selectedProfileKey = sender as! String
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 } else if originController == "joinedListToViewProfile" {
                     nextVC.originController = "joinedListToViewProfile"
-                    nextVC.selectedProfile = sender as? Users
+                    nextVC.selectedProfileKey = sender as! String
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 } else if originController == "joinedFriendsToViewProfile" {
                     nextVC.originController = "joinedFriendsToViewProfile"
                     nextVC.selectedStatus = selectedStatus
-                    nextVC.selectedProfile = sender as? Users
+                    nextVC.selectedProfileKey = sender as! String
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 }
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
             }
         } else if segue.identifier == "conversationToFeed" {
@@ -418,28 +418,28 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if originController == "viewProfileToConversation" {
             
-            let selectedUser = self.selectedProfile
-            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+            let selectedProfileKey = self.selectedProfileKey
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfileKey)
             
         } else if originController == "feedToViewProfile" {
             
-            let selectedUser = self.selectedProfile
-            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+            let selectedProfileKey = self.selectedProfileKey
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfileKey)
         } else if originController == "searchToViewProfile" {
             
-            let selectedUser = self.selectedProfile
-            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+            let selectedProfileKey = self.selectedProfileKey
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfileKey)
         } else if originController == "joinedListToViewProfile" {
             
-            let selectedUser = self.selectedProfile
-            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedUser)
+            let selectedProfileKey = self.selectedProfileKey
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfileKey)
         } else if originController == "friendsListToConversation" {
             
             performSegue(withIdentifier: "conversationToFriendsList", sender: nil)
             
         } else if originController == "joinedFriendsToViewProfile" {
             
-            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfile)
+            performSegue(withIdentifier: "conversationToViewProfile", sender: selectedProfileKey)
             
         }
             

@@ -154,8 +154,8 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProfile = filtered[indexPath.row]
-        performSegue(withIdentifier: "joinedFriendsToViewProfile", sender: selectedProfile)
+        let selectedProfileKey = filtered[indexPath.row].usersKey
+        performSegue(withIdentifier: "joinedFriendsToViewProfile", sender: selectedProfileKey)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -165,7 +165,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "joinedFriendsToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
                 nextVC.originController = "joinedFriendsToViewProfile"
                 nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden
                 nextVC.showFooterNewMsg = !footerNewMsgIndicator.isHidden

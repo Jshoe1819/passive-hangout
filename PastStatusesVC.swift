@@ -30,12 +30,15 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     var statusArr = [Status]()
     var usersArr = [Users]()
+    var unjoinedArr = [String]()
+    var joinedKeys = [String]()
     var hangoutContentArr = Dictionary<Int, String>()
     var hangoutCityArr = Dictionary<Int, String>()
     var userStatusKeys = [String]()
     var selectedHangout: Int!
     var originController = ""
-    var viewedProfile: Users!
+    var selectedProfile: Users!
+    var selectedProfileKey = ""
     var status: Status!
     var selectedStatus: Status!
     var searchText = ""
@@ -72,9 +75,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
                                                                      attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
-        if originController == "myProfileToPastStatuses" || originController == "joinedFriendsToPastStatuses" {
-
-            isEmptyImg.image = UIImage(named: "my-past-hangouts-isEmpty-image")
+        if self.originController == "myProfileToPastStatuses" || self.originController == "joinedFriendsToPastStatuses" {
+            
+            self.isEmptyImg.image = UIImage(named: "my-past-hangouts-isEmpty-image")
             
             if let currentUser = Auth.auth().currentUser?.uid {
                 DataService.ds.REF_USERS.child(currentUser).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -91,26 +94,30 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             
         } else {
             
-            isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
+            self.isEmptyImg.image = UIImage(named: "profile-past-hangouts-isEmpty-image")
             
-            DataService.ds.REF_USERS.child(viewedProfile.usersKey).child("statusId").observeSingleEvent(of: .value, with: { (snapshot) in
-                if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        if snap.key != "a" {
-                            self.userStatusKeys.append(snap.key)
+            DataService.ds.REF_USERS.child(self.selectedProfileKey).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let currentUserData = snapshot.value as? Dictionary<String, Any> {
+                    let user = Users(usersKey: self.selectedProfileKey, usersData: currentUserData)
+                    self.selectedProfile = user
+                    
+                    for statusKey in self.selectedProfile.statusId.keys {
+                        if statusKey != "a" {
+                            self.userStatusKeys.append(statusKey)
                         }
+                    }
+                    
+                }
+                if self.originController != "myProfileToPastStatuses" {
+                    if self.originController != "joinedFriendsToPastStatuses" {
+                        self.profilePicImg.isHidden = false
+                        self.populateProfilePicture(user: self.selectedProfile)
+                        self.nameLbl.text = self.selectedProfile.name
                     }
                 }
                 self.refresh(sender: self)
             })
-        }
-        
-        if originController != "myProfileToPastStatuses" {
-            if originController != "joinedFriendsToPastStatuses" {
-                profilePicImg.isHidden = false
-                populateProfilePicture(user: viewedProfile)
-                nameLbl.text = viewedProfile.name
-            }
         }
         
     }
@@ -205,7 +212,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                         let join = status.joinedList.keys.contains { (key) -> Bool in
                             key == currentUser
                         }
-                        if join {
+                        if (join && !unjoinedArr.contains(status.statusKey)) || joinedKeys.contains(status.statusKey) {
                             cell.joinBtn.isHidden = true
                             cell.alreadyJoinedBtn.isHidden = false
                         } else{
@@ -314,6 +321,16 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues([currentUser: "true"])
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "false"])
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count])
+            
+            joinedKeys.append(statusKey)
+            
+            for index in 0..<unjoinedArr.count {
+                if unjoinedArr[index] == statusKey {
+                    unjoinedArr.remove(at: index)
+                    break
+                }
+            }
+            
         }
     }
     
@@ -323,14 +340,25 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
             DataService.ds.REF_USERS.child(currentUser).child("joinedList").child(statusKey).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).child("joinedList").child(currentUser).removeValue()
             DataService.ds.REF_STATUS.child(statusKey).updateChildValues(["joinedNumber" : statusArr[tag].joinedList.count - 1])
+            
+            unjoinedArr.append(statusKey)
+            
+            for index in 0..<joinedKeys.count {
+                if joinedKeys[index] == statusKey {
+                    joinedKeys.remove(at: index)
+                    break
+                }
+            }
+            
         }
         
     }
-
+    
     func didPressJoinedList(_ tag: Int) {
         let statusKey = statusArr[tag].statusKey
         DataService.ds.REF_STATUS.child(statusKey).child("joinedList").updateChildValues(["seen": "true"])
         performSegue(withIdentifier: "pastStatusesToJoinedFriends", sender: statusArr[tag])
+        
     }
     
     @IBAction func saveEditBtnPressed(_ sender: Any) {
@@ -422,7 +450,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         if segue.identifier == "pastStatusesToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = viewedProfile
+                nextVC.selectedProfileKey = selectedProfileKey
                 if originController == "feedToViewProfile" {
                     nextVC.originController = "feedToViewProfile"
                     nextVC.showFooterIndicator = !footerNewFriendIndicator.isHidden

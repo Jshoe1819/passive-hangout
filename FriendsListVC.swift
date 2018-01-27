@@ -207,8 +207,8 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProfile = usersArr[indexPath.row]
-        performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfile)
+        let selectedProfileKey = usersArr[indexPath.row].usersKey
+        performSegue(withIdentifier: "friendsListToViewProfile", sender: selectedProfileKey)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -283,7 +283,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendsListToViewProfile" {
             if let nextVC = segue.destination as? ViewProfileVC {
-                nextVC.selectedProfile = sender as? Users
+                nextVC.selectedProfileKey = sender as! String
             }
         } else if segue.identifier == "friendsListToConversation" {
             if let nextVC = segue.destination as? ConversationVC {
