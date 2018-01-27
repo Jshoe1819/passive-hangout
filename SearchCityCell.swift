@@ -30,7 +30,7 @@ class SearchCityCell: UITableViewCell {
         
         for index in 0..<users.count {
             if status.userId == users[index].usersKey {
-
+                
                 self.nameLbl.text = users[index].name
                 self.statusAgeLbl.text = configureTimeAgo(unixTimestamp: status.postedDate)
                 self.cityLbl.text = status.city.localizedCapitalized

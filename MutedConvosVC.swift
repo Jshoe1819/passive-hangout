@@ -138,7 +138,7 @@ class MutedConvosVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         if unmutedUserKeys[index] == filtered[tag].usersKey {
                             unmutedUserKeys.remove(at: index)
                         }
-                    
+                        
                     }
                 }
             }

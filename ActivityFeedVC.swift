@@ -116,7 +116,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if originController != "messagesToFeed" && originController != "conversationToFeed" {
-
+            
             tableView.frame.origin.x -= 500
             isEmptyImg.frame.origin.x -= 500
             tableView.isHidden = false
@@ -250,7 +250,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         "userId": currentUser] as [String : Any]
                     let childUpdates = ["/status/\(key)": status,
                                         "/users/\(currentUser)/statusId/\(key)/": true] as Dictionary<String, Any>
-
+                    
                     DataService.ds.REF_BASE.updateChildValues(childUpdates)
                     
                     refresh(sender: "")
@@ -438,7 +438,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         let key = snapshot.key
                         let status = Status(statusKey: key, statusData: statusDict)
                         self.statusArr.append(status)
-
+                        
                     }
                     self.tableView.reloadData()
                     
@@ -448,9 +448,9 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if friendPostArr != [] && friendPostArr.count >= 10 {
             friendPostCount = friendPostArr.count
             for index in 0..<10 {
-
+                
                 DataService.ds.REF_STATUS.child(friendPostArr.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
-
+                    
                     if let statusDict = snapshot.value as? Dictionary<String, Any> {
                         let key = snapshot.key
                         let status = Status(statusKey: key, statusData: statusDict)
@@ -465,14 +465,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if friendPostArr.count == 0 {
             friendPostCount = friendPostArr.count
         }
-
+        
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.usersArr = []
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)

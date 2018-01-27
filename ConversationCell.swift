@@ -25,7 +25,7 @@ class ConversationCell: UITableViewCell {
         senderMsgLbl.text = ""
         sentMsgAgeLbl.text = ""
         receivedMsgAgeLbl.text = ""
-
+        
         receivedMsgAgeLbl.isHidden = true
         receiverMsgLbl.isHidden = true
         senderMsgLbl.isHidden = true
@@ -40,7 +40,7 @@ class ConversationCell: UITableViewCell {
                 senderMsgLbl.text = message.content
                 senderMsgLbl.sizeToFit()
                 senderMsgLbl.layoutIfNeeded()
-
+                
             } else if message.senderuid != currentUser {
                 receiverMsgLbl.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
                 receiverMsgLbl.isHidden = false
@@ -52,7 +52,7 @@ class ConversationCell: UITableViewCell {
             }
         }
     }
-
+    
     func configureTimeAgo(unixTimestamp: Double) -> String {
         let date = Date().timeIntervalSince1970
         let secondsInterval = Int((date - unixTimestamp/1000).rounded().nextDown)

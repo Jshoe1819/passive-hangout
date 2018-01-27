@@ -26,7 +26,7 @@ class MutedConvosCell: UITableViewCell {
     func configureCell(users: Users) {
         
         mutedSwitch.isOn = true
-
+        
         nameLbl.text = users.name
         primaryLbl.text = users.currentCity
         
@@ -61,7 +61,7 @@ class MutedConvosCell: UITableViewCell {
         }
         
     }
-     
+    
     func switchChanged(mySwitch: UISwitch) {
         if mySwitch.isOn == true {
             cellDelegate?.mutedSwitchOn(self.tag)

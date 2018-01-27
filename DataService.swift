@@ -17,7 +17,6 @@ class DataService {
     
     static let ds = DataService()
     
-    //DB references
     private var _REF_BASE = DB_BASE
     private var _REF_STATUS = DB_BASE.child("status")
     private var _REF_USERS = DB_BASE.child("users")
@@ -25,11 +24,9 @@ class DataService {
     private var _REF_MESSAGES = DB_BASE.child("conversations").child("messages")
     private var _REF_STATUS_UID = DB_BASE.child("status").child("userId")
     
-    //Storage references
     private var _REF_STORAGE_BASE = STORAGE_BASE
     private var _REF_BACKGROUND_PICTURES = STORAGE_BASE.child("background-pictures")
     private var _REF_PROFILE_PICTURES = STORAGE_BASE.child("profile-pictures")
-    //add one for profile pictures
     
     var REF_BASE: DatabaseReference {
         return _REF_BASE
@@ -67,14 +64,8 @@ class DataService {
         return _REF_PROFILE_PICTURES
     }
     
-    //    var REF_USER_CURRENT: DatabaseReference {
-    //        let uid = KeychainWrapper.standard.string(forKey: KEY_UID)
-    //        let user = REF_USERS.child(uid!)
-    //        return user
-    //    }
-    
     func createFirebaseDBUser(uid: String, userData: Dictionary<String, Any>) {
         REF_USERS.child(uid).updateChildValues(userData)
     }
-
+    
 }

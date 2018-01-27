@@ -54,7 +54,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         if let currentUser = Auth.auth().currentUser?.uid {
-           
+            
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
                 
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
@@ -68,9 +68,9 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     self.footerNewMsgIndicator.isHidden = !user.hasNewMsg
                     
                     self.toBeDeletedProfRef = user.profilePicUrl
-
+                    
                     self.toBeDeletedCoverRef = user.cover["source"] as! String
-
+                    
                     self.populateProfilePicture(user: user)
                     self.populateCoverPicture(user: user)
                     self.populateInformation(user: user)
@@ -103,7 +103,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
             }
         }
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {

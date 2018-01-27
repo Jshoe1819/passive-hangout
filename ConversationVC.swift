@@ -138,13 +138,6 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 self.selectedProfile = users
                             }
                             
-                            
-//                            let otherUser = self.currentConversation.users.keys.contains(users.usersKey) && users.usersKey != currentUser
-//                            if otherUser {
-//                                self.nameLbl.text = users.name
-//                                self.populateProfilePicture(user: users)
-//                                self.selectedProfile = users
-//                            }
                         }
                     }
                 }
@@ -233,21 +226,9 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if let currentUser = Auth.auth().currentUser?.uid {
                     if message.senderuid == currentUser {
                         cell.sentMsgAgeLbl.isHidden = false
-//                        if let didRead = currentConversation.messages[otherUserKey] as? Bool {
-//                            if didRead == true {
-//                                if let readTime = currentConversation.messages["\(otherUserKey)Read"] as? Double {
-//                                    cell.sentMsgAgeLbl.text = "Seen \(cell.configureTimeAgo(unixTimestamp: readTime))"
-//                                }
-//                                
-//                            } else {
-//                                
-//                                cell.sentMsgAgeLbl.text = "Sent \(cell.configureTimeAgo(unixTimestamp: message.timestamp))"
-//                            }
-//                        }
                         cell.sentMsgAgeLbl.text = "Sent \(cell.configureTimeAgo(unixTimestamp: message.timestamp))"
-
+                        
                     } else {
-                        //seen and seen time, message typing graphic for less than one minute old
                         cell.receivedMsgAgeLbl.isHidden = false
                         cell.receivedMsgAgeLbl.text = "Received \(cell.configureTimeAgo(unixTimestamp: message.timestamp))"
                     }
@@ -293,7 +274,6 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        //set typing not sent text
         placeholderLabel.isHidden = !textView.text.isEmpty
         textView.isScrollEnabled = false
         
@@ -346,9 +326,6 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         numberLoadMores = 1
-        
-        //keep text not sent (push to fb on textdidchange, put in field on load)
-        //push seen time (reuse)
         
         if let messageContent = textView.text {
             
@@ -444,7 +421,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
             
         else {
-
+            
             performSegue(withIdentifier: "conversationToMessages", sender: nil)
         }
     }

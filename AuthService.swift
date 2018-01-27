@@ -58,7 +58,7 @@ class AuthService {
     }
     
     func handleFirebaseError(error: NSError, onComplete: Completion?) {
-
+        
         if let errCode = AuthErrorCode(rawValue: error.code) {
             switch errCode {
             case .userNotFound:

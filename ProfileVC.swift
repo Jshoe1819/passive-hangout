@@ -41,7 +41,7 @@ class ProfileVC: UIViewController{
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child("\(currentUser)").observe(.value, with: { (snapshot) in
-
+                
                 if let currentUserData = snapshot.value as? Dictionary<String, Any> {
                     let user = Users(usersKey: currentUser, usersData: currentUserData)
                     self.nameLbl.text = user.name
@@ -91,7 +91,7 @@ class ProfileVC: UIViewController{
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        
         if originController == "activityFeedToProfile" || originController == "joinedListToMyProfile" || originController == "searchToMyProfile"{
             scrollView.frame.origin.x += 500
             scrollView.isHidden = false
@@ -103,7 +103,7 @@ class ProfileVC: UIViewController{
         } else if originController == "messagesToMyProfile" || originController == "conversationToMyProfile" {
             scrollView.isHidden = false
             return
-
+            
         } else if originController == "pastStatusesToMyProfile" || originController == "leaveFeedbackToMyProfile" || originController == "friendsListToMyProfile" || originController == "viewProfileToMyProfile" || originController == "mutedConvosToMyProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
@@ -305,8 +305,8 @@ class ProfileVC: UIViewController{
     
     @IBAction func pastStatusesBtnPressed(_ sender: Any) {
         if let currentUser = Auth.auth().currentUser?.uid {
-        DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues(["seen": "true"])
-        performSegue(withIdentifier: "myProfileToPastStatuses", sender: nil)
+            DataService.ds.REF_USERS.child(currentUser).child("joinedList").updateChildValues(["seen": "true"])
+            performSegue(withIdentifier: "myProfileToPastStatuses", sender: nil)
         }
     }
     

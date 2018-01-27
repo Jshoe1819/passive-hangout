@@ -117,7 +117,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         DataService.ds.REF_STATUS.observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.cityArr = []
-
+            
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let dict = snap.value as? Dictionary<String, Any> {
@@ -185,9 +185,9 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         if searchActive == false {
-
+            
             noResultsLbl.isHidden = true
             noResultsLbl.alpha = 0.0
             
@@ -228,18 +228,18 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         if profilesIndicatorView.isHidden == false {
-
+            
             if profileSearchResults.isEmpty {
                 noResultsLbl.isHidden = false
                 noResultsLbl.alpha = 1.0
                 profilesTableView.isScrollEnabled = false
-                return SearchProfilesCell() 
+                return SearchProfilesCell()
             } else {
                 noResultsLbl.isHidden = true
                 noResultsLbl.alpha = 0.0
                 profilesTableView.isScrollEnabled = true
             }
-
+            
             let user = profileSearchResults[indexPath.row]
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: "searchProfilesCell") as? SearchProfilesCell {
@@ -338,7 +338,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-
+        
         searchActive = true
         exploreTableView.isHidden = true
         
@@ -417,7 +417,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         if profilesIndicatorView.isHidden == false {
             
             profilesTableView.isHidden = false
-
+            
             profileSearchResults = usersArr.filter({ (user) -> Bool in
                 
                 if searchText == "" {
@@ -449,7 +449,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         } else if citiesIndicatorView.isHidden == false {
             
             cityTableView.isHidden = false
-
+            
             let possibleCities = cityArr.filter { $0.contains("\(searchText.lowercased())") }
             
             self.citySearchResults = []
@@ -464,7 +464,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                             if let statusDict = snap.value as? Dictionary<String, Any> {
                                 let key = snap.key
                                 let status = Status(statusKey: key, statusData: statusDict)
-
+                                
                                 if !self.privateArrIds.contains(status.userId) {
                                     self.citySearchResults.insert(status, at: 0)
                                 }
@@ -661,7 +661,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     @IBAction func didPressProfilesChoiceBtn(_ sender: UIButton) {
-
+        
         profilesChoiceBtn.isEnabled = false
         citiesChoiceBtn.isEnabled = true
         
@@ -712,7 +712,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     @IBAction func didPressCitiesChoiceBtn(_ sender: UIButton) {
-
+        
         profilesChoiceBtn.isEnabled = true
         citiesChoiceBtn.isEnabled = false
         
@@ -800,7 +800,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func loadMore() {
         self.numberLoadMores += 1
-
+        
         DataService.ds.REF_STATUS.queryOrdered(byChild: "postedDate").queryLimited(toLast: UInt(10 * numberLoadMores)).observeSingleEvent(of: .value, with: { (snapshot) in
             
             self.statusArr = []
@@ -827,7 +827,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func refresh(sender: Any) {
-
+        
         numberLoadMores = 1
         
         unjoinedArr = []

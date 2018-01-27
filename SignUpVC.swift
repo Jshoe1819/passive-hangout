@@ -158,7 +158,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
             if error != nil {
                 //Handle error?
             } else {
-
+                
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
                     

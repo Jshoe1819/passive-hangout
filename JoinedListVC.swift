@@ -184,7 +184,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     break
                 }
             }
-
+            
         }
     }
     
@@ -218,11 +218,11 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func loadMore() {
-
+        
         if joinedKeys != [] && joinedKeys.count < (numberLoadMores + 1) * 10 {
-
+            
             for index in numberLoadMores * 10..<joinedKeys.count {
-
+                
                 DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
                     
                     if let statusDict = snapshot.value as? Dictionary<String, Any> {
@@ -239,9 +239,9 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
             
         } else if joinedKeys != [] && joinedKeys.count >= numberLoadMores * 10 {
-
+            
             for index in numberLoadMores * 10..<(numberLoadMores + 1) * 10 {
-
+                
                 DataService.ds.REF_STATUS.child(joinedKeys.sorted().reversed()[index]).observeSingleEvent(of: .value, with: { (snapshot) in
                     
                     if let statusDict = snapshot.value as? Dictionary<String, Any> {
@@ -256,14 +256,14 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 })
             }
             numberLoadMores += 1
-
+            
         } else if joinedKeys.count == 0 {
             return
         }
     }
     
     func refresh(sender: Any) {
-
+        
         self.isEmptyImg.isHidden = true
         self.isEmptyImg.alpha = 0.0
         
@@ -322,7 +322,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
             
         } else if joinedKeys.count == 0 {
-
+            
             self.statusArr = []
             
             self.isEmptyImg.isHidden = false

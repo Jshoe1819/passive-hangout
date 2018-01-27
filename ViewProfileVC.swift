@@ -149,7 +149,7 @@ class ViewProfileVC: UIViewController {
             
         })
         
-
+        
         DataService.ds.REF_CONVERSATION.queryOrdered(byChild: "users/\(selectedProfileKey)").observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -168,58 +168,10 @@ class ViewProfileVC: UIViewController {
             }
         })
         
-//        nameLbl.text = selectedProfile.name
-//        populateCoverPicture(user: selectedProfile)
-//        populateProfilePicture(user: selectedProfile)
-//        
-//        if let currentUser = Auth.auth().currentUser?.uid {
-//            if let friendStatus = selectedProfile.friendsList[currentUser] as? String {
-//                if friendStatus == "received" {
-//                    if selectedProfile.isPrivate {
-//                        privateConfigure()
-//                        privateAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
-//                        
-//                    } else if !selectedProfile.isPrivate {
-//                        publicConfigure()
-//                        publicAddFriendBtn.setTitle("Friend Request Sent", for: .normal)
-//                        
-//                    }
-//                    
-//                } else if friendStatus == "sent" {
-//                    if selectedProfile.isPrivate {
-//                        privateConfigure()
-//                        privateAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
-//                        
-//                    } else if !selectedProfile.isPrivate {
-//                        publicConfigure()
-//                        publicAddFriendBtn.setTitle("Respond to Friend Request", for: .normal)
-//                        
-//                    }
-//                    
-//                } else if friendStatus == "friends" {
-//                    publicConfigure()
-//                    removeFriendBtn.isHidden = false
-//                    publicAddFriendBtn.isHidden = true
-//                    
-//                }
-//                
-//            } else {
-//                if selectedProfile.isPrivate {
-//                    privateConfigure()
-//                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-//                } else if !selectedProfile.isPrivate {
-//                    publicConfigure()
-//                    removeFriendBtn.isHidden = true
-//                    publicAddFriendBtn.isHidden = false
-//                    publicAddFriendBtn.setTitle("Add Friend", for: .normal)
-//                }
-//            }
-//        }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        
         if originController == "pastStatusesToViewProfile" {
             scrollView.frame.origin.x -= 500
             scrollView.isHidden = false
@@ -237,7 +189,6 @@ class ViewProfileVC: UIViewController {
             }
         }
     }
-    
     
     func privateConfigure() {
         
@@ -462,7 +413,7 @@ class ViewProfileVC: UIViewController {
             performSegue(withIdentifier: "viewProfileToConversation", sender: selectedConversation)
             return
         }
-
+        
         if let user = Auth.auth().currentUser {
             let userId = user.uid
             let key = DataService.ds.REF_BASE.child("conversations").childByAutoId().key
@@ -559,7 +510,7 @@ class ViewProfileVC: UIViewController {
     
     @IBAction func cancelRemoveFriendBtnPressed(_ sender: Any) {
         opaqueBackground.isHidden = true
-
+        
         UIView.animate(withDuration: 0.25) {
             self.removeFriendView.frame.origin.y += 1000
         }

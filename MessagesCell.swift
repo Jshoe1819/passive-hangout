@@ -25,11 +25,11 @@ class MessagesCell: UITableViewCell {
         newMessageView.isHidden = true
         
         for index in 0..<conversation.count {
-
+            
             if let currentUser = Auth.auth().currentUser?.uid {
                 let containsUser = conversation[index].users.keys.contains(users.usersKey) && users.usersKey != currentUser
                 if containsUser {
-
+                    
                     self.nameLbl.text = users.name
                     if let lastMsgDate = conversation[index].details["lastMsgDate"] as? Double {
                         self.messageAgeLbl.text = configureTimeAgo(unixTimestamp: lastMsgDate)

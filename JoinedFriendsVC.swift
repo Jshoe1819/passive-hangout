@@ -37,7 +37,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
         refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
-                
+        
         searchBar.keyboardAppearance = .dark
         searchBar.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         tableView.keyboardDismissMode = .onDrag
@@ -49,7 +49,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)
@@ -196,16 +196,16 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func didPressAddFriendBtn(_ tag: Int) {
         let friendKey = filtered[tag].usersKey
-            DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
-            DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
+        DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").updateChildValues([friendKey: "sent"])
+        DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues([currentUserInfo.usersKey: "received"])
         DataService.ds.REF_USERS.child(friendKey).child("friendsList").updateChildValues(["seen": "false"])
         
     }
     
     func didPressRequestSentBtn(_ tag: Int) {
         let friendKey = filtered[tag].usersKey
-            DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
-            DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
+        DataService.ds.REF_USERS.child(currentUserInfo.usersKey).child("friendsList").child(friendKey).removeValue()
+        DataService.ds.REF_USERS.child(friendKey).child("friendsList").child(currentUserInfo.usersKey).removeValue()
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
@@ -239,7 +239,7 @@ class JoinedFriendsVC: UIViewController, UITableViewDelegate, UITableViewDataSou
             
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-
+                    
                     if let usersDict = snap.value as? Dictionary<String, Any> {
                         let key = snap.key
                         let users = Users(usersKey: key, usersData: usersDict)

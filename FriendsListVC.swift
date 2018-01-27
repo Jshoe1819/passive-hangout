@@ -126,7 +126,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        
         if originController == "" {
             
             searchBar.frame.origin.x += 500
@@ -195,7 +195,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
             cell.cellDelegate = self
             cell.tag = indexPath.row
             cell.selectionStyle = .none
-
+            
             cell.configureCell(friendsList: currentFriendsList, users: users)
             
             return cell
@@ -218,7 +218,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let deleteAction = UITableViewRowAction(style: .normal, title: "Remove") { (rowAction, indexPath) in
-
+            
             self.selectedProfile = indexPath.row
             self.removeFriendView.frame.origin.y += 1000
             self.removeFriendView.isHidden = false
@@ -236,16 +236,16 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         let editAction = UITableViewRowAction(style: .normal, title: "Message") { (rowAction, indexPath) in
             tableView.setEditing(true, animated: true)
             if tableView.isEditing == true {
-
+                
                 for index in 0..<self.conversationArr.count {
                     if self.conversationArr[index].users.keys.contains(self.usersArr[indexPath.row].usersKey) {
                         let selectedConversation = self.conversationArr[index].conversationKey
                         self.performSegue(withIdentifier: "friendsListToConversation", sender: selectedConversation)
                         return
                     }
-
+                    
                 }
-
+                
                 if let user = Auth.auth().currentUser {
                     
                     let userId = user.uid
@@ -360,7 +360,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
     @IBAction func cancelBtnPressed(_ sender: Any) {
         
         opaqueBackground.isHidden = true
-
+        
         UIView.animate(withDuration: 0.25) {
             self.removeFriendView.frame.origin.y += 1000
         }
@@ -410,7 +410,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
                     }
                 }
             })
-
+            
         }
         
         DataService.ds.REF_USERS.observeSingleEvent(of: .value, with: { (snapshot) in
