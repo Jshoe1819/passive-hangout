@@ -62,7 +62,7 @@ class MutedConvosCell: UITableViewCell {
         
     }
     
-    func switchChanged(mySwitch: UISwitch) {
+    @objc func switchChanged(mySwitch: UISwitch) {
         if mySwitch.isOn == true {
             cellDelegate?.mutedSwitchOn(self.tag)
         } else {

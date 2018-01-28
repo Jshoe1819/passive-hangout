@@ -107,8 +107,8 @@ class FeedCell: UITableViewCell {
             dateFormatter.locale = NSLocale.current
             dateFormatter.dateFormat = "MM/dd/yyyy"
             var strDate = dateFormatter.string(from: date)
-            if strDate.characters.first == "0" {
-                strDate.characters.removeFirst()
+            if strDate.first == "0" {
+                strDate.removeFirst()
                 return strDate
             }
             return strDate
@@ -118,7 +118,7 @@ class FeedCell: UITableViewCell {
         }
     }
     
-    func imageTapped(_ sender: UITapGestureRecognizer) {
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
         cellDelegate?.didPressProfilePic(self.tag)
     }
     

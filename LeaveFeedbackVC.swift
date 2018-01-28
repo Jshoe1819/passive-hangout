@@ -83,7 +83,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         if tableView.isHidden == false {
             tableView.isHidden = true
         }
-        characterCountLbl.text = "\(textView.text.characters.count) / \(characterLimit) max characters remaining"
+        characterCountLbl.text = "\(textView.text.count) / \(characterLimit) max characters remaining"
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -93,7 +93,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         if updatedText.contains("\n") {
             return false
         }
-        return updatedText.characters.count <= characterLimit
+        return updatedText.count <= characterLimit
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

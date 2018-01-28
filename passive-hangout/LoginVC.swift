@@ -72,7 +72,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    func showForgotPasswordView() {
+    @objc func showForgotPasswordView() {
         
         emailResetTextField.text = ""
         confirmEmailResetTextfield.text = ""

@@ -826,7 +826,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         
     }
     
-    func refresh(sender: Any) {
+    @objc func refresh(sender: Any) {
         
         numberLoadMores = 1
         

@@ -262,7 +262,7 @@ class JoinedListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    func refresh(sender: Any) {
+    @objc func refresh(sender: Any) {
         
         self.isEmptyImg.isHidden = true
         self.isEmptyImg.alpha = 0.0

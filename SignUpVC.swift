@@ -79,11 +79,11 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
                             if password == "" {
                                 errorAlert.text = "Please enter a password"
                             } else {
-                                if password.characters.count < 6 {
+                                if password.count < 6 {
                                     errorAlert.text = "Password must be at least six characters"
                                 } else {
                                     if let passwordConfirm = confirmPasswordField.text {
-                                        if passwordConfirm.characters.count == 0 {
+                                        if passwordConfirm.count == 0 {
                                             errorAlert.text = "Please confirm password"
                                         } else if password != passwordConfirm {
                                             errorAlert.text = "Passwords do not match"

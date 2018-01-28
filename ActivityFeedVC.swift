@@ -79,7 +79,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.isHidden = !textView.text.isEmpty
         
         cityTextField.attributedPlaceholder = NSAttributedString(string: "City",
-                                                                 attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
+                                                                 attributes:[NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -203,7 +203,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         characterCountLbl.isHidden = false
-        characterCountLbl.text = "\(textView.text.characters.count) / \(CHARACTER_LIMIT) characters used"
+        characterCountLbl.text = "\(textView.text.count) / \(CHARACTER_LIMIT) characters used"
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -213,7 +213,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if updatedText.contains("\n") {
             return false
         }
-        return updatedText.characters.count <= CHARACTER_LIMIT
+        return updatedText.count <= CHARACTER_LIMIT
     }
     
     @IBAction func cancelNewStatus(_ sender: Any) {
@@ -419,7 +419,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func refresh(sender: Any) {
+    @objc func refresh(sender: Any) {
         
         statusArr = []
         self.isEmptyImg.isHidden = true

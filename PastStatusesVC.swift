@@ -73,7 +73,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         placeholderLabel.isHidden = !editHangoutTextview.text.isEmpty
         
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
-                                                                     attributes:[NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
+                                                                     attributes:[NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
         if self.originController == "myProfileToPastStatuses" || self.originController == "joinedFriendsToPastStatuses" {
             
@@ -282,7 +282,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
                 self.editHangoutTextview.text = self.hangoutContentArr[indexPath.row]
                 self.editCityTextfield.text = self.hangoutCityArr[indexPath.row]
                 self.selectedHangout = indexPath.row
-                self.characterCountLbl.text = "\(self.editHangoutTextview.text.characters.count) / \(CHARACTER_LIMIT) characters used"
+                self.characterCountLbl.text = "\(self.editHangoutTextview.text.count) / \(CHARACTER_LIMIT) characters used"
                 
             }
             
@@ -299,7 +299,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
-        characterCountLbl.text = "\(textView.text.characters.count) / \(CHARACTER_LIMIT) characters used"
+        characterCountLbl.text = "\(textView.text.count) / \(CHARACTER_LIMIT) characters used"
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -309,7 +309,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         if updatedText.contains("\n") {
             return false
         }
-        return updatedText.characters.count <= CHARACTER_LIMIT
+        return updatedText.count <= CHARACTER_LIMIT
     }
     
     func didPressJoinBtn(_ tag: Int) {

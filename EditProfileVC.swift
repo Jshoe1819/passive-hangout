@@ -293,7 +293,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 self.view.frame.origin.y -= keyboardSize.height - 50
@@ -305,7 +305,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         self.view.endEditing(true)
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0{
                 self.view.frame.origin.y += keyboardSize.height - 50
@@ -352,7 +352,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBAction func saveBtnPressed(_ sender: Any) {
         if nameTextField.text == "" {
             nameTextField.attributedPlaceholder = NSAttributedString(string: "field cannot be empty",
-                                                                     attributes: [NSForegroundColorAttributeName: UIColor.red])
+                                                                     attributes: [NSAttributedStringKey.foregroundColor: UIColor.red])
         } else {
             
             if let occupation = occupationTextField.text {

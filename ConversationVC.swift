@@ -297,7 +297,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         textView.becomeFirstResponder()
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
@@ -311,7 +311,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    @objc func keyboardWillHide(notification: NSNotification) {
         self.textViewContainerBottomConstraint.constant = 0
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
         

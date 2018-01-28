@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension MutableCollection where Indices.Iterator.Element == Index {
+extension MutableCollection {
     mutating func shuffle() {
         let c = count
         guard c > 1 else { return }
@@ -17,7 +17,7 @@ extension MutableCollection where Indices.Iterator.Element == Index {
             let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
             guard d != 0 else { continue }
             let i = index(firstUnshuffled, offsetBy: d)
-            swap(&self[firstUnshuffled], &self[i])
+            self.swapAt(firstUnshuffled, i)
         }
     }
 }
