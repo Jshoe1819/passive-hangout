@@ -22,12 +22,15 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var newStatusView: RoundedPopUp!
     @IBOutlet weak var statusPopupBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var statusPopupTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var opaqueStatusBackground: UIButton!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var newMsgChatIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
+    
+    @IBOutlet weak var newStatusBtn: UIButton!
+    @IBOutlet weak var newMsgBtn: UIButton!
+    
     
     var statusArr = [Status]()
     var usersArr = [Users]()
@@ -38,6 +41,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var unjoinedArr = [String]()
     var joinedKeys = [String]()
     
+    var keyboardHeight: CGFloat = 0.0
     var userCity = ""
     var originController = ""
     var friendPostCount = 0
@@ -56,6 +60,12 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
+        
+        newStatusBtn.contentMode = .scaleAspectFill
+        newMsgBtn.contentMode = .scaleAspectFill
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -132,6 +142,15 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if keyboardHeight == 0.0 {
+                keyboardHeight = keyboardSize.height
+                statusPopupBottomConstraint.constant = keyboardHeight + 10
+            }
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -189,13 +208,14 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func newStatusBtn(_ sender: Any) {
+        
+        newStatusView.frame.origin.y += 500
+        
         newStatusView.isHidden = false
-        statusPopupTopConstraint.constant = 5
-        statusPopupBottomConstraint.constant = 272
         opaqueStatusBackground.isHidden = false
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
+            self.newStatusView.frame.origin.y -= 500
             self.textView.becomeFirstResponder()
         })
     }
@@ -217,19 +237,18 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func cancelNewStatus(_ sender: Any) {
-        statusPopupBottomConstraint.constant = -325
-        statusPopupTopConstraint.constant = 680
-        opaqueStatusBackground.isHidden = true
-        
+
         UIView.animate(withDuration: 0.3, animations: {
-            self.view.layoutIfNeeded()
+            self.newStatusView.isHidden = true
+            self.opaqueStatusBackground.isHidden = true
             self.textView.resignFirstResponder()
+            self.cityTextField.resignFirstResponder()
             
             self.characterCountLbl.isHidden = true
             self.textView.text = ""
             self.cityTextField.text = self.userCity
         })
-        newStatusView.isHidden = true
+        
     }
     
     @IBAction func saveStatusBtnPressed(_ sender: Any) {
@@ -255,21 +274,17 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                     refresh(sender: "")
                     
-                    statusPopupBottomConstraint.constant = -325
-                    statusPopupTopConstraint.constant = 680
-                    opaqueStatusBackground.isHidden = true
-                    
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.view.layoutIfNeeded()
+                        self.newStatusView.isHidden = true
+                        self.opaqueStatusBackground.isHidden = true
                         self.textView.resignFirstResponder()
                         self.cityTextField.resignFirstResponder()
+                        
+                        self.characterCountLbl.isHidden = true
+                        self.textView.text = ""
+                        self.cityTextField.text = self.userCity
                     })
-                    
-                    self.characterCountLbl.isHidden = true
-                    self.textView.text = ""
-                    self.cityTextField.text = self.userCity
-                    newStatusView.isHidden = true
-                    
+                                        
                 }
             }
         }
