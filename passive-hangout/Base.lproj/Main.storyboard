@@ -917,7 +917,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4R2-Va-DNM">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="cancelNewStatus:" destination="BFj-D2-PmI" eventType="touchUpInside" id="EV1-jn-WqC"/>
@@ -1045,10 +1045,10 @@
                             <constraint firstAttribute="trailing" secondItem="jgn-hQ-K5J" secondAttribute="trailing" id="eHa-xb-YVP"/>
                             <constraint firstAttribute="trailing" secondItem="w44-Cq-hBs" secondAttribute="trailing" constant="20" id="fPj-pw-n4m"/>
                             <constraint firstItem="tAG-3I-TPu" firstAttribute="trailing" secondItem="jgn-hQ-K5J" secondAttribute="trailing" id="gTc-RS-c0k"/>
+                            <constraint firstAttribute="bottom" secondItem="4R2-Va-DNM" secondAttribute="bottom" id="khh-Rf-png"/>
                             <constraint firstItem="w44-Cq-hBs" firstAttribute="leading" secondItem="laE-Pa-QzU" secondAttribute="leading" constant="20" id="rx0-E2-U0V"/>
                             <constraint firstItem="tAG-3I-TPu" firstAttribute="bottom" secondItem="jgn-hQ-K5J" secondAttribute="bottom" id="uup-s1-BsQ"/>
                             <constraint firstAttribute="trailing" secondItem="Zpg-PJ-OuY" secondAttribute="trailing" id="vfd-aL-5is"/>
-                            <constraint firstItem="Xmb-CX-3lk" firstAttribute="top" secondItem="4R2-Va-DNM" secondAttribute="bottom" id="zD7-O0-E5s"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1633,7 +1633,7 @@
                                 </constraints>
                             </scrollView>
                             <button hidden="YES" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsa-fI-MfH">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="816"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wy6-GS-E2O" customClass="RoundedPopUp" customModule="passive_hangout" customModuleProvider="target">
@@ -1721,7 +1721,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="4Cc-6X-4xx" firstAttribute="leading" secondItem="C75-kt-pT3" secondAttribute="leading" id="3CC-IT-baK"/>
                             <constraint firstItem="Qsa-fI-MfH" firstAttribute="top" secondItem="C75-kt-pT3" secondAttribute="top" id="6l1-dz-ZGR"/>
@@ -1731,13 +1731,13 @@
                             <constraint firstItem="r54-p5-UAD" firstAttribute="leading" secondItem="C75-kt-pT3" secondAttribute="leading" id="Ipl-YD-HMd"/>
                             <constraint firstItem="FmP-S3-lRR" firstAttribute="top" secondItem="dKo-Ab-3Hj" secondAttribute="bottom" constant="50" id="MSD-yP-nKR"/>
                             <constraint firstItem="FmP-S3-lRR" firstAttribute="top" secondItem="4Cc-6X-4xx" secondAttribute="bottom" id="N3O-3T-jly"/>
-                            <constraint firstItem="FmP-S3-lRR" firstAttribute="top" secondItem="Qsa-fI-MfH" secondAttribute="bottom" id="Ovh-7e-xnw"/>
                             <constraint firstItem="r54-p5-UAD" firstAttribute="top" secondItem="C75-kt-pT3" secondAttribute="top" id="Rcj-2N-bmQ"/>
                             <constraint firstAttribute="trailing" secondItem="3kz-tp-G2t" secondAttribute="trailing" id="SIN-Re-L6c"/>
                             <constraint firstAttribute="trailing" secondItem="dKo-Ab-3Hj" secondAttribute="trailing" id="U8H-vG-9Lh"/>
                             <constraint firstItem="Wy6-GS-E2O" firstAttribute="leading" secondItem="C75-kt-pT3" secondAttribute="leading" constant="20" id="XRd-Ng-KM6"/>
                             <constraint firstAttribute="trailing" secondItem="r54-p5-UAD" secondAttribute="trailing" id="XUt-Y1-RSn"/>
                             <constraint firstItem="dKo-Ab-3Hj" firstAttribute="top" secondItem="C75-kt-pT3" secondAttribute="top" constant="65" id="YAb-l0-D9Y"/>
+                            <constraint firstAttribute="bottom" secondItem="Qsa-fI-MfH" secondAttribute="bottom" id="afw-x7-riG"/>
                             <constraint firstAttribute="trailing" secondItem="4Cc-6X-4xx" secondAttribute="trailing" id="jxo-Q6-LNB"/>
                             <constraint firstAttribute="trailing" secondItem="Wy6-GS-E2O" secondAttribute="trailing" constant="20" id="kxp-OM-5js"/>
                             <constraint firstItem="Wy6-GS-E2O" firstAttribute="centerY" secondItem="C75-kt-pT3" secondAttribute="centerY" id="lFt-fs-LiM"/>
