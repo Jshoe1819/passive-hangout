@@ -73,7 +73,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             characterCountLimitLblBottomConstraint.constant = keyboardSize.height + 25
         }
     }

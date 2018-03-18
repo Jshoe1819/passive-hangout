@@ -18,10 +18,11 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var originController = ""
     var selectedProfileKey = ""
     var numberLoadMores = -1
+    var keyboardHeight: CGFloat = 0.0
+    
     var messageList = [String]()
     var selectedProfile: Users!
     var selectedStatus: Status!
-    var keyboardHeight: CGFloat!
     var cellHeights = Dictionary<Int,CGFloat>()
     var messagesArr = [Messages]()
     var currentConversation: Conversation!
@@ -36,8 +37,6 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var textInputView: ReceiverMessageColor!
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var shiftView: UIView!
-    @IBOutlet weak var tvHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var textViewContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
@@ -299,10 +298,15 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            keyboardHeight = keyboardSize.height
-            
-            textViewContainerBottomConstraint.constant = keyboardSize.height - 50
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if keyboardHeight == 0.0 {
+                keyboardHeight = keyboardSize.height
+                print(keyboardHeight)
+                //statusPopupBottomConstraint.constant = keyboardHeight + 10
+            }
+            print(keyboardHeight)
+            print(self.view.frame.maxY - footerView.frame.origin.y)
+            textViewContainerBottomConstraint.constant = keyboardHeight - (self.view.frame.maxY - footerView.frame.origin.y)
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
             
             UIView.animate(withDuration: 1) {

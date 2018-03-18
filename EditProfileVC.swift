@@ -296,7 +296,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 if keyboardHeight == 0.0 {
                     keyboardHeight = keyboardSize.height - (self.view.frame.maxY - footerView.frame.origin.y)
