@@ -38,7 +38,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
-        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(FriendsListVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
         searchBar.keyboardAppearance = .dark
@@ -392,7 +392,7 @@ class FriendsListVC: UIViewController, FriendsListCellDelegate, UITableViewDeleg
         performSegue(withIdentifier: "friendsListToMyProfile", sender: nil)
     }
     
-    func refresh(sender: Any) {
+    @objc func refresh(sender: Any) {
         
         self.isEmptyImg.isHidden = true
         self.isEmptyImg.alpha = 0.0
