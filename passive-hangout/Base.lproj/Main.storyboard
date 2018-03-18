@@ -4232,10 +4232,16 @@
                                 <rect key="frame" x="0.0" y="67" width="375" height="661"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uBe-eB-Zo8">
+                                <rect key="frame" x="0.0" y="778" width="375" height="34"/>
+                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="uBe-eB-Zo8" secondAttribute="trailing" id="4Hp-MA-rjJ"/>
                             <constraint firstItem="8zb-PQ-qS4" firstAttribute="top" secondItem="RiG-mE-MJP" secondAttribute="bottom" constant="2" id="7r6-CT-xyw"/>
+                            <constraint firstItem="uBe-eB-Zo8" firstAttribute="leading" secondItem="2xj-J1-IeC" secondAttribute="leading" id="8f9-tL-Fs8"/>
                             <constraint firstItem="WAf-8i-6Zv" firstAttribute="top" secondItem="8zb-PQ-qS4" secondAttribute="top" id="C5e-Gp-L02"/>
                             <constraint firstItem="TyX-UB-YG9" firstAttribute="top" secondItem="2xj-J1-IeC" secondAttribute="top" constant="33" id="G7w-Zp-jk4"/>
                             <constraint firstItem="WAf-8i-6Zv" firstAttribute="bottom" secondItem="8zb-PQ-qS4" secondAttribute="bottom" id="Jqw-8E-sFr"/>
@@ -4249,7 +4255,9 @@
                             <constraint firstAttribute="trailing" secondItem="RiG-mE-MJP" secondAttribute="trailing" id="cTD-ae-n6T"/>
                             <constraint firstItem="RiG-mE-MJP" firstAttribute="centerX" secondItem="2xj-J1-IeC" secondAttribute="centerX" id="fSB-lQ-qPC"/>
                             <constraint firstItem="j01-EJ-6fq" firstAttribute="leading" secondItem="2xj-J1-IeC" secondAttribute="leading" id="hqp-9m-fO3"/>
+                            <constraint firstAttribute="bottom" secondItem="uBe-eB-Zo8" secondAttribute="bottom" id="k0u-HV-IB6"/>
                             <constraint firstAttribute="trailing" secondItem="j01-EJ-6fq" secondAttribute="trailing" id="lHQ-Vg-8xt"/>
+                            <constraint firstItem="uBe-eB-Zo8" firstAttribute="top" secondItem="j01-EJ-6fq" secondAttribute="bottom" id="mUv-fR-1Ey"/>
                             <constraint firstItem="9Jb-GO-I2h" firstAttribute="top" secondItem="j01-EJ-6fq" secondAttribute="bottom" id="rRl-aj-3Cs"/>
                             <constraint firstItem="WAf-8i-6Zv" firstAttribute="leading" secondItem="8zb-PQ-qS4" secondAttribute="leading" id="z9m-Lj-dDS"/>
                         </constraints>
@@ -4267,7 +4275,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I05-aB-0dn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1648" y="999"/>
+            <point key="canvasLocation" x="1647.2" y="998.27586206896558"/>
         </scene>
         <!--Joined FriendsVC-->
         <scene sceneID="r0z-1o-tqb">
@@ -5977,15 +5985,15 @@
     <inferredMetricsTieBreakers>
         <segue reference="9ga-VY-kxp"/>
         <segue reference="W4L-ij-kOw"/>
-        <segue reference="qz8-im-CGH"/>
+        <segue reference="gCg-Ub-8sY"/>
         <segue reference="mAZ-fl-5u8"/>
         <segue reference="LO5-wp-VUO"/>
-        <segue reference="BJa-L8-pjS"/>
+        <segue reference="fJQ-dC-hyU"/>
         <segue reference="yYZ-zz-Uql"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="tfq-Mk-6Zo"/>
-        <segue reference="CSu-Y2-zdl"/>
-        <segue reference="YW1-0X-4mv"/>
+        <segue reference="zZq-vH-goe"/>
+        <segue reference="h9M-nc-TZC"/>
         <segue reference="agh-4t-wA8"/>
     </inferredMetricsTieBreakers>
 </document>
