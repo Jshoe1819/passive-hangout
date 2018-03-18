@@ -5381,19 +5381,27 @@
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tgn-Yh-WAe">
+                                <rect key="frame" x="0.0" y="778" width="375" height="34"/>
+                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="YZO-KJ-Zzi" secondAttribute="trailing" id="2Lt-j7-6dg"/>
                             <constraint firstItem="YZO-KJ-Zzi" firstAttribute="top" secondItem="e5D-ID-OKV" secondAttribute="bottom" id="5fn-qz-gNX"/>
                             <constraint firstItem="c51-dM-byq" firstAttribute="top" secondItem="Gi5-Um-M79" secondAttribute="bottom" constant="2" id="7Yy-2j-9yc"/>
+                            <constraint firstAttribute="trailing" secondItem="Tgn-Yh-WAe" secondAttribute="trailing" id="Bjl-9f-5iA"/>
+                            <constraint firstAttribute="bottom" secondItem="Tgn-Yh-WAe" secondAttribute="bottom" id="CrV-dj-vGG"/>
                             <constraint firstItem="YZO-KJ-Zzi" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="Cth-tz-9JA"/>
                             <constraint firstItem="zB2-cS-kbK" firstAttribute="top" secondItem="YZO-KJ-Zzi" secondAttribute="bottom" id="Svf-vZ-uaD"/>
+                            <constraint firstItem="Tgn-Yh-WAe" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="TEN-aL-dQh"/>
                             <constraint firstAttribute="trailing" secondItem="c51-dM-byq" secondAttribute="trailing" id="UtQ-WY-5l6"/>
                             <constraint firstItem="e5D-ID-OKV" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="VSc-Xb-d1z"/>
                             <constraint firstItem="e5D-ID-OKV" firstAttribute="top" secondItem="c51-dM-byq" secondAttribute="bottom" id="ZMU-fM-pML"/>
                             <constraint firstItem="c51-dM-byq" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="cBI-Py-UVh"/>
                             <constraint firstAttribute="trailing" secondItem="Gi5-Um-M79" secondAttribute="trailing" id="j8g-1k-heZ"/>
+                            <constraint firstItem="Tgn-Yh-WAe" firstAttribute="top" secondItem="YZO-KJ-Zzi" secondAttribute="bottom" id="kXh-8u-cHy"/>
                             <constraint firstItem="Gi5-Um-M79" firstAttribute="top" secondItem="EaO-7W-Etu" secondAttribute="top" id="rW4-5l-ESg"/>
                             <constraint firstItem="Gi5-Um-M79" firstAttribute="leading" secondItem="EaO-7W-Etu" secondAttribute="leading" id="rj7-wq-Dnx"/>
                             <constraint firstAttribute="trailing" secondItem="e5D-ID-OKV" secondAttribute="trailing" id="wHS-XU-P5K"/>
@@ -5415,7 +5423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPB-Xn-OtW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1648.8" y="-902.69865067466276"/>
+            <point key="canvasLocation" x="1648.8" y="-902.95566502463055"/>
         </scene>
         <!--ConversationVC-->
         <scene sceneID="fuz-n6-uCm">
@@ -5999,17 +6007,17 @@
         <image name="slogan-purp" width="285" height="19"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9ga-VY-kxp"/>
+        <segue reference="Zl1-hz-g1g"/>
         <segue reference="W4L-ij-kOw"/>
-        <segue reference="oiz-n8-MeS"/>
+        <segue reference="hpM-YK-AX3"/>
         <segue reference="mAZ-fl-5u8"/>
-        <segue reference="pdT-dH-DV6"/>
+        <segue reference="10u-LX-lAE"/>
         <segue reference="Fz5-tL-9gQ"/>
         <segue reference="yYZ-zz-Uql"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="DzP-9T-IMk"/>
-        <segue reference="tvf-Vx-V8c"/>
-        <segue reference="DY3-QO-UuQ"/>
+        <segue reference="v6I-qg-3qN"/>
+        <segue reference="7ZA-73-jNd"/>
         <segue reference="agh-4t-wA8"/>
     </inferredMetricsTieBreakers>
 </document>
