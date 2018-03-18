@@ -27,6 +27,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var profilePicImg: FeedProfilePic!
+    @IBOutlet weak var editHangoutViewBottomConstraint: NSLayoutConstraint!
     
     var statusArr = [Status]()
     var usersArr = [Users]()
@@ -36,6 +37,8 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     var hangoutCityArr = Dictionary<Int, String>()
     var userStatusKeys = [String]()
     var selectedHangout: Int!
+    
+    var keyboardHeight: CGFloat = 0.0
     var originController = ""
     var selectedProfile: Users!
     var selectedProfileKey = ""
@@ -57,8 +60,10 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
-        refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(PastStatusesVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 90
@@ -249,6 +254,15 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
         
         return true
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if keyboardHeight == 0.0 {
+                keyboardHeight = keyboardSize.height
+                editHangoutViewBottomConstraint.constant = keyboardHeight + 10
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -564,7 +578,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         }
     }
     
-    func refresh(sender: Any) {
+    @objc func refresh(sender: Any) {
         self.statusArr = []
         numberLoadMores = 1
         
