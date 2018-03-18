@@ -50,7 +50,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         placeholderLabel.sizeToFit()
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LeaveFeedbackVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
     }
     
@@ -72,7 +72,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
         }
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             characterCountLimitLblBottomConstraint.constant = keyboardSize.height + 25
         }
