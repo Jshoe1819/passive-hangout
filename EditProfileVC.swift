@@ -19,6 +19,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     var imagePicked = 0
     var toBeDeletedProfRef = ""
     var toBeDeletedCoverRef = ""
+    var keyboardHeight:CGFloat = 0.0
     var loadOnce = false
     
     @IBOutlet weak var coverImg: UIImageView!
@@ -35,6 +36,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var footerNewFriendIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
+    @IBOutlet weak var footerView: UIView!
     
     
     override func viewDidLoad() {
@@ -295,8 +297,11 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height - 50
+            if self.view.frame.origin.y == 0 {
+                if keyboardHeight == 0.0 {
+                    keyboardHeight = keyboardSize.height - (self.view.frame.maxY - footerView.frame.origin.y)
+                }
+                self.view.frame.origin.y -= keyboardHeight
             }
         }
     }
@@ -306,11 +311,9 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height - 50
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y = 0
             }
-        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

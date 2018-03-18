@@ -3039,6 +3039,10 @@
                                     <constraint firstItem="fci-TM-ixs" firstAttribute="leading" secondItem="xAC-VY-yBi" secondAttribute="leading" id="yNi-R2-Ev9"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YMb-pW-qAT">
+                                <rect key="frame" x="0.0" y="778" width="375" height="34"/>
+                                <color key="backgroundColor" red="0.53333333329999999" green="0.32156862749999998" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -3050,17 +3054,21 @@
                             <constraint firstItem="n79-oW-7P3" firstAttribute="top" secondItem="PvR-ch-4op" secondAttribute="bottom" constant="27.999999999999943" id="7Yo-Vm-yVN"/>
                             <constraint firstAttribute="trailing" secondItem="1sn-mf-4Fk" secondAttribute="trailing" id="8wk-FU-iGa"/>
                             <constraint firstItem="vts-NJ-e6z" firstAttribute="bottom" secondItem="pjT-MD-dSt" secondAttribute="bottom" id="9WS-gg-NZZ"/>
+                            <constraint firstAttribute="bottom" secondItem="YMb-pW-qAT" secondAttribute="bottom" id="BXu-w0-a65"/>
                             <constraint firstItem="xAC-VY-yBi" firstAttribute="bottom" secondItem="n79-oW-7P3" secondAttribute="bottom" id="BYJ-r5-A9Z"/>
                             <constraint firstItem="YgR-HA-Zxc" firstAttribute="centerY" secondItem="CPL-eM-oNi" secondAttribute="centerY" id="Fdi-xu-YO7"/>
+                            <constraint firstItem="YMb-pW-qAT" firstAttribute="top" secondItem="R7C-Ng-Dhw" secondAttribute="bottom" id="Gbf-5m-CNv"/>
                             <constraint firstItem="SY8-6l-uJG" firstAttribute="centerY" secondItem="ZT4-93-a4B" secondAttribute="centerY" id="GeG-aZ-erG"/>
                             <constraint firstItem="CSL-uS-3M3" firstAttribute="bottom" secondItem="A50-b7-bIy" secondAttribute="bottom" id="LoS-FW-Fqx"/>
                             <constraint firstAttribute="trailing" secondItem="R7C-Ng-Dhw" secondAttribute="trailing" id="OYq-Z5-nac"/>
+                            <constraint firstItem="YMb-pW-qAT" firstAttribute="leading" secondItem="Ac4-Y6-2vv" secondAttribute="leading" id="S1K-XN-ob9"/>
                             <constraint firstItem="xAC-VY-yBi" firstAttribute="leading" secondItem="n79-oW-7P3" secondAttribute="trailing" constant="5" id="SCA-CC-dEg"/>
                             <constraint firstItem="R2Y-cC-qjX" firstAttribute="centerX" secondItem="PvR-ch-4op" secondAttribute="centerX" constant="59.5" id="WaS-MI-q9t"/>
                             <constraint firstItem="xAC-VY-yBi" firstAttribute="top" secondItem="n79-oW-7P3" secondAttribute="top" id="WaX-aN-oDN"/>
                             <constraint firstItem="R2Y-cC-qjX" firstAttribute="centerY" secondItem="PvR-ch-4op" secondAttribute="centerY" constant="47.5" id="bVO-r5-rZX"/>
                             <constraint firstItem="2da-HN-n24" firstAttribute="top" secondItem="R7C-Ng-Dhw" secondAttribute="bottom" id="bvS-DH-o6g"/>
                             <constraint firstItem="PvR-ch-4op" firstAttribute="centerX" secondItem="Ac4-Y6-2vv" secondAttribute="centerX" id="dpT-sY-319"/>
+                            <constraint firstAttribute="trailing" secondItem="YMb-pW-qAT" secondAttribute="trailing" id="fWq-FR-rMY"/>
                             <constraint firstAttribute="trailing" secondItem="y8e-qf-pgG" secondAttribute="trailing" id="fry-Es-w0L"/>
                             <constraint firstItem="fci-TM-ixs" firstAttribute="bottom" secondItem="No8-Dg-Apy" secondAttribute="bottom" id="g7s-Jn-gTP"/>
                             <constraint firstItem="1sn-mf-4Fk" firstAttribute="leading" secondItem="Ac4-Y6-2vv" secondAttribute="leading" id="hKW-i1-rwV"/>
@@ -3084,6 +3092,7 @@
                         <outlet property="employerTextField" destination="BRn-vH-bfH" id="TdX-mG-UAD"/>
                         <outlet property="footerNewFriendIndicator" destination="L5Z-fN-i8D" id="oZa-En-ETl"/>
                         <outlet property="footerNewMsgIndicator" destination="rJy-7n-EJn" id="uso-mr-asO"/>
+                        <outlet property="footerView" destination="R7C-Ng-Dhw" id="tlR-Bp-8pl"/>
                         <outlet property="infoView" destination="xAC-VY-yBi" id="Le6-6s-JBa"/>
                         <outlet property="nameTextField" destination="SY8-6l-uJG" id="J0y-Jk-sQ7"/>
                         <outlet property="occupationTextField" destination="OPU-Gd-tmY" id="H7z-7j-BZc"/>
@@ -3100,7 +3109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQd-o2-iC1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2536" y="-902"/>
+            <point key="canvasLocation" x="2535.1999999999998" y="-902.21674876847294"/>
         </scene>
         <!--Friends ListVC-->
         <scene sceneID="cTc-rn-dx7">
@@ -5952,15 +5961,15 @@
     <inferredMetricsTieBreakers>
         <segue reference="Zl1-hz-g1g"/>
         <segue reference="W4L-ij-kOw"/>
-        <segue reference="f74-MD-8qo"/>
+        <segue reference="PEf-1w-zZf"/>
         <segue reference="Yry-oZ-Wzs"/>
-        <segue reference="3dF-EC-wDu"/>
+        <segue reference="GqT-o6-9WH"/>
         <segue reference="PTq-OX-4io"/>
         <segue reference="250-dH-rGj"/>
         <segue reference="cdL-qi-TmD"/>
         <segue reference="DzP-9T-IMk"/>
-        <segue reference="pO3-lh-m1g"/>
-        <segue reference="MTP-dR-lnk"/>
+        <segue reference="crd-6O-jsE"/>
+        <segue reference="7R7-N8-loz"/>
         <segue reference="agh-4t-wA8"/>
     </inferredMetricsTieBreakers>
 </document>
