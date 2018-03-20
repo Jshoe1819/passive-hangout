@@ -214,7 +214,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 
                 if let user = user {
                     self.completeSignIn(uid: user.uid)
-                    
+                    print(userData)
                     var data = userData
                     data["statusId"] = ["a":true]
                     data["friendsList"] = ["seen": true]
@@ -228,7 +228,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     
                     if let currentUser = Auth.auth().currentUser?.uid {
                         if self.userKeys.contains(currentUser) {
-                            return
+                            //if let coverInfo =
+                            if let coverInfo = userData["cover"] {
+                                DataService.ds.REF_USERS.child(currentUser).updateChildValues(["cover" : coverInfo])
+                                return
+                            }
                         }
                     }
                     DataService.ds.createFirebaseDBUser(uid: user.uid, userData: data)

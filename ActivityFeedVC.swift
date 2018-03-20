@@ -27,7 +27,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var newMsgChatIndicator: UIView!
     @IBOutlet weak var footerNewMsgIndicator: UIView!
     @IBOutlet weak var characterCountLbl: UILabel!
-    
     @IBOutlet weak var newStatusBtn: UIButton!
     @IBOutlet weak var newMsgBtn: UIButton!
     
@@ -65,7 +64,6 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         newMsgBtn.contentMode = .scaleAspectFill
         
         NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        //        NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         tableView.delegate = self
         tableView.dataSource = self

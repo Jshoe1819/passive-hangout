@@ -313,10 +313,11 @@ class ViewProfileVC: UIViewController {
             } else {
                 if user.id != "a" {
                     let coverUrl = URL(string: user.cover["source"] as! String)
-                    let data = try? Data(contentsOf: coverUrl!)
-                    if let coverImage = UIImage(data: data!) {
-                        self.coverImg.image = coverImage
-                        ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
+                    if let data = try? Data(contentsOf: coverUrl!){
+                        if let coverImage = UIImage(data: data) {
+                            self.coverImg.image = coverImage
+                            ImageCache.default.store(coverImage, forKey: user.cover["source"] as! String)
+                        }
                     }
                     
                 } else {
