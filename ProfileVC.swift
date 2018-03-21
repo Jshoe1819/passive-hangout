@@ -210,7 +210,6 @@ class ProfileVC: UIViewController{
             } else {
                 if user.id != "a" {
                     let coverUrl = URL(string: user.cover["source"] as! String)
-                    print(coverUrl)
                     if let data = try? Data(contentsOf: coverUrl!){
                         if let coverImage = UIImage(data: data) {
                             self.coverImg.image = coverImage

@@ -301,11 +301,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if keyboardHeight == 0.0 {
                 keyboardHeight = keyboardSize.height
-                print(keyboardHeight)
-                //statusPopupBottomConstraint.constant = keyboardHeight + 10
             }
-            print(keyboardHeight)
-            print(self.view.frame.maxY - footerView.frame.origin.y)
             textViewContainerBottomConstraint.constant = keyboardHeight - (self.view.frame.maxY - footerView.frame.origin.y)
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
             
