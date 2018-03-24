@@ -303,7 +303,10 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 keyboardHeight = keyboardSize.height
             }
             textViewContainerBottomConstraint.constant = keyboardHeight - (self.view.frame.maxY - footerView.frame.origin.y)
-            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            if tableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil {
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+            }
+            
             
             UIView.animate(withDuration: 1) {
                 self.view.layoutIfNeeded()
