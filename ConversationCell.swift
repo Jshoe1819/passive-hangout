@@ -38,6 +38,9 @@ class ConversationCell: UITableViewCell {
                 senderMsgLbl.numberOfLines = 0
                 senderMsgLbl.lineBreakMode = .byWordWrapping
                 senderMsgLbl.text = message.content
+                if let deviceWidth: CGFloat = senderMsgLbl.superview?.frame.maxX {
+                    senderMsgLbl.preferredMaxLayoutWidth = deviceWidth - 165
+                }
                 senderMsgLbl.sizeToFit()
                 senderMsgLbl.layoutIfNeeded()
                 
@@ -47,6 +50,9 @@ class ConversationCell: UITableViewCell {
                 receiverMsgLbl.numberOfLines = 0
                 receiverMsgLbl.lineBreakMode = .byWordWrapping
                 receiverMsgLbl.text = message.content
+                if let deviceWidth: CGFloat = receiverMsgLbl.superview?.frame.maxX {
+                    receiverMsgLbl.preferredMaxLayoutWidth = deviceWidth - 165
+                }
                 receiverMsgLbl.sizeToFit()
                 receiverMsgLbl.layoutIfNeeded()
             }
