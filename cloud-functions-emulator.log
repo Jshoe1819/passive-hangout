@@ -1,0 +1,626 @@
+2018-04-07T17:01:35.623Z - info: User function triggered, starting execution
+2018-04-07T17:01:35.625Z - info: Uppercasing undefined hi
+2018-04-07T17:01:36.507Z - info: Execution took 883 ms, user function completed successfully
+2018-04-07T17:08:10.676Z - info: Worker for makeUppercase closed due to file changes.
+2018-04-07T17:08:16.138Z - info: User function triggered, starting execution
+2018-04-07T17:08:16.141Z - info: Uppercasing undefined hi
+2018-04-07T17:08:17.271Z - info: Execution took 1133 ms, user function completed successfully
+2018-04-07T17:09:04.035Z - info: User function triggered, starting execution
+2018-04-07T17:09:04.038Z - info: Uppercasing undefined hi
+2018-04-07T17:09:04.988Z - info: Execution took 954 ms, user function completed successfully
+2018-04-07T17:09:17.015Z - info: User function triggered, starting execution
+2018-04-07T17:09:17.018Z - info: Uppercasng undefined hi
+2018-04-07T17:09:17.497Z - info: Execution took 483 ms, user function completed successfully
+2018-04-07T17:09:24.798Z - info: User function triggered, starting execution
+2018-04-07T17:09:24.801Z - info: Uppercasing undefined hi
+2018-04-07T17:09:25.301Z - info: Execution took 503 ms, user function completed successfully
+2018-04-07T17:10:45.697Z - info: User function triggered, starting execution
+2018-04-07T17:10:45.700Z - info: Uppercasing undefined hi
+2018-04-07T17:10:45.701Z - info: test HI
+2018-04-07T17:10:46.344Z - info: Execution took 647 ms, user function completed successfully
+2018-04-07T17:11:22.211Z - info: User function triggered, starting execution
+2018-04-07T17:11:22.214Z - info: Uppercasing undefined hi
+2018-04-07T17:11:22.214Z - info: test HI
+2018-04-07T17:11:22.788Z - info: Execution took 577 ms, user function completed successfully
+2018-04-07T17:11:45.524Z - info: User function triggered, starting execution
+2018-04-07T17:11:45.527Z - info: Uppercasing undefined hi
+2018-04-07T17:11:45.527Z - info: test HI
+2018-04-07T17:11:46.031Z - info: Execution took 507 ms, user function completed successfully
+2018-04-07T17:11:56.520Z - info: User function triggered, starting execution
+2018-04-07T17:11:56.522Z - info: Uppercasing undefined hi
+2018-04-07T17:11:56.523Z - info: test HI
+2018-04-07T17:11:57.161Z - info: Execution took 642 ms, user function completed successfully
+2018-04-07T17:12:10.929Z - info: User function triggered, starting execution
+2018-04-07T17:12:10.932Z - info: Uppercasing undefined hi
+2018-04-07T17:12:10.932Z - info: test HI
+2018-04-07T17:12:11.024Z - info: test2 Reference {
+  repo: 
+   Repo {
+     repoInfo_: 
+      RepoInfo {
+        secure: true,
+        namespace: 'passive-hangout',
+        webSocketOnly: false,
+        persistenceKey: '',
+        host: 'passive-hangout.firebaseio.com',
+        domain: 'firebaseio.com',
+        internalHost: 'passive-hangout.firebaseio.com' },
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: [Object],
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     dataUpdateCount: 0,
+     statsListener_: null,
+     eventQueue_: EventQueue { eventLists_: [], recursionDepth_: 0 },
+     nextWriteId_: 1,
+     interceptServerDataCallback_: null,
+     onDisconnect_: SparseSnapshotTree { value_: null, children_: null },
+     persistentConnection_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     stats_: StatsCollection { counters_: {} },
+     server_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     statsReporter_: 
+      StatsReporter {
+        server_: [Object],
+        statsToReport_: {},
+        statsListener_: [Object] },
+     transactionQueueTree_: Tree { name_: '', parent_: null, node_: [Object] },
+     infoData_: SnapshotHolder { rootNode_: [Object] },
+     infoSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     serverSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     __database: Database { repo_: [Circular], root_: [Object], INTERNAL: [Object] } },
+  path: Path { pieces_: [], pieceNum_: 0 },
+  queryParams_: 
+   QueryParams {
+     limitSet_: false,
+     startSet_: false,
+     startNameSet_: false,
+     endSet_: false,
+     endNameSet_: false,
+     limit_: 0,
+     viewFrom_: '',
+     indexStartValue_: null,
+     indexStartName_: '',
+     indexEndValue_: null,
+     indexEndName_: '',
+     index_: PriorityIndex {} },
+  orderByCalled_: false }
+2018-04-07T17:12:11.444Z - info: Execution took 516 ms, user function completed successfully
+2018-04-07T17:14:54.213Z - info: User function triggered, starting execution
+2018-04-07T17:14:54.216Z - info: Uppercasing undefined hi
+2018-04-07T17:14:54.217Z - info: test HI
+2018-04-07T17:14:54.297Z - info: test2 Reference {
+  repo: 
+   Repo {
+     repoInfo_: 
+      RepoInfo {
+        secure: true,
+        namespace: 'passive-hangout',
+        webSocketOnly: false,
+        persistenceKey: '',
+        host: 'passive-hangout.firebaseio.com',
+        domain: 'firebaseio.com',
+        internalHost: 'passive-hangout.firebaseio.com' },
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: [Object],
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     dataUpdateCount: 0,
+     statsListener_: null,
+     eventQueue_: EventQueue { eventLists_: [], recursionDepth_: 0 },
+     nextWriteId_: 1,
+     interceptServerDataCallback_: null,
+     onDisconnect_: SparseSnapshotTree { value_: null, children_: null },
+     persistentConnection_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     stats_: StatsCollection { counters_: {} },
+     server_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     statsReporter_: 
+      StatsReporter {
+        server_: [Object],
+        statsToReport_: {},
+        statsListener_: [Object] },
+     transactionQueueTree_: Tree { name_: '', parent_: null, node_: [Object] },
+     infoData_: SnapshotHolder { rootNode_: [Object] },
+     infoSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     serverSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     __database: Database { repo_: [Circular], root_: [Object], INTERNAL: [Object] } },
+  path: Path { pieces_: [ 'conversations' ], pieceNum_: 0 },
+  queryParams_: 
+   QueryParams {
+     limitSet_: false,
+     startSet_: false,
+     startNameSet_: false,
+     endSet_: false,
+     endNameSet_: false,
+     limit_: 0,
+     viewFrom_: '',
+     indexStartValue_: null,
+     indexStartName_: '',
+     indexEndValue_: null,
+     indexEndName_: '',
+     index_: PriorityIndex {} },
+  orderByCalled_: false }
+2018-04-07T17:14:54.750Z - info: Execution took 537 ms, user function completed successfully
+2018-04-07T17:17:13.165Z - info: User function triggered, starting execution
+2018-04-07T17:17:13.168Z - info: Uppercasing undefined hi
+2018-04-07T17:17:13.169Z - info: test HI
+2018-04-07T17:17:13.257Z - info: test2 Reference {
+  repo: 
+   Repo {
+     repoInfo_: 
+      RepoInfo {
+        secure: true,
+        namespace: 'passive-hangout',
+        webSocketOnly: false,
+        persistenceKey: '',
+        host: 'passive-hangout.firebaseio.com',
+        domain: 'firebaseio.com',
+        internalHost: 'passive-hangout.firebaseio.com' },
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: [Object],
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     dataUpdateCount: 0,
+     statsListener_: null,
+     eventQueue_: EventQueue { eventLists_: [], recursionDepth_: 0 },
+     nextWriteId_: 1,
+     interceptServerDataCallback_: null,
+     onDisconnect_: SparseSnapshotTree { value_: null, children_: null },
+     persistentConnection_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     stats_: StatsCollection { counters_: {} },
+     server_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     statsReporter_: 
+      StatsReporter {
+        server_: [Object],
+        statsToReport_: {},
+        statsListener_: [Object] },
+     transactionQueueTree_: Tree { name_: '', parent_: null, node_: [Object] },
+     infoData_: SnapshotHolder { rootNode_: [Object] },
+     infoSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     serverSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     __database: Database { repo_: [Circular], root_: [Object], INTERNAL: [Object] } },
+  path: Path { pieces_: [ 'conversations' ], pieceNum_: 0 },
+  queryParams_: 
+   QueryParams {
+     limitSet_: false,
+     startSet_: false,
+     startNameSet_: false,
+     endSet_: false,
+     endNameSet_: false,
+     limit_: 0,
+     viewFrom_: '',
+     indexStartValue_: null,
+     indexStartName_: '',
+     indexEndValue_: null,
+     indexEndName_: '',
+     index_: PriorityIndex {} },
+  orderByCalled_: false }
+2018-04-07T17:17:13.691Z - info: Execution took 526 ms, user function completed successfully
+2018-04-07T17:17:33.625Z - info: User function triggered, starting execution
+2018-04-07T17:17:33.628Z - info: Uppercasing undefined hi
+2018-04-07T17:17:33.628Z - info: test HI
+2018-04-07T17:17:33.714Z - info: test2 Reference {
+  repo: 
+   Repo {
+     repoInfo_: 
+      RepoInfo {
+        secure: true,
+        namespace: 'passive-hangout',
+        webSocketOnly: false,
+        persistenceKey: '',
+        host: 'passive-hangout.firebaseio.com',
+        domain: 'firebaseio.com',
+        internalHost: 'passive-hangout.firebaseio.com' },
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: [Object],
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     dataUpdateCount: 0,
+     statsListener_: null,
+     eventQueue_: EventQueue { eventLists_: [], recursionDepth_: 0 },
+     nextWriteId_: 1,
+     interceptServerDataCallback_: null,
+     onDisconnect_: SparseSnapshotTree { value_: null, children_: null },
+     persistentConnection_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     stats_: StatsCollection { counters_: {} },
+     server_: 
+      PersistentConnection {
+        repoInfo_: [Object],
+        onDataUpdate_: [Function: bound ],
+        onConnectStatus_: [Function: bound ],
+        onServerInfoUpdate_: [Function: bound ],
+        authTokenProvider_: [Object],
+        authOverride_: undefined,
+        id: 0,
+        log_: [Function],
+        interruptReasons_: {},
+        listens_: {},
+        outstandingPuts_: [],
+        outstandingPutCount_: 0,
+        onDisconnectRequestQueue_: [],
+        connected_: false,
+        reconnectDelay_: 1000,
+        maxReconnectDelay_: 300000,
+        securityDebugCallback_: null,
+        lastSessionId: null,
+        establishConnectionTimer_: [Object],
+        visible_: true,
+        requestCBHash_: {},
+        requestNumber_: 0,
+        realtime_: null,
+        authToken_: null,
+        forceTokenRefresh_: false,
+        invalidAuthTokenCount_: 0,
+        firstConnection_: true,
+        lastConnectionAttemptTime_: null,
+        lastConnectionEstablishedTime_: null },
+     statsReporter_: 
+      StatsReporter {
+        server_: [Object],
+        statsToReport_: {},
+        statsListener_: [Object] },
+     transactionQueueTree_: Tree { name_: '', parent_: null, node_: [Object] },
+     infoData_: SnapshotHolder { rootNode_: [Object] },
+     infoSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     serverSyncTree_: 
+      SyncTree {
+        listenProvider_: [Object],
+        syncPointTree_: [Object],
+        pendingWriteTree_: [Object],
+        tagToQueryMap_: {},
+        queryToTagMap_: {} },
+     __database: Database { repo_: [Circular], root_: [Object], INTERNAL: [Object] } },
+  path: Path { pieces_: [ 'conversations' ], pieceNum_: 0 },
+  queryParams_: 
+   QueryParams {
+     limitSet_: false,
+     startSet_: false,
+     startNameSet_: false,
+     endSet_: false,
+     endNameSet_: false,
+     limit_: 0,
+     viewFrom_: '',
+     indexStartValue_: null,
+     indexStartName_: '',
+     indexEndValue_: null,
+     indexEndName_: '',
+     index_: PriorityIndex {} },
+  orderByCalled_: false }
+2018-04-07T17:17:34.130Z - info: Execution took 505 ms, user function completed successfully
+2018-04-07T17:17:44.704Z - info: User function triggered, starting execution
+2018-04-07T17:17:44.707Z - info: Uppercasing undefined hi
+2018-04-07T17:17:44.707Z - info: test HI
+2018-04-07T17:17:45.184Z - info: Execution took 480 ms, user function completed successfully
+2018-04-07T17:18:06.151Z - info: User function triggered, starting execution
+2018-04-07T17:18:06.154Z - info: Uppercasing undefined hi
+2018-04-07T17:18:06.154Z - info: test HI
+2018-04-07T17:18:06.156Z - info: test2 { eventId: '72b87632-41b5-4342-9f7c-4d6769dd74a2',
+  timestamp: '2018-04-07T17:18:05.727Z',
+  data: 
+   DeltaSnapshot {
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: {},
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     adminApp: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: {},
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     instance: 'https://passive-hangout.firebaseio.com',
+     _path: '/conversations',
+     _data: null,
+     _delta: 'hi',
+     _newData: 'hi' },
+  eventType: 'providers/google.firebase.database/eventTypes/ref.create',
+  resource: 'projects/_/instances/passive-hangout/refs/conversations',
+  auth: { admin: true },
+  params: { pushId: undefined } }
+2018-04-07T17:18:06.646Z - info: Execution took 495 ms, user function completed successfully
+2018-04-07T17:21:08.179Z - info: User function triggered, starting execution
+2018-04-07T17:21:08.182Z - info: Uppercasing undefined hi
+2018-04-07T17:21:08.182Z - info: test HI
+2018-04-07T17:21:08.184Z - info: test2 { eventId: '8e7a9ea8-63e7-49d4-934b-a7a3861a9f38',
+  timestamp: '2018-04-07T17:21:07.753Z',
+  data: 
+   DeltaSnapshot {
+     app: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: {},
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     adminApp: 
+      FirebaseApp {
+        firebaseInternals_: [Object],
+        services_: {},
+        isDeleted_: false,
+        name_: '__admin__',
+        options_: [Object],
+        INTERNAL: [Object] },
+     instance: 'https://passive-hangout.firebaseio.com',
+     _path: '/conversations',
+     _data: null,
+     _delta: 'hi',
+     _newData: 'hi' },
+  eventType: 'providers/google.firebase.database/eventTypes/ref.create',
+  resource: 'projects/_/instances/passive-hangout/refs/conversations',
+  auth: { admin: true },
+  params: { pushId: undefined } }
+2018-04-07T17:21:08.744Z - info: Execution took 566 ms, user function completed successfully

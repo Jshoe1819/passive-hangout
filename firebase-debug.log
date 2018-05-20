@@ -1,0 +1,46 @@
+[debug] [2018-04-07T16:57:20.080Z] ----------------------------------------------------------------------
+[debug] [2018-04-07T16:57:20.082Z] Command:       /usr/local/bin/node /usr/local/bin/firebase experimental:functions:shell
+[debug] [2018-04-07T16:57:20.082Z] CLI Version:   3.18.2
+[debug] [2018-04-07T16:57:20.082Z] Platform:      darwin
+[debug] [2018-04-07T16:57:20.082Z] Node Version:  v8.11.1
+[debug] [2018-04-07T16:57:20.083Z] Time:          Sat Apr 07 2018 12:57:20 GMT-0400 (EDT)
+[debug] [2018-04-07T16:57:20.083Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-07T16:57:20.092Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-07T16:57:20.093Z] > authorizing via signed-in user
+[debug] [2018-04-07T16:57:20.094Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/passive-hangout  
+  
+ Sat Apr 07 2018 12:57:20 GMT-0400 (EDT)
+[debug] [2018-04-07T16:57:20.514Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-07T16:57:20.515Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/passive-hangout/tokens  
+  
+ Sat Apr 07 2018 12:57:20 GMT-0400 (EDT)
+[debug] [2018-04-07T16:57:20.825Z] <<< HTTP RESPONSE 200
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-04-07T16:57:21.579Z] Fetching environment
+[debug] [2018-04-07T16:57:21.580Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/passive-hangout  
+  
+ Sat Apr 07 2018 12:57:21 GMT-0400 (EDT)
+[debug] [2018-04-07T16:57:21.848Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-07T16:57:21.848Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/585310370193:getServerAppConfig  
+  
+ Sat Apr 07 2018 12:57:21 GMT-0400 (EDT)
+[debug] [2018-04-07T16:57:22.206Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-07T16:57:22.206Z] Starting @google-cloud/functions-emulator
+[debug] [2018-04-07T16:57:23.245Z] Parsing function triggers
+[debug] [2018-04-07T16:57:23.431Z] Deploying functions locally
+[info] ✔  functions: makeUppercase
+[debug] [2018-04-07T17:22:02.932Z] TypeError: Cannot read property 'setRawMode' of null
+    at ReadStream.setRawMode (tty.js:59:16)
+    at REPLServer.Interface._setRawMode (readline.js:243:16)
+    at REPLServer.Interface.close (readline.js:367:10)
+    at process.nextTick (repl.js:609:31)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:218:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2018-04-07T17:22:02.934Z] Error: write EIO
+    at _errnoException (util.js:1022:11)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:880:14)
+[error] 
+[error] Error: An unexpected error has occurred.

@@ -337,6 +337,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let key = DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").childByAutoId().key
                 let message = ["content": messageContent,
                                "timestamp": ServerValue.timestamp(),
+                               "receiverUid": selectedProfileKey,
                                "senderuid": userId] as [String : Any]
                 
                 DataService.ds.REF_CONVERSATION.child("\(conversationUid)/messages").updateChildValues([key : message, selectedProfile.usersKey : false, userId : true])
@@ -478,13 +479,14 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
+        /*
         if let currentUser = Auth.auth().currentUser?.uid {
             if messagesArr.count == 0 {
                 DataService.ds.REF_CONVERSATION.child(currentConversation.conversationKey).removeValue()
                 DataService.ds.REF_USERS.child(currentUser).child("conversationId").child(currentConversation.conversationKey).removeValue()
             }
         }
+        */
         NotificationCenter.default.removeObserver(self)
     }
     

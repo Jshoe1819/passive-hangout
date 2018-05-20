@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".read": "auth != null || auth == null",
+    ".write": "auth != null",
+    "status": {
+      ".indexOn": [
+        "postedDate",
+        "joinedNumber",
+        "city"
+      ]
+    }
+  }
+}
