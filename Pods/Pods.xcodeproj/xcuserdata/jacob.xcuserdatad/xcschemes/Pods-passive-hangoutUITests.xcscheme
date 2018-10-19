@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "911D7846BD6A9495FC83C46420F033CB"
+               BlueprintIdentifier = "64D673385E7AC36111EEE327C9E3C342"
                BuildableName = "Pods_passive_hangoutUITests.framework"
                BlueprintName = "Pods-passive-hangoutUITests"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "911D7846BD6A9495FC83C46420F033CB"
+            BlueprintIdentifier = "64D673385E7AC36111EEE327C9E3C342"
             BuildableName = "Pods_passive_hangoutUITests.framework"
             BlueprintName = "Pods-passive-hangoutUITests"
             ReferencedContainer = "container:Pods.xcodeproj">

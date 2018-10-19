@@ -182,7 +182,7 @@ class LeaveFeedbackVC: UIViewController, UITextViewDelegate, UITableViewDelegate
                 if let category = selectCategoryBtn.titleLabel?.text {
                     
                     let key = DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).childByAutoId().key
-                    DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).child(key).updateChildValues(childUpdates)
+                    DataService.ds.REF_BASE.child("feedback").child(category.lowercased()).child(key!).updateChildValues(childUpdates)
                     textView.resignFirstResponder()
                     performSegue(withIdentifier: "leaveFeedbackToMyProfile", sender: nil)
                 }

@@ -3,6 +3,7 @@
 
 pod 'FBSDKCoreKit', :inhibit_warnings => true
 
+
 target 'passive-hangout' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
@@ -16,7 +17,7 @@ target 'passive-hangout' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'SwiftKeychainWrapper'
-  pod 'Kingfisher', '~> 4.6.1'
+  pod 'Kingfisher'
 
   target 'passive-hangoutTests' do
     inherit! :search_paths

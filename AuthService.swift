@@ -38,7 +38,7 @@ class AuthService {
             if error != nil {
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
-                if let user = user {
+                if let user = user?.user {
                     onComplete?("All Good", user.uid)
                 }
             }
@@ -50,7 +50,7 @@ class AuthService {
             if error != nil {
                 self.handleFirebaseError(error: error! as NSError, onComplete: onComplete)
             } else {
-                if let user = user {
+                if let user = user?.user{
                     onComplete?("All Good", user.uid)
                 }
             }

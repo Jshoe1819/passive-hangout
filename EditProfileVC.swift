@@ -7,9 +7,11 @@
 //
 
 import UIKit
-import Firebase
+import FBSDKLoginKit
+import FBSDKCoreKit
 import FirebaseDatabase
 import FirebaseStorage
+import Firebase
 import Kingfisher
 
 class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -109,7 +111,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            
+
             if imagePicked == 1 {
                 profileImg.image = image
                 profileImg.contentMode = .scaleAspectFill
@@ -128,27 +130,27 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                         if error != nil {
                             //Handle error?
                         } else {
-                            let downloadUrl = metaData?.downloadURL()?.absoluteString
-                            if let url = downloadUrl {
-                                if let currentUser = Auth.auth().currentUser?.uid {
-                                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
-                                    
-                                    if self.toBeDeletedProfRef == "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png" {
-                                        return
-                                    }
-                                    
-                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedProfRef)
-                                    deletedImgRef.delete(completion: { (error) in
-                                        if error != nil {
-                                            //Handle Error?
-                                        } else {
-                                            //Deleted
-                                        }
-                                    })
-                                    
-                                }
-                                
-                            }
+//                            let downloadUrl = metaData?.downloadURL()?.absoluteString
+//                            if let url = downloadUrl {
+//                                if let currentUser = Auth.auth().currentUser?.uid {
+//                                    DataService.ds.REF_USERS.child(currentUser).updateChildValues(["profilePicUrl": url] as Dictionary<String, Any> )
+//
+//                                    if self.toBeDeletedProfRef == "gs://passive-hangout.appspot.com/profile-pictures/default-profile.png" {
+//                                        return
+//                                    }
+//
+//                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedProfRef)
+//                                    deletedImgRef.delete(completion: { (error) in
+//                                        if error != nil {
+//                                            //Handle Error?
+//                                        } else {
+//                                            //Deleted
+//                                        }
+//                                    })
+//
+//                                }
+//
+//                            }
                         }
                     }
                 }
@@ -172,26 +174,26 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                             //Handle error?
                         } else {
                             
-                            let downloadUrl = metaData?.downloadURL()?.absoluteString
-                            if let url = downloadUrl {
-                                if let currentUser = Auth.auth().currentUser?.uid {
-                                    DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
-                                    
-                                    if self.toBeDeletedCoverRef == "gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg" {
-                                        return
-                                    }
-                                    
-                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedCoverRef)
-                                    deletedImgRef.delete(completion: { (error) in
-                                        if error != nil {
-                                            //Handle error?
-                                        } else {
-                                            //Deleted
-                                        }
-                                    })
-                                }
-                                
-                            }
+//                            let downloadUrl = metaData?.downloadURL()?.absoluteString
+//                            if let url = downloadUrl {
+//                                if let currentUser = Auth.auth().currentUser?.uid {
+//                                    DataService.ds.REF_USERS.child(currentUser).child("cover").updateChildValues(["source": url] as Dictionary<String, Any> )
+//                                    
+//                                    if self.toBeDeletedCoverRef == "gs://passive-hangout.appspot.com/cover-pictures/default-cover.jpg" {
+//                                        return
+//                                    }
+//                                    
+//                                    let deletedImgRef = Storage.storage().reference(forURL: self.toBeDeletedCoverRef)
+//                                    deletedImgRef.delete(completion: { (error) in
+//                                        if error != nil {
+//                                            //Handle error?
+//                                        } else {
+//                                            //Deleted
+//                                        }
+//                                    })
+//                                }
+//                                
+//                            }
                         }
                     }
                 }
