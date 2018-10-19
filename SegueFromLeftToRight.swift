@@ -20,7 +20,7 @@ class SegueFromLeftToRight: UIStoryboardSegue {
         
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,
-                       options: UIViewAnimationOptions.curveEaseInOut,
+                       options: UIView.AnimationOptions.curveEaseInOut,
                        animations: {
                         dst.view.transform = CGAffineTransform(translationX: 0, y: 0)
         },

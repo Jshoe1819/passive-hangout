@@ -54,8 +54,8 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         employerTextField.delegate = self
         occupationTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         if let currentUser = Auth.auth().currentUser?.uid {
             
@@ -108,9 +108,12 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         
-        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage {
 
             if imagePicked == 1 {
                 profileImg.image = image
@@ -121,7 +124,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     return
                 }
                 
-                if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                if let imageData = image.jpegData(compressionQuality: 0.2) {
                     let imageUid = NSUUID().uuidString
                     let metaData = StorageMetadata()
                     metaData.contentType = "image/jpeg"
@@ -164,7 +167,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
                     return
                 }
                 
-                if let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                if let imageData = image.jpegData(compressionQuality: 0.2) {
                     let imageUid = NSUUID().uuidString
                     let metaData = StorageMetadata()
                     metaData.contentType = "image/jpeg"
@@ -298,7 +301,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 if keyboardHeight == 0.0 {
                     keyboardHeight = keyboardSize.height - (self.view.frame.maxY - footerView.frame.origin.y)
@@ -357,7 +360,7 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
     @IBAction func saveBtnPressed(_ sender: Any) {
         if nameTextField.text == "" {
             nameTextField.attributedPlaceholder = NSAttributedString(string: "field cannot be empty",
-                                                                     attributes: [NSAttributedStringKey.foregroundColor: UIColor.red])
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIColor.red])
         } else {
             
             if let occupation = occupationTextField.text {
@@ -423,4 +426,14 @@ class EditProfileVC: UIViewController, UITextFieldDelegate, UIImagePickerControl
         footerNewFriendIndicator.isHidden = true
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

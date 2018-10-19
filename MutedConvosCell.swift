@@ -20,7 +20,7 @@ class MutedConvosCell: UITableViewCell {
     weak var cellDelegate: MutedConvosDelegate?
     
     override func awakeFromNib() {
-        mutedSwitch.addTarget(self, action: #selector(switchChanged), for: UIControlEvents.valueChanged)
+        mutedSwitch.addTarget(self, action: #selector(switchChanged), for: UIControl.Event.valueChanged)
     }
     
     func configureCell(users: Users) {

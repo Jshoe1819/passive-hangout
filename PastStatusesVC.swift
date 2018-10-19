@@ -63,9 +63,9 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         refreshControl.addTarget(self, action: #selector(PastStatusesVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PastStatusesVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 90
         
         placeholderLabel = UILabel()
@@ -78,7 +78,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
         placeholderLabel.isHidden = !editHangoutTextview.text.isEmpty
         
         editCityTextfield.attributedPlaceholder = NSAttributedString(string: "City",
-                                                                     attributes:[NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
+                                                                     attributes:[NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
         if self.originController == "myProfileToPastStatuses" || self.originController == "joinedFriendsToPastStatuses" {
             
@@ -257,7 +257,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if keyboardHeight == 0.0 {
                 keyboardHeight = keyboardSize.height
                 editHangoutViewBottomConstraint.constant = keyboardHeight + 10
@@ -308,7 +308,7 @@ class PastStatusesVC: UIViewController, PastStatusCellDelegate, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func textViewDidChange(_ textView: UITextView) {

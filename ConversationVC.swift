@@ -46,7 +46,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         tableView.transform = CGAffineTransform(rotationAngle: -(CGFloat)(Double.pi))
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0,0,0,tableView.bounds.size.width-8.5)
+        tableView.scrollIndicatorInsets = UIEdgeInsets.init(top: 0,left: 0,bottom: 0,right: tableView.bounds.size.width-8.5)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -54,8 +54,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         textView.tintColor = UIColor(red:0.53, green:0.32, blue:0.58, alpha:1)
         
-        tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.contentInset = UIEdgeInsets.init(top: 10, left: 0, bottom: 10, right: 0)
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 10
         
         placeholderLabel = UILabel()
@@ -146,8 +146,8 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationVC.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -278,7 +278,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if textInputView.frame.origin.y > headerView.frame.maxY + 25 {
             textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height + 10
-            self.tableView.contentInset = UIEdgeInsetsMake(10, 0, keyboardHeight + textViewContainerHeightConstraint.constant, 0)
+            self.tableView.contentInset = UIEdgeInsets.init(top: 10, left: 0, bottom: keyboardHeight + textViewContainerHeightConstraint.constant, right: 0)
         } else {
             if textView.intrinsicContentSize.height < textViewContainerHeightConstraint.constant {
                 textViewContainerHeightConstraint.constant = textView.intrinsicContentSize.height
@@ -298,13 +298,13 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if keyboardHeight == 0.0 {
                 keyboardHeight = keyboardSize.height
             }
             textViewContainerBottomConstraint.constant = keyboardHeight - (self.view.frame.maxY - footerView.frame.origin.y)
             if tableView.cellForRow(at: IndexPath(row: 0, section: 0)) != nil {
-                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.bottom, animated: true)
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.bottom, animated: true)
             }
             
             
@@ -316,7 +316,7 @@ class ConversationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func keyboardWillHide(notification: NSNotification) {
         self.textViewContainerBottomConstraint.constant = 0
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0)
+        self.tableView.contentInset = UIEdgeInsets.init(top: 10, left: 0, bottom: 10, right: 0)
         
         UIView.animate(withDuration: 1) {
             self.view.layoutIfNeeded()

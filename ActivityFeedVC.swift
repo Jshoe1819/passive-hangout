@@ -63,7 +63,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         newStatusBtn.contentMode = .scaleAspectFill
         newMsgBtn.contentMode = .scaleAspectFill
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ActivityFeedVC.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -74,7 +74,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         refreshControl.addTarget(self, action: #selector(ActivityFeedVC.refresh(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 90
         
         placeholderLabel = UILabel()
@@ -87,7 +87,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         placeholderLabel.isHidden = !textView.text.isEmpty
         
         cityTextField.attributedPlaceholder = NSAttributedString(string: "City",
-                                                                 attributes:[NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
+                                                                 attributes:[NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "AvenirNext-UltralightItalic", size: 16) as Any])
         
         if let currentUser = Auth.auth().currentUser?.uid {
             DataService.ds.REF_USERS.child(currentUser).child("friendsList").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -141,7 +141,7 @@ class ActivityFeedVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if keyboardHeight == 0.0 {
                 keyboardHeight = keyboardSize.height
                 statusPopupBottomConstraint.constant = keyboardHeight + 10

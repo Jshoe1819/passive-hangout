@@ -214,7 +214,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
                 
-                exploreTableView.rowHeight = UITableViewAutomaticDimension
+                exploreTableView.rowHeight = UITableView.automaticDimension
                 exploreTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
@@ -288,7 +288,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
                     }
                 }
                 
-                cityTableView.rowHeight = UITableViewAutomaticDimension
+                cityTableView.rowHeight = UITableView.automaticDimension
                 cityTableView.estimatedRowHeight = 120
                 
                 cell.cellDelegate = self
@@ -308,7 +308,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         if profilesIndicatorView.isHidden == false {
             return 84
         } else {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         }
     }
     
@@ -774,7 +774,7 @@ class SearchProfilesVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
         
         
-        cityTableView.rowHeight = UITableViewAutomaticDimension
+        cityTableView.rowHeight = UITableView.automaticDimension
         cityTableView.estimatedRowHeight = 90
         
         profilesTableView.isHidden = true
